@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|c:\\users\\jwiec\\desktop\\rummikub-with-ai\\rummiai\\assets\\objects\\tile_class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\objects\\tile_class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|c:\\users\\jwiec\\desktop\\rummikub-with-ai\\rummiai\\assets\\scripts\\generate_tile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\generate_tile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Temp\\Compiled-Standard.shader||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Temp\\Compiled-Standard.shader||{3B902123-F8A7-4915-9F01-361F908088D0}"
+      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\rummikub_game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\rummikub_game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\tile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\tile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|c:\\users\\jwiec\\desktop\\rummikub-with-ai\\rummiai\\assets\\scripts\\draggable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\draggable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,32 +26,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "tile_class.cs",
-              "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\objects\\tile_class.cs",
-              "RelativeDocumentMoniker": "Assets\\objects\\tile_class.cs",
-              "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\objects\\tile_class.cs",
-              "RelativeToolTip": "Assets\\objects\\tile_class.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAABAAAA",
+              "DocumentIndex": 3,
+              "Title": "Draggable.cs",
+              "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\Draggable.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\Draggable.cs",
+              "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\Draggable.cs",
+              "RelativeToolTip": "Assets\\scripts\\Draggable.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAABMAAAA3AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T13:31:21.42Z",
+              "WhenOpened": "2024-10-06T15:51:27.966Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Generate_tile.cs",
+              "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\Generate_tile.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\Generate_tile.cs",
+              "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\Generate_tile.cs",
+              "RelativeToolTip": "Assets\\scripts\\Generate_tile.cs",
+              "ViewState": "AQIAAAoAAAAAAAAAAAA1wCMAAAA5AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-06T13:56:16.725Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Compiled-Standard.shader",
-              "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Temp\\Compiled-Standard.shader",
-              "RelativeDocumentMoniker": "Temp\\Compiled-Standard.shader",
-              "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Temp\\Compiled-Standard.shader",
-              "RelativeToolTip": "Temp\\Compiled-Standard.shader",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002777|",
-              "WhenOpened": "2024-10-02T12:11:53.941Z",
+              "Title": "Rummikub_game.cs",
+              "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\Rummikub_game.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\Rummikub_game.cs",
+              "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\Rummikub_game.cs",
+              "RelativeToolTip": "Assets\\scripts\\Rummikub_game.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-06T11:29:33.812Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Tile.cs",
+              "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\Tile.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\Tile.cs",
+              "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\Tile.cs",
+              "RelativeToolTip": "Assets\\scripts\\Tile.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-06T11:34:05.366Z",
               "EditorCaption": ""
             }
           ]
