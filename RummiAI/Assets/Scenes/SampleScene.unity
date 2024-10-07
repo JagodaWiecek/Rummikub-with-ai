@@ -9969,7 +9969,7 @@ RectTransform:
   m_Children:
   - {fileID: 233823691}
   - {fileID: 925550436}
-  m_Father: {fileID: 1618687517}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -13593,6 +13593,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1618687517}
+  - component: {fileID: 1618687518}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -13616,9 +13617,21 @@ Transform:
   - {fileID: 1480568597}
   - {fileID: 1111088081}
   - {fileID: 292553424}
-  - {fileID: 1184096188}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1618687518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618687516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e73cded3be31e924c915ddbfa691e07e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tiles: []
 --- !u!1 &1618946268
 GameObject:
   m_ObjectHideFlags: 0
@@ -24306,3 +24319,4 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1618687517}
+  - {fileID: 1184096188}
