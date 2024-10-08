@@ -35,6 +35,7 @@ public class GameController : MonoBehaviour
         {
             this.tiles[i].ShowVariables();
         }
+        
     }
 
     // Update is called once per frame
@@ -48,11 +49,11 @@ public class GameController : MonoBehaviour
         tiles = new Tile[7];
         for (int i = 0; i < 5; i++) 
         {
-            tiles[i] = new Tile((i + 1), UnityEngine.Color.red, setName(UnityEngine.Color.red)+"_"+ (i + 1));//(int num, Color col, string name)
+            tiles[i] = new Tile((i + 1), UnityEngine.Color.red, setName(UnityEngine.Color.red)+"_"+ (i + 1), (i + 1).ToString());//(int num, Color col, string name)
             
         }
-        tiles[5] = new Tile(0, new UnityEngine.Color(0.5f, 0f, 0.5f), setName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 0);//fiolet
-        tiles[6] = new Tile(0, UnityEngine.Color.magenta, setName(UnityEngine.Color.magenta) + "_" + 0);//magenta
+        tiles[5] = new Tile(30, new UnityEngine.Color(0.5f, 0f, 0.5f), setName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30,".");//fiolet
+        tiles[6] = new Tile(30, UnityEngine.Color.magenta, setName(UnityEngine.Color.magenta) + "_" + 30, ".");//magenta
     }
     //Return name of color based on input value
     string setName(UnityEngine.Color color)
