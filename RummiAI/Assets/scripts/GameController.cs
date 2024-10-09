@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
     // Static instantion, globally available
     public static GameController Instance { get; private set; }
 
-    public Tile[] tiles; // 
+    public List<Tile> tiles; // 
     // Start is called before the first frame update
     private void Awake()
     {
@@ -18,11 +18,11 @@ public class GameController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Zapobieganie zniszczeniu GameControllera przy zmianie sceny
+            DontDestroyOnLoad(gameObject); 
         }
         else
         {
-            Destroy(gameObject); // Usuniêcie zduplikowanej instancji
+            Destroy(gameObject); 
         }
     }
 
@@ -31,10 +31,7 @@ public class GameController : MonoBehaviour
     {
         SetTiles(ref this.tiles);
 
-        for(int i = 0; i < this.tiles.Length; i++)
-        {
-            this.tiles[i].ShowVariables();
-        }
+        Debug.Log("Bank ma: " + this.tiles.Count + " p³ytek");
         
     }
 
@@ -44,16 +41,34 @@ public class GameController : MonoBehaviour
 
     }
 
-    void SetTiles(ref Tile[] tiles)
+    public List<Tile> GetTiles()
     {
-        tiles = new Tile[7];
-        for (int i = 0; i < 5; i++) 
+        return this.tiles;
+    }
+    void SetTiles(ref List<Tile> tiles)
+    {
+        tiles = new List<Tile>();
+        for (int j = 0; j < 2; j++)
         {
-            tiles[i] = new Tile((i + 1), UnityEngine.Color.red, setName(UnityEngine.Color.red)+"_"+ (i + 1), (i + 1).ToString());//(int num, Color col, string name)
-            
+            for (int i = 0; i < 13; i++)///dodanie do banku p³ytek koloru czerwonego
+            {
+                tiles.Add(new Tile((i + 1), UnityEngine.Color.red, setName(UnityEngine.Color.red) + "_" + (i + 1), (i + 1).ToString()));//(int num, Color col, string name)
+            }
+            for(int i = 0;i < 13; i++)//pomarañczowy
+            {
+                tiles.Add(new Tile((i + 1), new UnityEngine.Color(1f, 0.647f, 0f), setName(new UnityEngine.Color(1f, 0.647f, 0f)) + "_" + (i + 1), (i + 1).ToString()));
+            }
+            for (int i = 0; i < 13; i++)//czarny
+            {
+                tiles.Add(new Tile((i + 1), UnityEngine.Color.black, setName(UnityEngine.Color.black) + "_" + (i + 1), (i + 1).ToString()));
+            }
+            for (int i = 0; i < 13; i++)//niebieski
+            {
+                tiles.Add(new Tile((i + 1), UnityEngine.Color.blue, setName(UnityEngine.Color.blue) + "_" + (i + 1), (i + 1).ToString()));
+            }
         }
-        tiles[5] = new Tile(30, new UnityEngine.Color(0.5f, 0f, 0.5f), setName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30,".");//fiolet
-        tiles[6] = new Tile(30, UnityEngine.Color.magenta, setName(UnityEngine.Color.magenta) + "_" + 30, ".");//magenta
+        tiles.Add(new Tile(30, new UnityEngine.Color(0.5f, 0f, 0.5f), setName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30,"$"));//fiolet
+        tiles.Add(new Tile(30, UnityEngine.Color.magenta, setName(UnityEngine.Color.magenta) + "_" + 30, "$"));//magenta
     }
     //Return name of color based on input value
     string setName(UnityEngine.Color color)
