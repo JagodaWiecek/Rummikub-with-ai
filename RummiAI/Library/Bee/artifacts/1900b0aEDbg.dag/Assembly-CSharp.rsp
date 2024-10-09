@@ -355,6 +355,8 @@
 "Assets/scripts/Draggable.cs"
 "Assets/scripts/GameController.cs"
 "Assets/scripts/Generate_tile.cs"
+"Assets/scripts/InputManager.cs"
+"Assets/scripts/PlacementSystem.cs"
 "Assets/scripts/TakeTile.cs"
 "Assets/scripts/Tile.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01.cs"
