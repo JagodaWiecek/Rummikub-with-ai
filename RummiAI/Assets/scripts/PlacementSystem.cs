@@ -14,9 +14,14 @@ public class PlacementSystem : MonoBehaviour
 
     private void Update()
     {
+
         Vector3 mousePosition = inputManager.GetSelectedMapPosition();
         Vector3Int gridPosition = grid.WorldToCell(mousePosition);
         mouseIndicator.transform.position = mousePosition;
-        cellIndicator.transform.position = grid.CellToWorld(gridPosition);
+
+        if (grid.CellToWorld(gridPosition).x > 7.875 && grid.CellToWorld(gridPosition).x < 28 && grid.CellToWorld(gridPosition).z >8 && grid.CellToWorld(gridPosition).z < 18.5)// cellIndicator.transform.position.z = 19.15;
+        {
+            cellIndicator.transform.position = grid.CellToWorld(gridPosition);
+        }
     }
 }
