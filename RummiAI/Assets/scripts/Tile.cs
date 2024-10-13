@@ -21,7 +21,7 @@ public class Tile : MonoBehaviour
 
     public void ShowVariables()
     {
-        Debug.Log("Tile: "+this.number+" "+ this.numberColor+" "+ this.Tilename + " "+ this.symbol );//
+        Debug.Log("Tile: "+ getNumber() + " "+ GetColor() + " "+ getTilename() + " "+ getSymbol());//
     }
 
     public void setNumer(int numer)
@@ -45,5 +45,10 @@ public class Tile : MonoBehaviour
     public UnityEngine.Color GetColor() { return this.numberColor; }
     public string getTilename() { return this.Tilename; }
     public string getSymbol() {  return this.symbol; }
+
+    public Tile getTile()
+    {
+        return this;
+    }
 
 }

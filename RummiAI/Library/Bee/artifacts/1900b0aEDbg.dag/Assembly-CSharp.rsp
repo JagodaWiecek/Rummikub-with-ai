@@ -377,6 +377,7 @@
 "Assets/scripts/Draggable.cs"
 "Assets/scripts/GameController.cs"
 "Assets/scripts/InputManager.cs"
+"Assets/scripts/ObjectsDatabase.cs"
 "Assets/scripts/PlacementSystem.cs"
 "Assets/scripts/TakeTile.cs"
 "Assets/scripts/Tile.cs"

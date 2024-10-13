@@ -9,8 +9,13 @@ public class GameController : MonoBehaviour
 {
     // Static instantion, globally available
     public static GameController Instance { get; private set; }
+   // [SerializeField]
+    private List<Tile> tiles; //bank gry
+    private List<Tile> playerHand;//talia gracza
+    private List<Tile> MrBot;
+    private List<Tile> MissBot;
+    private List<Tile> MrAI;
 
-    public List<Tile> tiles; // 
     // Start is called before the first frame update
     private void Awake()
     {
@@ -29,10 +34,18 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("Inicjacja Game Controller");
         SetTiles(ref this.tiles);
 
         Debug.Log("Bank ma: " + this.tiles.Count + " p³ytek");
-        
+        TakeTile takeTile = new TakeTile();
+        SetPlayersHand(ref this.tiles, ref this.playerHand);
+        SetPlayersHand(ref this.tiles, ref this.MrBot);
+        SetPlayersHand(ref this.tiles, ref this.MissBot);
+        SetPlayersHand(ref this.tiles, ref this.MrAI);
+        takeTile.SetStartTile();
+
+
     }
 
     // Update is called once per frame
@@ -45,32 +58,57 @@ public class GameController : MonoBehaviour
     {
         return this.tiles;
     }
+    public List<Tile> GetPlayerHand()
+    {
+        return this.playerHand;
+    }
+
+    /// <summary>
+    /// Dodanie wszystkich p³ytek wed³óg zasad planszówki
+    /// </summary>
+    /// <param name="tiles">pusta lista do wype³nienia</param>
     void SetTiles(ref List<Tile> tiles)
     {
         tiles = new List<Tile>();
+        int temp=0;
         for (int j = 0; j < 2; j++)
         {
             for (int i = 0; i < 13; i++)///dodanie do banku p³ytek koloru czerwonego
             {
-                tiles.Add(new Tile((i + 1), UnityEngine.Color.red, setName(UnityEngine.Color.red) + "_" + (i + 1), (i + 1).ToString()));//(int num, Color col, string name)
+                temp = i + 1;
+                tiles.Add(new Tile((temp), UnityEngine.Color.red, setName(UnityEngine.Color.red) + "_" + (temp), (temp).ToString()));//(int num, Color col, string name)
             }
             for(int i = 0;i < 13; i++)//pomarañczowy
             {
-                tiles.Add(new Tile((i + 1), new UnityEngine.Color(1f, 0.647f, 0f), setName(new UnityEngine.Color(1f, 0.647f, 0f)) + "_" + (i + 1), (i + 1).ToString()));
+                temp = i + 1;
+                tiles.Add(new Tile((temp), new UnityEngine.Color(1f, 0.647f, 0f), setName(new UnityEngine.Color(1f, 0.647f, 0f)) + "_" + (temp), (temp).ToString()));
             }
             for (int i = 0; i < 13; i++)//czarny
             {
-                tiles.Add(new Tile((i + 1), UnityEngine.Color.black, setName(UnityEngine.Color.black) + "_" + (i + 1), (i + 1).ToString()));
+                temp = i + 1;
+                tiles.Add(new Tile((temp), UnityEngine.Color.black, setName(UnityEngine.Color.black) + "_" + (temp), (temp).ToString()));
             }
             for (int i = 0; i < 13; i++)//niebieski
             {
-                tiles.Add(new Tile((i + 1), UnityEngine.Color.blue, setName(UnityEngine.Color.blue) + "_" + (i + 1), (i + 1).ToString()));
+                temp = i + 1;
+                tiles.Add(new Tile((temp), UnityEngine.Color.blue, setName(UnityEngine.Color.blue) + "_" + (temp), (temp).ToString()));
             }
         }
         tiles.Add(new Tile(30, new UnityEngine.Color(0.5f, 0f, 0.5f), setName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30,"$"));//fiolet
         tiles.Add(new Tile(30, UnityEngine.Color.magenta, setName(UnityEngine.Color.magenta) + "_" + 30, "$"));//magenta
     }
-    //Return name of color based on input value
+
+    void SetPlayersHand(ref List<Tile> tiles, ref List<Tile> playerHand)
+    {
+        for(int i =0;i< 14; i++)
+        {
+            int TileIndex = Random.Range(0, tiles.Count);
+            playerHand.Add(tiles[TileIndex]);
+            tiles.RemoveAt(TileIndex);
+        }
+        
+    }
+    //Zwraca nazwê koloru w zale¿noœci od podanej zmiennej koloru
     string setName(UnityEngine.Color color)
     {
         if (color == UnityEngine.Color.red) return "red";
