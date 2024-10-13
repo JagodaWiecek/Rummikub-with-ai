@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 989
   m_ShowMode: 4
-  m_Title: Hierarchy
+  m_Title: Project
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 93
+  controlID: 49
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 40
+  controlID: 50
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -274,8 +274,8 @@ MonoBehaviour:
     y: 0
     width: 324
     height: 939
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
@@ -1049,23 +1049,23 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 66000100
-      m_LastClickedID: 65638
-      m_ExpandedIDs: 0280feff0880feffa62bffff3245ffffd853ffffea5effff4a71ffff427fffff30fbfffff4ffffff286700005e6a0000866a00001e6c00004c6c0000ea6d00003eff000066ff000070000100fe0001002c010100ca020100
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: 30fbffff8a6a0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: Board(17x7)
-        m_OriginalName: Board(17x7)
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 65638
+        m_UserData: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 8}
       m_SearchString: 
@@ -1500,13 +1500,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.62628645, y: 0.043430954, z: -0.03498567, w: 0.7776496}
+    m_Target: {x: 0.3816484, y: -0.40984958, z: 0.1942063, w: 0.80544364}
     speed: 2
-    m_Value: {x: 0.62626016, y: 0.043429133, z: -0.0349842, w: 0.777617}
+    m_Value: {x: 0.38163164, y: -0.4098316, z: 0.19419777, w: 0.8054083}
   m_Size:
-    m_Target: 17.345516
+    m_Target: 9.104046
     speed: 2
-    m_Value: 17.345516
+    m_Value: 9.104046
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1611,7 +1611,7 @@ MonoBehaviour:
       y: 21
       width: 1056
       height: 621
-    m_Scale: {x: 1.5, y: 1.5}
+    m_Scale: {x: 1, y: 1}
     m_Translation: {x: 528, y: 310.5}
     m_MarginLeft: 0
     m_MarginRight: 0
@@ -1619,10 +1619,10 @@ MonoBehaviour:
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -352
-      y: -207
-      width: 704
-      height: 414
+      x: -528
+      y: -310.5
+      width: 1056
+      height: 621
     m_MinimalGUI: 1
   m_defaultScale: 1
   m_LastWindowPixelSize: {x: 1056, y: 642}
@@ -1676,7 +1676,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -1684,16 +1684,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 71
   m_LastFolders:
-  - Assets/Scenes
+  - Assets
   m_LastFoldersGridSize: 71
   m_LastProjectPath: C:\Users\jwiec\Desktop\Rummikub-with-ai\RummiAI
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: d6750000
-    m_LastClickedID: 30166
-    m_ExpandedIDs: 000000000474000006740000087400000a7400000c740000da75000010e7000000ca9a3b
+    scrollPos: {x: 0, y: 17}
+    m_SelectedIDs: 40740000
+    m_LastClickedID: 29760
+    m_ExpandedIDs: 000000003c7400003e740000407400004274000044740000c275000082d8000084d8000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1721,7 +1721,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000000474000006740000087400000a7400000c740000
+    m_ExpandedIDs: 000000003c7400003e740000407400004274000044740000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1748,8 +1748,8 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: c623000000000000c2150100
+    m_HadKeyboardFocusLastEvent: 0
+    m_ExpandedInstanceIDs: c623000000000000c2150100ee640000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using System.Drawing;
-
+/// <summary>
+/// G³ówna klasa gry
+/// </summary>
 public class GameController : MonoBehaviour
 {
     // Static instantion, globally available
@@ -16,7 +18,7 @@ public class GameController : MonoBehaviour
     private List<Tile> MissBot;
     private List<Tile> MrAI;
 
-    // Start is called before the first frame update
+    
     private void Awake()
     {
         // Only one instance of object
@@ -31,7 +33,9 @@ public class GameController : MonoBehaviour
         }
     }
 
-
+/// <summary>
+/// Funkcja, która w³¹cza siê przed pierwszymi klatkami
+/// </summary>
     void Start()
     {
         Debug.Log("Inicjacja Game Controller");
@@ -48,23 +52,29 @@ public class GameController : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
 
     }
-
+    /// <summary>
+    /// Funkcja do zwrócenia ca³ej listy p³ytek
+    /// </summary>
+    /// <returns>lista tiles</returns>
     public List<Tile> GetTiles()
     {
         return this.tiles;
     }
+    /// <summary>
+    /// Funkcja do zwrócenia listy p³ytek na rêce gracza
+    /// </summary>
+    /// <returns>lista playerHand</returns>
     public List<Tile> GetPlayerHand()
     {
         return this.playerHand;
     }
 
     /// <summary>
-    /// Dodanie wszystkich p³ytek wed³óg zasad planszówki
+    /// Dodanie wszystkich p³ytek wed³ug zasad planszówki
     /// </summary>
     /// <param name="tiles">pusta lista do wype³nienia</param>
     void SetTiles(ref List<Tile> tiles)
@@ -76,45 +86,54 @@ public class GameController : MonoBehaviour
             for (int i = 0; i < 13; i++)///dodanie do banku p³ytek koloru czerwonego
             {
                 temp = i + 1;
-                tiles.Add(new Tile((temp), UnityEngine.Color.red, setName(UnityEngine.Color.red) + "_" + (temp), (temp).ToString()));//(int num, Color col, string name)
+                tiles.Add(new Tile((temp), UnityEngine.Color.red, setName(UnityEngine.Color.red) + "_" + (temp), (temp).ToString(),false));//(int num, Color col, string name)
             }
             for(int i = 0;i < 13; i++)//pomarañczowy
             {
                 temp = i + 1;
-                tiles.Add(new Tile((temp), new UnityEngine.Color(1f, 0.647f, 0f), setName(new UnityEngine.Color(1f, 0.647f, 0f)) + "_" + (temp), (temp).ToString()));
+                tiles.Add(new Tile((temp), new UnityEngine.Color(1f, 0.50f, 0f), setName(new UnityEngine.Color(1f, 0.50f, 0f)) + "_" + (temp), (temp).ToString(), false));
             }
             for (int i = 0; i < 13; i++)//czarny
             {
                 temp = i + 1;
-                tiles.Add(new Tile((temp), UnityEngine.Color.black, setName(UnityEngine.Color.black) + "_" + (temp), (temp).ToString()));
+                tiles.Add(new Tile((temp), UnityEngine.Color.black, setName(UnityEngine.Color.black) + "_" + (temp), (temp).ToString(), false));
             }
             for (int i = 0; i < 13; i++)//niebieski
             {
                 temp = i + 1;
-                tiles.Add(new Tile((temp), UnityEngine.Color.blue, setName(UnityEngine.Color.blue) + "_" + (temp), (temp).ToString()));
+                tiles.Add(new Tile((temp), UnityEngine.Color.blue, setName(UnityEngine.Color.blue) + "_" + (temp), (temp).ToString(), false));
             }
         }
-        tiles.Add(new Tile(30, new UnityEngine.Color(0.5f, 0f, 0.5f), setName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30,"$"));//fiolet
-        tiles.Add(new Tile(30, UnityEngine.Color.magenta, setName(UnityEngine.Color.magenta) + "_" + 30, "$"));//magenta
+        tiles.Add(new Tile(30, new UnityEngine.Color(0.5f, 0f, 0.5f), setName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30,"$", false));//fiolet
+        tiles.Add(new Tile(30, UnityEngine.Color.magenta, setName(UnityEngine.Color.magenta) + "_" + 30, "$", false));//magenta
     }
 
+    /// <summary>
+    /// Klasa do losowego przyznania kart do listy
+    /// </summary>
+    /// <param name="tiles">bank p³ytek</param>
+    /// <param name="playerHand">talia docelowa</param>
     void SetPlayersHand(ref List<Tile> tiles, ref List<Tile> playerHand)
     {
         for(int i =0;i< 14; i++)
         {
-            int TileIndex = Random.Range(0, tiles.Count);
-            playerHand.Add(tiles[TileIndex]);
-            tiles.RemoveAt(TileIndex);
+           // int TileIndex = Random.Range(0, tiles.Count);
+            //playerHand.Add(tiles[TileIndex]);
+            //tiles.RemoveAt(TileIndex);
         }
         
     }
-    //Zwraca nazwê koloru w zale¿noœci od podanej zmiennej koloru
+    /// <summary>
+    /// Zwraca nazwê koloru w zale¿noœci od podanej zmiennej koloru
+    /// </summary>
+    /// <param name="color">kolor z klasy UnityEngine</param>
+    /// <returns>zmienna tekstowa nazwy koloru</returns>
     string setName(UnityEngine.Color color)
     {
         if (color == UnityEngine.Color.red) return "red";
         if (color == UnityEngine.Color.blue) return "blue";
         if (color == UnityEngine.Color.black) return "black";
-        if (color == new UnityEngine.Color(1f, 0.647f, 0f)) return "orange"; // Pomarañczowy
+        if (color == new UnityEngine.Color(1f, 0.50f, 0f)) return "orange"; // Pomarañczowy
         if (color == new UnityEngine.Color(0.5f, 0f, 0.5f)) return "purple_joker"; // Fioletowy
         if (color == UnityEngine.Color.magenta) return "magenta_joker";
 

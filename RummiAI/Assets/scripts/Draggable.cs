@@ -3,25 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
+/// <summary>
+/// Klasa do przesuwania i uk³adania 2d p³ytek
+/// Dla lepszego korzystania przez u¿ytkownika
+/// By gracz móg³ u³o¿yæ p³ytki by by³o mu lepiej graæ
+/// </summary>
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler,IEndDragHandler
 {
-    Transform parentToReturnTo = null;
 
-    GameObject placeholder = null;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    Transform parentToReturnTo = null;///do zapamietania gdzie jest rodzic karty przy przesuwaniu
+    GameObject placeholder = null; ///na wytworzenie tymczasowego objektu, który pojawia siê przy przesuwaniu
+    /// <summary>
+    ///Rozpoczêcie przesuwania, zainicjowanie objektu tymczasowego
+    /// </summary>
+    /// <param name="eventData" - przytrzymywany przycisk myszy></param>
     public void OnBeginDrag(PointerEventData eventData)
     {
         // Debug.Log("OnBeginDrag");
@@ -40,7 +35,10 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler,IEndDrag
         this.transform.SetParent(this.transform.parent.parent);
 
     }
-
+    /// <summary>
+    ///przesuwanie objektem i placeholderem by by³a mo¿liwoœæ zmieniania kolejnoœci
+    /// </summary>
+    /// <param name="eventData" - przytrzymywany przycisk myszy></param>
     public void OnDrag(PointerEventData eventData) {
         //Debug.Log("OnDrag");
 
@@ -60,7 +58,10 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler,IEndDrag
         }
         placeholder.transform.SetSiblingIndex(newSiblingIndex);
     }
-
+    /// <summary>
+    /// funkcja koñcz¹ca przesuwanie p³ytki 2d
+    /// </summary>
+    /// <param name="eventData" - przytrzymywany przycisk myszy></param>
     public void OnEndDrag(PointerEventData eventData) {
        // Debug.Log("OnEndDrag");
         this.transform.SetParent(parentToReturnTo);

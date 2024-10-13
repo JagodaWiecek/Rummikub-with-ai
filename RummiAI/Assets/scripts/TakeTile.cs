@@ -70,7 +70,7 @@ public class TakeTile : MonoBehaviour
             textComponent.text = tiles[TileIndex].getSymbol(); //wpisanie na textmesh symbolu widocnego dla gracza
             textComponent.color = tiles[TileIndex].GetColor(); //ustawienie koloru dla symbolu
 
-            Tile tile = new Tile(tiles[TileIndex].getNumber(), tiles[TileIndex].GetColor(), tiles[TileIndex].getTilename() + "_" + tiles[TileIndex].getNumber(), (tiles[TileIndex].getSymbol()));
+            Tile tile = new Tile(tiles[TileIndex].getNumber(), tiles[TileIndex].GetColor(), tiles[TileIndex].getTilename() + "_" + tiles[TileIndex].getNumber(), tiles[TileIndex].getSymbol(), tiles[TileIndex].getPut());
             Button button = newTile.GetComponentInChildren<Button>();
             if (button == null)
             {
@@ -90,11 +90,12 @@ public class TakeTile : MonoBehaviour
         }
        
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="tile"> zmienna do przekazania do innej klasy</param>
     private void OnButtonClick(Tile tile)
     {
-        //if (tile == null) Debug.LogWarning("Tile jest pusty ju¿ onClick");
-        // Debug.Log("3vW banku jest: " + tile.getNumber() + " " + tile.getSymbol() + " " + tile.getTilename());
-        //Debug.Log(tile.getNumber());
         ps.StartPlacement(0, ref tile);
     }
 

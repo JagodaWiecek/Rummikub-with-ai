@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [System.Serializable]
+
+///Klasa do reprezentacji 
 public class Tile : MonoBehaviour
 {
     // 4 colors, numers from 1 to 13
@@ -10,19 +12,17 @@ public class Tile : MonoBehaviour
     private UnityEngine.Color numberColor;
     private string Tilename;
     private string symbol;
+    private bool put;
 
-    public Tile(int num, UnityEngine.Color col, string name,string symbol)
+    public Tile(int num, UnityEngine.Color col, string name,string symbol, bool put)
     {
         this.number = num;
         this.numberColor = col;
         this.Tilename = name;
         this.symbol = symbol;
+        this.put = put;
     }
 
-    public void ShowVariables()
-    {
-        Debug.Log("Tile: "+ getNumber() + " "+ GetColor() + " "+ getTilename() + " "+ getSymbol());//
-    }
 
     public void setNumer(int numer)
     {
@@ -40,11 +40,13 @@ public class Tile : MonoBehaviour
     {
         this.symbol = symbol;
     }
+    public void setPut(bool put) { this.put = put; }
 
     public int getNumber() { return this.number; }
     public UnityEngine.Color GetColor() { return this.numberColor; }
     public string getTilename() { return this.Tilename; }
     public string getSymbol() {  return this.symbol; }
+    public bool getPut() { return this.put; }
 
     public Tile getTile()
     {
