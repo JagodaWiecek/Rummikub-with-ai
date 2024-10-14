@@ -14,9 +14,11 @@ public class GameController : MonoBehaviour
    // [SerializeField]
     private List<Tile> tiles; //bank gry
     private List<Tile> playerHand;//talia gracza
-    private List<Tile> MrBot;
-    private List<Tile> MissBot;
-    private List<Tile> MrAI;
+    private List<Tile> mrBot;
+    private List<Tile> missBot;
+    private List<Tile> mrAI;
+
+    public Tile[][] board;
 
     
     private void Awake()
@@ -44,9 +46,9 @@ public class GameController : MonoBehaviour
         Debug.Log("Bank ma: " + this.tiles.Count + " p³ytek");
         TakeTile takeTile = new TakeTile();
         SetPlayersHand(ref this.tiles, ref this.playerHand);
-        SetPlayersHand(ref this.tiles, ref this.MrBot);
-        SetPlayersHand(ref this.tiles, ref this.MissBot);
-        SetPlayersHand(ref this.tiles, ref this.MrAI);
+        SetPlayersHand(ref this.tiles, ref this.mrBot);
+        SetPlayersHand(ref this.tiles, ref this.missBot);
+        SetPlayersHand(ref this.tiles, ref this.mrAI);
         takeTile.SetStartTile();
 
 
@@ -115,13 +117,15 @@ public class GameController : MonoBehaviour
     /// <param name="playerHand">talia docelowa</param>
     void SetPlayersHand(ref List<Tile> tiles, ref List<Tile> playerHand)
     {
-        for(int i =0;i< 14; i++)
+        playerHand = new List<Tile>();
+        int TileIndex = 0;
+        for (int i =0;i< 14; i++)
         {
-           // int TileIndex = Random.Range(0, tiles.Count);
-            //playerHand.Add(tiles[TileIndex]);
-            //tiles.RemoveAt(TileIndex);
+            TileIndex = Random.Range(0, (tiles.Count+1));
+            playerHand.Add(tiles[TileIndex]);
+            tiles.RemoveAt(TileIndex);
         }
-        
+        Debug.Log(playerHand.Count);
     }
     /// <summary>
     /// Zwraca nazwê koloru w zale¿noœci od podanej zmiennej koloru

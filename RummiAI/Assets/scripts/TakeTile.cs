@@ -10,11 +10,10 @@ public class TakeTile : MonoBehaviour
 {
     public GameObject tilePrefab;
     public Transform parentTransform;
- 
     GameObject newTile = null;
+
     [SerializeField]
     PlacementSystem ps;
-    //private Tile tile = null;
 
 
     // Start is called before the first frame update
@@ -42,7 +41,7 @@ public class TakeTile : MonoBehaviour
         else Debug.Log("Nie zainicjowamy GameController w TakeTile");
     }
 
-    //Dodanie karty do rêki gracza
+    ///Dodanie karty do rêki gracza
     public void takeNewTile()
     {
         ///odwo³anie do tali w innym skrypcie
@@ -59,7 +58,7 @@ public class TakeTile : MonoBehaviour
             // Debug.Log(tiles[1]);
             // Debug.Log(tiles.Count);
             // Debug.Log("Wziêto p³ytkê");
-            //po³¹czenie prefab z nowym obiektem
+            ///po³¹czenie prefab z nowym obiektem
             newTile = Instantiate(tilePrefab, new Vector3(0, 0, 0), Quaternion.identity);
             
             newTile.transform.SetParent(this.transform);//ustawienie hierarchi
@@ -78,9 +77,7 @@ public class TakeTile : MonoBehaviour
             }
             
             button.onClick.AddListener(() => OnButtonClick(tile));
-           // Debug.Log("3vW banku jest: " + tiles.Count);
             tiles.RemoveAt(TileIndex);//usuniêcie p³ytki z g³ównego banku
-           // Debug.Log("4vW banku jest: " + GameController.Instance.GetTiles()[TileIndex].getNumber());
             LayoutElement le = newTile.AddComponent<LayoutElement>();//dodanie objektu do widoku
 
         }
@@ -91,7 +88,7 @@ public class TakeTile : MonoBehaviour
        
     }
     /// <summary>
-    /// 
+    /// funkcja do uruchomienia funkcji po klikniêciu na objekt 2d
     /// </summary>
     /// <param name="tile"> zmienna do przekazania do innej klasy</param>
     private void OnButtonClick(Tile tile)

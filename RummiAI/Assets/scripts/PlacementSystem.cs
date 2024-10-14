@@ -55,17 +55,16 @@ public class PlacementSystem : MonoBehaviour
         Vector3Int gridPosition = grid.WorldToCell(mousePosition);
         GameObject gameObject = Instantiate(database.objectsData[selectedObjectIndex].Prefab);
         gameObject.transform.position = grid.CellToWorld(gridPosition);
+
         gameObject.GetComponent<Tile>().setNumer(this.tile.getNumber());//ustawienie numeru klasy
-        gameObject.GetComponent<Tile>().setColor(this.tile.GetColor());
+        gameObject.GetComponent<Tile>().setColor(this.tile.GetColor());//ustawienie koloru napisu
         gameObject.transform.SetParent(this.transform);
-        TextMeshPro textComponent = gameObject.transform.Find("Object/Number_Color").GetComponent<TextMeshPro>();//Game/Board/PlacementSystem/Tile_3D(Clone)/
+        TextMeshPro textComponent = gameObject.transform.Find("Object/Number_Color").GetComponent<TextMeshPro>();
         // Sprawdzanie, czy tileTest nie jest null
         if (textComponent == null)
         {
             Debug.LogError("Nie znaleziono komponentu TextMeshProUGUI!");
         }
-        
-        //if (this.tile == null) Debug.LogWarning("Pusty tile");
         textComponent.text = this.tile.getSymbol(); //wpisanie na textmesh symbolu widocnego dla gracza
          textComponent.color = this.tile.GetColor(); //ustawienie koloru dla symbolu
     }
