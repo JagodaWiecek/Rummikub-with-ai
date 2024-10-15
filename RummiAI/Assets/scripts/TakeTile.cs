@@ -48,16 +48,9 @@ public class TakeTile : MonoBehaviour
         if (GameController.Instance != null && GameController.Instance.GetTiles().Count!=0)
         {
             List<Tile> tiles = GameController.Instance.GetTiles();//wykonanie referencji
-           // Debug.Log("1vW banku jest: " + GameController.Instance.GetTiles().Count);
-           // Debug.Log("2vW banku jest: " + tiles.Count);
             int TileIndex = Random.Range(0, tiles.Count);
             
 
-           // Debug.Log("1vW banku jest: " + GameController.Instance.GetTiles()[TileIndex].getNumber() +" "+ GameController.Instance.GetTiles()[TileIndex].getSymbol() + " " + GameController.Instance.GetTiles()[TileIndex].getTilename());
-           // Debug.Log("2vW banku jest: " + tiles[TileIndex].getNumber() + " " + tiles[TileIndex].getSymbol() + " " + tiles[TileIndex].getTilename());
-            // Debug.Log(tiles[1]);
-            // Debug.Log(tiles.Count);
-            // Debug.Log("Wziêto p³ytkê");
             ///po³¹czenie prefab z nowym obiektem
             newTile = Instantiate(tilePrefab, new Vector3(0, 0, 0), Quaternion.identity);
             
@@ -69,7 +62,7 @@ public class TakeTile : MonoBehaviour
             textComponent.text = tiles[TileIndex].getSymbol(); //wpisanie na textmesh symbolu widocnego dla gracza
             textComponent.color = tiles[TileIndex].GetColor(); //ustawienie koloru dla symbolu
 
-            Tile tile = new Tile(tiles[TileIndex].getNumber(), tiles[TileIndex].GetColor(), tiles[TileIndex].getTilename() + "_" + tiles[TileIndex].getNumber(), tiles[TileIndex].getSymbol(), tiles[TileIndex].getPut());
+            Tile tile = new Tile(tiles[TileIndex].getNumber(), tiles[TileIndex].GetColor(), tiles[TileIndex].getTilename(), tiles[TileIndex].getSymbol(), tiles[TileIndex].getPut());
             Button button = newTile.GetComponentInChildren<Button>();
             if (button == null)
             {

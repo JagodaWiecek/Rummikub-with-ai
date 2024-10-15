@@ -22,11 +22,20 @@ public class PlacementSystem : MonoBehaviour
     [SerializeField]
     private GameObject gridVisualization;
 
+    [SerializeField]
+    private GridData tileData;
+
+    private Renderer previewRenderer;
+
+    private List<GameObject> placedGameObject = new();
+
     Tile tile;
 
     private void Start()
     {
         StopPlacement();
+        tileData = new ();
+        previewRenderer = cellIndicator.GetComponentInChildren<Renderer>(); //0.4345407 0.8773585 0.6587523
     }
 
     public void StartPlacement(int ID, ref Tile tile)
@@ -53,12 +62,24 @@ public class PlacementSystem : MonoBehaviour
         }
         Vector3 mousePosition = inputManager.GetSelectedMapPosition();
         Vector3Int gridPosition = grid.WorldToCell(mousePosition);
+        bool placementValidity = CheckPlacementValidity(gridPosition,selectedObjectIndex);
+        if (placementValidity==false)
+        {
+            return;
+        }
+
         GameObject gameObject = Instantiate(database.objectsData[selectedObjectIndex].Prefab);
         gameObject.transform.position = grid.CellToWorld(gridPosition);
 
+
+
         gameObject.GetComponent<Tile>().setNumer(this.tile.getNumber());//ustawienie numeru klasy
         gameObject.GetComponent<Tile>().setColor(this.tile.GetColor());//ustawienie koloru napisu
+        gameObject.GetComponent<Tile>().setTilename(this.tile.getTilename());
+        gameObject.GetComponent<Tile>().setSymbol(this.tile.getSymbol());
+        gameObject.GetComponent<Tile>().setPut(this.tile.getPut());
         gameObject.transform.SetParent(this.transform);
+        gameObject.name = this.tile.getTilename();
         TextMeshPro textComponent = gameObject.transform.Find("Object/Number_Color").GetComponent<TextMeshPro>();
         // Sprawdzanie, czy tileTest nie jest null
         if (textComponent == null)
@@ -66,7 +87,23 @@ public class PlacementSystem : MonoBehaviour
             Debug.LogError("Nie znaleziono komponentu TextMeshProUGUI!");
         }
         textComponent.text = this.tile.getSymbol(); //wpisanie na textmesh symbolu widocnego dla gracza
-         textComponent.color = this.tile.GetColor(); //ustawienie koloru dla symbolu
+        textComponent.color = this.tile.GetColor(); //ustawienie koloru dla symbolu
+
+        placedGameObject.Add(gameObject);
+        gameObject.GetComponent<Tile>().ShowTiles();
+
+        tileData.AddObjectAt(gridPosition, 
+            database.objectsData[selectedObjectIndex].Size,
+            database.objectsData[selectedObjectIndex].ID,
+            placedGameObject.Count -1);
+
+        StopPlacement();
+    }
+
+    private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
+    {
+        //Grid selectedData = ;
+        return tileData.CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);
     }
 
     private void StopPlacement()
@@ -81,13 +118,18 @@ public class PlacementSystem : MonoBehaviour
     private void Update()
     {
         if (selectedObjectIndex < 0)
-         return; 
+            return; 
         Vector3 mousePosition = inputManager.GetSelectedMapPosition();
         Vector3Int gridPosition = grid.WorldToCell(mousePosition);
+       // Debug.Log("grid position : x: "+gridPosition.x + " z: " + gridPosition.z);
+
+        bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
+        previewRenderer.material.color = placementValidity ? new UnityEngine.Color(0.4345407f, 0.8773585f, 0.6587523f) : Color.red;
+
         mouseIndicator.transform.position = mousePosition;
 
-        if (grid.CellToWorld(gridPosition).x > 7.875 && grid.CellToWorld(gridPosition).x < 28 && grid.CellToWorld(gridPosition).z >8 && grid.CellToWorld(gridPosition).z < 18.5)// cellIndicator.transform.position.z = 19.15;
-        {
+        if (gridPosition.x > -10 && gridPosition.x < 9 && gridPosition.z >-5 && gridPosition.z < 3)// cellIndicator.transform.position.z = 19.15;
+       {
             cellIndicator.transform.position = grid.CellToWorld(gridPosition);
         }
     }

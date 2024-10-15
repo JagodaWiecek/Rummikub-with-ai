@@ -15,5 +15,5 @@ MonoBehaviour:
   objectsData:
   - <Name>k__BackingField: 3D_Tile
     <ID>k__BackingField: 0
-    <Size>k__BackingField: {x: 1, y: 1.5}
+    <Size>k__BackingField: {x: 1, y: 1}
     <Prefab>k__BackingField: {fileID: 470244293437829311, guid: fd8dad6fecfa33440a60755761b2342d, type: 3}

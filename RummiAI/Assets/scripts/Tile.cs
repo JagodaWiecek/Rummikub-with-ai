@@ -23,6 +23,11 @@ public class Tile : MonoBehaviour
         this.put = put;
     }
 
+    public void ShowTiles()
+    {
+        Debug.Log("Tile: "+getNumber()+" - "+ getSymbol() + " - " +getTilename() );
+    }
+
 
     public void setNumer(int numer)
     {
