@@ -8,11 +8,18 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     // 4 colors, numers from 1 to 13
+    [SerializeField]
     private int number;
+    [SerializeField]
     private UnityEngine.Color numberColor;
+    [SerializeField]
     private string Tilename;
+    [SerializeField]
     private string symbol;
+    [SerializeField]
     private bool put;
+    [SerializeField]
+    private Vector3 position ;
 
     public Tile(int num, UnityEngine.Color col, string name,string symbol, bool put)
     {
@@ -21,13 +28,20 @@ public class Tile : MonoBehaviour
         this.Tilename = name;
         this.symbol = symbol;
         this.put = put;
+
+       // this.position = ;
     }
 
     public void ShowTiles()
     {
         Debug.Log("Tile: "+getNumber()+" - "+ getSymbol() + " - " +getTilename() );
     }
-
+     public void SetPosition(Vector3 pos) 
+     {
+        this.position = pos;
+     }
+    public Vector3 GetPosition()
+    { return this.position; }
 
     public void setNumer(int numer)
     {

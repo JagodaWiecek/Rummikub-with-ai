@@ -18,6 +18,8 @@ public class GameController : MonoBehaviour
     private List<Tile> missBot;
     private List<Tile> mrAI;
 
+    PlacementSystem placementSystem;
+
     Dictionary<Vector3Int, Tile> board = new();//istotne<x,0,z>
 
 
@@ -56,7 +58,8 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-
+        if(Input.GetKeyDown(KeyCode.Q))
+            placementSystem.StartRemoving();
     }
     /// <summary>
     /// Funkcja do zwrócenia ca³ej listy p³ytek
