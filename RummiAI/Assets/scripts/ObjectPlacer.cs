@@ -20,10 +20,10 @@ public class ObjectPlacer : MonoBehaviour
         gameObject.GetComponent<Tile>().setColor(tile.GetColor());//ustawienie koloru napisu
         gameObject.GetComponent<Tile>().setTilename(tile.getTilename());
         gameObject.GetComponent<Tile>().setSymbol(tile.getSymbol());
-        gameObject.GetComponent<Tile>().setPut(tile.getPut());
+        gameObject.GetComponent<Tile>().setPut(tile.GetPut());
 
         gameObject.GetComponent<Tile>().SetPosition(grid.WorldToCell(position));
-       // gameObject.transform.SetParent(transform.parent.Find("PlacedTiles"));
+        gameObject.transform.SetParent(transform.parent.Find("PlacedTiles"));
         //transform.Find
         gameObject.name = tile.getTilename();
         TextMeshPro textComponent = gameObject.transform.Find("Object/Number_Color").GetComponent<TextMeshPro>();

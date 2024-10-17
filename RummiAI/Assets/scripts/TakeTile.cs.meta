@@ -7,7 +7,7 @@ MonoImporter:
   - tilePrefab: {fileID: 7695859656228316102, guid: 630049a90ef3aae48b91bb8aa9b0f879, type: 3}
   - parentTransform: {instanceID: 0}
   - Instance: {instanceID: 0}
-  executionOrder: 0
+  executionOrder: 400
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

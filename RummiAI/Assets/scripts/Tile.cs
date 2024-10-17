@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 [System.Serializable]
 
@@ -65,11 +66,20 @@ public class Tile : MonoBehaviour
     public UnityEngine.Color GetColor() { return this.numberColor; }
     public string getTilename() { return this.Tilename; }
     public string getSymbol() {  return this.symbol; }
-    public bool getPut() { return this.put; }
+    public bool GetPut() { return this.put; }
 
     public Tile getTile()
     {
         return this;
+    }
+
+    public Tile(Tile existingTile)
+    {
+        this.number = existingTile.getNumber();
+        this.numberColor = existingTile.GetColor();
+        this.Tilename = existingTile.getTilename();
+        this.symbol = existingTile.getSymbol();
+        this.put = existingTile.GetPut();
     }
 
 }

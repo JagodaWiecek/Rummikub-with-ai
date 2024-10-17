@@ -18,10 +18,15 @@ public class GameController : MonoBehaviour
     private List<Tile> missBot;
     private List<Tile> mrAI;
 
+   
+    [SerializeField]
     PlacementSystem placementSystem;
+    [SerializeField]
+    TakeTile takeTile;
 
     Dictionary<Vector3Int, Tile> board = new();//istotne<x,0,z>
 
+    private float temp =0;
 
     private void Awake()
     {
@@ -37,29 +42,30 @@ public class GameController : MonoBehaviour
         }
     }
 
-/// <summary>
-/// Funkcja, która w³¹cza siê przed pierwszymi klatkami
-/// </summary>
-    void Start()
+    /// <summary>
+    /// Funkcja, która w³¹cza siê przed pierwszymi klatkami
+    /// </summary>
+     void Start()
     {
-        //Debug.Log("Inicjacja Game Controller");
+        Debug.Log("Inicjacja Game Controller");
         SetTiles(ref this.tiles);
-
         //Debug.Log("Bank ma: " + this.tiles.Count + " p³ytek");
-        TakeTile takeTile = new ();
+        takeTile = new ();
         SetPlayersHand(ref this.tiles, ref this.playerHand);
         SetPlayersHand(ref this.tiles, ref this.mrBot);
         SetPlayersHand(ref this.tiles, ref this.missBot);
         SetPlayersHand(ref this.tiles, ref this.mrAI);
-        takeTile.SetStartTile();
 
+        //takeTile.SetStartTile();
 
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
-            placementSystem.StartRemoving();
+
+        
+        if (Input.GetKeyDown(KeyCode.Q))
+            OnQKeyPressed();
     }
     /// <summary>
     /// Funkcja do zwrócenia ca³ej listy p³ytek
@@ -146,6 +152,11 @@ public class GameController : MonoBehaviour
 
         return "unknown";
         //return "";
+    }
+
+    void OnQKeyPressed()
+    {
+        placementSystem.StartRemoving();
     }
 
 }
