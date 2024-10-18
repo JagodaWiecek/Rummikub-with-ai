@@ -38,8 +38,11 @@ public class PlacementSystem : MonoBehaviour
 
     IPlacementState placementState;
 
-
+    //[SerializeField]
     Tile tile;
+    //[SerializeField]
+    GameObject prefab;
+
 
     private void Start()
     {
@@ -48,22 +51,24 @@ public class PlacementSystem : MonoBehaviour
         //previewRenderer = cellIndicator.GetComponentInChildren<Renderer>();
     }
 
-    public void StartPlacement(int ID, ref Tile tile)
+    public void StartPlacement(int ID, ref Tile tile,ref int index)//
     {
         StopPlacement();
         gridVisualization.SetActive(true);
         this.tile = tile;
-
-        placementState = new PlacementState(ID,grid,preview,database,tileData,objectPlacer,tile); 
+        placementState = new PlacementState(ID,grid,preview,database,tileData,objectPlacer,tile,index); 
         inputManager.onClicked += PlaceStructure;
         inputManager.onExit += StopPlacement;
+
+
+
     }
 
     public void StartRemoving()
     {
         StopPlacement();
         gridVisualization.SetActive(true);
-        placementState = new RemovingState(grid, preview, tileData, objectPlacer, tile);
+        placementState = new RemovingState(grid, preview, tileData, objectPlacer, this.tile);
         inputManager.onClicked += PlaceStructure;
         inputManager.onExit += StopPlacement;
     }
@@ -78,7 +83,8 @@ public class PlacementSystem : MonoBehaviour
         Vector3Int gridPosition = grid.WorldToCell(mousePosition);
 
         placementState.OnAction(gridPosition);
-       // StopPlacement();
+
+        StopPlacement();
     }
 
     //private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)

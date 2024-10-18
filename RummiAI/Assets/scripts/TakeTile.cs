@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class TakeTile : MonoBehaviour
 {
 
-    public GameObject tilePrefab;
+    public GameObject tilePrefab;//{ get; private set; }
     public Transform parentTransform;
     GameObject newTile = null;
 
@@ -21,7 +21,7 @@ public class TakeTile : MonoBehaviour
     void Start()
     {
         //tilePrefab = Resources.Load<GameObject>("Assets/Tile_2D_v2.prefab");
-        //Debug.Log("inicjalizacja TakeTile");
+        Debug.Log("inicjalizacja TakeTile");
         //Debug.Log($"TakeTile Game prefab is : {tilePrefab}");
         SetStartTile();
 
@@ -30,7 +30,9 @@ public class TakeTile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+        if (Input.GetKeyDown(KeyCode.W))
+            takeNewTile();
     }
 
     public void SetStartTile()
@@ -62,14 +64,16 @@ public class TakeTile : MonoBehaviour
 
     public void GetTileToHand(Tile tile)
     {
-        Debug.Log($"GetTileToHand: {this.newTile}");
-        tile.ShowTiles();
-        Debug.Log(tilePrefab);
+      //  Debug.Log($"GetTileToHand: {this.newTile}");
+        //tile.ShowTiles();
+       // Debug.Log(tilePrefab);
         newTile = Instantiate(this.tilePrefab, new Vector3(0, 0, 0), Quaternion.identity);
 
         newTile.transform.SetParent(this.transform);//ustawienie hierarchi
         newTile.GetComponent<Tile>().setNumer(tile.getNumber());//ustawienie numeru klasy
         newTile.GetComponent<Tile>().setColor(tile.GetColor());//ustawienie koloru klasy
+        newTile.GetComponent<Tile>().setTilename(tile.getTilename());
+        newTile.GetComponent<Tile>().setSymbol(tile.getSymbol());
         newTile.name = tile.getTilename();//ustawienie nazwy w hierarchi
         TextMeshProUGUI textComponent = newTile.transform.Find("Object/Number_Color").GetComponent<TextMeshProUGUI>();//odwo³anie siê do dziecka objektu
         textComponent.text = tile.getSymbol(); //wpisanie na textmesh symbolu widocnego dla gracza
@@ -81,8 +85,8 @@ public class TakeTile : MonoBehaviour
         {
             Debug.LogError("Prefab does not contain a Button component!");
         }
-
-        button.onClick.AddListener(() => OnButtonClick(tile));
+        int idx = newTile.transform.GetSiblingIndex();
+        button.onClick.AddListener(() => OnButtonClick(tile,ref idx));
         //tiles.RemoveAt(TileIndex);//usuniêcie p³ytki z g³ównego banku
         LayoutElement le = newTile.AddComponent<LayoutElement>();//dodanie objektu do widoku
     }
@@ -104,6 +108,8 @@ public class TakeTile : MonoBehaviour
             newTile.transform.SetParent(this.transform);//ustawienie hierarchi
             newTile.GetComponent<Tile>().setNumer(tiles[TileIndex].getNumber());//ustawienie numeru klasy
             newTile.GetComponent<Tile>().setColor(tiles[TileIndex].GetColor());//ustawienie koloru klasy
+            newTile.GetComponent<Tile>().setTilename(tiles[TileIndex].getTilename());
+            newTile.GetComponent<Tile>().setSymbol(tiles[TileIndex].getSymbol());
             newTile.name = tiles[TileIndex].getTilename();//ustawienie nazwy w hierarchi
             TextMeshProUGUI textComponent = newTile.transform.Find("Object/Number_Color").GetComponent<TextMeshProUGUI>();//odwo³anie siê do dziecka objektu
             textComponent.text = tiles[TileIndex].getSymbol(); //wpisanie na textmesh symbolu widocnego dla gracza
@@ -115,8 +121,8 @@ public class TakeTile : MonoBehaviour
             {
                 Debug.LogError("Prefab does not contain a Button component!");
             }
-            
-            button.onClick.AddListener(() => OnButtonClick(tile));
+            int idx = newTile.transform.GetSiblingIndex();
+            button.onClick.AddListener(() => OnButtonClick(tile,ref idx));//idx
             Hand.Add(tile);
             //Debug.Log($"W take tile jest {GameController.Instance.GetPlayerHand().Count} p³ytek");
             tiles.RemoveAt(TileIndex);//usuniêcie p³ytki z g³ównego banku
@@ -133,9 +139,16 @@ public class TakeTile : MonoBehaviour
     /// funkcja do uruchomienia funkcji po klikniêciu na objekt 2d
     /// </summary>
     /// <param name="tile"> zmienna do przekazania do innej klasy</param>
-    private void OnButtonClick(Tile tile)
+    public void OnButtonClick(Tile tile,ref int idx)//
     {
-        ps.StartPlacement(0, ref tile);
+        ps.StartPlacement(0, ref tile, ref idx);
+    }
+
+    public void DestroyTile2D(int index)
+    {
+        int liczba = this.transform.childCount;
+        Debug.Log($"liczba dzieci: {liczba}");
+        Debug.Log($"tranform: {this.transform}");
     }
 
 

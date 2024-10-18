@@ -19,8 +19,7 @@ public class Tile : MonoBehaviour
     private string symbol;
     [SerializeField]
     private bool put;
-    [SerializeField]
-    private Vector3 position ;
+
 
     public Tile(int num, UnityEngine.Color col, string name,string symbol, bool put)
     {
@@ -37,12 +36,6 @@ public class Tile : MonoBehaviour
     {
         Debug.Log("Tile: "+getNumber()+" - "+ getSymbol() + " - " +getTilename() );
     }
-     public void SetPosition(Vector3 pos) 
-     {
-        this.position = pos;
-     }
-    public Vector3 GetPosition()
-    { return this.position; }
 
     public void setNumer(int numer)
     {

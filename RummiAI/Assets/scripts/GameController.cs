@@ -11,7 +11,8 @@ public class GameController : MonoBehaviour
 {
     // Static instantion, globally available
     public static GameController Instance { get; private set; }
-   // [SerializeField]
+
+    //[SerializeField]
     private List<Tile> tiles; //bank gry
     private List<Tile> playerHand;//talia gracza
     private List<Tile> mrBot;
@@ -21,12 +22,14 @@ public class GameController : MonoBehaviour
    
     [SerializeField]
     PlacementSystem placementSystem;
+    
+
     [SerializeField]
-    TakeTile takeTile;
+    private BoardDictionary boardDictionary;
+    List<BoardDictionary> boardList;
+    //Dictionary<Vector3Int, Tile> board = new();//istotne<x,0,z>
 
-    Dictionary<Vector3Int, Tile> board = new();//istotne<x,0,z>
-
-    private float temp =0;
+    //private float temp =0;
 
     private void Awake()
     {
@@ -50,7 +53,9 @@ public class GameController : MonoBehaviour
         Debug.Log("Inicjacja Game Controller");
         SetTiles(ref this.tiles);
         //Debug.Log("Bank ma: " + this.tiles.Count + " p³ytek");
-        takeTile = new ();
+        
+        boardList = new();
+        boardDictionary = new();
         SetPlayersHand(ref this.tiles, ref this.playerHand);
         SetPlayersHand(ref this.tiles, ref this.mrBot);
         SetPlayersHand(ref this.tiles, ref this.missBot);
@@ -63,7 +68,8 @@ public class GameController : MonoBehaviour
     void Update()
     {
 
-        
+        //if (Input.GetKeyDown(KeyCode.E))
+            //takeTile.takeNewTile();
         if (Input.GetKeyDown(KeyCode.Q))
             OnQKeyPressed();
     }
@@ -82,6 +88,19 @@ public class GameController : MonoBehaviour
     public List<Tile> GetPlayerHand()
     {
         return this.playerHand;
+    }
+    
+    public BoardDictionary GetBoardDictionary()
+    {
+        return this.boardDictionary;
+    }
+    public void NewTurn()
+    {
+        //board.Clear();
+        this.boardList.Add(GetBoardDictionary());
+        GetBoardDictionary().GetBoard().Clear();
+        //BoardDictionary
+
     }
 
     /// <summary>

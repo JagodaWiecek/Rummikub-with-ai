@@ -51,9 +51,13 @@ public class RemovingState : IPlacementState
             if (gameObjectIndex == -1)
                 return;
             selectedData.RemoveObjectAt(gridPosition);
-            objectPlacer.RemoveObjectAt(gameObjectIndex);
+            objectPlacer.RemoveObjectAt(gameObjectIndex, this.tile);
+            //Debug.Log().
+            //this.tile.ShowTiles();
+           // this.tile = null;
         }
-        Vector3 cellPosition = grid.CellToWorld(gridPosition);  
+        Vector3 cellPosition = grid.CellToWorld(gridPosition);
+        Debug.Log("gridPosition on remove" + gridPosition);
         previewSystem.UpdatePosition(cellPosition, CheckIfSelectionIsValid(gridPosition));
 
     }

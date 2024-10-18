@@ -374,6 +374,7 @@
 "Assets/Samples/Shader Graph/14.0.11/Production Ready Shaders/SRPCommon/Scripts/SamplesFreeCamera.cs"
 "Assets/Samples/Shader Graph/14.0.11/Production Ready Shaders/SRPCommon/Scripts/SamplesLinkLightToEmissive.cs"
 "Assets/Samples/Shader Graph/14.0.11/Production Ready Shaders/SRPCommon/Scripts/SamplesShowcase.cs"
+"Assets/scripts/BoardDictionary.cs"
 "Assets/scripts/Draggable.cs"
 "Assets/scripts/GameController.cs"
 "Assets/scripts/GridData.cs"

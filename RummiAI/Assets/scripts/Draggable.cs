@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 /// <summary>
 /// Klasa do przesuwania i uk³adania 2d p³ytek
 /// Dla lepszego korzystania przez u¿ytkownika
@@ -67,6 +68,25 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler,IEndDrag
         this.transform.SetParent(parentToReturnTo);
         this.transform.SetSiblingIndex(placeholder.transform.GetSiblingIndex());
         Destroy(placeholder);
+        StartCoroutine(SetNewIndex());
+
     }
 
+    private IEnumerator SetNewIndex()
+    {
+        yield return new WaitForEndOfFrame();
+        for (int i = 0; i < this.transform.parent.childCount; i++)
+        {
+            GameObject newTile= this.transform.parent.GetChild(i).gameObject;
+            Tile tile = newTile.GetComponent<Tile>().getTile();//
+            Button button = newTile.GetComponentInChildren<Button>();
+            if (button == null)
+            {
+                Debug.LogError("Prefab does not contain a Button component!");
+            }                                                               
+            int idx = this.transform.parent.GetChild(i).GetSiblingIndex();
+            TakeTile takeTile = this.transform.parent.GetComponent<TakeTile>();
+            button.onClick.AddListener(() => takeTile.OnButtonClick(tile, ref idx));
+        }
+    }
 }

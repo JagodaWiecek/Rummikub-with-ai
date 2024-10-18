@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlacementState : IPlacementState
+public class PlacementState : MonoBehaviour, IPlacementState
 {
     private int selectedObjectIndex = -1;
     int ID;
@@ -12,8 +12,19 @@ public class PlacementState : IPlacementState
     GridData tileData;
     ObjectPlacer objectPlacer;
     Tile tile;
+    int index;
+    //GameObject prefab;
+   // [SerializeField]
+    //TakeTile taketile;
 
-    public PlacementState(int ID, Grid grid, PreviewSystem previewSystem, ObjectsDatabase database, GridData tileData, ObjectPlacer objectPlacer, Tile tile)
+    public PlacementState(int ID,
+                          Grid grid,
+                          PreviewSystem previewSystem,
+                          ObjectsDatabase database,
+                          GridData tileData,
+                          ObjectPlacer objectPlacer,
+                          Tile tile,
+                          int index)//
     {
         this.ID = ID;
         this.grid = grid;
@@ -22,6 +33,8 @@ public class PlacementState : IPlacementState
         this.tileData = tileData;
         this.objectPlacer = objectPlacer;
         this.tile = tile;
+        this.index = index;
+        //this.prefab = prefab;
 
         //this.tile = tile;
         selectedObjectIndex = database.objectsData.FindIndex(data => data.ID == ID);
@@ -39,6 +52,9 @@ public class PlacementState : IPlacementState
     public void EndState()
     {
         previewSystem.StopShowingPreview();
+        // Debug.Log($"indeks p³ytki 2d: {this.index}");
+        // Destroy
+
     }
 
     public void OnAction(Vector3Int gridPosition)
@@ -48,7 +64,7 @@ public class PlacementState : IPlacementState
         {
             return;
         }
-        int index = objectPlacer.PlacedObject(database.objectsData[selectedObjectIndex].Prefab, grid.CellToWorld(gridPosition), this.tile, grid);
+        int index = objectPlacer.PlacedObject(database.objectsData[selectedObjectIndex].Prefab, grid.CellToWorld(gridPosition),ref this.tile, grid, this.index);
 
         tileData.AddObjectAt(gridPosition,
             database.objectsData[selectedObjectIndex].Size,
@@ -57,6 +73,7 @@ public class PlacementState : IPlacementState
 
         // StopPlacement();
         previewSystem.UpdatePosition(grid.CellToWorld(gridPosition), false);
+       
     }
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
@@ -78,5 +95,6 @@ public class PlacementState : IPlacementState
             previewSystem.UpdatePosition(grid.CellToWorld(gridPosition), placementValidity);
         }
     }
+
 
 }

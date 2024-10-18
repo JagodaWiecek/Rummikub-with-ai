@@ -10290,7 +10290,7 @@ RectTransform:
   m_Children:
   - {fileID: 233823691}
   - {fileID: 1585138514}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1618687517}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -14215,6 +14215,7 @@ Transform:
   - {fileID: 292553424}
   - {fileID: 963194228}
   - {fileID: 2082919660}
+  - {fileID: 1184096188}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1618687518
@@ -14229,8 +14230,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e73cded3be31e924c915ddbfa691e07e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tiles: []
   placementSystem: {fileID: 1434540506}
-  takeTile: {fileID: 1117497324}
 --- !u!1 &1618946268
 GameObject:
   m_ObjectHideFlags: 0
@@ -24826,5 +24827,4 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1618687517}
-  - {fileID: 1184096188}
   - {fileID: 860381586}
