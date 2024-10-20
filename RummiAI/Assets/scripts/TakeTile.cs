@@ -20,10 +20,8 @@ public class TakeTile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //tilePrefab = Resources.Load<GameObject>("Assets/Tile_2D_v2.prefab");
-        Debug.Log("inicjalizacja TakeTile");
-        //Debug.Log($"TakeTile Game prefab is : {tilePrefab}");
-        SetStartTile();
+        //Debug.Log("inicjalizacja TakeTile");
+        SetStartTile();///Wyœwietlenie talii gracza na ekran
 
     }
 
@@ -31,23 +29,17 @@ public class TakeTile : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.W))
-            takeNewTile();
     }
 
     public void SetStartTile()
     {
-        // tilePrefab = Resources.Load<GameObject>("Assets/Tile_2D_v2.prefab");
-        if (GameController.Instance != null && this.tilePrefab != null)//&& this.tilePrefab !=null
+        
+        if (GameController.Instance != null && this.tilePrefab != null)///Czy g³ówna klasa zosta³a zainicjowana i czy g³ówna talia nie jest pusta
         {
             if (GameController.Instance.GetTiles().Count != 0 && GameController.Instance.GetPlayerHand().Count != 0)// GetPlayerHand()
             {
                 List<Tile> hand = GameController.Instance.GetPlayerHand();
-                //Debug.Log("Inicjacja TakeTile z GameControllerem");
-               // while (tilePrefab == null)
-               // {
 
-               // }
                 for(int i = 0;i< hand.Count; i++)
                 {
                     //Tile tile = new Tile(hand[i].getNumber(), hand[i].GetColor(), hand[i].getTilename(), hand[i].getSymbol(), hand[i].GetPut()); 
@@ -143,15 +135,6 @@ public class TakeTile : MonoBehaviour
     {
         ps.StartPlacement(0, ref tile, ref idx);
     }
-
-    public void DestroyTile2D(int index)
-    {
-        int liczba = this.transform.childCount;
-        Debug.Log($"liczba dzieci: {liczba}");
-        Debug.Log($"tranform: {this.transform}");
-    }
-
-
 
 
 }

@@ -61,6 +61,7 @@ public class GridData
 
     internal void RemoveObjectAt(Vector3Int gridPosition)
     {
+        //Debug.Log("Geid Position: " + gridPosition);
         foreach (var pos in placedObjects[gridPosition].occupiecPositons) { 
             placedObjects.Remove(pos);
         }

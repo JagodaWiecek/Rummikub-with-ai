@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlacementState : MonoBehaviour, IPlacementState
+public class PlacementState : IPlacementState
 {
     private int selectedObjectIndex = -1;
     int ID;
@@ -13,9 +13,6 @@ public class PlacementState : MonoBehaviour, IPlacementState
     ObjectPlacer objectPlacer;
     Tile tile;
     int index;
-    //GameObject prefab;
-   // [SerializeField]
-    //TakeTile taketile;
 
     public PlacementState(int ID,
                           Grid grid,
@@ -38,7 +35,8 @@ public class PlacementState : MonoBehaviour, IPlacementState
 
         //this.tile = tile;
         selectedObjectIndex = database.objectsData.FindIndex(data => data.ID == ID);
-        if (selectedObjectIndex > -1)
+        //bool tilesValidity = CheckTiles(gridPosition);&& tilesValidity == false
+        if (selectedObjectIndex > -1 )
         {
             // gridVisualization.SetActive(true);
             // cellIndicator.SetActive(true);
@@ -52,15 +50,15 @@ public class PlacementState : MonoBehaviour, IPlacementState
     public void EndState()
     {
         previewSystem.StopShowingPreview();
-        // Debug.Log($"indeks p³ytki 2d: {this.index}");
-        // Destroy
 
     }
 
     public void OnAction(Vector3Int gridPosition)
     {
+       // Debug.Log("OnAction w PlacementState"+gridPosition);
         bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
-        if (placementValidity == false)
+        
+        if (placementValidity == false )
         {
             return;
         }
@@ -77,17 +75,22 @@ public class PlacementState : MonoBehaviour, IPlacementState
     }
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
-        //Grid selectedData = ;
-        return tileData.CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);
+        bool tilesValidity = CheckTiles(gridPosition); //zwraca false jak s¹siedzi s¹ wbrew zasadom
+        bool placementValidity = tileData.CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);//zwraca false jak nie mozna postawiæ
+        if (placementValidity && tilesValidity)
+             return true;
+        else return false;
+        //return tileData.CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);
+    }
+    private bool CheckTiles(Vector3Int gridPosition)
+    {
+        Debug.Log("Check tiles tile: "); this.tile.ShowTiles();
+        return true;
     }
 
     public void UpdateState(Vector3Int gridPosition)
     {
         bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
-        // previewRenderer.material.color = placementValidity ? new UnityEngine.Color(0.4345407f, 0.8773585f, 0.6587523f) : Color.red;
-
-
-        // mouseIndicator.transform.position = mousePosition;
 
         if (gridPosition.x > -10 && gridPosition.x < 9 && gridPosition.z > -5 && gridPosition.z < 3)// cellIndicator.transform.position.z = 19.15;
         {

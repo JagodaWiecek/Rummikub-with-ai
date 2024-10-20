@@ -430,6 +430,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cf8dc01568bf4142949ddb07bc52219, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  number: 0
+  numberColor: {r: 0, g: 0, b: 0, a: 0}
+  Tilename: 
+  symbol: 
+  put: 0
 --- !u!1 &7115741660099781317
 GameObject:
   m_ObjectHideFlags: 0

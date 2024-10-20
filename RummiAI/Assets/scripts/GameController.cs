@@ -22,11 +22,15 @@ public class GameController : MonoBehaviour
    
     [SerializeField]
     PlacementSystem placementSystem;
-    
+
 
     [SerializeField]
-    private BoardDictionary boardDictionary;
+    public BoardDictionary boardDictionary;
+    [SerializeField]
     List<BoardDictionary> boardList;
+
+    [SerializeField]
+    Grid grid;
     //Dictionary<Vector3Int, Tile> board = new();//istotne<x,0,z>
 
     //private float temp =0;
@@ -61,6 +65,8 @@ public class GameController : MonoBehaviour
         SetPlayersHand(ref this.tiles, ref this.missBot);
         SetPlayersHand(ref this.tiles, ref this.mrAI);
 
+        Vector3Int position = new Vector3Int(0, 0, 0);
+        //Debug.Log(grid.CellToWorld(position));//(18.88, 0.05, 15.20)
         //takeTile.SetStartTile();
 
     }
@@ -72,6 +78,11 @@ public class GameController : MonoBehaviour
             //takeTile.takeNewTile();
         if (Input.GetKeyDown(KeyCode.Q))
             OnQKeyPressed();
+    }
+    
+    void OnMouseDown()
+    {
+        Debug.Log("Dynamic object clicked!");
     }
     /// <summary>
     /// Funkcja do zwrócenia ca³ej listy p³ytek
@@ -98,8 +109,13 @@ public class GameController : MonoBehaviour
     {
         //board.Clear();
         this.boardList.Add(GetBoardDictionary());
-        GetBoardDictionary().GetBoard().Clear();
-        //BoardDictionary
+        //this.boardList.ForEach
+        //KeyValuePair<Vector3Int, Tile> tile in GameController.Instance.GetBoardDictionary().board
+       // foreach (KeyValuePair < Vector3Int, Tile > tile in boardList[boardList.Count-1].board)
+       // {
+           // Debug.Log(tile.Key);
+           // tile.Value.ShowTiles();
+       // }
 
     }
 

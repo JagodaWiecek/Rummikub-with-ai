@@ -47,20 +47,32 @@ public class RemovingState : IPlacementState
         }
         else
         {
+
             gameObjectIndex = selectedData.getRepresentationIndex(gridPosition);
             if (gameObjectIndex == -1)
                 return;
-            selectedData.RemoveObjectAt(gridPosition);
-            objectPlacer.RemoveObjectAt(gameObjectIndex, this.tile);
-            //Debug.Log().
-            //this.tile.ShowTiles();
-           // this.tile = null;
+            if (GameController.Instance != null || GameController.Instance.GetBoardDictionary().board.ContainsKey(gridPosition) == false)
+            {
+                if (GameController.Instance.GetBoardDictionary().board[gridPosition].GetPut())
+                    Debug.Log("nie mo¿na usun¹æ ju¿ po³o¿onego obiektu");
+                else
+                {
+                    
+                    selectedData.RemoveObjectAt(gridPosition);
+                    objectPlacer.RemoveObjectAt(gameObjectIndex);
+                    objectPlacer.TakeBackTile(GameController.Instance.GetBoardDictionary().board[gridPosition].getTile());//tile
+                    GameController.Instance.GetBoardDictionary().board.Remove(gridPosition);//Remove(keyToRemove)
+                }
+            }
+            else return;
         }
         Vector3 cellPosition = grid.CellToWorld(gridPosition);
-        Debug.Log("gridPosition on remove" + gridPosition);
+        //Debug.Log("gridPosition on remove" + gridPosition);
         previewSystem.UpdatePosition(cellPosition, CheckIfSelectionIsValid(gridPosition));
+        
 
     }
+
 
     private bool CheckIfSelectionIsValid(Vector3Int gridPosition)
     {
@@ -72,4 +84,5 @@ public class RemovingState : IPlacementState
         bool validity = CheckIfSelectionIsValid(gridPosition);
        previewSystem.UpdatePosition(grid.CellToWorld(gridPosition), validity);
     }
+
 }

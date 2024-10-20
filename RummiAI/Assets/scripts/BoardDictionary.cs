@@ -22,12 +22,12 @@ public class BoardDictionary : MonoBehaviour
     {
         Tile newtile = new Tile(tile.getNumber(), tile.GetColor(), tile.getTilename(), tile.getSymbol(), tile.GetPut() );
         newtile.ShowTiles();
-        Debug.Log(gridPosition);
+        //Debug.Log(gridPosition);
         board[gridPosition] = newtile;
     }
     public Tile ReturnTileInDirectory(Vector3Int gridPosition)
     {
-        Debug.Log(gridPosition);
+        //Debug.Log(gridPosition);
         return this.board[gridPosition];
     }
 

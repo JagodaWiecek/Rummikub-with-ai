@@ -38,7 +38,7 @@ public class PlacementSystem : MonoBehaviour
 
     IPlacementState placementState;
 
-    //[SerializeField]
+   
     Tile tile;
     //[SerializeField]
     GameObject prefab;

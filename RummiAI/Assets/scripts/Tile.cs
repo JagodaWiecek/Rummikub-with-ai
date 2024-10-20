@@ -29,12 +29,12 @@ public class Tile : MonoBehaviour
         this.symbol = symbol;
         this.put = put;
 
-       // this.position = ;
     }
 
     public void ShowTiles()
     {
-        Debug.Log("Tile: "+getNumber()+" - "+ getSymbol() + " - " +getTilename() );
+        //bool z = GetPut();
+        Debug.Log("Tile: "+getNumber()+" - "+ getSymbol() + " - " +getTilename() + " - "+ GetPut());
     }
 
     public void setNumer(int numer)
@@ -73,6 +73,18 @@ public class Tile : MonoBehaviour
         this.Tilename = existingTile.getTilename();
         this.symbol = existingTile.getSymbol();
         this.put = existingTile.GetPut();
+    }
+
+    public bool Equals(Tile tile ,Tile other)
+    {
+        if (tile.getNumber() != other.getNumber() && 
+            tile.getSymbol() != other.getSymbol() &&
+            tile.getTilename() != other.getTilename() &&
+            tile.GetColor() != other.GetColor() &&
+            tile.GetPut() != other.GetPut() )
+            return false;
+        else 
+            return true;
     }
 
 }
