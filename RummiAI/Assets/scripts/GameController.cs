@@ -12,8 +12,9 @@ public class GameController : MonoBehaviour
     // Static instantion, globally available
     public static GameController Instance { get; private set; }
 
-    //[SerializeField]
+    [SerializeField]
     private List<Tile> tiles; //bank gry
+    [SerializeField]
     private List<Tile> playerHand;//talia gracza
     private List<Tile> mrBot;
     private List<Tile> missBot;

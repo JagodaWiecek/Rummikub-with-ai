@@ -21,7 +21,7 @@ public class BoardDictionary : MonoBehaviour
     public void AddObjectAt(Vector3Int gridPosition, Tile tile)
     {
         Tile newtile = new Tile(tile.getNumber(), tile.GetColor(), tile.getTilename(), tile.getSymbol(), tile.GetPut() );
-        newtile.ShowTiles();
+        //newtile.ShowTiles();
         //Debug.Log(gridPosition);
         board[gridPosition] = newtile;
     }

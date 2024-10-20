@@ -77,10 +77,10 @@ public class Tile : MonoBehaviour
 
     public bool Equals(Tile tile ,Tile other)
     {
-        if (tile.getNumber() != other.getNumber() && 
-            tile.getSymbol() != other.getSymbol() &&
-            tile.getTilename() != other.getTilename() &&
-            tile.GetColor() != other.GetColor() &&
+        if (tile.getNumber() != other.getNumber() || 
+            tile.getSymbol() != other.getSymbol() ||
+            tile.getTilename() != other.getTilename() ||
+            tile.GetColor() != other.GetColor() ||
             tile.GetPut() != other.GetPut() )
             return false;
         else 

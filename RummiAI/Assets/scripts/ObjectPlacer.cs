@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 
 public class ObjectPlacer : MonoBehaviour
@@ -21,9 +23,9 @@ public class ObjectPlacer : MonoBehaviour
         GameObject gameObject = Instantiate(prefab);
         gameObject.transform.position = position;
 
-       // Debug.Log("position w objectPlacer - " + position);
+        // Debug.Log("position w objectPlacer - " + position);
         //Debug.Log("Tile put : "+ tile.GetPut());
-
+        
         gameObject.GetComponent<Tile>().setNumer(tile.getNumber());//ustawienie numeru klasy
         gameObject.GetComponent<Tile>().setColor(tile.GetColor());//ustawienie koloru napisu
         gameObject.GetComponent<Tile>().setTilename(tile.getTilename());
@@ -52,12 +54,34 @@ public class ObjectPlacer : MonoBehaviour
         Transform transformObject = this.transform.parent.parent.Find("Canvas/Player_Deck/Hand").GetChild(index);
         GameObject obj = transformObject.gameObject;
         Destroy(obj);
+        FindAndRemoveTile(tile);
+        // Tile tileinList = obj.GetComponent<Tile>().getTile() ;
+        // tileinList.ShowTiles();
         Transform Indextransform = this.transform.parent.parent.Find("Canvas/Player_Deck/Hand");
         StartCoroutine(SetNewIndex(Indextransform));
 
         return placedGameObjects.Count-1;
     }
 
+    private void FindAndRemoveTile(Tile tile)
+    {
+        List<Tile> Hand = GameController.Instance.GetPlayerHand();
+       // foreach (Tile hand in Hand) {
+           // if (hand.Equals(tile,hand)) {
+                //Debug.Log($"Tiles are the same {hand.getTilename()}");
+
+           // }
+          //else Debug.Log($"Tiles are not the same {hand.getTilename()} and {tile.getTilename()}");
+       // }
+        for (int i = 0; i < Hand.Count; i++) {
+            if (Hand[i].Equals(tile, Hand[i])) 
+            { 
+                //Debug.Log($"Tiles are the same {Hand[i].getTilename()}"); 
+                Hand.RemoveAt(i);
+            }
+
+        }
+    }
     private IEnumerator SetNewIndex(Transform transform)
     {
         yield return new WaitForEndOfFrame();
@@ -92,6 +116,7 @@ public class ObjectPlacer : MonoBehaviour
 
     public void TakeBackTile(Tile tile)
     {
+        List<Tile> Hand = GameController.Instance.GetPlayerHand();
         Transform transformObject = this.transform.parent.parent.Find("Canvas/Player_Deck/Hand");
         newTile = Instantiate(this.tilePrefab, new Vector3(0, 0, 0), Quaternion.identity);
         newTile.transform.SetParent(transformObject);//ustawienie hierarchi
@@ -117,6 +142,7 @@ public class ObjectPlacer : MonoBehaviour
         //Debug.Log("takeTile transform - " + transform);
         button.onClick.AddListener(() => takeTile.OnButtonClick(tile, ref idx));
         //tiles.RemoveAt(TileIndex);//usuniêcie p³ytki z g³ównego banku
+        Hand.Add(tile);
         LayoutElement le = newTile.AddComponent<LayoutElement>();//dodanie objektu do widoku
     }
 

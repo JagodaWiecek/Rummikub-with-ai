@@ -84,7 +84,7 @@ public class PlacementState : IPlacementState
     }
     private bool CheckTiles(Vector3Int gridPosition)
     {
-        Debug.Log("Check tiles tile: "); this.tile.ShowTiles();
+        //Debug.Log("Check tiles tile: "); this.tile.ShowTiles();
         return true;
     }
 
