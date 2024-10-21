@@ -75,9 +75,9 @@ public class PlacementState : IPlacementState
     }
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
-        bool tilesValidity = CheckTiles(gridPosition); //zwraca false jak s¹siedzi s¹ wbrew zasadom
+       // bool tilesValidity = ; //zwraca false jak s¹siedzi s¹ wbrew zasadom
         bool placementValidity = tileData.CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);//zwraca false jak nie mozna postawiæ
-        if (placementValidity && tilesValidity)
+        if (placementValidity && CheckTiles(gridPosition))
              return true;
         else return false;
         //return tileData.CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);
@@ -97,7 +97,10 @@ public class PlacementState : IPlacementState
         else
         {
             if (board.ContainsKey(plusjeden) && board.ContainsKey(minusjeden))//jedna karta bo obu stronach lub dwie
-            { //karty po obu stronach
+            { //if(board.ContainsKey(plusdwa) && board.ContainsKey(minusdwa))
+              //else if(board.ContainsKey(plusdwa))
+              //else if(board.ContainsKey(minusdwa))
+              //else Do tylko dwie karty do sprawdzenia
                 return false;
             }
 
@@ -115,21 +118,31 @@ public class PlacementState : IPlacementState
                        this.tile.GetColor() == board[plusdwa].GetColor() ) ||
                        (board[plusdwa].getNumber() == 30 && board[plusjeden].getNumber() != 13))))
                     {
-                      // Debug.Log(GameController.Instance.GetBoardDictionary().board[plusdwa].getNumber() == 30 && this.tile.getNumber() != 12) ;
-                        //return true;
+                     
                         Vector3Int plustrzy = new Vector3Int(gridPosition.x + 3, gridPosition.y, gridPosition.z);
-                        Vector3Int pluscztery = new Vector3Int(gridPosition.x + 4, gridPosition.y, gridPosition.z);
-                       // if (board.ContainsKey(plustrzy) && board.ContainsKey(pluscztery))
-                       // {
-                            //if (!(board[plustrzy].getNumber() == this.tile.getNumber() && board[pluscztery].getNumber() == this.tile.getNumber()) ||
-                             //   !(board[plustrzy].GetColor() == board[pluscztery].GetColor())) return false;
-                            
-                       // }
-                       // if(board.ContainsKey(plustrzy))
-                       // {
-                       //     if(board[plustrzy].getNumber() != this.tile.getNumber() && board[plustrzy].GetColor()==this.tile.GetColor()) return false;
-                        //    else if((board[plustrzy].getNumber()+3) != this.tile.getNumber() && board[plustrzy].GetColor()==this.tile.GetColor()) return false;
-                       // }
+                        //Vector3Int pluscztery = new Vector3Int(gridPosition.x + 4, gridPosition.y, gridPosition.z);
+                        if (board.ContainsKey(plustrzy))
+                        {
+                            if (((this.tile.getNumber() + 3) == board[plustrzy].getNumber() && this.tile.GetColor() == board[plustrzy].GetColor()) ||
+                                 board[plustrzy].getNumber() == 30)
+                            {
+                                Vector3Int pluscztery = new Vector3Int(gridPosition.x + 4, gridPosition.y, gridPosition.z);
+                                if (board.ContainsKey(pluscztery)) 
+                                {
+                                    if (((this.tile.getNumber() + 4) == board[pluscztery].getNumber() && this.tile.GetColor() == board[pluscztery].GetColor()) ||
+                                            board[plustrzy].getNumber() == 30) return true;
+                                    else return false;
+                                }
+                            }
+                            else if((this.tile.getNumber() == board[plustrzy].getNumber() && this.tile.GetColor() != board[plustrzy].GetColor()) ||
+                                board[plustrzy].getNumber() == 30)
+                            {
+                                Vector3Int pluscztery = new Vector3Int(gridPosition.x + 4, gridPosition.y, gridPosition.z);
+                                if(board.ContainsKey(pluscztery)) return false;
+                                 
+                            }
+                            else return false;
+                        }
                         return true;
                     }//te same cyfry, ró¿ne kolory
                     else if (((this.tile.getNumber() == board[plusjeden].getNumber() &&
@@ -199,17 +212,32 @@ public class PlacementState : IPlacementState
                        (board[minusdwa].getNumber() == 30 && board[minusjeden].getNumber() != 1)))
                     {
                         Vector3Int minustrzy = new Vector3Int(gridPosition.x - 3, gridPosition.y, gridPosition.z);
-                        Vector3Int minuscztery = new Vector3Int(gridPosition.x - 4, gridPosition.y, gridPosition.z);
-                        if (board.ContainsKey(minustrzy) && board.ContainsKey(minuscztery))
-                        {
-                            if ((board[minustrzy].getNumber() != this.tile.getNumber() && board[minuscztery].getNumber() != this.tile.getNumber()) ||
-                                (board[minustrzy].GetColor() != board[minuscztery].GetColor())) return false;
+                        //Vector3Int minuscztery = new Vector3Int(gridPosition.x - 4, gridPosition.y, gridPosition.z);
 
-                        }
-                        else if(board.ContainsKey(minustrzy))
+                        if(board.ContainsKey(minustrzy))
                         {
-                            if(board[minustrzy].getNumber() != this.tile.getNumber() && board[minustrzy].GetColor() == this.tile.GetColor()) return false;
-                            if((board[minustrzy].getNumber()-3) != this.tile.getNumber() && board[minustrzy].GetColor() == this.tile.GetColor()) return false;
+                            if(((this.tile.getNumber() - 3)== board[minustrzy].getNumber() && this.tile.GetColor() == board[minustrzy].GetColor()) ||
+                                board[minustrzy].getNumber() == 30)
+                            {
+                                //return true;
+                                Vector3Int minuscztery = new Vector3Int(gridPosition.x - 4, gridPosition.y, gridPosition.z);
+                                if (board.ContainsKey(minuscztery))
+                                {
+                                    if(((this.tile.getNumber() - 4) == board[minuscztery].getNumber() && this.tile.GetColor() == board[minuscztery].GetColor()) ||
+                                        board[minuscztery].getNumber() == 30) return true;
+                                    else return false;
+                                }
+                            }
+                            else if((this.tile.getNumber() == board[minustrzy].getNumber() &&
+                                    this.tile.GetColor() != board[minustrzy].GetColor()) ||
+                                    board[minustrzy].getNumber() == 30)
+                            {
+                                 //return true;
+                                Vector3Int minuscztery = new Vector3Int(gridPosition.x - 4, gridPosition.y, gridPosition.z);
+                                if (board.ContainsKey(minuscztery))
+                                 return false;
+                            }
+                            else return false;
                         }
                         return true;
                     }
