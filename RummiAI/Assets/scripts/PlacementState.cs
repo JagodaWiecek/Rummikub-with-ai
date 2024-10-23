@@ -94,11 +94,77 @@ public class PlacementState : IPlacementState
         {
             if(board.ContainsKey(plusjeden) && board.ContainsKey(minusjeden))
             {
-                return false; //Obie strony maj¹ jakieœ p³ytki
-                              //if(board.ContainsKey(plusdwa) && board.ContainsKey(minusdwa))
-                              //else if(board.ContainsKey(plusdwa))
-                              //else if(board.ContainsKey(minusdwa))
-                              //else Do tylko dwie karty do sprawdzenia
+               // return false; //Obie strony maj¹ jakieœ p³ytki
+                if(board.ContainsKey(plusdwa) && board.ContainsKey(minusdwa))
+                {
+                    if((((board[plusdwa].getNumber() - 1) == board[plusjeden].getNumber() && board[plusjeden].GetColor()== board[plusdwa].GetColor()) ||
+                        (board[plusjeden].getNumber() == 30 || board[plusdwa].getNumber() == 30)) &&
+                        (((board[minusdwa].getNumber() + 1) == board[minusjeden].getNumber() && board[minusjeden].GetColor() == board[minusdwa].GetColor()) ||
+                        (board[minusjeden].getNumber() == 30 || board[minusdwa].getNumber() == 30)))
+                    {
+                        return true;
+                    }
+                    else return false;
+                    
+                }
+                else if(board.ContainsKey(plusdwa))
+                {
+                    if( (( (board[plusdwa].getNumber() - 1) == board[plusjeden].getNumber() && board[plusjeden].GetColor() == board[plusdwa].GetColor()) ||
+                        (board[plusjeden].getNumber() == 30 || board[plusdwa].getNumber() == 30)) &&
+                          (((board[minusjeden].getNumber() + 2) == board[plusjeden].getNumber() && board[plusjeden].GetColor() == board[minusjeden].GetColor()) ||
+                        (board[minusjeden].getNumber() == 30 || board[plusjeden].getNumber() == 30)))
+                    {
+                        return true; 
+                    }
+                    else if ((board[plusjeden].getNumber() == board[plusdwa].getNumber() || (board[plusjeden].getNumber() == 30 || board[plusdwa].getNumber() == 30)) &&
+                            (board[plusjeden].getNumber() == board[minusjeden].getNumber() || (board[plusjeden].getNumber() == 30 || board[minusjeden].getNumber() == 30)) &&
+                            (board[minusjeden].getNumber() == board[plusdwa].getNumber() || (board[minusjeden].getNumber() == 30 || board[plusdwa].getNumber() == 30)) &&
+                            board[plusjeden].GetColor() != board[plusdwa].GetColor() &&
+                            board[minusjeden].GetColor() != board[plusdwa].GetColor() &&
+                            board[plusjeden].GetColor() != board[minusjeden].GetColor())
+                    {
+                        //return false;
+                        Vector3Int plustrzy = new Vector3Int(gridPosition.x + 3, gridPosition.y, gridPosition.z);
+                        if(board.ContainsKey(plustrzy)) return false;
+                        else return true;
+                    }
+                }
+                else if(board.ContainsKey(minusdwa))
+                {
+                    if ((((board[minusdwa].getNumber() + 3) == board[plusjeden].getNumber() && board[plusjeden].GetColor() == board[minusdwa].GetColor()) ||
+                            (board[plusjeden].getNumber() == 30 || board[minusdwa].getNumber() == 30)) &&
+                            (((board[minusjeden].getNumber() + 2) == board[plusjeden].getNumber() && board[plusjeden].GetColor() == board[minusjeden].GetColor()) ||
+                            (board[minusjeden].getNumber() == 30 || board[plusjeden].getNumber() == 30)))
+                    {
+                        return true;
+                    }
+                    else if ((board[plusjeden].getNumber() == board[minusdwa].getNumber() || (board[plusjeden].getNumber() == 30 || board[minusdwa].getNumber() == 30)) &&
+                            (board[plusjeden].getNumber() == board[minusjeden].getNumber() || (board[plusjeden].getNumber() == 30 || board[minusjeden].getNumber() == 30)) &&
+                            (board[minusjeden].getNumber() == board[minusdwa].getNumber() || (board[minusjeden].getNumber() == 30 || board[minusdwa].getNumber() == 30)) &&
+                            board[plusjeden].GetColor() != board[minusdwa].GetColor() &&
+                            board[minusjeden].GetColor() != board[minusdwa].GetColor() &&
+                            board[plusjeden].GetColor() != board[minusjeden].GetColor())
+                    {
+                        //return false;
+                        Vector3Int minustrzy = new Vector3Int(gridPosition.x - 3, gridPosition.y, gridPosition.z);
+                        if (board.ContainsKey(minustrzy)) return false;
+                        else return true;
+                    }
+                }
+                else
+                {
+                    if( ((board[minusjeden].getNumber() + 2) == board[plusjeden].getNumber() && board[plusjeden].GetColor() == board[minusjeden].GetColor()) ||
+                            (board[minusjeden].getNumber() == 30 || board[plusjeden].getNumber() == 30))
+                    {
+                        return true;
+                    }
+                    else if(board[plusjeden].getNumber() == board[minusjeden].getNumber() || (board[plusjeden].getNumber() == 30 || board[minusjeden].getNumber() == 30))
+                    {
+                        return true ;
+                    }
+                    else return false;
+                }
+                return false;
             }
             else if(board.ContainsKey(plusjeden))
             {
@@ -133,12 +199,28 @@ public class PlacementState : IPlacementState
                         }
                         return true;
                     }
-                    else if (board[plusjeden].getNumber() == board[plusdwa].getNumber() && board[plusjeden].GetColor() != board[plusdwa].GetColor())
+                    else if ((board[plusjeden].getNumber() == board[plusdwa].getNumber() || (board[plusjeden].getNumber()==30 || board[plusdwa].getNumber() ==30))
+                        && board[plusjeden].GetColor() != board[plusdwa].GetColor())
                     {
-                        Vector3Int pluscztery = new Vector3Int(gridPosition.x + 4, gridPosition.y, gridPosition.z);
-                        if (board.ContainsKey(pluscztery))
+                        Vector3Int plustrzy = new Vector3Int(gridPosition.x + 3, gridPosition.y, gridPosition.z);
+                        if (board.ContainsKey(plustrzy))
+                        {
+                            if ((board[plusjeden].getNumber() == board[plusdwa].getNumber() || (board[plusjeden].getNumber() == 30 || board[plusdwa].getNumber() == 30)) &&
+                                (board[plustrzy].getNumber() == board[plusdwa].getNumber() || (board[plustrzy].getNumber() == 30 || board[plusdwa].getNumber() == 30)) &&
+                                (board[plusjeden].getNumber() == board[plustrzy].getNumber() || (board[plusjeden].getNumber() == 30 || board[plustrzy].getNumber() == 30)) &&
+                                board[minusjeden].GetColor() != board[plusdwa].GetColor() &&
+                                board[plustrzy].GetColor() != board[plusdwa].GetColor() &&
+                                board[plusjeden].GetColor() != board[plustrzy].GetColor())
+                            {
+                                Vector3Int pluscztery = new Vector3Int(gridPosition.x + 4, gridPosition.y, gridPosition.z);
+                                if (board.ContainsKey(pluscztery))
 
-                            return false;
+                                    return false;
+                                else return true;
+                            }
+                            else return false;
+                        }
+                            
                         else return true;
                     }
                     else return false;
@@ -155,7 +237,7 @@ public class PlacementState : IPlacementState
                         //return true;
                         Vector3Int minustrzy = new Vector3Int(gridPosition.x - 3, gridPosition.y, gridPosition.z);
                         if (board.ContainsKey(minustrzy))
-                        { //(board[minusjeden].getNumber() == 30 || board[minusdwa].getNumber() == 30 || board[minustrzy].getNumber() == 30) ||
+                        { 
                             if ((board[minusjeden].getNumber() == (board[minustrzy].getNumber() + 2) || board[minusjeden].getNumber() == (board[minusdwa].getNumber() + 1) || (board[minusdwa].getNumber() == (board[minustrzy].getNumber() + 1)))
                                 && (board[minusjeden].getNumber() != 13 && board[minusdwa].getNumber() != 12))
                             {
@@ -177,12 +259,26 @@ public class PlacementState : IPlacementState
                         }
                         return true;
                     }
-                    else if (board[minusjeden].getNumber() == board[minusdwa].getNumber() && board[minusjeden].GetColor() != board[minusdwa].GetColor())
+                    else if ((board[minusjeden].getNumber() == board[minusdwa].getNumber() || (board[minusjeden].getNumber() == 30 || board[minusdwa].getNumber()==30) ) 
+                        && board[minusjeden].GetColor() != board[minusdwa].GetColor())
                     {
-                        Vector3Int minuscztery = new Vector3Int(gridPosition.x - 4, gridPosition.y, gridPosition.z);
-                        if (board.ContainsKey(minuscztery))
+                        Vector3Int minustrzy = new Vector3Int(gridPosition.x - 3, gridPosition.y, gridPosition.z);
+                        if (board.ContainsKey(minustrzy))
+                        {
+                            if ((board[minusjeden].getNumber() == board[minusdwa].getNumber()  || (board[minusjeden].getNumber() == 30 || board[minusdwa].getNumber() == 30) ) &&
+                                (board[minustrzy].getNumber() == board[minusdwa].getNumber() || (board[minustrzy].getNumber() == 30 || board[minusdwa].getNumber() == 30)) &&
+                                (board[minusjeden].getNumber() == board[minustrzy].getNumber() || (board[minusjeden].getNumber() == 30 || board[minustrzy].getNumber() == 30)) &&
+                                board[minusjeden].GetColor() != board[minusdwa].GetColor() &&
+                                board[minustrzy].GetColor() != board[minusdwa].GetColor() &&
+                                board[minusjeden].GetColor() != board[minustrzy].GetColor()) {
+                                    Vector3Int minuscztery = new Vector3Int(gridPosition.x - 4, gridPosition.y, gridPosition.z);
+                                    if (board.ContainsKey(minuscztery))
 
-                            return false;
+                                        return false;
+                                    else return true;
+                            }
+                            else return false;
+                        }
                         else return true;
                     }
                         //return true;
@@ -474,18 +570,10 @@ public class PlacementState : IPlacementState
             }
             else return true;
         }
-        //if(GameController.Instance.GetBoardDictionary().board.)
+        
     }
-    ///sprawdzenie czy ci¹g sk³ada siê z conajwyzej 4 p³ytek, z obu stron, z uwzglêdnieniem jokera
-    private bool TheSameNumber()
-    {
-        return true;
-    }
-    ///sprawdzenie czy ci¹g jest tylko z conajmniej dwóch kart, z obu stron, z uwzglêdnieniem jokera
-    private bool TheSameColor()
-    { 
-        return true ;
-    }
+
+
 
     public void UpdateState(Vector3Int gridPosition)
     {
