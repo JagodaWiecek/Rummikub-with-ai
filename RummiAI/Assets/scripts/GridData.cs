@@ -66,6 +66,22 @@ public class GridData
             placedObjects.Remove(pos);
         }
     }
+
+    internal void MoveObjectAt(Vector3Int newPosition, Vector3Int oldPosition,Vector2Int objectSize)
+    {
+        //AddObjectAt(oldPosition,this.)
+        PlacementData  data = placedObjects[oldPosition];
+        //Vector2Int objectSize = new Vector2Int(1,1);
+        AddObjectAt(newPosition, objectSize, placedObjects[oldPosition].ID, placedObjects[oldPosition].PlacedObjectIndex);
+        foreach (var pos in placedObjects[oldPosition].occupiecPositons)
+        {
+            placedObjects.Remove(pos);
+        }
+    }
+    public bool ContainsKey(Vector3Int position)
+    {
+        return placedObjects.ContainsKey(position);
+    }
 }
 public class PlacementData
 {

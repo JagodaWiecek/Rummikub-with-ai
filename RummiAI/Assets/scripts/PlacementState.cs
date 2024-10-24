@@ -77,7 +77,7 @@ public class PlacementState : IPlacementState
     {
        // bool tilesValidity = ; //zwraca false jak s¹siedzi s¹ wbrew zasadom
         bool placementValidity = tileData.CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);//zwraca false jak nie mozna postawiæ
-        if (placementValidity && CheckTiles(gridPosition))
+        if (placementValidity )//&& CheckTiles(gridPosition)
              return true;
         else return false;
         //return tileData.CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);
@@ -584,6 +584,12 @@ public class PlacementState : IPlacementState
             // cellIndicator.transform.position = grid.CellToWorld(gridPosition);
             previewSystem.UpdatePosition(grid.CellToWorld(gridPosition), placementValidity);
         }
+    }
+
+    public Vector3Int GetGridPosition()
+    {
+    
+        return Vector3Int.zero;
     }
 
 

@@ -82,6 +82,8 @@ public class GameController : MonoBehaviour
             //takeTile.takeNewTile();
         if (Input.GetKeyDown(KeyCode.Q))
             OnQKeyPressed();
+        if (Input.GetMouseButtonDown(1))
+            placementSystem.StartMowing();
     }
     
     void OnMouseDown()
