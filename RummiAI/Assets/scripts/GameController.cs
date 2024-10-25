@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
     private List<Tile> playerHand;//talia gracza
     private List<Tile> mrBot;
     private List<Tile> missBot;
-    private List<Tile> mrAI;
+    private List<Tile> ComputerPlayer;
 
    
     [SerializeField]
@@ -64,7 +64,7 @@ public class GameController : MonoBehaviour
         SetPlayersHand(ref this.tiles, ref this.playerHand);
         SetPlayersHand(ref this.tiles, ref this.mrBot);
         SetPlayersHand(ref this.tiles, ref this.missBot);
-        SetPlayersHand(ref this.tiles, ref this.mrAI);
+        SetPlayersHand(ref this.tiles, ref this.ComputerPlayer);
 
         //this.playerHand.Add(new(30, new UnityEngine.Color(0.5f, 0f, 0.5f), SetName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30.ToString(), "$", false));
         //this.playerHand.Add(new(30, UnityEngine.Color.magenta, SetName(UnityEngine.Color.magenta) + "_" + 30.ToString(), "$", false));
@@ -80,7 +80,7 @@ public class GameController : MonoBehaviour
 
         //if (Input.GetKeyDown(KeyCode.E))
             //takeTile.takeNewTile();
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.D))
             OnQKeyPressed();
         if (Input.GetMouseButtonDown(1))
             placementSystem.StartMowing();

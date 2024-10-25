@@ -12727,7 +12727,7 @@ Transform:
   m_GameObject: {fileID: 1424527996}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 20.099976, y: 0, z: 5.1000004}
+  m_LocalPosition: {x: 73.3, y: 0, z: 5.1000004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14456,7 +14456,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e73cded3be31e924c915ddbfa691e07e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tiles: []
+  playerHand: []
   placementSystem: {fileID: 1434540506}
+  boardDictionary: {fileID: 0}
+  boardList: []
   grid: {fileID: 1223401790}
 --- !u!1 &1618946268
 GameObject:
