@@ -78,6 +78,7 @@ public class ObjectPlacer : MonoBehaviour
             { 
                 //Debug.Log($"Tiles are the same {Hand[i].getTilename()}"); 
                 Hand.RemoveAt(i);
+                break;
             }
 
         }
