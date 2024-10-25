@@ -14,7 +14,7 @@ public class InputManager : MonoBehaviour
     [SerializeField]
     private LayerMask placementLayermask;
 
-    public event Action onClicked, onExit, moveClick;
+    public event Action onClicked, onExit, onMove;
 
     private void Update()
     {
@@ -24,8 +24,10 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)) { 
             onExit?.Invoke();
         }
-        //if(Input.GetMouseButtonDown(1))
-         //   moveClick?.Invoke();
+        if (Input.GetMouseButtonDown(1))
+        {
+            onMove?.Invoke();
+        }
     }
 
     public bool isPointerOverUI()
@@ -42,6 +44,15 @@ public class InputManager : MonoBehaviour
             lastPosition = hit.point;
         }
         return lastPosition;
+    }
+
+    public Vector3 GetMapPosition()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = sceneCamera.nearClipPlane;
+        Ray ray = sceneCamera.ScreenPointToRay(mousePos);
+        Vector3 position = ray.GetPoint(100);
+        return position;
     }
 
 

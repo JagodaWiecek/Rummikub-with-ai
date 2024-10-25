@@ -26,20 +26,20 @@ public class ObjectPlacer : MonoBehaviour
         // Debug.Log("position w objectPlacer - " + position);
         //Debug.Log("Tile put : "+ tile.GetPut());
         
-        gameObject.GetComponent<Tile>().setNumer(tile.getNumber());//ustawienie numeru klasy
-        gameObject.GetComponent<Tile>().setColor(tile.GetColor());//ustawienie koloru napisu
-        gameObject.GetComponent<Tile>().setTilename(tile.getTilename());
-        gameObject.GetComponent<Tile>().setSymbol(tile.getSymbol());
-        gameObject.GetComponent<Tile>().setPut(tile.GetPut());//
+        gameObject.GetComponent<Tile>().setNumer(tile.GetNumber());//ustawienie numeru klasy
+        gameObject.GetComponent<Tile>().SetColor(tile.GetColor());//ustawienie koloru napisu
+        gameObject.GetComponent<Tile>().SetTilename(tile.GetTilename());
+        gameObject.GetComponent<Tile>().SetSymbol(tile.GetSymbol());
+        gameObject.GetComponent<Tile>().SetPut(tile.GetPut());//
         gameObject.transform.SetParent(transform.parent.Find("PlacedTiles"));
-        gameObject.name = tile.getTilename();
+        gameObject.name = tile.GetTilename();
         TextMeshPro textComponent = gameObject.transform.Find("Object/Number_Color").GetComponent<TextMeshPro>();
         // Sprawdzanie, czy tileTest nie jest null
         if (textComponent == null)
         {
             Debug.LogError("Nie znaleziono komponentu TextMeshPro!");
         }
-        textComponent.text = tile.getSymbol(); //wpisanie na textmesh symbolu widocnego dla gracza
+        textComponent.text = tile.GetSymbol(); //wpisanie na textmesh symbolu widocnego dla gracza
         textComponent.color = tile.GetColor(); //ustawienie koloru dla symbolu
         //tile.setPut(true);
         placedGameObjects.Add(gameObject);
@@ -114,19 +114,30 @@ public class ObjectPlacer : MonoBehaviour
 
     }
 
+    internal void MoveObjectTo(int gameObjectIndex, Vector3 newPosition)
+    {
+        
+        if (placedGameObjects.Count <= gameObjectIndex ||
+            placedGameObjects[gameObjectIndex] == null)
+            return;
+
+        
+        placedGameObjects[gameObjectIndex].transform.position = newPosition;
+    }
+
     public void TakeBackTile(Tile tile)
     {
         List<Tile> Hand = GameController.Instance.GetPlayerHand();
         Transform transformObject = this.transform.parent.parent.Find("Canvas/Player_Deck/Hand");
         newTile = Instantiate(this.tilePrefab, new Vector3(0, 0, 0), Quaternion.identity);
         newTile.transform.SetParent(transformObject);//ustawienie hierarchi
-        newTile.GetComponent<Tile>().setNumer(tile.getNumber());//ustawienie numeru klasy
-        newTile.GetComponent<Tile>().setColor(tile.GetColor());//ustawienie koloru klasy
-        newTile.GetComponent<Tile>().setTilename(tile.getTilename());
-        newTile.GetComponent<Tile>().setSymbol(tile.getSymbol());
-        newTile.name = tile.getTilename();//ustawienie nazwy w hierarchi
+        newTile.GetComponent<Tile>().setNumer(tile.GetNumber());//ustawienie numeru klasy
+        newTile.GetComponent<Tile>().SetColor(tile.GetColor());//ustawienie koloru klasy
+        newTile.GetComponent<Tile>().SetTilename(tile.GetTilename());
+        newTile.GetComponent<Tile>().SetSymbol(tile.GetSymbol());
+        newTile.name = tile.GetTilename();//ustawienie nazwy w hierarchi
         TextMeshProUGUI textComponent = newTile.transform.Find("Object/Number_Color").GetComponent<TextMeshProUGUI>();//odwo³anie siê do dziecka objektu
-        textComponent.text = tile.getSymbol(); //wpisanie na textmesh symbolu widocnego dla gracza
+        textComponent.text = tile.GetSymbol(); //wpisanie na textmesh symbolu widocnego dla gracza
         textComponent.color = tile.GetColor(); //ustawienie koloru dla symbolu
 
         // Tile tile = new Tile(tiles[TileIndex].getNumber(), tiles[TileIndex].GetColor(), tiles[TileIndex].getTilename(), tiles[TileIndex].getSymbol(), tiles[TileIndex].getPut());

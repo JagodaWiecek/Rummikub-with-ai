@@ -7,4 +7,6 @@ public interface IPlacementState
     void UpdateState(Vector3Int gridPosition);
 
     Vector3Int GetGridPosition();
+
+    void SetGridPosition(Vector3Int gridPosition);
 }

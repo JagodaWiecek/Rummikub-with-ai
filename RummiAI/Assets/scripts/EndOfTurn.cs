@@ -23,7 +23,7 @@ public class EndOfTurn : MonoBehaviour
             //Debug.Log($"Key: {kvp.Key}, Value: {kvp.Value}");
             foreach (KeyValuePair<Vector3Int, Tile> tile in GameController.Instance.GetBoardDictionary().board)
             {
-                tile.Value.setPut(true);
+                tile.Value.SetPut(true);
             }
             // GameController.Instance.GetBoardDictionary().board
             GameController.Instance.NewTurn();

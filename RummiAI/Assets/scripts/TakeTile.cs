@@ -62,13 +62,13 @@ public class TakeTile : MonoBehaviour
         newTile = Instantiate(this.tilePrefab, new Vector3(0, 0, 0), Quaternion.identity);
 
         newTile.transform.SetParent(this.transform);//ustawienie hierarchi
-        newTile.GetComponent<Tile>().setNumer(tile.getNumber());//ustawienie numeru klasy
-        newTile.GetComponent<Tile>().setColor(tile.GetColor());//ustawienie koloru klasy
-        newTile.GetComponent<Tile>().setTilename(tile.getTilename());
-        newTile.GetComponent<Tile>().setSymbol(tile.getSymbol());
-        newTile.name = tile.getTilename();//ustawienie nazwy w hierarchi
+        newTile.GetComponent<Tile>().setNumer(tile.GetNumber());//ustawienie numeru klasy
+        newTile.GetComponent<Tile>().SetColor(tile.GetColor());//ustawienie koloru klasy
+        newTile.GetComponent<Tile>().SetTilename(tile.GetTilename());
+        newTile.GetComponent<Tile>().SetSymbol(tile.GetSymbol());
+        newTile.name = tile.GetTilename();//ustawienie nazwy w hierarchi
         TextMeshProUGUI textComponent = newTile.transform.Find("Object/Number_Color").GetComponent<TextMeshProUGUI>();//odwo³anie siê do dziecka objektu
-        textComponent.text = tile.getSymbol(); //wpisanie na textmesh symbolu widocnego dla gracza
+        textComponent.text = tile.GetSymbol(); //wpisanie na textmesh symbolu widocnego dla gracza
         textComponent.color = tile.GetColor(); //ustawienie koloru dla symbolu
 
         // Tile tile = new Tile(tiles[TileIndex].getNumber(), tiles[TileIndex].GetColor(), tiles[TileIndex].getTilename(), tiles[TileIndex].getSymbol(), tiles[TileIndex].getPut());
@@ -98,16 +98,16 @@ public class TakeTile : MonoBehaviour
             newTile = Instantiate(tilePrefab, new Vector3(0, 0, 0), Quaternion.identity);
             
             newTile.transform.SetParent(this.transform);//ustawienie hierarchi
-            newTile.GetComponent<Tile>().setNumer(tiles[TileIndex].getNumber());//ustawienie numeru klasy
-            newTile.GetComponent<Tile>().setColor(tiles[TileIndex].GetColor());//ustawienie koloru klasy
-            newTile.GetComponent<Tile>().setTilename(tiles[TileIndex].getTilename());
-            newTile.GetComponent<Tile>().setSymbol(tiles[TileIndex].getSymbol());
-            newTile.name = tiles[TileIndex].getTilename();//ustawienie nazwy w hierarchi
+            newTile.GetComponent<Tile>().setNumer(tiles[TileIndex].GetNumber());//ustawienie numeru klasy
+            newTile.GetComponent<Tile>().SetColor(tiles[TileIndex].GetColor());//ustawienie koloru klasy
+            newTile.GetComponent<Tile>().SetTilename(tiles[TileIndex].GetTilename());
+            newTile.GetComponent<Tile>().SetSymbol(tiles[TileIndex].GetSymbol());
+            newTile.name = tiles[TileIndex].GetTilename();//ustawienie nazwy w hierarchi
             TextMeshProUGUI textComponent = newTile.transform.Find("Object/Number_Color").GetComponent<TextMeshProUGUI>();//odwo³anie siê do dziecka objektu
-            textComponent.text = tiles[TileIndex].getSymbol(); //wpisanie na textmesh symbolu widocnego dla gracza
+            textComponent.text = tiles[TileIndex].GetSymbol(); //wpisanie na textmesh symbolu widocnego dla gracza
             textComponent.color = tiles[TileIndex].GetColor(); //ustawienie koloru dla symbolu
 
-            Tile tile = new Tile(tiles[TileIndex].getNumber(), tiles[TileIndex].GetColor(), tiles[TileIndex].getTilename(), tiles[TileIndex].getSymbol(), tiles[TileIndex].GetPut());
+            Tile tile = new Tile(tiles[TileIndex].GetNumber(), tiles[TileIndex].GetColor(), tiles[TileIndex].GetTilename(), tiles[TileIndex].GetSymbol(), tiles[TileIndex].GetPut());
             Button button = newTile.GetComponentInChildren<Button>();
             if (button == null)
             {

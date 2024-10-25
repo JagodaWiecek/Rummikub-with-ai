@@ -74,54 +74,37 @@ public class PlacementSystem : MonoBehaviour
 
     public void StartMowing()
     {
-        //Vector3 pozycja = inputManager.GetSelectedMapPosition();
-        // Vector3Int gridPosition = grid.WorldToCell(position);
-        // MoveStructure();
-        // Debug.Log($"pozycja na lewy przycisk myszy: {pozycja}");
-        //if (tileData.ContainsKey(gridPosition)) Debug.Log("Pozycja zawiera p³ytkê");
-        //else Debug.Log("Pozycja jest pusta");
-        //if() {
-        StopPlacement();
-        // Vector3 mousePosition = inputManager.GetLeftMousePosition();
-        gridVisualization.SetActive(true);
-        placementState = new MovingState(0, grid, preview, database, tileData, objectPlacer, tile, inputManager);
-        inputManager.onClicked += PlaceStructure;
-        // inputManager.moveClick += MoveStructure;
-        inputManager.onExit += StopPlacement;
 
+        StopPlacement();
+        //Vector3 Position = inputManager.GetMapPosition();
+        gridVisualization.SetActive(true);
+        placementState = new MovingState(0, grid, preview, database, tileData, objectPlacer, inputManager);
+        inputManager.onClicked += PlaceStructure;
+        inputManager.onExit += StopPlacement;
+        
         if (GameController.Instance != null)
         {
             //this.stopPlacement();
-            if (GameController.Instance.GetBoardDictionary().board.ContainsKey(placementState.GetGridPosition()) == true)
-                Debug.Log($"pozycja na lewy przycisk myszy jest zajêta: {placementState.GetGridPosition()}");
-            else
-            {
-                Debug.Log($"pozycja na lewy przycisk myszy NIE jest zajêta: {placementState.GetGridPosition()}");
+            if (GameController.Instance.GetBoardDictionary().board.ContainsKey(placementState.GetGridPosition()) == false)
+            { 
+                //Debug.Log($"pozycja na lewy przycisk myszy jest zajêta: {placementState.GetGridPosition()}");
+                //gridVisualization.SetActive(true);
                 StopPlacement();
             }
+
             
         }
         else
         {
             Debug.Log("Game controller nie jest zainicjowany w placement system");
         }
+
+        //Debug.Log($"pozycja myszki{Position}, i pozycja jej grida {grid.WorldToCell(Position)}");
         //if (placementState.CheckTile())
         // StopPlacement();
 
     }
-    private void MoveStructure()
-    {
-        if (inputManager.isPointerOverUI())
-        {
-            return;
-        }
-        Vector3 mousePosition = inputManager.GetSelectedMapPosition();
-        Vector3Int gridPosition = grid.WorldToCell(mousePosition);
-        //Debug.Log($"pozycja na lewy przycisk myszy: {mousePosition}");
-        //placementState.OnAction(gridPosition);
 
-        // StopPlacement();
-    }
     private void PlaceStructure()
     {
         if (inputManager.isPointerOverUI())
@@ -155,16 +138,15 @@ public class PlacementSystem : MonoBehaviour
         placementState = null;
     }
 
-    public delegate void StopPlacementDelegate();
-        
-
+   // public delegate void StopPlacementDelegate();
         
 
 
     private void Update()
     {
         if (placementState == null)
-            return; 
+            return;
+
         Vector3 mousePosition = inputManager.GetSelectedMapPosition();
         Vector3Int gridPosition = grid.WorldToCell(mousePosition);
        if(lastDetectedPosition != gridPosition)
@@ -172,6 +154,8 @@ public class PlacementSystem : MonoBehaviour
             placementState.UpdateState(gridPosition);
             lastDetectedPosition = gridPosition;
         }
+       // if (placementState is MovingState && placementState.GetGridPosition() == new Vector3Int(-20, -20, -20))
+       //     placementState.SetGridPosition(gridPosition);
 
     }
 }
