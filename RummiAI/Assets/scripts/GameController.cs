@@ -14,11 +14,16 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private List<Tile> tiles; //bank gry
+    //[SerializeField]
+   // private List<Tile> playerHand, playerHandCopy;//talia gracza
+    //private List<Tile> mrBot , mrBotCopy;
+   // private List<Tile> missBot, missBotCopy;
+    //private List<Tile> ComputerPlayer, ComputerPlayerCopy;
     [SerializeField]
-    private List<Tile> playerHand, playerHandCopy;//talia gracza
-    private List<Tile> mrBot , mrBotCopy;
-    private List<Tile> missBot, missBotCopy;
-    private List<Tile> ComputerPlayer, ComputerPlayerCopy;
+    Player player;
+    Player mrComputerPlayer;
+    Player missComputerPlayer;
+    Player ComputerPlayer;
 
    
     [SerializeField]
@@ -60,20 +65,26 @@ public class GameController : MonoBehaviour
         
         boardList = new();
         boardDictionary = new();
-        playerHandCopy = new();
-        mrBot = new();
-        missBot = new();
-        ComputerPlayer = new();
+        //playerHandCopy = new();
+       // mrBot = new();
+       // missBot = new();
+       // ComputerPlayer = new();
+        player = new();
         //ustawienie talii graczy
-        SetPlayersHand(ref this.tiles, ref this.playerHand);
-        SetPlayersHand(ref this.tiles, ref this.mrBot);
-        SetPlayersHand(ref this.tiles, ref this.missBot);
-        SetPlayersHand(ref this.tiles, ref this.ComputerPlayer);
+        //List<Tile> list = this.user.GetList();
+       // List<Tile> copyList = this.user.GetListCopy();
+      //  SetPlayersHand(ref this.tiles, ref this.playerHand);
+       // SetPlayersHand(ref this.tiles, ref this.mrBot);
+      //  SetPlayersHand(ref this.tiles, ref this.missBot);
+       // SetPlayersHand(ref this.tiles, ref this.ComputerPlayer);
+        //SetPlayersHand(ref this.tiles, ref list);
+        player.SetPlayersHand(ref this.tiles);
         //playerHandCopy = playerHand;
-        SetActualList(playerHand,ref playerHandCopy);
-        SetActualList(mrBot, ref mrBotCopy);
-        SetActualList(missBot, ref missBotCopy);
-        SetActualList(ComputerPlayer, ref ComputerPlayerCopy);
+       // SetActualList(playerHand,ref playerHandCopy);
+        //SetActualList(mrBot, ref mrBotCopy);
+        //SetActualList(missBot, ref missBotCopy);
+        //SetActualList(ComputerPlayer, ref ComputerPlayerCopy);
+        //SetActualList(list, ref copyList);
 
         //this.playerHand.Add(new(30, new UnityEngine.Color(0.5f, 0f, 0.5f), SetName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30.ToString(), "$", false));
         //this.playerHand.Add(new(30, UnityEngine.Color.magenta, SetName(UnityEngine.Color.magenta) + "_" + 30.ToString(), "$", false));
@@ -104,44 +115,17 @@ public class GameController : MonoBehaviour
     /// Funkcja do zwrócenia listy p³ytek na rêce gracza
     /// </summary>
     /// <returns>lista playerHand</returns>
-    public List<Tile> GetPlayerHand() { return this.playerHand; }
+    public List<Tile> GetPlayerHand() { return this.player.GetList(); }
     /// <summary>
     /// Funkcja do uzyskania kopii talii gracza, 
     /// </summary>
     /// <returns></returns>
-    public List<Tile> GetPlayerHandCopy(){ return this.playerHandCopy; }
+    public List<Tile> GetPlayerHandCopy(){ return this.player.GetListCopy(); }
 
-
-    /// <summary>
-    /// Getter zmienej klasy, mrBot
-    /// </summary>
-    /// <returns></returns>
-    public List<Tile> GetMrBotTiles() { return this.mrBot; }
-    /// <summary>
-    /// Getter zmienej klasy mrBotCopy
-    /// </summary>
-    /// <returns></returns>
-    public List<Tile> GetMrBotCopyTiles() { return this.mrBotCopy; }
-    /// <summary>
-    /// Getter zmienej klasy, missBot
-    /// </summary>
-    /// <returns></returns>
-    public List<Tile> GetMissBotTiles() { return this.missBot; }
-    /// <summary>
-    /// Getter zmienej klasy, missBotCopy
-    /// </summary>
-    /// <returns></returns>
-    public List<Tile> GetMissBotCopyTiles() { return this.missBotCopy; }
-    /// <summary>
-    /// Getter zmienej klasy, ComputerPlayer
-    /// </summary>
-    /// <returns></returns>
-    public List<Tile> GetComputerPlayerTiles() { return this.ComputerPlayer; }
-    /// <summary>
-    /// Getter zmienej klasy, ComputerPlayerCopy
-    /// </summary>
-    /// <returns></returns>
-    public List<Tile> GetComputerPlayerCopyTiles() { return this.ComputerPlayerCopy; }
+    public Player GetPlayer() { return this.player; }
+    public Player GetMrComputerPlayer() { return this.mrComputerPlayer; }
+    public Player GetMissComputerPlayer() { return this.missComputerPlayer; }
+    public Player GetComputerPlayer() { return this.ComputerPlayer; }
 
     /// <summary>
     /// Getter zmiennej klasowej, boardDictionary
@@ -210,7 +194,7 @@ public class GameController : MonoBehaviour
     /// <param name="playerHand">talia docelowa</param>
     void SetPlayersHand(ref List<Tile> tiles, ref List<Tile> playerHand)
     {
-        playerHand = new ();
+       // playerHand = new ();
         int TileIndex;
         for (int i =0;i< 14; i++)
         {
