@@ -172,7 +172,7 @@ public class Tile : MonoBehaviour
                     {
                         return true;
                     }
-                    else if (board[plusjeden].GetNumber() == board[minusjeden].GetNumber() || (board[plusjeden].GetNumber() == 30 || board[minusjeden].GetNumber() == 30))
+                    else if ((board[plusjeden].GetNumber() == board[minusjeden].GetNumber() && board[plusjeden].GetColor() != board[minusjeden].GetColor()) || (board[plusjeden].GetNumber() == 30 || board[minusjeden].GetNumber() == 30))
                     {
                         return true;
                     }
@@ -383,8 +383,8 @@ public class Tile : MonoBehaviour
                         return true;
                     }
                     if (((this.GetNumber() == board[plusjeden].GetNumber() && this.GetColor() != board[plusjeden].GetColor()) || (board[plusjeden].GetNumber() == 30))
-                        && (this.GetNumber() == board[minusjeden].GetNumber() && this.GetColor() != board[minusjeden].GetColor()) || (board[minusjeden].GetNumber() == 30) &&
-                        board[plusjeden].GetColor() != board[minusjeden].GetColor())
+                        && (((this.GetNumber() == board[minusjeden].GetNumber() && this.GetColor() != board[minusjeden].GetColor()) )|| (board[minusjeden].GetNumber() == 30)) &&
+                        ((board[plusjeden].GetColor() != board[minusjeden].GetColor())&& board[plusjeden].GetNumber()== board[minusjeden].GetNumber()))
                     {
                         return true;
                     }

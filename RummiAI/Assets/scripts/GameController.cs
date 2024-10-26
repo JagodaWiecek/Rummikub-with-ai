@@ -15,10 +15,10 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private List<Tile> tiles; //bank gry
     [SerializeField]
-    private List<Tile> playerHand;//talia gracza
-    private List<Tile> mrBot;
-    private List<Tile> missBot;
-    private List<Tile> ComputerPlayer;
+    private List<Tile> playerHand, playerHandCopy;//talia gracza
+    private List<Tile> mrBot , mrBotCopy;
+    private List<Tile> missBot, missBotCopy;
+    private List<Tile> ComputerPlayer, ComputerPlayerCopy;
 
    
     [SerializeField]
@@ -32,10 +32,10 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     Grid grid;
-    //Dictionary<Vector3Int, Tile> board = new();//istotne<x,0,z>
 
-    //private float temp =0;
-
+    /// <summary>
+    /// inicjuje instancje
+    /// </summary>
     private void Awake()
     {
         // Only one instance of object
@@ -57,72 +57,115 @@ public class GameController : MonoBehaviour
     {
         Debug.Log("Inicjacja Game Controller");
         SetTiles(ref this.tiles);
-        //Debug.Log("Bank ma: " + this.tiles.Count + " p³ytek");
         
         boardList = new();
         boardDictionary = new();
+        playerHandCopy = new();
+        mrBot = new();
+        missBot = new();
+        ComputerPlayer = new();
+        //ustawienie talii graczy
         SetPlayersHand(ref this.tiles, ref this.playerHand);
         SetPlayersHand(ref this.tiles, ref this.mrBot);
         SetPlayersHand(ref this.tiles, ref this.missBot);
         SetPlayersHand(ref this.tiles, ref this.ComputerPlayer);
+        //playerHandCopy = playerHand;
+        SetActualList(playerHand,ref playerHandCopy);
+        SetActualList(mrBot, ref mrBotCopy);
+        SetActualList(missBot, ref missBotCopy);
+        SetActualList(ComputerPlayer, ref ComputerPlayerCopy);
 
         //this.playerHand.Add(new(30, new UnityEngine.Color(0.5f, 0f, 0.5f), SetName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30.ToString(), "$", false));
         //this.playerHand.Add(new(30, UnityEngine.Color.magenta, SetName(UnityEngine.Color.magenta) + "_" + 30.ToString(), "$", false));
 
         Vector3Int position = new Vector3Int(0, 0, 0);
-        //Debug.Log(grid.CellToWorld(position));//(18.88, 0.05, 15.20)
-        //takeTile.SetStartTile();
 
     }
 
+
+    /// <summary>
+    /// Funkcja w³¹czaj¹ca siê co now¹ klatkê
+    /// </summary>
     void Update()
     {
 
-        //if (Input.GetKeyDown(KeyCode.E))
-            //takeTile.takeNewTile();
         if (Input.GetKeyDown(KeyCode.D))
-            OnQKeyPressed();
+            placementSystem.StartRemoving();
         if (Input.GetMouseButtonDown(1))
             placementSystem.StartMowing();
     }
     
-    void OnMouseDown()
-    {
-        Debug.Log("Dynamic object clicked!");
-    }
     /// <summary>
     /// Funkcja do zwrócenia ca³ej listy p³ytek
     /// </summary>
     /// <returns>lista tiles</returns>
-    public List<Tile> GetTiles()
-    {
-        return this.tiles;
-    }
+    public List<Tile> GetTiles() { return this.tiles; }
     /// <summary>
     /// Funkcja do zwrócenia listy p³ytek na rêce gracza
     /// </summary>
     /// <returns>lista playerHand</returns>
-    public List<Tile> GetPlayerHand()
-    {
-        return this.playerHand;
-    }
-    
+    public List<Tile> GetPlayerHand() { return this.playerHand; }
+    /// <summary>
+    /// Funkcja do uzyskania kopii talii gracza, 
+    /// </summary>
+    /// <returns></returns>
+    public List<Tile> GetPlayerHandCopy(){ return this.playerHandCopy; }
+
+
+    /// <summary>
+    /// Getter zmienej klasy, mrBot
+    /// </summary>
+    /// <returns></returns>
+    public List<Tile> GetMrBotTiles() { return this.mrBot; }
+    /// <summary>
+    /// Getter zmienej klasy mrBotCopy
+    /// </summary>
+    /// <returns></returns>
+    public List<Tile> GetMrBotCopyTiles() { return this.mrBotCopy; }
+    /// <summary>
+    /// Getter zmienej klasy, missBot
+    /// </summary>
+    /// <returns></returns>
+    public List<Tile> GetMissBotTiles() { return this.missBot; }
+    /// <summary>
+    /// Getter zmienej klasy, missBotCopy
+    /// </summary>
+    /// <returns></returns>
+    public List<Tile> GetMissBotCopyTiles() { return this.missBotCopy; }
+    /// <summary>
+    /// Getter zmienej klasy, ComputerPlayer
+    /// </summary>
+    /// <returns></returns>
+    public List<Tile> GetComputerPlayerTiles() { return this.ComputerPlayer; }
+    /// <summary>
+    /// Getter zmienej klasy, ComputerPlayerCopy
+    /// </summary>
+    /// <returns></returns>
+    public List<Tile> GetComputerPlayerCopyTiles() { return this.ComputerPlayerCopy; }
+
+    /// <summary>
+    /// Getter zmiennej klasowej, boardDictionary
+    /// </summary>
+    /// <returns></returns>
     public BoardDictionary GetBoardDictionary()
     {
         return this.boardDictionary;
     }
+    /// <summary>
+    /// Getter zmiennej klasowej, boardList
+    /// </summary>
+    /// <returns></returns>
+    public List<BoardDictionary> GetBoardDictionaryList()
+    {
+        return this.boardList;
+    }
+
+    /// <summary>
+    /// Dodanie nowego obiektu do listy boardList
+    /// </summary>
     public void NewTurn()
     {
-        //board.Clear();
         this.boardList.Add(GetBoardDictionary());
-        //this.boardList.ForEach
-        //KeyValuePair<Vector3Int, Tile> tile in GameController.Instance.GetBoardDictionary().board
-       // foreach (KeyValuePair < Vector3Int, Tile > tile in boardList[boardList.Count-1].board)
-       // {
-           // Debug.Log(tile.Key);
-           // tile.Value.ShowTiles();
-       // }
-
     }
 
     /// <summary>
@@ -195,10 +238,41 @@ public class GameController : MonoBehaviour
         //return "";
     }
 
-    void OnQKeyPressed()
+    /// <summary>
+    /// Skopiowanie zmiennych z jednej listy do drugiej
+    /// </summary>
+    /// <param name="original"> lista, z której zmienne s¹ kopiowane</param>
+    /// <param name="copy"> lista, do której s¹ kopiowane dane</param>
+    public void SetActualList( List<Tile> original, ref List<Tile> copy)
     {
-        placementSystem.StartRemoving();
+        copy.Clear();
+        foreach (Tile tile in original)
+        {
+            copy.Add(tile);
+        }
+
     }
+    /// <summary>
+    /// Odzyskanie danych z poprzedniej planszy
+    /// </summary>
+    public void RestoreBoard()
+    {
+        if (this.boardDictionary.board.Count != 0)
+        {
+            this.boardDictionary.board.Clear();
+            BoardDictionary bd = boardList[boardList.Count - 1];
+
+            foreach (var kvp in bd.board)
+            {
+                this.boardDictionary.board[kvp.Key] = kvp.Value;
+            }
+        }
+        else return;
+        //boardList
+    }
+
+    // public void ResetList()
+
 
 }
 

@@ -5,19 +5,23 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-
+/// <summary>
+/// Klasa s³u¿¹ca do stworzenia p³ytki jako obiekty 2D na mapie dla gracza
+/// </summary>
 public class TakeTile : MonoBehaviour
 {
 
-    public GameObject tilePrefab;//{ get; private set; }
-    public Transform parentTransform;
-    GameObject newTile = null;
+    public GameObject tilePrefab;/// szablon obiektu 
+    //public Transform parentTransform; //
+    GameObject newTile = null;///tworzony obiekt
 
     [SerializeField]
-    PlacementSystem ps;
+    PlacementSystem ps;/// referencja do obiektu z hierarchi do tworzenia obiektu 3D
+    
+    
 
 
-    // Start is called before the first frame update
+    ///Funkcja inicjuj¹ca siê jako pierwsza
     void Start()
     {
         //Debug.Log("inicjalizacja TakeTile");
@@ -25,12 +29,16 @@ public class TakeTile : MonoBehaviour
 
     }
 
-    // Update is called once per frame
+/*
+    ///Funkcja wykonuj¹ca siê regularnie
     void Update()
     {
 
-    }
+    }*/
 
+    /// <summary>
+    /// Funkcja do stworzenia talii p³ytek dla gracza na pocz¹tku gry
+    /// </summary>
     public void SetStartTile()
     {
         
@@ -54,11 +62,43 @@ public class TakeTile : MonoBehaviour
         else Debug.Log("Nie zainicjowamy GameController w TakeTile");
     }
 
+    /// <summary>
+    /// Funkcja do zresetowania zawartoœci talii gracza na ekranie
+    /// </summary>
+    /// <param name="tiles"> Lista zawieraj¹ca obiekty klasy Tile</param>
+    public void ResetHand(List<Tile> tiles)//g³ównie dla kopii
+    {
+        //this.transform.C
+        for (int i = this.transform.childCount - 1; i >= 0; i--) 
+        {
+            GameObject child = this.transform.GetChild(i).gameObject;
+            Destroy(child);
+        }
+        StartCoroutine(PutTiles(tiles));
+
+
+    }
+    /// <summary>
+    /// funkcja do ponownego postawienia p³ytek na bazie listy
+    /// </summary>
+    /// <param name="tiles"></param>
+    /// <returns></returns>
+    private IEnumerator PutTiles(List<Tile> tiles)
+    {
+        yield return new WaitForEndOfFrame();
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            Tile tile = tiles[i];
+            GetTileToHand(tile);
+        }
+    }
+
+    /// <summary>
+    /// Funkcja do storzenia obiektu w grze
+    /// </summary>
+    /// <param name="tile">zmienna do ustawienia komponentu obiektu</param>
     public void GetTileToHand(Tile tile)
     {
-      //  Debug.Log($"GetTileToHand: {this.newTile}");
-        //tile.ShowTiles();
-       // Debug.Log(tilePrefab);
         newTile = Instantiate(this.tilePrefab, new Vector3(0, 0, 0), Quaternion.identity);
 
         newTile.transform.SetParent(this.transform);//ustawienie hierarchi
@@ -71,7 +111,6 @@ public class TakeTile : MonoBehaviour
         textComponent.text = tile.GetSymbol(); //wpisanie na textmesh symbolu widocnego dla gracza
         textComponent.color = tile.GetColor(); //ustawienie koloru dla symbolu
 
-        // Tile tile = new Tile(tiles[TileIndex].getNumber(), tiles[TileIndex].GetColor(), tiles[TileIndex].getTilename(), tiles[TileIndex].getSymbol(), tiles[TileIndex].getPut());
         Button button = newTile.GetComponentInChildren<Button>();
         if (button == null)
         {
@@ -79,7 +118,6 @@ public class TakeTile : MonoBehaviour
         }
         int idx = newTile.transform.GetSiblingIndex();
         button.onClick.AddListener(() => OnButtonClick(tile,ref idx));
-        //tiles.RemoveAt(TileIndex);//usuniêcie p³ytki z g³ównego banku
         LayoutElement le = newTile.AddComponent<LayoutElement>();//dodanie objektu do widoku
     }
 
@@ -127,6 +165,7 @@ public class TakeTile : MonoBehaviour
         }
        
     }
+
     /// <summary>
     /// funkcja do uruchomienia funkcji po klikniêciu na objekt 2d
     /// </summary>

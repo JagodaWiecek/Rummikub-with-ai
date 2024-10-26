@@ -8,6 +8,9 @@ public class GridData
 {
     
     Dictionary<Vector3Int, PlacementData> placedObjects = new();
+    Dictionary<Vector3Int, PlacementData> placedObjectsCopy = new();
+
+    public Dictionary<Vector3Int, PlacementData> GetDictionary() {  return placedObjects; }
 
     public void AddObjectAt(Vector3Int gridPosition,
                             Vector2Int objectSize,

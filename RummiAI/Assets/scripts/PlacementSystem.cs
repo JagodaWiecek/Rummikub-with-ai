@@ -158,4 +158,6 @@ public class PlacementSystem : MonoBehaviour
        //     placementState.SetGridPosition(gridPosition);
 
     }
+
+    public GridData GetGridData() { return this.tileData; }
 }

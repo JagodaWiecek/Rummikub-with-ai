@@ -15,9 +15,45 @@ public class ObjectPlacer : MonoBehaviour
     private List<GameObject> placedGameObjects = new();
 
     [SerializeField]
+    private List<GameObject> placedGameObjectsCopy = new();
+
+    [SerializeField]
     private GameObject tilePrefab;
     GameObject newTile = null;
+    
+    public void ClearplacedGameObjects()
+    {
+        placedGameObjects.Clear(); 
+    }
+    public void SetPlacedGameObjectsCopy()
+    {
+        placedGameObjectsCopy.Clear();
+        foreach (GameObject gameObject in placedGameObjects)
+        {
+            placedGameObjectsCopy.Add(gameObject);
+        }
+        //placedGameObjectsCopy = placedGameObjects;
+    }
+    public List<GameObject> GetplacedGameObjects()
+    {
+        return this.placedGameObjects;
+    }
+    public List<GameObject> GetplacedGameObjectsCopy()
+    {
+        return this.placedGameObjectsCopy;
+    }
 
+    public bool ListAreEqual()
+    {
+        if (this.placedGameObjects.Count != this.placedGameObjectsCopy.Count)
+            return false;
+        for (int i = 0; i < this.placedGameObjects.Count; i++) 
+        {
+            if (placedGameObjects[i] != placedGameObjectsCopy[i])
+                return false;
+        }
+        return true;
+    }
     public int PlacedObject(GameObject prefab, Vector3 position, ref Tile tile, Grid grid,int index)
     {
         GameObject gameObject = Instantiate(prefab);
@@ -158,5 +194,40 @@ public class ObjectPlacer : MonoBehaviour
         LayoutElement le = newTile.AddComponent<LayoutElement>();//dodanie objektu do widoku
     }
 
+    public int CreateObject(GameObject prefab, Vector3 position, ref Tile tile, Grid grid)
+    {
+        GameObject gameObject = Instantiate(prefab);
+        gameObject.transform.position = position;
+
+
+        gameObject.GetComponent<Tile>().setNumer(tile.GetNumber());//ustawienie numeru klasy
+        gameObject.GetComponent<Tile>().SetColor(tile.GetColor());//ustawienie koloru napisu
+        gameObject.GetComponent<Tile>().SetTilename(tile.GetTilename());
+        gameObject.GetComponent<Tile>().SetSymbol(tile.GetSymbol());
+        gameObject.GetComponent<Tile>().SetPut(tile.GetPut());//
+        gameObject.transform.SetParent(transform.parent.Find("PlacedTiles"));
+        gameObject.name = tile.GetTilename();
+        TextMeshPro textComponent = gameObject.transform.Find("Object/Number_Color").GetComponent<TextMeshPro>();
+        // Sprawdzanie, czy tileTest nie jest null
+        if (textComponent == null)
+        {
+            Debug.LogError("Nie znaleziono komponentu TextMeshPro!");
+        }
+        textComponent.text = tile.GetSymbol(); //wpisanie na textmesh symbolu widocnego dla gracza
+        textComponent.color = tile.GetColor(); //ustawienie koloru dla symbolu
+       
+        placedGameObjects.Add(gameObject);
+        if (GameController.Instance != null)
+        {
+            Vector3Int positionofGrid = grid.WorldToCell(position);
+            GameController.Instance.GetBoardDictionary().AddObjectAt(positionofGrid, tile);
+
+            //GameController.Instance.GetBoardDictionary().ReturnTileInDirectory(positionofGrid).ShowTiles();
+        }
+        else Debug.LogError("Nie znaleziono GameControllerInstance w ObjectPlacer!");
+
+
+        return placedGameObjects.Count - 1;
+    }
 
 }
