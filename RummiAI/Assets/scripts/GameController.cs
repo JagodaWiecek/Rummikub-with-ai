@@ -98,7 +98,7 @@ public class GameController : MonoBehaviour
        // Vector3 maxRange = grid.CellToWorld(new Vector3Int(8,0,2));
         if (Input.GetKeyDown(KeyCode.D))
             placementSystem.StartRemoving();
-        if (Input.GetMouseButtonDown(1) )//&& IsPositionInRange(position, minRange, maxRange)
+        if (Input.GetMouseButtonDown(1) && !placementSystem.GetInputManager().isPointerOverUI())
             placementSystem.StartMowing();
     }
     public bool IsPositionInRange(Vector3 position, Vector3 minRange, Vector3 maxRange)

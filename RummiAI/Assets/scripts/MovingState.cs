@@ -19,7 +19,7 @@ public class MovingState : IPlacementState
     /// Konstruktor klasy MovingState, 
     /// klasa s³ó¿y do przesuwania istniej¹cych p³ytek 3d na mapie
     /// </summary>
-    /// <param name="iD"></param>
+    /// <param name="iD">ID obiektu w bazie danych do poprawnego po³o¿enia obiektu na mapie</param>
     /// <param name="grid"></param>
     /// <param name="previewSystem"></param>
     /// <param name="database"></param>
@@ -88,8 +88,6 @@ public class MovingState : IPlacementState
          else return;
  
         Vector3 cellPosition = grid.CellToWorld(gridPosition);
-        //Debug.Log("gridPosition on remove" + gridPosition);
-        //previewSystem.UpdatePosition(cellPosition, CheckIfSelectionIsValid(gridPosition));
 
     }
     private bool CheckIfSelectionIsValid(Vector3Int gridPosition)
@@ -99,9 +97,21 @@ public class MovingState : IPlacementState
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
          bool placementValidity = tileData.CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);//zwraca false jak nie mozna postawiæ
-        if (placementValidity && this.tile.CheckTileValidity(gridPosition))//
+        if (placementValidity && this.tile.CheckTileValidity(gridPosition) )//|| CheckPreviousPosition(gridPosition, this.previousPosition)
             return true;
         else return false;
+    }
+    //Do naprawienia bo ³amie zasady ale bêdzie potrzebna przy przesuwaniu
+    private bool CheckPreviousPosition(Vector3Int gridPosition, Vector3Int previousPosition)
+    {
+        Vector3Int plusjeden = new Vector3Int(gridPosition.x + 1, gridPosition.y, gridPosition.z);
+        Vector3Int minusjeden = new Vector3Int(gridPosition.x -1, gridPosition.y, gridPosition.z);
+        if (gridPosition.x + 1 == previousPosition.x && !GameController.Instance.GetBoardDictionary().board.ContainsKey(minusjeden))//k³adzione po lewej
+            return true;
+        else if (gridPosition.x - 1 == previousPosition.x && !GameController.Instance.GetBoardDictionary().board.ContainsKey(plusjeden))
+            return true;
+        else if(gridPosition.x + 1 != previousPosition.x && gridPosition.x - 1 != previousPosition.x) return true;
+        return false;
     }
 
     public void UpdateState(Vector3Int gridPosition)
@@ -111,7 +121,6 @@ public class MovingState : IPlacementState
         if (gridPosition.x > -10 && gridPosition.x < 9 && gridPosition.z > -5 && gridPosition.z < 3)
         {
             previewSystem.UpdatePosition(grid.CellToWorld(gridPosition), placementValidity);
-            //Debug.Log($"Pozycja grida updateState - {gridPosition}");
         }
     }
 

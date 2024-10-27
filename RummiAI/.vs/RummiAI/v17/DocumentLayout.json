@@ -3,20 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\inputmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\inputmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\taketile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\taketile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|c:\\users\\jwiec\\desktop\\rummikub-with-ai\\rummiai\\assets\\scripts\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\movingstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\movingstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\tile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\tile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\objectplacer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\objectplacer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\placementsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -31,7 +27,19 @@
       "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\placementstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|c:\\users\\jwiec\\desktop\\rummikub-with-ai\\rummiai\\assets\\scripts\\removingstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\taketile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\taketile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\removingstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\removingstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -39,24 +47,8 @@
       "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\turncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\tile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\tile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\objectplacer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\objectplacer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\griddata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\griddata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\draggable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\draggable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -70,7 +62,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 8,
               "Title": "TakeTile.cs",
               "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\TakeTile.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\TakeTile.cs",
@@ -79,18 +71,17 @@
               "ViewState": "AQIAAD8AAAAAAAAAAAAowFQAAAApAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-08T15:18:59.956Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "GameController.cs",
               "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\GameController.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\GameController.cs",
               "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\GameController.cs",
               "RelativeToolTip": "Assets\\scripts\\GameController.cs",
-              "ViewState": "AQIAAE0AAAAAAAAAAAAcwGUAAAAMAAAA",
+              "ViewState": "AQIAAFQAAAAAAAAAAAAUwGUAAAAqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-07T16:26:53.003Z",
               "IsPinned": true,
@@ -98,7 +89,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "TurnController.cs",
               "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\TurnController.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\TurnController.cs",
@@ -107,38 +98,11 @@
               "ViewState": "AQIAAHwAAAAAAAAAAAASwD8AAAAPAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-25T18:44:28.402Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "RemovingState.cs",
-              "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\RemovingState.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\RemovingState.cs",
-              "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\RemovingState.cs",
-              "RelativeToolTip": "Assets\\scripts\\RemovingState.cs",
-              "ViewState": "AQIAAEoAAAAAAAAAAAAIwFcAAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T16:50:47.59Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MovingState.cs",
-              "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\MovingState.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\MovingState.cs",
-              "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\MovingState.cs",
-              "RelativeToolTip": "Assets\\scripts\\MovingState.cs",
-              "ViewState": "AQIAAEIAAAAAAAAAAAA0wGYAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-17T14:43:17.139Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "PlacementState.cs",
               "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\PlacementState.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\PlacementState.cs",
@@ -151,20 +115,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 1,
               "Title": "Tile.cs",
               "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\Tile.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\Tile.cs",
               "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\Tile.cs",
               "RelativeToolTip": "Assets\\scripts\\Tile.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAiwAgAAAARAAAA",
+              "ViewState": "AQIAAGkAAAAAAAAAAAAiwIIAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-06T11:34:05.366Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "BoardDictionary.cs",
               "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\BoardDictionary.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\BoardDictionary.cs",
@@ -185,12 +149,11 @@
               "RelativeToolTip": "Assets\\scripts\\GridData.cs",
               "ViewState": "AQIAAAMAAAAAAAAAAAAAAA8AAABCAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-15T08:33:12.032Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-15T08:33:12.032Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "PlacementSystem.cs",
               "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\PlacementSystem.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\PlacementSystem.cs",
@@ -203,54 +166,54 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "InputManager.cs",
-              "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\InputManager.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\InputManager.cs",
-              "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\InputManager.cs",
-              "RelativeToolTip": "Assets\\scripts\\InputManager.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAqAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-09T16:01:45.575Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 2,
               "Title": "ObjectPlacer.cs",
               "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\ObjectPlacer.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\ObjectPlacer.cs",
               "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\ObjectPlacer.cs",
               "RelativeToolTip": "Assets\\scripts\\ObjectPlacer.cs",
-              "ViewState": "AQIAAB0AAAAAAAAAAAAQwDQAAAAmAAAA",
+              "ViewState": "AQIAAAwAAAAAAAAAAADwvzQAAAAmAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-17T12:32:44.022Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 6,
               "Title": "Player.cs",
               "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\Player.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\Player.cs",
               "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\Player.cs",
               "RelativeToolTip": "Assets\\scripts\\Player.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAhAAAA",
+              "ViewState": "AQIAABoAAAAAAAAAAAAIwAcAAAAhAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-26T18:50:02.935Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "Draggable.cs",
-              "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\Draggable.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\Draggable.cs",
-              "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\Draggable.cs",
-              "RelativeToolTip": "Assets\\scripts\\Draggable.cs",
-              "ViewState": "AQIAADYAAAAAAAAAAAAowEwAAAAtAAAA",
+              "DocumentIndex": 0,
+              "Title": "MovingState.cs",
+              "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\MovingState.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\MovingState.cs",
+              "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\MovingState.cs",
+              "RelativeToolTip": "Assets\\scripts\\MovingState.cs",
+              "ViewState": "AQIAAFoAAAAAAAAAAAAAwHYAAABbAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-25T15:38:52.626Z"
+              "WhenOpened": "2024-10-17T14:43:17.139Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "RemovingState.cs",
+              "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\RemovingState.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\RemovingState.cs",
+              "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\RemovingState.cs",
+              "RelativeToolTip": "Assets\\scripts\\RemovingState.cs",
+              "ViewState": "AQIAAEoAAAAAAAAAAAAIwFcAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-27T16:50:47.59Z"
             }
           ]
         }

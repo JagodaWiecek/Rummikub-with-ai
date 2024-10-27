@@ -16,7 +16,9 @@ public class InputManager : MonoBehaviour
 
     public event Action onClicked, onExit;
 
-
+    /// <summary>
+    /// funkcja wykonuj¹ca siê co ka¿d¹ klatkê
+    /// </summary>
     private void Update()
     {
         if (Input.GetMouseButtonDown(0)) { 
@@ -26,10 +28,17 @@ public class InputManager : MonoBehaviour
             onExit?.Invoke();
         }
     }
-
+    /// <summary>
+    /// funkcja s³u¿¹ca sprawdzeniu czy kursor wykonuj¹cy akcje znajduje siê nad ui czy te¿ nie
+    /// </summary>
+    /// <returns>zwraca zmienn¹ bool, jeœli kursor bêdzie zwrócony na ui to true, w innym przypadku false</returns>
     public bool isPointerOverUI()
         => EventSystem.current.IsPointerOverGameObject();
 
+    /// <summary>
+    /// Przekazanie pozycji myszki w zale¿noœci od tego, czy wystzrelony promieñ ray uderzy³ w obiekt czy nie
+    /// </summary>
+    /// <returns>jeœli obiekt zosta³ wykryty to zwróci pozycjê obiektu, w innym przypadku zwróci poprzedni¹ pozycje</returns>
     public Vector3 GetSelectedMapPosition()
     {
         Vector3 mousePos = Input.mousePosition;

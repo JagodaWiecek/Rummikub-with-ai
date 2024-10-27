@@ -64,12 +64,23 @@ public class Tile : MonoBehaviour
     {
         this.tilename = tilename;
     }
+    /// <summary>
+    /// setter dla zmiennej klasowej "symbol"
+    /// </summary>
+    /// <param name="symbol"> zmienna typu string, która jest istotna przy tworzeniu wizualnej czêœci gry</param>
     public void SetSymbol(string symbol)
     {
         this.symbol = symbol;
     }
+    /// <summary>
+    /// Setter dla zmiennej klasowej "put"
+    /// </summary>
+    /// <param name="put">zmienna istotna przy zachowaniu zasad gry</param>
     public void SetPut(bool put) { this.put = put; }
-
+    /// <summary>
+    /// Getter zmiennej number
+    /// </summary>
+    /// <returns>zmienna typu int</returns>
     public int GetNumber() { return this.number; }
     public UnityEngine.Color GetColor() { return this.numberColor; }
     public string GetTilename() { return this.tilename; }
@@ -80,7 +91,10 @@ public class Tile : MonoBehaviour
     {
         return this;
     }
-
+    /// <summary>
+    /// Funkcja kopiuj¹ca zawartoœæ jednego obiektu do drugiego
+    /// </summary>
+    /// <param name="existingTile">Istniej¹cy obiekt klasy Tile</param>
     public Tile(Tile existingTile)
     {
         this.number = existingTile.GetNumber();
@@ -89,7 +103,12 @@ public class Tile : MonoBehaviour
         this.symbol = existingTile.GetSymbol();
         this.put = existingTile.GetPut();
     }
-
+    /// <summary>
+    /// Funkcja s³u¿¹ca do porównania zawartoœci dwóch obiektów klasy
+    /// </summary>
+    /// <param name="tile">zmienna typu tile</param>
+    /// <param name="other">zmienna typu tile</param>
+    /// <returns></returns>
     public bool Equals(Tile tile ,Tile other)
     {
         if (tile.GetNumber() != other.GetNumber() || 
@@ -101,7 +120,11 @@ public class Tile : MonoBehaviour
         else 
             return true;
     }
-    
+    /// <summary>
+    /// Funkcja sprawdzaj¹ca wszystkie zasady gry, jakie k³adziona p³ytka musi spe³niaæ
+    /// </summary>
+    /// <param name="gridPosition"></param>
+    /// <returns></returns>
     public bool CheckTileValidity(Vector3Int gridPosition)
     {
 
