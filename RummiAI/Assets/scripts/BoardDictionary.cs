@@ -45,4 +45,50 @@ public class BoardDictionary : MonoBehaviour
     {
         this.board = new Dictionary<Vector3Int, Tile>();
     }
+
+    public bool AreEqual( Dictionary<Vector3Int, Tile> dictionary)
+    {
+        //this.board
+        if (this.board.Count != dictionary.Count)
+            return false;
+
+        //Tile tile = new();
+        foreach (var kvp in this.board)
+        {
+            if(!dictionary.ContainsKey(kvp.Key))
+                return false;
+
+            if (!this.board.TryGetValue(kvp.Key, out Tile value2))
+                return false;
+
+            
+            if (!kvp.Value.Equals(kvp.Value, value2))//EqualityComparer<Tile>.Default.Equals(kvp.Value, value2)
+                return false;
+        }
+
+        return true;
+        //return true;
+    }
+    /// <summary>
+    /// Funkcja do nadpisania zawartoœci s³ownika, zazwyczaj by odzyskaæ star¹ zawartoœæ
+    /// </summary>
+    /// <param name="copy">kopia wczeœniejszego s³ownika</param>
+    public void SaveDictionary(Dictionary<Vector3Int, Tile> copy)
+    {
+        board.Clear();
+        
+        foreach (var entry in copy)
+        {
+            board[entry.Key] = entry.Value;
+        }
+    }
+
+    public void SaveToAnotherDictionary(Dictionary<Vector3Int, Tile> board)
+    {
+       // this.board;
+        foreach (var entry in board)
+        {
+            this.board[entry.Key] = entry.Value;
+        }
+    }
 }

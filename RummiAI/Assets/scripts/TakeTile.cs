@@ -81,8 +81,8 @@ public class TakeTile : MonoBehaviour
     /// <summary>
     /// funkcja do ponownego postawienia p³ytek na bazie listy
     /// </summary>
-    /// <param name="tiles"></param>
-    /// <returns></returns>
+    /// <param name="tiles">Lista klasy Tiles</param>
+    /// <returns>wykonuje siê w korutynie</returns>
     private IEnumerator PutTiles(List<Tile> tiles)
     {
         yield return new WaitForEndOfFrame();
@@ -170,6 +170,7 @@ public class TakeTile : MonoBehaviour
     /// funkcja do uruchomienia funkcji po klikniêciu na objekt 2d
     /// </summary>
     /// <param name="tile"> zmienna do przekazania do innej klasy</param>
+    /// <param name="idx"> jest to indeks obiektu w hierarchi wy odwo³aæ siê do odpowiedniego obiektu po naciœniêciu przycisku</param>
     public void OnButtonClick(Tile tile,ref int idx)//
     {
         ps.StartPlacement(0, ref tile, ref idx);

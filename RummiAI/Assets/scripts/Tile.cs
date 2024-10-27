@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 [System.Serializable]
 
-///Klasa do reprezentacji 
+///Klasa do reprezentacji p³ytek w grze
 public class Tile : MonoBehaviour
 {
     // 4 colors, numers from 1 to 13
@@ -14,40 +14,55 @@ public class Tile : MonoBehaviour
     [SerializeField]
     private UnityEngine.Color numberColor;
     [SerializeField]
-    private string Tilename;
+    private string tilename;
     [SerializeField]
     private string symbol;
     [SerializeField]
     private bool put;
 
-
+    /// <summary>
+    /// Konstruktor klasy
+    /// </summary>
+    /// <param name="num">wprowadzany numer dla klasy</param>
+    /// <param name="col">kolor dla obiektu</param>
+    /// <param name="name">Jest istotna przy tworzeniu obiektów, ta zmienna oznacza nazwê dla obiektu w hierarchi</param>
+    /// <param name="symbol">zmienna do ustawienia na prefab przy tworzeniu obiektu na mapie</param>
+    /// <param name="put">zmienna do sprawdzenia czy mo¿na usun¹æ dany obiekt z mapy</param>
     public Tile(int num, UnityEngine.Color col, string name,string symbol, bool put)
     {
         this.number = num;
         this.numberColor = col;
-        this.Tilename = name;
+        this.tilename = name;
         this.symbol = symbol;
         this.put = put;
 
     }
-
+    /// <summary>
+    /// funkcja do sprawdzania poprawnoœci zawartoœci zmiennych klasy
+    /// </summary>
     public void ShowTiles()
     {
         //bool z = GetPut();
         Debug.Log("Tile: "+GetNumber()+" - "+ GetSymbol() + " - " +GetTilename() + " - "+ GetPut());
     }
 
-    public void setNumer(int numer)
-    {
-        this.number = numer; 
-    }
-    public void SetColor(UnityEngine.Color color)
-    {
-        this.numberColor = color;
-    }
+    /// <summary>
+    /// setter dla zmiennej klasowe numer
+    /// </summary>
+    /// <param name="numer">zmienna typu int do ustawienia</param>
+    public void setNumer(int numer) { this.number = numer; }
+    /// <summary>
+    /// setter dla zmiennej klasowe numberColor
+    /// </summary>
+    /// <param name="color">zmienna typu UnityEngine.Color do ustawienia</param>
+    public void SetColor(UnityEngine.Color color) {this.numberColor = color;}
+    /// <summary>
+    /// setter dla zmiennej klasowe tilename
+    /// </summary>
+    /// <param name="tilename"></param>
     public void SetTilename(string tilename)
     {
-        this.Tilename = tilename;
+        this.tilename = tilename;
     }
     public void SetSymbol(string symbol)
     {
@@ -57,7 +72,7 @@ public class Tile : MonoBehaviour
 
     public int GetNumber() { return this.number; }
     public UnityEngine.Color GetColor() { return this.numberColor; }
-    public string GetTilename() { return this.Tilename; }
+    public string GetTilename() { return this.tilename; }
     public string GetSymbol() {  return this.symbol; }
     public bool GetPut() { return this.put; }
 
@@ -70,7 +85,7 @@ public class Tile : MonoBehaviour
     {
         this.number = existingTile.GetNumber();
         this.numberColor = existingTile.GetColor();
-        this.Tilename = existingTile.GetTilename();
+        this.tilename = existingTile.GetTilename();
         this.symbol = existingTile.GetSymbol();
         this.put = existingTile.GetPut();
     }

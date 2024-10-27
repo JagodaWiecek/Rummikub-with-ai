@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static Unity.VisualScripting.Member;
+using static UnityEngine.GraphicsBuffer;
 
 public class GridData
 {
@@ -11,6 +13,9 @@ public class GridData
     Dictionary<Vector3Int, PlacementData> placedObjectsCopy = new();
 
     public Dictionary<Vector3Int, PlacementData> GetDictionary() {  return placedObjects; }
+    public Dictionary<Vector3Int, PlacementData> GetDictionaryCopy() {  return placedObjectsCopy; }
+
+   // public int placedObjects
 
     public void AddObjectAt(Vector3Int gridPosition,
                             Vector2Int objectSize,
@@ -84,6 +89,32 @@ public class GridData
     {
         return placedObjects.ContainsKey(position);
     }
+    /// <summary>
+    /// Funkcja do nadpisania zawartoœci kopii s³ownika oryginalnym s³ownikiem
+    /// </summary>
+    public void SaveCopyDictionary()
+    {
+        placedObjectsCopy.Clear();
+
+        // Przepisz ka¿dy element ze Ÿród³owego s³ownika do docelowego
+        foreach (var entry in placedObjects)
+        {
+            placedObjectsCopy[entry.Key] = entry.Value;
+        }
+    }
+    /// <summary>
+    /// Funkcja do nadpisania zawartoœci s³ownika zawartoœci¹ kopii
+    /// </summary>
+    public void SaveDictionary()
+    {
+        placedObjects.Clear();
+
+        // Przepisz ka¿dy element ze Ÿród³owego s³ownika do docelowego
+        foreach (var entry in placedObjectsCopy)
+        {
+            placedObjects[entry.Key] = entry.Value;
+        }
+    }
 }
 public class PlacementData
 {
@@ -100,6 +131,10 @@ public class PlacementData
         ID = iD;
         PlacedObjectIndex = placedObjectIndex;
     }
+
+    
+
+    
 
 }
 

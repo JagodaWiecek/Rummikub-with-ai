@@ -14,10 +14,12 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private List<Tile> tiles; //bank gry
-    //[SerializeField]
-   // private List<Tile> playerHand, playerHandCopy;//talia gracza
+    [SerializeField]
+    private List<Tile> playerHand;//talia gracza
+    [SerializeField]
+    private bool firstPlayersTurn;
     //private List<Tile> mrBot , mrBotCopy;
-   // private List<Tile> missBot, missBotCopy;
+    // private List<Tile> missBot, missBotCopy;
     //private List<Tile> ComputerPlayer, ComputerPlayerCopy;
     [SerializeField]
     Player player;
@@ -70,26 +72,18 @@ public class GameController : MonoBehaviour
        // missBot = new();
        // ComputerPlayer = new();
         player = new();
-        //ustawienie talii graczy
-        //List<Tile> list = this.user.GetList();
-       // List<Tile> copyList = this.user.GetListCopy();
-      //  SetPlayersHand(ref this.tiles, ref this.playerHand);
-       // SetPlayersHand(ref this.tiles, ref this.mrBot);
-      //  SetPlayersHand(ref this.tiles, ref this.missBot);
-       // SetPlayersHand(ref this.tiles, ref this.ComputerPlayer);
-        //SetPlayersHand(ref this.tiles, ref list);
+        mrComputerPlayer = new();
+        missComputerPlayer = new();
+        ComputerPlayer = new();
         player.SetPlayersHand(ref this.tiles);
-        //playerHandCopy = playerHand;
-       // SetActualList(playerHand,ref playerHandCopy);
-        //SetActualList(mrBot, ref mrBotCopy);
-        //SetActualList(missBot, ref missBotCopy);
-        //SetActualList(ComputerPlayer, ref ComputerPlayerCopy);
-        //SetActualList(list, ref copyList);
+        mrComputerPlayer.SetPlayersHand(ref this.tiles);
+        missComputerPlayer.SetPlayersHand(ref this.tiles);
+        ComputerPlayer.SetPlayersHand(ref this.tiles);
 
         //this.playerHand.Add(new(30, new UnityEngine.Color(0.5f, 0f, 0.5f), SetName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30.ToString(), "$", false));
         //this.playerHand.Add(new(30, UnityEngine.Color.magenta, SetName(UnityEngine.Color.magenta) + "_" + 30.ToString(), "$", false));
 
-        Vector3Int position = new Vector3Int(0, 0, 0);
+        //Vector3Int position = new Vector3Int(0, 0, 0);
 
     }
 
@@ -99,13 +93,20 @@ public class GameController : MonoBehaviour
     /// </summary>
     void Update()
     {
-
+       // Vector3 position = placementSystem.GetInputManager().GetSelectedMapPosition();
+        //Vector3 minRange = grid.CellToWorld(new Vector3Int(-9,0,-4));
+       // Vector3 maxRange = grid.CellToWorld(new Vector3Int(8,0,2));
         if (Input.GetKeyDown(KeyCode.D))
             placementSystem.StartRemoving();
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) )//&& IsPositionInRange(position, minRange, maxRange)
             placementSystem.StartMowing();
     }
-    
+    public bool IsPositionInRange(Vector3 position, Vector3 minRange, Vector3 maxRange)
+    {
+        return position.x >= minRange.x && position.x <= maxRange.x &&
+               position.y >= minRange.y && position.y <= maxRange.y &&
+               position.z >= minRange.z && position.z <= maxRange.z;
+    }
     /// <summary>
     /// Funkcja do zwrócenia ca³ej listy p³ytek
     /// </summary>
@@ -149,7 +150,9 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void NewTurn()
     {
-        this.boardList.Add(GetBoardDictionary());
+        BoardDictionary tempBoard = new();
+        tempBoard.SaveToAnotherDictionary(GetBoardDictionary().board);
+        this.boardList.Add(tempBoard);
     }
 
     /// <summary>
@@ -187,23 +190,6 @@ public class GameController : MonoBehaviour
         tiles.Add(new (30, UnityEngine.Color.magenta, SetName(UnityEngine.Color.magenta) + "_" + 30.ToString(), "$", false));//magenta
     }
 
-    /// <summary>
-    /// Klasa do losowego przyznania kart do listy
-    /// </summary>
-    /// <param name="tiles">bank p³ytek</param>
-    /// <param name="playerHand">talia docelowa</param>
-    void SetPlayersHand(ref List<Tile> tiles, ref List<Tile> playerHand)
-    {
-       // playerHand = new ();
-        int TileIndex;
-        for (int i =0;i< 14; i++)
-        {
-            TileIndex = Random.Range(0, (tiles.Count));
-            playerHand.Add(tiles[TileIndex]);
-            tiles.RemoveAt(TileIndex);
-        }
-        Debug.Log(playerHand.Count);
-    }
     /// <summary>
     /// Zwraca nazwê koloru w zale¿noœci od podanej zmiennej koloru
     /// </summary>

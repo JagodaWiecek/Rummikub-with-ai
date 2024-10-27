@@ -103,8 +103,4 @@ public class PlacementState : IPlacementState
         return Vector3Int.zero;
     }
 
-    public void SetGridPosition(Vector3Int gridPosition)
-    {
-        Vector3Int gp = gridPosition;
-    }
 }

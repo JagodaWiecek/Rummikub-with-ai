@@ -15,7 +15,17 @@ public class MovingState : IPlacementState
     Tile tile;
     Vector3Int previousPosition;
     private InputManager inputManager;
-
+    /// <summary>
+    /// Konstruktor klasy MovingState, 
+    /// klasa s³ó¿y do przesuwania istniej¹cych p³ytek 3d na mapie
+    /// </summary>
+    /// <param name="iD"></param>
+    /// <param name="grid"></param>
+    /// <param name="previewSystem"></param>
+    /// <param name="database"></param>
+    /// <param name="tileData"></param>
+    /// <param name="objectPlacer"></param>
+    /// <param name="inputManager"></param>
     public MovingState(int iD, Grid grid, PreviewSystem previewSystem, ObjectsDatabase database, GridData tileData, ObjectPlacer objectPlacer, InputManager inputManager)//, Vector3 previousPosition
     {
         this.ID = iD;
@@ -25,19 +35,12 @@ public class MovingState : IPlacementState
         this.tileData = tileData;
         this.objectPlacer = objectPlacer;
         this.inputManager = inputManager;
-        //Vector3 mousepos = inputManager.GetSelectedMapPosition();
-        //Vector3Int gridpos = grid.WorldToCell(mousePosition);
         selectedObjectIndex = database.objectsData.FindIndex(data => data.ID == ID);
-        // new WaitForEndOfFrame();
-        //Vector3 mousePosition = inputManager.GetSelectedMapPosition();
-        // new WaitForEndOfFrame();
 
         Vector3 mousePosition = inputManager.GetSelectedMapPosition();
         Vector3Int gridPosition = grid.WorldToCell(mousePosition);
-        //Debug.Log($"Pozycja grida tworzenie moving - {gridPosition}");
        this.previousPosition = gridPosition;
 
-        //previewSystem.StartShowingRemovePreview();
         if (selectedObjectIndex > -1)
         {
 
@@ -86,7 +89,7 @@ public class MovingState : IPlacementState
  
         Vector3 cellPosition = grid.CellToWorld(gridPosition);
         //Debug.Log("gridPosition on remove" + gridPosition);
-        previewSystem.UpdatePosition(cellPosition, CheckIfSelectionIsValid(gridPosition));
+        //previewSystem.UpdatePosition(cellPosition, CheckIfSelectionIsValid(gridPosition));
 
     }
     private bool CheckIfSelectionIsValid(Vector3Int gridPosition)
@@ -96,7 +99,6 @@ public class MovingState : IPlacementState
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
          bool placementValidity = tileData.CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);//zwraca false jak nie mozna postawiæ
-        //bool validity = CheckIfSelectionIsValid(gridPosition);
         if (placementValidity && this.tile.CheckTileValidity(gridPosition))//
             return true;
         else return false;
@@ -113,9 +115,4 @@ public class MovingState : IPlacementState
         }
     }
 
-    public void SetGridPosition(Vector3Int gridPosition)
-    {
-        this.previousPosition = gridPosition;
-
-    }
 }

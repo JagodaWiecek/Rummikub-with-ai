@@ -14,7 +14,8 @@ public class InputManager : MonoBehaviour
     [SerializeField]
     private LayerMask placementLayermask;
 
-    public event Action onClicked, onExit, onMove;
+    public event Action onClicked, onExit;
+
 
     private void Update()
     {
@@ -23,10 +24,6 @@ public class InputManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Q)) { 
             onExit?.Invoke();
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            onMove?.Invoke();
         }
     }
 
@@ -46,14 +43,6 @@ public class InputManager : MonoBehaviour
         return lastPosition;
     }
 
-    public Vector3 GetMapPosition()
-    {
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.z = sceneCamera.nearClipPlane;
-        Ray ray = sceneCamera.ScreenPointToRay(mousePos);
-        Vector3 position = ray.GetPoint(100);
-        return position;
-    }
 
 
 }

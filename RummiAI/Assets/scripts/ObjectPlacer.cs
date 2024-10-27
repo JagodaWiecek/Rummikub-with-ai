@@ -21,6 +21,13 @@ public class ObjectPlacer : MonoBehaviour
     private GameObject tilePrefab;
     GameObject newTile = null;
     
+
+    /// <summary>
+    /// Czyœci liste obiektów
+    ///mo¿liwe u¿ycia gdy
+    ///bêdzie trzeba nadpisaæ listê zawartoœci¹ kopii
+    ///bêdzie reset mapy
+    /// </summary>
     public void ClearplacedGameObjects()
     {
         placedGameObjects.Clear(); 
@@ -32,7 +39,37 @@ public class ObjectPlacer : MonoBehaviour
         {
             placedGameObjectsCopy.Add(gameObject);
         }
-        //placedGameObjectsCopy = placedGameObjects;
+        
+    }
+    //Destroy(placedGameObjects[index]);
+    public void RemoveObjectsNotInCopy()
+    {
+        // Przechodzimy przez listê placedGameObjects, tworz¹c kopiê obiektów do usuniêcia
+        List<GameObject> objectsToRemove = new List<GameObject>();
+
+        foreach (GameObject obj in placedGameObjects)
+        {
+            // Jeœli obiektu nie ma w placedGameObjectsCopy, dodajemy go do listy do usuniêcia
+            if (!placedGameObjectsCopy.Contains(obj))
+            {
+                objectsToRemove.Add(obj);
+            }
+        }
+
+        // Usuwamy wszystkie obiekty z listy i ze sceny
+        foreach (GameObject obj in objectsToRemove)
+        {
+            placedGameObjects.Remove(obj);
+            Destroy(obj); // Usuwanie obiektu ze sceny
+        }
+    }
+    public void SetPlacedGameObjects()
+    {
+        placedGameObjects.Clear();
+        foreach (GameObject gameObject in placedGameObjectsCopy)
+        {
+            placedGameObjects.Add(gameObject);
+        }
     }
     public List<GameObject> GetplacedGameObjects()
     {
@@ -102,17 +139,10 @@ public class ObjectPlacer : MonoBehaviour
     private void FindAndRemoveTile(Tile tile)
     {
         List<Tile> Hand = GameController.Instance.GetPlayerHand();
-       // foreach (Tile hand in Hand) {
-           // if (hand.Equals(tile,hand)) {
-                //Debug.Log($"Tiles are the same {hand.getTilename()}");
 
-           // }
-          //else Debug.Log($"Tiles are not the same {hand.getTilename()} and {tile.getTilename()}");
-       // }
         for (int i = 0; i < Hand.Count; i++) {
             if (Hand[i].Equals(tile, Hand[i])) 
             { 
-                //Debug.Log($"Tiles are the same {Hand[i].getTilename()}"); 
                 Hand.RemoveAt(i);
                 break;
             }
@@ -191,6 +221,7 @@ public class ObjectPlacer : MonoBehaviour
         button.onClick.AddListener(() => takeTile.OnButtonClick(tile, ref idx));
         //tiles.RemoveAt(TileIndex);//usuniêcie p³ytki z g³ównego banku
         Hand.Add(tile);
+       // Debug.Log("Gracz ma w rence: " + Hand.Count + " p³ytek");
         LayoutElement le = newTile.AddComponent<LayoutElement>();//dodanie objektu do widoku
     }
 

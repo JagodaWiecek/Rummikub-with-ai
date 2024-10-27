@@ -86,9 +86,4 @@ public class RemovingState : IPlacementState
 
         return Vector3Int.zero;
     }
-
-    public void SetGridPosition(Vector3Int gridPosition)
-    {
-        throw new NotImplementedException();
-    }
 }

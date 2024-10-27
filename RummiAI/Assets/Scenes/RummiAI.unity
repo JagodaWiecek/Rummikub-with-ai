@@ -2221,9 +2221,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1117497324}
-        m_TargetAssemblyTypeName: TakeTile, Assembly-CSharp
-        m_MethodName: takeNewTile
+      - m_Target: {fileID: 868978687}
+        m_TargetAssemblyTypeName: TurnController, Assembly-CSharp
+        m_MethodName: TakeTile
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7601,6 +7601,7 @@ MonoBehaviour:
   objectPlacer: {fileID: 1896926890}
   grid: {fileID: 1223401790}
   database: {fileID: 11400000, guid: 421ebad51cc74194d80b0972b624fa7f, type: 2}
+  undoButton: {fileID: 549918139}
 --- !u!1 &871931934
 GameObject:
   m_ObjectHideFlags: 0
@@ -10195,7 +10196,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 6523760528865218134, guid: 00e612c4e1c5488418b010d49ec0aaa9, type: 3}
-  parentTransform: {fileID: 0}
   ps: {fileID: 1434540506}
 --- !u!1 &1127261952
 GameObject:
@@ -14676,7 +14676,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tiles: []
   playerHand: []
-  playerHandCopy: []
+  firstPlayersTurn: 0
+  player: {fileID: 0}
   placementSystem: {fileID: 1434540506}
   boardDictionary: {fileID: 0}
   boardList: []

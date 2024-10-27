@@ -43,7 +43,7 @@ public class PlacementSystem : MonoBehaviour
     //[SerializeField]
     //GameObject prefab;
 
-
+    public InputManager GetInputManager() { return inputManager; }
     private void Start()
     {
         gridVisualization.SetActive(false);
@@ -76,33 +76,14 @@ public class PlacementSystem : MonoBehaviour
     {
 
         StopPlacement();
-        //Vector3 Position = inputManager.GetMapPosition();
         gridVisualization.SetActive(true);
         placementState = new MovingState(0, grid, preview, database, tileData, objectPlacer, inputManager);
         inputManager.onClicked += PlaceStructure;
         inputManager.onExit += StopPlacement;
+
+        if (GameController.Instance != null) { if (GameController.Instance.GetBoardDictionary().board.ContainsKey(placementState.GetGridPosition()) == false) StopPlacement(); }
+        else Debug.Log("Game controller nie jest zainicjowany w placement system");
         
-        if (GameController.Instance != null)
-        {
-            //this.stopPlacement();
-            if (GameController.Instance.GetBoardDictionary().board.ContainsKey(placementState.GetGridPosition()) == false)
-            { 
-                //Debug.Log($"pozycja na lewy przycisk myszy jest zajêta: {placementState.GetGridPosition()}");
-                //gridVisualization.SetActive(true);
-                StopPlacement();
-            }
-
-            
-        }
-        else
-        {
-            Debug.Log("Game controller nie jest zainicjowany w placement system");
-        }
-
-        //Debug.Log($"pozycja myszki{Position}, i pozycja jej grida {grid.WorldToCell(Position)}");
-        //if (placementState.CheckTile())
-        // StopPlacement();
-
     }
 
     private void PlaceStructure()
@@ -119,12 +100,6 @@ public class PlacementSystem : MonoBehaviour
         StopPlacement();
     }
 
-    //private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
-    //{
-    //    //Grid selectedData = ;
-    //    return tileData.CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);
-    //}
-
     private void StopPlacement()
     {
 
@@ -138,10 +113,6 @@ public class PlacementSystem : MonoBehaviour
         placementState = null;
     }
 
-   // public delegate void StopPlacementDelegate();
-        
-
-
     private void Update()
     {
         if (placementState == null)
@@ -154,8 +125,6 @@ public class PlacementSystem : MonoBehaviour
             placementState.UpdateState(gridPosition);
             lastDetectedPosition = gridPosition;
         }
-       // if (placementState is MovingState && placementState.GetGridPosition() == new Vector3Int(-20, -20, -20))
-       //     placementState.SetGridPosition(gridPosition);
 
     }
 
