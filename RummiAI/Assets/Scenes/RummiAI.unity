@@ -4729,7 +4729,7 @@ MonoBehaviour:
       - m_Target: {fileID: 868978687}
         m_TargetAssemblyTypeName: TurnController, Assembly-CSharp
         m_MethodName: CancelMove
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7602,6 +7602,7 @@ MonoBehaviour:
   grid: {fileID: 1223401790}
   database: {fileID: 11400000, guid: 421ebad51cc74194d80b0972b624fa7f, type: 2}
   undoButton: {fileID: 549918139}
+  endTurn: {fileID: 1282629016}
 --- !u!1 &871931934
 GameObject:
   m_ObjectHideFlags: 0

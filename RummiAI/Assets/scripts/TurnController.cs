@@ -28,26 +28,36 @@ public class TurnController : MonoBehaviour
     [SerializeField]
     UnityEngine.UI.Button undoButton;
 
+    [SerializeField]
+    UnityEngine.UI.Button endTurn;
+
 
     // Start is called before the first frame update
     void Start()
     {
         undoButton.gameObject.SetActive(false);
+        endTurn.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(GameController.Instance.GetBoardDictionary().board.Count != 0 && GameController.Instance.GetBoardDictionaryList().Count == 0)
+        if (GameController.Instance.GetBoardDictionary().board.Count != 0 && GameController.Instance.GetBoardDictionaryList().Count == 0)
         {
             undoButton.gameObject.SetActive(true);
+            endTurn.gameObject.SetActive(true);
         }
-        else if (GameController.Instance.GetBoardDictionaryList().Count !=0 &&
+        else if (GameController.Instance.GetBoardDictionaryList().Count != 0 &&
             !GameController.Instance.GetBoardDictionary().AreEqual(GameController.Instance.GetBoardDictionaryList()[GameController.Instance.GetBoardDictionaryList().Count - 1].board))
         {
             undoButton.gameObject.SetActive(true);
+            endTurn.gameObject.SetActive(true);
         }
-        else undoButton.gameObject.SetActive(false);
+        else
+        {
+            undoButton.gameObject.SetActive(false);
+            endTurn.gameObject.SetActive(false);
+        }
     }
 
     public void NewTurn()
@@ -57,16 +67,19 @@ public class TurnController : MonoBehaviour
             if (GameController.Instance.GetBoardDictionary().board.Count != 0)
             {
 
-                foreach (KeyValuePair<Vector3Int, Tile> tile in GameController.Instance.GetBoardDictionary().board)
+                if (CheckMap())
                 {
-                    tile.Value.SetPut(true);
-                }
-               
-                GameController.Instance.NewTurn();///zapisanie tablicy do listy
-                objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
-                placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
-                GameController.Instance.GetPlayer().SaveListToCopy();
+                    foreach (KeyValuePair<Vector3Int, Tile> tile in GameController.Instance.GetBoardDictionary().board)
+                    {
+                        tile.Value.SetPut(true);
+                    }
 
+                    GameController.Instance.NewTurn();///zapisanie tablicy do listy
+                    objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
+                    placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
+                    GameController.Instance.GetPlayer().SaveListToCopy();
+                }
+                else Debug.Log("Nie poprawnie zakoñczona mapa");
 
             }
             else Debug.Log("Na mapie nie ma ¿adnych p³ytek");
@@ -81,6 +94,36 @@ public class TurnController : MonoBehaviour
         }
     }
 
+    public bool CheckMap()
+    {
+            Dictionary<Vector3Int, Tile> board = GameController.Instance.GetBoardDictionary().board;
+            ///grid
+            /// przedzia³:
+            /// x miêdzy -9 a 8
+            /// z miêdzy 2 a -4
+            Vector3Int sprawdzanaLokalizacja = new();
+            for(int z = -4;z <= 2;z++)
+            {
+                for(int x = -9; x <=8; x++)
+                {
+                    sprawdzanaLokalizacja = new(x, 0, z);
+                    if (board.ContainsKey(sprawdzanaLokalizacja))
+                    {
+                        int licznik = 0;
+                       // Debug.Log("Zawiera p³ytkê - " + sprawdzanaLokalizacja);
+                        while(board.ContainsKey(sprawdzanaLokalizacja))
+                        {
+                            licznik++;
+                            x++;
+                            sprawdzanaLokalizacja = new(x, 0, z);
+                        }
+                        if (licznik < 3)  return false; 
+                        
+                    }
+                }
+            }
+            return true; 
+    }
     void RemoveAllChildren()
     {
          for (int i = this.transform.childCount - 1; i >= 0; i--)
@@ -88,13 +131,7 @@ public class TurnController : MonoBehaviour
              GameObject child = this.transform.GetChild(i).gameObject;
              Destroy(child);
          }
-       /* foreach (GameObject obj in objectPlacer.GetplacedGameObjects())
-        {
-            if (obj != null)
-            {
-                Destroy(obj); // Usuwamy obiekt ze sceny
-            }
-        }*/
+
     }
     void Restore3DMap()
     {
@@ -116,36 +153,22 @@ public class TurnController : MonoBehaviour
         }
         objectPlacer.RemoveObjectsNotInCopy();
     }
-    void ShowPrefabs()
-    {
-        for (int i = 0; i < objectPlacer.GetplacedGameObjects().Count; i++)
-        {
-            //objectPlacer.GetplacedGameObjects().
-        }
-    }
+    /// <summary>
+    /// przycisk dla u¿ytkownika do anulowania wykonywanych czynnoœci w danej turze
+    /// </summary>
     public void CancelMove()
     {
         if (GameController.Instance != null)
         { 
             if(GameController.Instance.GetBoardDictionaryList().Count!=0)
-            {//usuniêcie tylko p³ytek których nie by³o w poprzedniej rundzie
-                //chyba najlepiej miec kopie poprzedniej planszy, usun¹æ wszystko z planszy i odbudowanie przez kopie
-                //objectPlacer
-                //GridData
-                //PlayerHand
+            {
                 int index = GameController.Instance.GetBoardDictionaryList().Count - 1;
                 
                 placementSystem.GetGridData().SaveDictionary();
                 GameController.Instance.GetPlayer().RestoreCopyList();
-                //RemoveAllChildren();
                 GameController.Instance.GetBoardDictionary().SaveDictionary(GameController.Instance.GetBoardDictionaryList()[index].board);
-                //List<Tile> playerHand = GameController.Instance.GetPlayerHand();
                 takeTile.ResetHand(GameController.Instance.GetPlayerHandCopy());
-                //GameController.Instance.SetActualList(GameController.Instance.GetPlayerHandCopy(), copy: ref playerHand);
-                //StartCoroutine(Restore3DMap());
                 Restore3DMap();
-                //objectPlacer.SetPlacedGameObjects();
-                //SaveDictionary
             }
             else//usuniêcie wszystkich p³ytek i przywrócenie graczowi do rêki
             {
@@ -168,10 +191,11 @@ public class TurnController : MonoBehaviour
     //funkcja taketile bêdzie dodawa³a kartê graczowi jak i cofa³a wszystkie zmiany na mapie, dla optymalizacji, jesli nie bedzie zmian to nie wydarzy siê nic
 
     public void TakeTile()
-    { 
+    {
         //sprawdzenie czy mapa jest taka sama
         //Reset mapy i tali gracza, czyli cancelmove
         //nowa tura
-        takeTile.takeNewTile();
+        //CancelMove();
+        StartCoroutine(takeTile.takeTile()); 
     }
 }

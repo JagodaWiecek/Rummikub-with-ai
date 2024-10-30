@@ -79,6 +79,7 @@ public class GameController : MonoBehaviour
         mrComputerPlayer.SetPlayersHand(ref this.tiles);
         missComputerPlayer.SetPlayersHand(ref this.tiles);
         ComputerPlayer.SetPlayersHand(ref this.tiles);
+        playerHand = player.GetList();
 
         //this.playerHand.Add(new(30, new UnityEngine.Color(0.5f, 0f, 0.5f), SetName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30.ToString(), "$", false));
         //this.playerHand.Add(new(30, UnityEngine.Color.magenta, SetName(UnityEngine.Color.magenta) + "_" + 30.ToString(), "$", false));
