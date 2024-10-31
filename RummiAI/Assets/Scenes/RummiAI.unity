@@ -4729,7 +4729,7 @@ MonoBehaviour:
       - m_Target: {fileID: 868978687}
         m_TargetAssemblyTypeName: TurnController, Assembly-CSharp
         m_MethodName: CancelMove
-        m_Mode: 6
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
