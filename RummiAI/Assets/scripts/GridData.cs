@@ -123,8 +123,13 @@ public class PlacementData
     public int ID { get; private set; }
     public int PlacedObjectIndex { get; private set; }
 
-   // public Tile tile { get; private set; } //mo¿e do u¿ycia
     
+    /// <summary>
+    /// konstruktor klasy
+    /// </summary>
+    /// <param name="occupiecPositons"></param>
+    /// <param name="iD"></param>
+    /// <param name="placedObjectIndex"></param>
     public PlacementData(List<Vector3Int> occupiecPositons, int iD, int placedObjectIndex)
     {
         this.occupiecPositons = occupiecPositons;
