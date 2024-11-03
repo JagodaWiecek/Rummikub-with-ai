@@ -26,6 +26,12 @@ public class Player : MonoBehaviour
     public List<Tile> GetListCopy() { return this.playerHandCopy; }
     public bool GetFirstTour() {  return this.firstTour; }
 
+    /// <summary>
+    /// funkcja ustawia zmienn¹ bool gracza na false, co oznacza ¿e gracz ju¿ ma za sob¹ pierwsz¹ turê gry
+    /// wartoœæ zmiennej ju¿ nie zmieni siê w trakcie gry na nic innego
+    /// </summary>
+    public void EndFirstTour() {  this.firstTour = false; }
+
     public void AddTileToList(Tile tile)
     {
         this.playerHand.Add(tile); 

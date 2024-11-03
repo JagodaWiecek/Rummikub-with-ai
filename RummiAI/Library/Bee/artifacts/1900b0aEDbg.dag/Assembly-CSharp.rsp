@@ -376,6 +376,7 @@
 "Assets/Samples/Shader Graph/14.0.11/Production Ready Shaders/SRPCommon/Scripts/SamplesShowcase.cs"
 "Assets/scripts/BoardDictionary.cs"
 "Assets/scripts/Draggable.cs"
+"Assets/scripts/FirstTurnController.cs"
 "Assets/scripts/GameController.cs"
 "Assets/scripts/GridData.cs"
 "Assets/scripts/InputManager.cs"

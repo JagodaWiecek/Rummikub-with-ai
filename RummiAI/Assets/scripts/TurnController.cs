@@ -42,13 +42,7 @@ public class TurnController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameController.Instance.GetBoardDictionary().board.Count != 0 && GameController.Instance.GetBoardDictionaryList().Count == 0)
-        {
-            undoButton.gameObject.SetActive(true);
-            endTurn.gameObject.SetActive(true);
-        }
-        else if (GameController.Instance.GetBoardDictionaryList().Count != 0 &&
-            !GameController.Instance.GetBoardDictionary().AreEqual(GameController.Instance.GetBoardDictionaryList()[GameController.Instance.GetBoardDictionaryList().Count - 1].board))
+        if (MapContents())
         {
             undoButton.gameObject.SetActive(true);
             endTurn.gameObject.SetActive(true);
@@ -67,8 +61,18 @@ public class TurnController : MonoBehaviour
             if (GameController.Instance.GetBoardDictionary().board.Count != 0)
             {
 
+
                 if (CheckMap())
                 {
+                    //if(GameController.Instance.GetPlayer().GetFirstTour())
+
+                    if (GameController.Instance.GetPlayer().GetFirstTour())
+                    {
+                        GameController.Instance.firstTurnController.CheckFirstTurnValidity(GameController.Instance.GetBoardDictionary().board);
+                        GameController.Instance.GetPlayer().EndFirstTour();
+                        GameController.Instance.firstTurnController.Reset();
+                    }
+
                     foreach (KeyValuePair<Vector3Int, Tile> tile in GameController.Instance.GetBoardDictionary().board)
                     {
                         tile.Value.SetPut(true);
@@ -175,6 +179,7 @@ public class TurnController : MonoBehaviour
                 if (GameController.Instance.GetBoardDictionary().board.Count != 0)
                 {
                     objectPlacer.ClearplacedGameObjects();
+                    GameController.Instance.GetBoardDictionary().board.Clear();
                     takeTile.ResetHand(GameController.Instance.GetPlayerHandCopy());
                     placementSystem.GetGridData().GetDictionary().Clear();
                     List<Tile> playerHand = GameController.Instance.GetPlayerHand();
@@ -182,20 +187,45 @@ public class TurnController : MonoBehaviour
                     RemoveAllChildren();
                 }
             }
-            Debug.Log("Na planszy jest: " + this.transform.childCount);
+            if (GameController.Instance.GetPlayer().GetFirstTour())
+                GameController.Instance.firstTurnController.Reset();
+
             //takeTile.takeNewTile();
         }
         else Debug.LogError("CancelMove - problem z game instance");
     }
 
     //funkcja taketile bêdzie dodawa³a kartê graczowi jak i cofa³a wszystkie zmiany na mapie, dla optymalizacji, jesli nie bedzie zmian to nie wydarzy siê nic
-
+    /// <summary>
+    /// Funkcja, s³u¿¹ca do dodania nowej karty do talii gracza
+    /// funkcja ta koñczy turê
+    /// jeœli na mapie zosta³y dokonane zmiany, zostan¹ one cofniête
+    /// </summary>
     public void TakeTile()
     {
-        //sprawdzenie czy mapa jest taka sama
-        //Reset mapy i tali gracza, czyli cancelmove
-        //nowa tura
-        //CancelMove();
-        StartCoroutine(takeTile.takeTile()); 
+
+        if(MapContents())
+        {
+            takeTile.AddNewToCopy();
+            CancelMove();
+        }
+        else takeTile.takeNewTile();
+
+        NewTurn();
+
+
+    }
+    /// <summary>
+    /// funkcja do sprawdzenia czy mapa na dan¹ turê zosta³a zmieniona czy nie
+    /// </summary>
+    /// <returns>true dla zmiany, false dla niezmienionej mapy</returns>
+    public bool MapContents()
+    {
+        if (GameController.Instance.GetBoardDictionaryList().Count == 0 && GameController.Instance.GetBoardDictionary().board.Count != 0)
+            return true;
+        else if(GameController.Instance.GetBoardDictionaryList().Count != 0 &&
+            !GameController.Instance.GetBoardDictionary().AreEqual(GameController.Instance.GetBoardDictionaryList()[GameController.Instance.GetBoardDictionaryList().Count - 1].board))
+            return true;
+        return false;
     }
 }

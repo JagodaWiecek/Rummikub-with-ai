@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
 /// <summary>
 /// Klasa s³u¿¹ca do stworzenia p³ytki jako obiekty 2D na mapie dla gracza
 /// </summary>
@@ -24,13 +25,19 @@ public class TakeTile : MonoBehaviour
     ///Funkcja inicjuj¹ca siê jako pierwsza
     void Start()
     {
-        //Debug.Log("inicjalizacja TakeTile");
+        //Debug.Log("inicjalizacja TakeTile: "+this.transform);
+        //tilesAmount
+        //Component[] components = this.transform.parent.parent.Find("Take_tile_button/Take_tile_button").GetComponents<Component>();
+        
+       // Debug.Log("inicjalizacja TakeTile: " + textComponent.text);
         SetStartTile();///Wyœwietlenie talii gracza na ekran
+        SetButtonNumber();
+
 
     }
 
 /*
-    ///Funkcja wykonuj¹ca siê regularnie
+    //Funkcja wykonuj¹ca siê regularnie
     void Update()
     {
 
@@ -122,50 +129,7 @@ public class TakeTile : MonoBehaviour
         LayoutElement le = newTile.AddComponent<LayoutElement>();//dodanie objektu do widoku
     }
 
-    public IEnumerator takeTile()
-    {
-        yield return new WaitForEndOfFrame();
-        ///odwo³anie do tali w innym skrypcie
-        if (GameController.Instance != null && GameController.Instance.GetTiles().Count != 0)
-        {
-            List<Tile> tiles = GameController.Instance.GetTiles();//wykonanie referencji
-            List<Tile> Hand = GameController.Instance.GetPlayerHand();
-            int TileIndex = Random.Range(0, tiles.Count);
-
-            //Debug.Log(tilePrefab);
-            ///po³¹czenie prefab z nowym obiektem
-            newTile = Instantiate(tilePrefab, new Vector3(0, 0, 0), Quaternion.identity);
-
-            newTile.transform.SetParent(this.transform);//ustawienie hierarchi
-            newTile.GetComponent<Tile>().setNumer(tiles[TileIndex].GetNumber());//ustawienie numeru klasy
-            newTile.GetComponent<Tile>().SetColor(tiles[TileIndex].GetColor());//ustawienie koloru klasy
-            newTile.GetComponent<Tile>().SetTilename(tiles[TileIndex].GetTilename());
-            newTile.GetComponent<Tile>().SetSymbol(tiles[TileIndex].GetSymbol());
-            newTile.name = tiles[TileIndex].GetTilename();//ustawienie nazwy w hierarchi
-            TextMeshProUGUI textComponent = newTile.transform.Find("Object/Number_Color").GetComponent<TextMeshProUGUI>();//odwo³anie siê do dziecka objektu
-            textComponent.text = tiles[TileIndex].GetSymbol(); //wpisanie na textmesh symbolu widocnego dla gracza
-            textComponent.color = tiles[TileIndex].GetColor(); //ustawienie koloru dla symbolu
-
-            Tile tile = new Tile(tiles[TileIndex].GetNumber(), tiles[TileIndex].GetColor(), tiles[TileIndex].GetTilename(), tiles[TileIndex].GetSymbol(), tiles[TileIndex].GetPut());
-            Button button = newTile.GetComponentInChildren<Button>();
-            if (button == null)
-            {
-                Debug.LogError("Prefab does not contain a Button component!");
-            }
-            int idx = newTile.transform.GetSiblingIndex();
-            button.onClick.AddListener(() => OnButtonClick(tile, ref idx));//idx
-            Hand.Add(tile);
-            //Debug.Log($"W take tile jest {GameController.Instance.GetPlayerHand().Count} p³ytek");
-            tiles.RemoveAt(TileIndex);//usuniêcie p³ytki z g³ównego banku
-            LayoutElement le = newTile.AddComponent<LayoutElement>();//dodanie objektu do widoku
-
-        }
-        else
-        {
-            Debug.LogError("GameController nie jest zainicjowany b¹dŸ bank jest pusty");
-        }
-
-    }
+ 
     ///Dodanie karty do rêki gracza
     public void takeNewTile()
     {
@@ -174,6 +138,7 @@ public class TakeTile : MonoBehaviour
         {
             List<Tile> tiles = GameController.Instance.GetTiles();//wykonanie referencji
             List<Tile> Hand = GameController.Instance.GetPlayerHand();
+            List<Tile> copy = GameController.Instance.GetPlayerHandCopy();
             int TileIndex = Random.Range(0, tiles.Count);
 
             //Debug.Log(tilePrefab);
@@ -199,16 +164,17 @@ public class TakeTile : MonoBehaviour
             int idx = newTile.transform.GetSiblingIndex();
             button.onClick.AddListener(() => OnButtonClick(tile,ref idx));//idx
             Hand.Add(tile);
+            copy.Add(tile);
             //Debug.Log($"W take tile jest {GameController.Instance.GetPlayerHand().Count} p³ytek");
             tiles.RemoveAt(TileIndex);//usuniêcie p³ytki z g³ównego banku
+            SetButtonNumber();
             LayoutElement le = newTile.AddComponent<LayoutElement>();//dodanie objektu do widoku
 
         }
         else
         {
             Debug.LogError("GameController nie jest zainicjowany b¹dŸ bank jest pusty");
-        }
-       
+        } 
     }
 
     /// <summary>
@@ -221,5 +187,41 @@ public class TakeTile : MonoBehaviour
         ps.StartPlacement(0, ref tile, ref idx);
     }
 
+    public void AddNewToCopy()
+    {
+        if (GameController.Instance != null && GameController.Instance.GetTiles().Count != 0)
+        {
+            List<Tile> tiles = GameController.Instance.GetTiles();//wykonanie referencji
+            List<Tile> copy = GameController.Instance.GetPlayerHandCopy();
+            int TileIndex = Random.Range(0, tiles.Count);
+
+            Tile tile = new Tile(tiles[TileIndex].GetNumber(), tiles[TileIndex].GetColor(), tiles[TileIndex].GetTilename(), tiles[TileIndex].GetSymbol(), tiles[TileIndex].GetPut());
+
+            copy.Add(tile);
+
+            tiles.RemoveAt(TileIndex);//usuniêcie p³ytki z g³ównego banku
+            SetButtonNumber();
+
+        }
+        else
+        {
+            Debug.LogError("GameController nie jest zainicjowany b¹dŸ bank jest pusty");
+        }
+    }
+    /// <summary>
+    /// Funkcja do aktualizacji napisu na przycisku
+    /// napis informuje u¿ytkownika ile jest p³ytek w banku gry
+    /// numer zmniejsza siê po ka¿dym pobraniu karty
+    /// </summary>
+    public void SetButtonNumber()
+    {
+        if (GameController.Instance != null)
+        {
+            Text textComponent = this.transform.parent.parent.Find("Take_tile_button/Title").GetComponent<Text>();
+            int liczba = GameController.Instance.GetTiles().Count;
+            textComponent.text = "Take a tile (" + liczba + ")";
+        }
+        else Debug.LogError("Problem z Game Instance");
+    }
 
 }

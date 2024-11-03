@@ -118,8 +118,8 @@ public class ObjectPlacer : MonoBehaviour
         placedGameObjects.Add(gameObject);
         if(GameController.Instance != null)
         {
-            Vector3Int positionofGrid = grid.WorldToCell(position);
-            GameController.Instance.GetBoardDictionary().AddObjectAt(positionofGrid, tile);
+            Vector3Int positionGrid = grid.WorldToCell(position);
+            GameController.Instance.GetBoardDictionary().AddObjectAt(positionGrid, tile);
             
              //GameController.Instance.GetBoardDictionary().ReturnTileInDirectory(positionofGrid).ShowTiles();
         }
@@ -128,6 +128,11 @@ public class ObjectPlacer : MonoBehaviour
         GameObject obj = transformObject.gameObject;
         Destroy(obj);
         FindAndRemoveTile(tile);
+        if(GameController.Instance.GetPlayer().GetFirstTour())
+        {
+            GameController.Instance.firstTurnController.Increment(tile.GetNumber(), grid.WorldToCell(position));
+
+        }
         // Tile tileinList = obj.GetComponent<Tile>().getTile() ;
         // tileinList.ShowTiles();
         Transform Indextransform = this.transform.parent.parent.Find("Canvas/Player_Deck/Hand");

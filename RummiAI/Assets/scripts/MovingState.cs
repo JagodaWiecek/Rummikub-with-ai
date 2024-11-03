@@ -71,11 +71,13 @@ public class MovingState : IPlacementState
          {
              selectedData = this.tileData;
          }
+        Vector3 minRange = new Vector3Int(-9, 0, -4);
+        Vector3 maxRange = new Vector3Int(8, 0, 2);
+        bool onMap = IsPositionInRange(gridPosition, minRange, maxRange);
 
-
-         if (tileData != null)
+        if (tileData != null)
          {
-            if (!CheckPlacementValidity(gridPosition, ID))
+            if (!CheckPlacementValidity(gridPosition, ID) || !onMap)
                 return;
             selectedObjectIndex = selectedData.getRepresentationIndex(this.previousPosition);
              if (selectedObjectIndex == -1)
@@ -84,8 +86,13 @@ public class MovingState : IPlacementState
              selectedData.MoveObjectAt(gridPosition, this.previousPosition, database.objectsData[this.ID].Size);
              objectPlacer.MoveObjectTo(selectedObjectIndex, grid.CellToWorld(gridPosition));
              GameController.Instance.GetBoardDictionary().MoveObjectAt(gridPosition, this.previousPosition);
-         }
-         else return;
+            if (GameController.Instance.GetPlayer().GetFirstTour())
+            {
+                GameController.Instance.firstTurnController.ChangeJokerPosition(gridPosition, this.previousPosition);
+            }
+            //ChangeJokerPosition
+        }
+        else return;
  
         Vector3 cellPosition = grid.CellToWorld(gridPosition);
 
@@ -97,21 +104,15 @@ public class MovingState : IPlacementState
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
          bool placementValidity = tileData.CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);//zwraca false jak nie mozna postawiæ
-        if (placementValidity && this.tile.CheckTileValidity(gridPosition) )//|| CheckPreviousPosition(gridPosition, this.previousPosition)
+        if (placementValidity && this.tile.CheckMovedTileValidity(gridPosition, this.previousPosition) )//CheckTileValidity
             return true;
         else return false;
     }
-    //Do naprawienia bo ³amie zasady ale bêdzie potrzebna przy przesuwaniu
-    private bool CheckPreviousPosition(Vector3Int gridPosition, Vector3Int previousPosition)
+    private bool IsPositionInRange(Vector3 position, Vector3 minRange, Vector3 maxRange)
     {
-        Vector3Int plusjeden = new Vector3Int(gridPosition.x + 1, gridPosition.y, gridPosition.z);
-        Vector3Int minusjeden = new Vector3Int(gridPosition.x -1, gridPosition.y, gridPosition.z);
-        if (gridPosition.x + 1 == previousPosition.x && !GameController.Instance.GetBoardDictionary().board.ContainsKey(minusjeden))//k³adzione po lewej
-            return true;
-        else if (gridPosition.x - 1 == previousPosition.x && !GameController.Instance.GetBoardDictionary().board.ContainsKey(plusjeden))
-            return true;
-        else if(gridPosition.x + 1 != previousPosition.x && gridPosition.x - 1 != previousPosition.x) return true;
-        return false;
+        return position.x >= minRange.x && position.x <= maxRange.x &&
+               position.y >= minRange.y && position.y <= maxRange.y &&
+               position.z >= minRange.z && position.z <= maxRange.z;
     }
 
     public void UpdateState(Vector3Int gridPosition)

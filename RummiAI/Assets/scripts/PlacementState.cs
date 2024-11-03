@@ -57,8 +57,10 @@ public class PlacementState : IPlacementState
     {
        // Debug.Log("OnAction w PlacementState"+gridPosition);
         bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
-        
-        if (placementValidity == false )
+        Vector3 minRange = new Vector3Int(-9,0,-4);
+        Vector3 maxRange = new Vector3Int(8,0,2);
+        bool onMap = IsPositionInRange(gridPosition,minRange, maxRange);
+        if (placementValidity == false || onMap == false)
         {
             return;
         }
@@ -82,7 +84,14 @@ public class PlacementState : IPlacementState
         else return false;
         //return tileData.CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);
     }
-    
+
+    private bool IsPositionInRange(Vector3 position, Vector3 minRange, Vector3 maxRange)
+    {
+        return position.x >= minRange.x && position.x <= maxRange.x &&
+               position.y >= minRange.y && position.y <= maxRange.y &&
+               position.z >= minRange.z && position.z <= maxRange.z;
+    }
+
 
 
 

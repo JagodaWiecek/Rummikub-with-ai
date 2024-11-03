@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class RemovingState : IPlacementState
 {
@@ -69,6 +70,11 @@ public class RemovingState : IPlacementState
 
                     selectedData.RemoveObjectAt(gridPosition);
                     objectPlacer.RemoveObjectAt(gameObjectIndex);
+                    if (GameController.Instance.GetPlayer().GetFirstTour())
+                    {
+                        GameController.Instance.firstTurnController.Decrease(GameController.Instance.GetBoardDictionary().board[gridPosition].getTile().GetNumber(), gridPosition);
+
+                    }
                     objectPlacer.TakeBackTile(GameController.Instance.GetBoardDictionary().board[gridPosition].getTile());//tile
                     GameController.Instance.GetBoardDictionary().board.Remove(gridPosition);//Remove(keyToRemove)
                 }
