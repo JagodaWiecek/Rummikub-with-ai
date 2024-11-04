@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|c:\\users\\jwiec\\desktop\\rummikub-with-ai\\rummiai\\assets\\scripts\\firstturncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\firstturncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\tile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\tile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\turncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\turncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|c:\\users\\jwiec\\desktop\\rummikub-with-ai\\rummiai\\assets\\scripts\\firstturncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\firstturncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\tile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\tile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\taketile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
@@ -43,18 +43,17 @@
               "ViewState": "AQIAALMAAAAAAAAAAAAqwNwAAABCAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-08T15:18:59.956Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "GameController.cs",
               "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\GameController.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\GameController.cs",
               "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\GameController.cs",
               "RelativeToolTip": "Assets\\scripts\\GameController.cs",
-              "ViewState": "AQIAAKEAAAAAAAAAAAAqwL8AAAAKAAAA",
+              "ViewState": "AQIAAEgAAAAAAAAAAAAAAFwAAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-07T16:26:53.003Z",
               "IsPinned": true,
@@ -62,13 +61,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "TurnController.cs",
               "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\TurnController.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\TurnController.cs",
               "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\TurnController.cs",
               "RelativeToolTip": "Assets\\scripts\\TurnController.cs",
-              "ViewState": "AQIAADQAAAAAAAAAAAAswEkAAAAVAAAA",
+              "ViewState": "AQIAALoAAAAAAAAAAIA5wPEAAAAHAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-25T18:44:28.402Z",
               "IsPinned": true,
@@ -76,20 +75,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "FirstTurnController.cs",
               "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\FirstTurnController.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\FirstTurnController.cs",
               "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\FirstTurnController.cs",
               "RelativeToolTip": "Assets\\scripts\\FirstTurnController.cs",
-              "ViewState": "AQIAAIYAAAAAAAAAAAAswKUAAACYAAAA",
+              "ViewState": "AQIAACcBAAAAAAAAAAAUwEkBAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-03T13:36:51.224Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Tile.cs",
               "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\Tile.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\Tile.cs",
@@ -97,8 +96,7 @@
               "RelativeToolTip": "Assets\\scripts\\Tile.cs",
               "ViewState": "AQIAAH8AAAAAAAAAAAAQwIoAAABNAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-06T11:34:05.366Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-06T11:34:05.366Z"
             }
           ]
         }

@@ -82,8 +82,8 @@ public class GameController : MonoBehaviour
         playerHand = player.GetList();
        // firstTurnController = new();
 
-        this.playerHand.Add(new(30, new UnityEngine.Color(0.5f, 0f, 0.5f), SetName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30.ToString(), "$", false));
-        this.playerHand.Add(new(30, UnityEngine.Color.magenta, SetName(UnityEngine.Color.magenta) + "_" + 30.ToString(), "$", false));
+       //this.playerHand.Add(new(30, new UnityEngine.Color(0.5f, 0f, 0.5f), SetName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30.ToString(), "$", false));
+        //this.playerHand.Add(new(30, UnityEngine.Color.magenta, SetName(UnityEngine.Color.magenta) + "_" + 30.ToString(), "$", false));
 
         //Vector3Int position = new Vector3Int(0, 0, 0);
 
@@ -188,8 +188,8 @@ public class GameController : MonoBehaviour
                 tiles.Add(new ((temp), UnityEngine.Color.blue, SetName(UnityEngine.Color.blue) + "_" + temp.ToString(), temp.ToString(), false));
             }
         }
-        //tiles.Add(new (30, new UnityEngine.Color(0.5f, 0f, 0.5f), SetName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30.ToString(), "$", false));//fiolet
-        //tiles.Add(new (30, UnityEngine.Color.magenta, SetName(UnityEngine.Color.magenta) + "_" + 30.ToString(), "$", false));//magenta
+        tiles.Add(new (30, new UnityEngine.Color(0.5f, 0f, 0.5f), SetName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30.ToString(), "$", false));//fiolet
+        tiles.Add(new (30, UnityEngine.Color.magenta, SetName(UnityEngine.Color.magenta) + "_" + 30.ToString(), "$", false));//magenta
     }
 
     /// <summary>

@@ -121,22 +121,27 @@ public class FirstTurnController : MonoBehaviour
         else if (joker2 == previousPosition) joker2= gridPosition;  
     }
 
-    public void CheckFirstTurnValidity(Dictionary<Vector3Int, Tile> board)
+    public int CheckFirstTurnValidity(Dictionary<Vector3Int, Tile> board)
     {
         if (!FirstJokerNull())
         {
             ///wstaw pozycje jokera do funkcji, która sprawdzi jak¹ wartoœæ zastêpuje
             ///zwrócona wartoœæ ma zostaæ dodana do sumy
-            sum += GetJokerAmount(joker1, board);
+            int numer = GetJokerAmount(joker1, board);
+            //Debug.Log("joker1 imituje numer: "+ numer);
+            sum += numer;
         }
         if (!SecondJokerNull()) 
         {
             ///wstaw pozycje jokera do funkcji, która sprawdzi jak¹ wartoœæ zastêpuje
             ///zwrócona wartoœæ ma zostaæ dodana do sumy
-            sum += GetJokerAmount(joker2, board);
+            int numer = GetJokerAmount(joker2, board);
+            //Debug.Log("joker2 imituje numer: " + numer);
+            sum += numer;
         }
 
-        Debug.Log("Suma wynosi:" + sum);
+         Debug.Log("Suma wynosi:" + sum);
+        return sum;
     }
     /// <summary>
     /// funkcja do sprawdzenia wartoœci, któr¹ zastêpuje joker
@@ -153,20 +158,175 @@ public class FirstTurnController : MonoBehaviour
 
         if(board.ContainsKey(plusjeden) && board.ContainsKey(minusjeden))
         {
-            if (board[plusjeden].GetNumber()==30 || board[minusjeden].GetNumber() == 30) Debug.Log("Jest drugi joker"); //do sprawdzenia kolejna pozycja
-            Debug.Log("Joker po œrodku");
+            if (board[plusjeden].GetNumber()==30 || board[minusjeden].GetNumber() == 30)
+            {
+                
+                if(board.ContainsKey(plusdwa))
+                {
+                    //Vector3Int kolejnyJoker;
+                    if (board[plusjeden].GetNumber() == 30)
+                    {
+                        //plusdwa i minusjeden s¹ git
+                        if ((board[plusdwa].GetNumber() - 3) == board[minusjeden].GetNumber())
+                            return (board[minusjeden].GetNumber() + 1);
+                        else if (board[plusdwa].GetNumber() == board[minusjeden].GetNumber())
+                            return board[minusjeden].GetNumber();
+                        else return 0;
+                    }
+                    else if (board[minusjeden].GetNumber() == 30)
+                    {
+                        //plusjeden i plusdwa s¹ git 
+                        if ((board[plusjeden].GetNumber() + 1) == board[minusjeden].GetNumber())
+                            return (board[plusjeden].GetNumber() - 1);
+                        else if (board[plusdwa].GetNumber() == board[plusjeden].GetNumber())
+                            return board[plusjeden].GetNumber();
+                        else return 0;
+                    }
+                }
+                else if(board.ContainsKey(minusdwa))
+                {
+                    if (board[plusjeden].GetNumber() == 30)
+                    {
+                        //minusjeden i minusdwa s¹ git
+                        if ((board[minusdwa].GetNumber() + 1 ) == board[minusjeden].GetNumber())
+                            return (board[minusjeden].GetNumber() + 1);
+                        else if (board[minusdwa].GetNumber() == board[minusjeden].GetNumber())
+                            return board[minusjeden].GetNumber();
+                        else return 0;
+                    }
+                    else if (board[minusjeden].GetNumber() == 30)
+                    {
+                        //plusjeden i minusdwa s¹ git
+                        if ((board[minusdwa].GetNumber() +3) == board[plusjeden].GetNumber())
+                            return (board[plusjeden].GetNumber() - 1);
+                        else if (board[minusdwa].GetNumber() == board[plusjeden].GetNumber())
+                            return board[plusjeden].GetNumber();
+                        else return 0;
+                    }
+                }
+                else
+                {
+                    //tu zwracamy wartoœæ jokera jako ¿e s¹ to ró¿ne kolory, ta sama liczba
+                    if (board[plusjeden].GetNumber() == 30)
+                    {
+                        return board[minusjeden].GetNumber();
+                    }
+                    else if (board[minusjeden].GetNumber() == 30)
+                    {
+                        return board[plusjeden].GetNumber();
+                    }
+                    else return 0;
+                }
+                //Debug.Log("Jest drugi joker"); //do sprawdzenia kolejna pozycja
+
+            }
+            else//nie ma drugiego jokera 
+            {
+                //œrodek
+                if (board[plusjeden].GetNumber() == board[minusjeden].GetNumber())
+                    return board[plusjeden].GetNumber();
+                else if ((board[plusjeden].GetNumber() - 2) == board[minusjeden].GetNumber())
+                    return (board[minusjeden].GetNumber()+1);
+            }
+            //Debug.Log("Joker po œrodku");
         }
         else if(board.ContainsKey(plusjeden) && board.ContainsKey(plusdwa))
         {
-            if (board[plusjeden].GetNumber() == 30 || board[plusdwa].GetNumber() == 30) Debug.Log("Jest drugi joker");//do sprawdzenia kolejna pozycja
+            if (board[plusjeden].GetNumber() == 30 || board[plusdwa].GetNumber() == 30)
+            {
+                Vector3Int plustrzy = new Vector3Int(jokerPosition.x + 3, jokerPosition.y, jokerPosition.z);
+                if (board.ContainsKey(plustrzy))
+                {
+                    //sprawdzenie trzeciego i niejokera
+                    if (board[plusjeden].GetNumber() == 30)
+                    {
+                        //plusdwa i plustrzy git
+                        if ((board[plusdwa].GetNumber() + 1) == board[plustrzy].GetNumber())
+                            return (board[plusdwa].GetNumber() - 2);
+                        else if (board[plusdwa].GetNumber() == board[plustrzy].GetNumber())
+                            return board[plusdwa].GetNumber();
+                        else return 0;
+                    }
+                    else if (board[plusdwa].GetNumber() == 30)
+                    {
+                        //plusjeden i plustrzy git
+                        if ((board[plusjeden].GetNumber() + 2) == board[plustrzy].GetNumber())
+                            return (board[plusjeden].GetNumber() - 1);
+                        else if (board[plusjeden].GetNumber() == board[plustrzy].GetNumber())
+                            return board[plusjeden].GetNumber();
+                        else return 0;
+                    }
+                    else return 0;
+                }
+                else
+                {
+                    //tu zwracamy wartoœæ jokera jako ¿e s¹ to ró¿ne kolory, ta sama liczba
+                    if (board[plusjeden].GetNumber() == 30)
+                        return board[plusdwa].GetNumber();
+                    else if (board[plusdwa].GetNumber() == 30)
+                        return board[plusjeden].GetNumber();
+                }
+                Debug.Log("Jest drugi joker");//do sprawdzenia kolejna pozycja
+            }
+
+            else//nie ma drugiego jokera
+            {
+                if (board[plusjeden].GetNumber() == board[plusdwa].GetNumber())
+                    return board[plusjeden].GetNumber();
+                else if ((board[plusjeden].GetNumber() +1 ) == board[plusdwa].GetNumber())
+                    return (board[plusjeden].GetNumber() - 1);
+            }
             Debug.Log("Joker po lewej");
         }
         else if (board.ContainsKey(minusjeden) && board.ContainsKey(minusdwa))
         {
-            if (board[minusjeden].GetNumber() == 30 || board[minusdwa].GetNumber() == 30) Debug.Log("Jest drugi joker");//do sprawdzenia kolejna pozycja
+            if (board[minusjeden].GetNumber() == 30 || board[minusdwa].GetNumber() == 30) 
+            {
+                Vector3Int minustrzy = new Vector3Int(jokerPosition.x - 3, jokerPosition.y, jokerPosition.z);
+                if (board.ContainsKey(minustrzy))
+                {
+                    //sprawdzenie trzeciego i niejokera
+                    if(board[minusjeden].GetNumber() == 30)
+                    {
+                        //minusdwa i minustrzy git
+                        if ((board[minusdwa].GetNumber() - 1) == board[minustrzy].GetNumber())
+                            return (board[minusdwa].GetNumber() + 2);
+                        else if (board[minusdwa].GetNumber() == board[minustrzy].GetNumber())
+                            return board[minusdwa].GetNumber();
+                        else return 0;
+                    }
+                    else if(board[minusdwa].GetNumber() == 30)
+                    {
+                        //minusjeden i minustrzy git
+                        if ((board[minusjeden].GetNumber() - 2) == board[minustrzy].GetNumber())
+                            return (board[minusjeden].GetNumber() + 1);
+                        else if (board[minusjeden].GetNumber() == board[minustrzy].GetNumber())
+                            return board[minusjeden].GetNumber();
+                        else return 0;
+                    }
+                }
+                else
+                {
+                    //tu zwracamy wartoœæ jokera jako ¿e s¹ to ró¿ne kolory, ta sama liczba
+                    if (board[minusjeden].GetNumber() == 30)
+                        return board[minusdwa].GetNumber();
+                    else if (board[minusdwa].GetNumber() == 30)
+                        return board[minusjeden].GetNumber(); 
+                    else return 0;
+                }
+                Debug.Log("Jest drugi joker");
+            }//do sprawdzenia kolejna pozycja'
+            else //nie ma drugiego jokera
+            {
+                if (board[minusjeden].GetNumber() == board[minusdwa].GetNumber())
+                    return board[minusjeden].GetNumber();
+                else if ((board[minusjeden].GetNumber() - 1) == board[minusdwa].GetNumber())
+                    return (board[minusjeden].GetNumber() + 1);
+                else return 0;
+            }
             Debug.Log("Joker po prawej");
         }
-        else Debug.Log("B³¹d");
+        //else Debug.Log("B³¹d");
         return 0; 
     }
 

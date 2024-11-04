@@ -66,22 +66,42 @@ public class TurnController : MonoBehaviour
                 {
                     //if(GameController.Instance.GetPlayer().GetFirstTour())
 
-                    if (GameController.Instance.GetPlayer().GetFirstTour())
+                    if (GameController.Instance.GetPlayer().GetFirstTour())//jeœli to pierwsza tura
                     {
-                        GameController.Instance.firstTurnController.CheckFirstTurnValidity(GameController.Instance.GetBoardDictionary().board);
-                        GameController.Instance.GetPlayer().EndFirstTour();
-                        GameController.Instance.firstTurnController.Reset();
-                    }
+                        if (GameController.Instance.firstTurnController.CheckFirstTurnValidity(GameController.Instance.GetBoardDictionary().board) >= 30)
+                        {
+                            GameController.Instance.GetPlayer().EndFirstTour();
+                            GameController.Instance.firstTurnController.Reset();
 
-                    foreach (KeyValuePair<Vector3Int, Tile> tile in GameController.Instance.GetBoardDictionary().board)
+                            foreach (KeyValuePair<Vector3Int, Tile> tile in GameController.Instance.GetBoardDictionary().board)
+                            {
+                                tile.Value.SetPut(true);
+                            }
+
+                            GameController.Instance.NewTurn();///zapisanie tablicy do listy
+                            objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
+                            placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
+                            GameController.Instance.GetPlayer().SaveListToCopy();
+                        }
+                        else 
+                        {
+                            Debug.Log("W pierwszej turze nale¿y wy³o¿yc sumê conajmniej = 30");
+                            return;
+                        }
+                    }
+                    else
                     {
-                        tile.Value.SetPut(true);
-                    }
 
-                    GameController.Instance.NewTurn();///zapisanie tablicy do listy
-                    objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
-                    placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
-                    GameController.Instance.GetPlayer().SaveListToCopy();
+                        foreach (KeyValuePair<Vector3Int, Tile> tile in GameController.Instance.GetBoardDictionary().board)
+                        {
+                            tile.Value.SetPut(true);
+                        }
+
+                        GameController.Instance.NewTurn();///zapisanie tablicy do listy
+                        objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
+                        placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
+                        GameController.Instance.GetPlayer().SaveListToCopy();
+                    }
                 }
                 else Debug.Log("Nie poprawnie zakoñczona mapa");
 
@@ -97,7 +117,11 @@ public class TurnController : MonoBehaviour
             
         }
     }
-
+    /// <summary>
+    /// Sprawdza ci¹gi p³ytek na mapie, jeœli jakieœ s¹
+    /// sprawdza czy ka¿dy ci¹g ma conajmniej 3 lub wiêcej p³ytek
+    /// </summary>
+    /// <returns>true jeœli jest poprawnie, conajmniej 3, jeœli nie, zwraca false</returns>
     public bool CheckMap()
     {
             Dictionary<Vector3Int, Tile> board = GameController.Instance.GetBoardDictionary().board;
@@ -211,7 +235,11 @@ public class TurnController : MonoBehaviour
         }
         else takeTile.takeNewTile();
 
-        NewTurn();
+        // NewTurn();
+        GameController.Instance.NewTurn();///zapisanie tablicy do listy
+        objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
+        placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
+        GameController.Instance.GetPlayer().SaveListToCopy();///nadpisanie kopii
 
 
     }
