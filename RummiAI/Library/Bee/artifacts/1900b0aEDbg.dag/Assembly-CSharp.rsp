@@ -378,6 +378,7 @@
 "Assets/scripts/Draggable.cs"
 "Assets/scripts/FirstTurnController.cs"
 "Assets/scripts/GameController.cs"
+"Assets/scripts/GameTurnManager.cs"
 "Assets/scripts/GridData.cs"
 "Assets/scripts/InputManager.cs"
 "Assets/scripts/IPlacementState.cs"

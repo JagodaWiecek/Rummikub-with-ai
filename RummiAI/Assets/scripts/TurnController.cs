@@ -31,6 +31,9 @@ public class TurnController : MonoBehaviour
     [SerializeField]
     UnityEngine.UI.Button endTurn;
 
+    [SerializeField]
+    UnityEngine.UI.Button takeTileButton;
+
 
     // Start is called before the first frame update
     void Start()
@@ -41,14 +44,24 @@ public class TurnController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        if (MapContents())
+    {//gameTurnManager
+        if (GameController.Instance.gameTurnManager.currentPlayerId == 0)
         {
-            undoButton.gameObject.SetActive(true);
-            endTurn.gameObject.SetActive(true);
+            takeTileButton.gameObject.SetActive(true);
+            if (MapContents())
+            {
+                undoButton.gameObject.SetActive(true);
+                endTurn.gameObject.SetActive(true);
+            }
+            else
+            {
+                undoButton.gameObject.SetActive(false);
+                endTurn.gameObject.SetActive(false);
+            }
         }
         else
         {
+            takeTileButton.gameObject.SetActive(false);
             undoButton.gameObject.SetActive(false);
             endTurn.gameObject.SetActive(false);
         }
@@ -82,6 +95,7 @@ public class TurnController : MonoBehaviour
                             objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
                             placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
                             GameController.Instance.GetPlayer().SaveListToCopy();
+                            GameController.Instance.gameTurnManager.ChangeTurn();
                         }
                         else 
                         {
@@ -101,6 +115,8 @@ public class TurnController : MonoBehaviour
                         objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
                         placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
                         GameController.Instance.GetPlayer().SaveListToCopy();
+                        GameController.Instance.gameTurnManager.ChangeTurn();
+
                     }
                 }
                 else Debug.Log("Nie poprawnie zakoñczona mapa");
@@ -240,6 +256,7 @@ public class TurnController : MonoBehaviour
         objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
         placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
         GameController.Instance.GetPlayer().SaveListToCopy();///nadpisanie kopii
+        GameController.Instance.gameTurnManager.ChangeTurn();
 
 
     }

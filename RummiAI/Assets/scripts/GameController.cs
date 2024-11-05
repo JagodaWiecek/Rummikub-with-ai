@@ -39,6 +39,7 @@ public class GameController : MonoBehaviour
     Grid grid;
 
     public FirstTurnController firstTurnController;
+    public GameTurnManager gameTurnManager;
 
     /// <summary>
     /// inicjuje instancje
@@ -102,6 +103,7 @@ public class GameController : MonoBehaviour
             placementSystem.StartRemoving();
         if (Input.GetMouseButtonDown(1) && !placementSystem.GetInputManager().isPointerOverUI())
             placementSystem.StartMowing();
+        if (Input.GetKeyDown(KeyCode.A)) gameTurnManager.ChangeTurn();
     }
     public bool IsPositionInRange(Vector3 position, Vector3 minRange, Vector3 maxRange)
     {

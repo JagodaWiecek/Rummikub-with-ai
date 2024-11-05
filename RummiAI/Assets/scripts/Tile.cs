@@ -643,13 +643,13 @@ public class Tile : MonoBehaviour
 
         var board = GameController.Instance.GetBoardDictionary().board;
 
-        if (gridPosition.x + 1 == previousPosition.x && !GameController.Instance.GetBoardDictionary().board.ContainsKey(minusjeden) 
+       /* if (gridPosition.x + 1 == previousPosition.x && !GameController.Instance.GetBoardDictionary().board.ContainsKey(minusjeden) 
             && !GameController.Instance.GetBoardDictionary().board.ContainsKey(minusdwa))//k³adzione po lewej
             return true;
         else if (gridPosition.x - 1 == previousPosition.x && !GameController.Instance.GetBoardDictionary().board.ContainsKey(plusjeden)
             && !GameController.Instance.GetBoardDictionary().board.ContainsKey(plusjeden))//k³adzenie po prawej
             return true;
-        
+        */
             
 
         if (this.GetNumber() == 30)

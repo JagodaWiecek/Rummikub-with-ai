@@ -13,7 +13,7 @@ public class TakeTile : MonoBehaviour
 {
 
     public GameObject tilePrefab;/// szablon obiektu 
-    //public Transform parentTransform; //
+   // public Transform parentTransform; //
     GameObject newTile = null;///tworzony obiekt
 
     [SerializeField]
@@ -222,6 +222,33 @@ public class TakeTile : MonoBehaviour
             textComponent.text = "Take a tile (" + liczba + ")";
         }
         else Debug.LogError("Problem z Game Instance");
+    }
+
+    public void DisableAllButtons()
+    {
+        Transform parentTransform = this.transform;
+        foreach (Transform child in parentTransform)
+        {
+            //if (child.GetComponent<Button>()
+            Button button = child.GetComponentInChildren<Button>();
+            if (button != null)
+            {
+                // Wy³¹czamy komponent Button
+                button.interactable = false;
+            }
+        }
+    }
+    public void EnableAllButtons()
+    {
+        Transform parentTransform = this.transform;
+        foreach (Transform child in parentTransform)
+        {
+            Button button = child.GetComponentInChildren<Button>();
+            if (button != null)
+            {
+                button.interactable = true;
+            }
+        }
     }
 
 }
