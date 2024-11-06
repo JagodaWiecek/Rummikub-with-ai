@@ -14,6 +14,13 @@ public class GameTurnManager : MonoBehaviour
     GameObject currentPlayerText;
 
     [SerializeField]
+    GameObject MissComputerTilesText;
+    [SerializeField]
+    GameObject MrComputerTilesText;
+    [SerializeField]
+    GameObject ComputerTilesText;
+
+    [SerializeField]
     TakeTile takeTile;
     [SerializeField]
     TurnController turnController;
@@ -46,29 +53,53 @@ public class GameTurnManager : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// funkcja do ustawienia ui, widocznego dla u¿ytkownika
+    /// </summary>
     public void SetUIText()
-    {
+    {//.GetComponent<Text>().text
         if (currentPlayerId == 0)
         {
             currentPlayerText.GetComponent<Text>().text = "Player: You";
             takeTile.EnableAllButtons();
+            //SetPlayersTileCountUI();
         }
-        else
+        else if(currentPlayerId == 1)
         {
-            currentPlayerText.GetComponent<Text>().text = "Player: Computer" + currentPlayerId.ToString();
+            currentPlayerText.GetComponent<Text>().text = "Player: MrComputer";
             takeTile.DisableAllButtons();
+            //SetPlayersTileCountUI();
         }
+        else if (currentPlayerId == 2)
+        {
+            currentPlayerText.GetComponent<Text>().text = "Player: MissComputer";
+            takeTile.DisableAllButtons();
+            //SetPlayersTileCountUI();
+        }
+        else if (currentPlayerId == 3)
+        {
+            currentPlayerText.GetComponent<Text>().text = "Player: Computer";
+            takeTile.DisableAllButtons();
+            //SetPlayersTileCountUI();
+        }
+        SetPlayersTileCountUI();
         ResetTime();
         SetTimeUI();
 
+    }
+
+    public void SetPlayersTileCountUI()
+    {
+        MissComputerTilesText.GetComponent<Text>().text = "MissComputer: " +GameController.Instance.GetMissComputerPlayer().GetList().Count.ToString();
+        MrComputerTilesText.GetComponent<Text>().text = "MrComputer: "+ GameController.Instance.GetMrComputerPlayer().GetList().Count.ToString();
+        ComputerTilesText.GetComponent<Text>().text = "Computer: "+ GameController.Instance.GetComputerPlayer().GetList().Count.ToString();
     }
     /// <summary>
     /// Ustawia liczbe czasu na przestrzeni ui
     /// </summary>
     public void SetTimeUI()
     {
-        timeText.GetComponent<Text>().text = "Time: "+ Mathf.FloorToInt(currentTurnTime);//Mathf.FloorToInt(currentTime)
+        timeText.GetComponent<Text>().text = "Time: "+ Mathf.FloorToInt(currentTurnTime);
     }
     public void ChangeTurn()
     {

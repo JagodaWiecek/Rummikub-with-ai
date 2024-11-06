@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private List<Tile> playerHandCopy = new();
     [SerializeField]
-    private bool firstTour = true;
+    private bool firstTurn = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,13 +24,13 @@ public class Player : MonoBehaviour
 
     public List<Tile> GetList() {  return this.playerHand; }
     public List<Tile> GetListCopy() { return this.playerHandCopy; }
-    public bool GetFirstTour() {  return this.firstTour; }
+    public bool GetFirstTour() {  return this.firstTurn; }
 
     /// <summary>
     /// funkcja ustawia zmienn¹ bool gracza na false, co oznacza ¿e gracz ju¿ ma za sob¹ pierwsz¹ turê gry
     /// wartoœæ zmiennej ju¿ nie zmieni siê w trakcie gry na nic innego
     /// </summary>
-    public void EndFirstTour() {  this.firstTour = false; }
+    public void EndFirstTour() {  this.firstTurn = false; }
 
     public void AddTileToList(Tile tile)
     {

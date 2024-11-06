@@ -14,8 +14,10 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private List<Tile> tiles; //bank gry
-    [SerializeField]
-    private List<Tile> playerHand;//talia gracza
+    //[SerializeField]
+    //private List<Tile> playerHand;//talia gracza
+    //[SerializeField]
+    //private List<Tile> playerHandCopy;//talia gracza
     [SerializeField]
     private bool firstPlayersTurn;
     //private List<Tile> mrBot , mrBotCopy;
@@ -23,9 +25,12 @@ public class GameController : MonoBehaviour
     //private List<Tile> ComputerPlayer, ComputerPlayerCopy;
     [SerializeField]
     Player player;
-    Player mrComputerPlayer;
-    Player missComputerPlayer;
-    Player ComputerPlayer;
+    [SerializeField]
+    ComputerPlayer mrComputerPlayer;
+    [SerializeField]
+    ComputerPlayer missComputerPlayer;
+    [SerializeField]
+    ComputerPlayer ComputerPlayer;
 
    
     [SerializeField]
@@ -68,25 +73,19 @@ public class GameController : MonoBehaviour
         
         boardList = new();
         boardDictionary = new();
-        //playerHandCopy = new();
-       // mrBot = new();
-       // missBot = new();
-       // ComputerPlayer = new();
         player = new();
-        mrComputerPlayer = new();
-        missComputerPlayer = new();
-        ComputerPlayer = new();
         player.SetPlayersHand(ref this.tiles);
-        mrComputerPlayer.SetPlayersHand(ref this.tiles);
-        missComputerPlayer.SetPlayersHand(ref this.tiles);
-        ComputerPlayer.SetPlayersHand(ref this.tiles);
-        playerHand = player.GetList();
+        mrComputerPlayer.SetPlayersHand(ref this.tiles,1);
+        missComputerPlayer.SetPlayersHand(ref this.tiles,2);
+        ComputerPlayer.SetPlayersHand(ref this.tiles,3);
+        //playerHand = player.GetList();
+        //playerHandCopy = player.GetListCopy();
        // firstTurnController = new();
 
-       //this.playerHand.Add(new(30, new UnityEngine.Color(0.5f, 0f, 0.5f), SetName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30.ToString(), "$", false));
+        //this.playerHand.Add(new(30, new UnityEngine.Color(0.5f, 0f, 0.5f), SetName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30.ToString(), "$", false));
         //this.playerHand.Add(new(30, UnityEngine.Color.magenta, SetName(UnityEngine.Color.magenta) + "_" + 30.ToString(), "$", false));
 
-        //Vector3Int position = new Vector3Int(0, 0, 0);
+  
 
     }
 
@@ -105,12 +104,7 @@ public class GameController : MonoBehaviour
             placementSystem.StartMowing();
         if (Input.GetKeyDown(KeyCode.A)) gameTurnManager.ChangeTurn();
     }
-    public bool IsPositionInRange(Vector3 position, Vector3 minRange, Vector3 maxRange)
-    {
-        return position.x >= minRange.x && position.x <= maxRange.x &&
-               position.y >= minRange.y && position.y <= maxRange.y &&
-               position.z >= minRange.z && position.z <= maxRange.z;
-    }
+
     /// <summary>
     /// Funkcja do zwrócenia ca³ej listy p³ytek
     /// </summary>
@@ -128,9 +122,9 @@ public class GameController : MonoBehaviour
     public List<Tile> GetPlayerHandCopy(){ return this.player.GetListCopy(); }
 
     public Player GetPlayer() { return this.player; }
-    public Player GetMrComputerPlayer() { return this.mrComputerPlayer; }
-    public Player GetMissComputerPlayer() { return this.missComputerPlayer; }
-    public Player GetComputerPlayer() { return this.ComputerPlayer; }
+    public ComputerPlayer GetMrComputerPlayer() { return this.mrComputerPlayer; }
+    public ComputerPlayer GetMissComputerPlayer() { return this.missComputerPlayer; }
+    public ComputerPlayer GetComputerPlayer() { return this.ComputerPlayer; }
 
     /// <summary>
     /// Getter zmiennej klasowej, boardDictionary
