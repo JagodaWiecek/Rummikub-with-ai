@@ -2022,10 +2022,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e73cded3be31e924c915ddbfa691e07e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameIndex: 3
   tiles: []
-  playerHand: []
   firstPlayersTurn: 0
   player: {fileID: 0}
+  mrComputerPlayer: {fileID: 0}
+  missComputerPlayer: {fileID: 0}
+  ComputerPlayer: {fileID: 0}
   placementSystem: {fileID: 1434540506}
   boardDictionary: {fileID: 0}
   boardList: []
@@ -2081,6 +2084,9 @@ MonoBehaviour:
   currentTurnTime: 30
   timeText: {fileID: 1936729153}
   currentPlayerText: {fileID: 352062923}
+  MissComputerTilesText: {fileID: 0}
+  MrComputerTilesText: {fileID: 0}
+  ComputerTilesText: {fileID: 0}
   takeTile: {fileID: 1117497324}
   turnController: {fileID: 868978687}
 --- !u!1 &1896926888

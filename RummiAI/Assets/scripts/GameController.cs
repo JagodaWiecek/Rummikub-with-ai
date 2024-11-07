@@ -13,13 +13,14 @@ public class GameController : MonoBehaviour
     public static GameController Instance { get; private set; }
 
     [SerializeField]
+    public int gameIndex;///inne rzeczy zostan¹ za³adowane w zale¿noœci od indeksu
+
+    [SerializeField]
     private List<Tile> tiles; //bank gry
     //[SerializeField]
     //private List<Tile> playerHand;//talia gracza
     //[SerializeField]
     //private List<Tile> playerHandCopy;//talia gracza
-    [SerializeField]
-    private bool firstPlayersTurn;
     //private List<Tile> mrBot , mrBotCopy;
     // private List<Tile> missBot, missBotCopy;
     //private List<Tile> ComputerPlayer, ComputerPlayerCopy;
@@ -31,8 +32,10 @@ public class GameController : MonoBehaviour
     ComputerPlayer missComputerPlayer;
     [SerializeField]
     ComputerPlayer ComputerPlayer;
+    //[SerializeField]
+    //PlayerAI AI;
 
-   
+
     [SerializeField]
     PlacementSystem placementSystem;
 
@@ -74,10 +77,14 @@ public class GameController : MonoBehaviour
         boardList = new();
         boardDictionary = new();
         player = new();
-        player.SetPlayersHand(ref this.tiles);
-        mrComputerPlayer.SetPlayersHand(ref this.tiles,1);
-        missComputerPlayer.SetPlayersHand(ref this.tiles,2);
-        ComputerPlayer.SetPlayersHand(ref this.tiles,3);
+
+        if (gameIndex == 0)
+        {
+            player.SetPlayersHand(ref this.tiles);
+            mrComputerPlayer.SetPlayersHand(ref this.tiles, 1);
+            missComputerPlayer.SetPlayersHand(ref this.tiles, 2);
+            ComputerPlayer.SetPlayersHand(ref this.tiles, 3);
+        }
         //playerHand = player.GetList();
         //playerHandCopy = player.GetListCopy();
        // firstTurnController = new();
