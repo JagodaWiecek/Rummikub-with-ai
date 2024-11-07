@@ -173,26 +173,26 @@ public class GameController : MonoBehaviour
             for (int i = 0; i < 13; i++)///dodanie do banku p³ytek koloru czerwonego
             {
                 temp = i + 1;
-                tiles.Add(new ((temp), UnityEngine.Color.red, SetName(UnityEngine.Color.red) + "_" + temp.ToString(), temp.ToString(), false));//(int num, Color col, string name)
+                tiles.Add(new ((temp), UnityEngine.Color.red, SetNameForTile(UnityEngine.Color.red) + "_" + temp.ToString(), temp.ToString(), false));//(int num, Color col, string name)
             }
             for(int i = 0;i < 13; i++)//pomarañczowy
             {
                 temp = i + 1;
-                tiles.Add(new ((temp), new UnityEngine.Color(1f, 0.50f, 0f), SetName(new UnityEngine.Color(1f, 0.50f, 0f)) + "_" + temp.ToString(), temp.ToString(), false));
+                tiles.Add(new ((temp), new UnityEngine.Color(1f, 0.50f, 0f), SetNameForTile(new UnityEngine.Color(1f, 0.50f, 0f)) + "_" + temp.ToString(), temp.ToString(), false));
             }
             for (int i = 0; i < 13; i++)//czarny
             {
                 temp = i + 1;
-                tiles.Add(new ((temp), UnityEngine.Color.black, SetName(UnityEngine.Color.black) + "_" + temp.ToString(), temp.ToString(), false));
+                tiles.Add(new ((temp), UnityEngine.Color.black, SetNameForTile(UnityEngine.Color.black) + "_" + temp.ToString(), temp.ToString(), false));
             }
             for (int i = 0; i < 13; i++)//niebieski
             {
                 temp = i + 1;
-                tiles.Add(new ((temp), UnityEngine.Color.blue, SetName(UnityEngine.Color.blue) + "_" + temp.ToString(), temp.ToString(), false));
+                tiles.Add(new ((temp), UnityEngine.Color.blue, SetNameForTile(UnityEngine.Color.blue) + "_" + temp.ToString(), temp.ToString(), false));
             }
         }
-        tiles.Add(new (30, new UnityEngine.Color(0.5f, 0f, 0.5f), SetName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30.ToString(), "$", false));//fiolet
-        tiles.Add(new (30, UnityEngine.Color.magenta, SetName(UnityEngine.Color.magenta) + "_" + 30.ToString(), "$", false));//magenta
+        tiles.Add(new (30, new UnityEngine.Color(0.5f, 0f, 0.5f), SetNameForTile(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30.ToString(), "$", false));//fiolet
+        tiles.Add(new (30, UnityEngine.Color.magenta, SetNameForTile(UnityEngine.Color.magenta) + "_" + 30.ToString(), "$", false));//magenta
     }
 
     /// <summary>
@@ -200,7 +200,7 @@ public class GameController : MonoBehaviour
     /// </summary>
     /// <param name="color">kolor z klasy UnityEngine</param>
     /// <returns>zmienna tekstowa nazwy koloru</returns>
-    string SetName(UnityEngine.Color color)
+    public string SetNameForTile(UnityEngine.Color color)
     {
         if (color == UnityEngine.Color.red) return "red";
         if (color == UnityEngine.Color.blue) return "blue";
