@@ -230,7 +230,7 @@ public class ObjectPlacer : MonoBehaviour
         LayoutElement le = newTile.AddComponent<LayoutElement>();//dodanie objektu do widoku
     }
 
-    public int CreateObject(GameObject prefab, Vector3 position, ref Tile tile, Grid grid)
+    public int PlacedObject(GameObject prefab, Vector3 position, ref Tile tile, Grid grid)
     {
         GameObject gameObject = Instantiate(prefab);
         gameObject.transform.position = position;

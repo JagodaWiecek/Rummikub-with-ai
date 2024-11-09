@@ -105,18 +105,20 @@ public class TurnController : MonoBehaviour
                     }
                     else
                     {
-
-                        foreach (KeyValuePair<Vector3Int, Tile> tile in GameController.Instance.GetBoardDictionary().board)
+                        if (GameController.Instance.GetPlayer().GetList().Count < GameController.Instance.GetPlayer().GetListCopy().Count)
                         {
-                            tile.Value.SetPut(true);
+                            foreach (KeyValuePair<Vector3Int, Tile> tile in GameController.Instance.GetBoardDictionary().board)
+                            {
+                                tile.Value.SetPut(true);
+                            }
+
+                            GameController.Instance.NewTurn();///zapisanie tablicy do listy
+                            objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
+                            placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
+                            GameController.Instance.GetPlayer().SaveListToCopy();
+                            GameController.Instance.gameTurnManager.ChangeTurn();
                         }
-
-                        GameController.Instance.NewTurn();///zapisanie tablicy do listy
-                        objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
-                        placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
-                        GameController.Instance.GetPlayer().SaveListToCopy();
-                        GameController.Instance.gameTurnManager.ChangeTurn();
-
+                        else Debug.Log("Nale¿y wy³o¿yæ conajmniej jedn¹ p³ytkê");
                     }
                 }
                 else Debug.Log("Nie poprawnie zakoñczona mapa");

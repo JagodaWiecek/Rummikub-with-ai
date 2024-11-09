@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
+using UnityEngine.XR;
 
 public class ComputerPlayer : MonoBehaviour
 {
@@ -21,6 +23,15 @@ public class ComputerPlayer : MonoBehaviour
     public int countJoker;
 
     private float elapsedTime = 0;
+
+    [SerializeField]
+    private ObjectsDatabase database;
+    [SerializeField]
+    private ObjectPlacer objectPlacer;
+    [SerializeField]
+    private Grid grid;
+    [SerializeField]
+    PlacementSystem placementSystem;
 
     int maxX = 8;
     int minX = -9;
@@ -51,29 +62,33 @@ public class ComputerPlayer : MonoBehaviour
             if(elapsedTime >= 2f && elapsedTime < 4f)
             {
                 List<List<Tile>> sequencesbyColors = FindSequentialColorSets(ref computerPlayerHand);
-                //Debug.Log("sekwencji tego samego koloru: " + sequencesbyColors.Count);
-                if(sequencesbyColors.Count>0)
+                if (sequencesbyColors.Count > 0)
                 {
-                    ///funkcja do wrzucenia rzeczy na planszê
-                    foreach(List<Tile>  sequence in sequencesbyColors)
+                    for (int i = sequencesbyColors.Count - 1; i >= 0; i--)
                     {
+                        List<Tile> sequence = sequencesbyColors[i];
                         PutTilesOnBoard(sequence);
+                        RemoveFromList(sequence);
+                        sequencesbyColors.RemoveAt(i);
                     }
-                    
                 }
+
             }
             if (elapsedTime >= 4f && elapsedTime < 6f)
             {
                 List<List<Tile>> sequencesbyNumbers = FindSameNumberDifferentColorSets(ref computerPlayerHand);
                 if (sequencesbyNumbers.Count > 0)
                 {
-                    ///funkcja do wrzucenia rzeczy na planszê
-                    foreach(List<Tile>  sequence in sequencesbyNumbers)
+                    for (int i = sequencesbyNumbers.Count - 1; i >= 0; i--)
                     {
+                        List<Tile> sequence = sequencesbyNumbers[i];
                         PutTilesOnBoard(sequence);
+                        RemoveFromList(sequence);
+                        sequencesbyNumbers.RemoveAt(i); // Usuñ przetworzon¹ sekwencjê
                     }
+                    //Debug.Log("sekwencji tych samych liczb: " + sequencesbyNumbers.Count);
                 }
-                //Debug.Log("sekwencji tych samych liczb: " + sequencesbyNumbers.Count);
+                
             }
             if (elapsedTime >= 6f)
             {
@@ -85,18 +100,29 @@ public class ComputerPlayer : MonoBehaviour
                     //nie by³o ruchu
                     List<Tile> board = GameController.Instance.GetTiles();
                     AddNewTile(ref board);
+                    GameController.Instance.NewTurn();
                 }
                 else
                 {
                     //by³ ruch
                     if (GetFirstTour())//by³ ruch wiêc jeœli by³a to pierwsza tura to ju¿ nie jest
                         EndFirstTour();
-
+                    NewTurn();
+                    SaveListToCopy();
+                    //zapisaæ kopie
                 }
                 GameController.Instance.gameTurnManager.ChangeTurn();
 
             }
             //
+        }
+    }
+    public void NewTurn()
+    {
+        if (GameController.Instance != null)
+        {
+            objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
+            placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
         }
     }
 
@@ -118,7 +144,16 @@ public class ComputerPlayer : MonoBehaviour
     /// </summary>
     public void SortByNumbers()
     {
-        computerPlayerHand.Sort((tile1, tile2) => tile1.GetNumber().CompareTo(tile2.GetNumber()));
+        computerPlayerHand.Sort((tile1, tile2) =>
+        {
+            int numberComparison = tile1.GetNumber().CompareTo(tile2.GetNumber());
+            if (numberComparison == 0)
+            {
+                // Jeœli liczby s¹ takie same, sortuj po kolorze
+                return tile1.GetColor().GetHashCode().CompareTo(tile2.GetColor().GetHashCode());
+            }
+            return numberComparison;
+        });
     }
     /// <summary>
     /// funkcja do sortowania listy po kolei liczbami i kolorami
@@ -359,6 +394,7 @@ public class ComputerPlayer : MonoBehaviour
 
         int sum = 0;
         int expectedNumber = sequence[0].GetNumber();
+        HashSet<Color> uniqueColors = new HashSet<Color>();
 
         foreach (Tile tile in sequence)
         {
@@ -371,10 +407,11 @@ public class ComputerPlayer : MonoBehaviour
             {
                 sum += tile.GetNumber();
                 expectedNumber = tile.GetNumber();
+                uniqueColors.Add(tile.GetColor());
             }
             //expectedNumber++;
         }
-
+        if (uniqueColors.Count != sequence.Count) return false;
         // Jeœli to jest pierwsza tura, sprawdŸ, czy suma wynosi co najmniej 30
         return !firstTurn || sum >= 30;
     }
@@ -410,6 +447,13 @@ public class ComputerPlayer : MonoBehaviour
 
     public void PutTilesOnBoard(List<Tile> sequention)
     {
+        List<Vector3Int> chosenSpace = FreeSpaceToPut(sequention.Count);
+        for(int i = 1,j=0;i< (chosenSpace.Count-1);i++,j++)
+        {
+
+            PutTile(chosenSpace[i], sequention[j]);
+        }
+
         //wylosowanie wartoœci na mape dla x i z
         //nie mo¿na wyjœæ poza mape
         //wylosowane pole nie mo¿e byæ zajête
@@ -417,5 +461,80 @@ public class ComputerPlayer : MonoBehaviour
         //dodanie do objectplacer
         //dodanie do GridData
         //dodanie do gameboard
+        //Debug.Log(chosenSpace);
+    }
+    /// <summary>
+    /// funkcja do wylosowania pozycji do po³o¿enia p³ytki dla gracza komputerowego
+    /// oraz sprawdzenie czy pozycje s¹ poprawne dla niego
+    /// </summary>
+    /// <param name="tileAmount">iloœæ p³ytek, jak¹ gracz chce postawiæ</param>
+    /// <returns>listê pozycji, które zostan¹ zajête w wersji integer</returns>
+    public List<Vector3Int> FreeSpaceToPut(int tileAmount)
+    {
+        var board = GameController.Instance.GetBoardDictionary().board;
+        //int maxX = 8;
+        //int minX = -9;
+        //int maxZ = 2;
+        //int minZ = -4;
+        List < Vector3Int > list = new List < Vector3Int >();
+
+        int levelZ = Random.Range(minZ, (maxZ + 1));
+        int levelX = Random.Range(minX, ((maxX+1) - tileAmount));
+        //int levelZ = -4;
+        //int levelX = -9;
+        int amountToOccupy = tileAmount+ 2;
+        Vector3Int position;
+
+        int i = 0;
+        while (i < amountToOccupy)
+        {
+            position = new Vector3Int(levelX, 0, levelZ);
+            if (board.ContainsKey(position))
+            {
+                levelZ = Random.Range(minZ, maxZ + 1);
+                levelX = Random.Range(minX, maxX + 1 - tileAmount);
+                list.Clear();
+                i = 0; 
+            }
+            else
+            {
+                list.Add(position);
+                levelX++;
+                i++;
+            }
+        }
+
+
+
+        return list;
+    }
+
+    void PutTile(Vector3Int gridPosition,Tile tile)
+    {
+
+        int index = objectPlacer.PlacedObject(database.objectsData[0].Prefab, grid.CellToWorld(gridPosition),ref tile, grid);
+
+        placementSystem.GetGridData().AddObjectAt(gridPosition,
+            database.objectsData[0].Size,
+            database.objectsData[0].ID,
+            index);
+        tile.ShowTiles();
+        Debug.Log("na pozycji:" + gridPosition);
+    }
+
+    void RemoveFromList(List<Tile> sequence)
+    {
+        foreach (Tile tile in sequence) {
+            //computerPlayerHand
+            for (int i = 0; i < computerPlayerHand.Count; i++)
+            {
+                if (computerPlayerHand[i].Equals(tile, computerPlayerHand[i]))
+                {
+                    computerPlayerHand.RemoveAt(i);
+                    break;
+                }
+
+            }
+        }
     }
 }

@@ -5279,6 +5279,11 @@ MonoBehaviour:
   computerPlayerHandCopy: []
   firstTurn: 1
   myIndex: 0
+  countJoker: 0
+  database: {fileID: 11400000, guid: 421ebad51cc74194d80b0972b624fa7f, type: 2}
+  objectPlacer: {fileID: 1896926890}
+  grid: {fileID: 1223401790}
+  placementSystem: {fileID: 1434540506}
 --- !u!1 &578801945
 GameObject:
   m_ObjectHideFlags: 0
@@ -14272,6 +14277,11 @@ MonoBehaviour:
   computerPlayerHandCopy: []
   firstTurn: 1
   myIndex: 0
+  countJoker: 0
+  database: {fileID: 11400000, guid: 421ebad51cc74194d80b0972b624fa7f, type: 2}
+  objectPlacer: {fileID: 1896926890}
+  grid: {fileID: 1223401790}
+  placementSystem: {fileID: 1434540506}
 --- !u!4 &1544624634 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3518220904518011241, guid: f9def720ee402eb428aa298affebe62c, type: 3}
@@ -15144,8 +15154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e73cded3be31e924c915ddbfa691e07e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameIndex: 0
   tiles: []
-  firstPlayersTurn: 0
   player: {fileID: 0}
   mrComputerPlayer: {fileID: 576707204}
   missComputerPlayer: {fileID: 1543495819}
@@ -17218,6 +17228,11 @@ MonoBehaviour:
   computerPlayerHandCopy: []
   firstTurn: 1
   myIndex: 0
+  countJoker: 0
+  database: {fileID: 11400000, guid: 421ebad51cc74194d80b0972b624fa7f, type: 2}
+  objectPlacer: {fileID: 1896926890}
+  grid: {fileID: 1223401790}
+  placementSystem: {fileID: 1434540506}
 --- !u!4 &1880310240 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 951273435829534728, guid: d63a7061572879542ba53148dd2db59d, type: 3}
