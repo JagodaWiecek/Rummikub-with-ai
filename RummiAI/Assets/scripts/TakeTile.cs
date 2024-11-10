@@ -51,7 +51,7 @@ public class TakeTile : MonoBehaviour
         
         if (GameController.Instance != null && this.tilePrefab != null)///Czy g³ówna klasa zosta³a zainicjowana i czy g³ówna talia nie jest pusta
         {
-            if (GameController.Instance.GetTiles().Count != 0 && GameController.Instance.GetPlayerHand().Count != 0)// GetPlayerHand()
+            if (GameController.Instance.GetGameBank().Count != 0 && GameController.Instance.GetPlayerHand().Count != 0)// GetPlayerHand()
             {
                 List<Tile> hand = GameController.Instance.GetPlayerHand();
 
@@ -134,9 +134,9 @@ public class TakeTile : MonoBehaviour
     public void takeNewTile()
     {
         ///odwo³anie do tali w innym skrypcie
-        if (GameController.Instance != null && GameController.Instance.GetTiles().Count!=0)
+        if (GameController.Instance != null && GameController.Instance.GetGameBank().Count!=0)
         {
-            List<Tile> tiles = GameController.Instance.GetTiles();//wykonanie referencji
+            List<Tile> tiles = GameController.Instance.GetGameBank();//wykonanie referencji
             List<Tile> Hand = GameController.Instance.GetPlayerHand();
             List<Tile> copy = GameController.Instance.GetPlayerHandCopy();
             int TileIndex = Random.Range(0, tiles.Count);
@@ -189,9 +189,9 @@ public class TakeTile : MonoBehaviour
 
     public void AddNewToCopy()
     {
-        if (GameController.Instance != null && GameController.Instance.GetTiles().Count != 0)
+        if (GameController.Instance != null && GameController.Instance.GetGameBank().Count != 0)
         {
-            List<Tile> tiles = GameController.Instance.GetTiles();//wykonanie referencji
+            List<Tile> tiles = GameController.Instance.GetGameBank();//wykonanie referencji
             List<Tile> copy = GameController.Instance.GetPlayerHandCopy();
             int TileIndex = Random.Range(0, tiles.Count);
 
@@ -218,7 +218,7 @@ public class TakeTile : MonoBehaviour
         if (GameController.Instance != null)
         {
             Text textComponent = this.transform.parent.parent.Find("Take_tile_button/Title").GetComponent<Text>();
-            int liczba = GameController.Instance.GetTiles().Count;
+            int liczba = GameController.Instance.GetGameBank().Count;
             textComponent.text = "Take a tile (" + liczba + ")";
         }
         else Debug.LogError("Problem z Game Instance");

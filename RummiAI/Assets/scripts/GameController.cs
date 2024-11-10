@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour
     public int gameIndex;///inne rzeczy zostan¹ za³adowane w zale¿noœci od indeksu
 
     [SerializeField]
-    private List<Tile> tiles; //bank gry
+    private List<Tile> mainBank; //bank gry
     //[SerializeField]
     //private List<Tile> playerHand;//talia gracza
     //[SerializeField]
@@ -72,7 +72,7 @@ public class GameController : MonoBehaviour
      void Start()
     {
         //Debug.Log("Inicjacja Game Controller");
-        SetTiles(ref this.tiles);
+        SetTiles(ref this.mainBank);
         
         boardList = new();
         boardDictionary = new();
@@ -80,10 +80,10 @@ public class GameController : MonoBehaviour
 
         if (gameIndex == 0)
         {
-            player.SetPlayersHand(ref this.tiles);
-            mrComputerPlayer.SetPlayersHand(ref this.tiles, 1);
-            missComputerPlayer.SetPlayersHand(ref this.tiles, 2);
-            ComputerPlayer.SetPlayersHand(ref this.tiles, 3);
+            player.SetPlayersHand(ref this.mainBank);
+            mrComputerPlayer.SetPlayersHand(ref this.mainBank, 1);
+            missComputerPlayer.SetPlayersHand(ref this.mainBank, 2);
+            ComputerPlayer.SetPlayersHand(ref this.mainBank, 3);
         }
         //playerHand = player.GetList();
         //playerHandCopy = player.GetListCopy();
@@ -116,7 +116,7 @@ public class GameController : MonoBehaviour
     /// Funkcja do zwrócenia ca³ej listy p³ytek
     /// </summary>
     /// <returns>lista tiles</returns>
-    public List<Tile> GetTiles() { return this.tiles; }
+    public List<Tile> GetGameBank() { return this.mainBank; }
     /// <summary>
     /// Funkcja do zwrócenia listy p³ytek na rêce gracza
     /// </summary>

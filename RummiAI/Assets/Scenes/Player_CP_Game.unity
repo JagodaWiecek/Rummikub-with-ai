@@ -5278,7 +5278,7 @@ MonoBehaviour:
   computerPlayerHand: []
   computerPlayerHandCopy: []
   firstTurn: 1
-  myIndex: 0
+  myIndex: 2
   countJoker: 0
   database: {fileID: 11400000, guid: 421ebad51cc74194d80b0972b624fa7f, type: 2}
   objectPlacer: {fileID: 1896926890}
@@ -14276,7 +14276,7 @@ MonoBehaviour:
   computerPlayerHand: []
   computerPlayerHandCopy: []
   firstTurn: 1
-  myIndex: 0
+  myIndex: 1
   countJoker: 0
   database: {fileID: 11400000, guid: 421ebad51cc74194d80b0972b624fa7f, type: 2}
   objectPlacer: {fileID: 1896926890}
@@ -17227,7 +17227,7 @@ MonoBehaviour:
   computerPlayerHand: []
   computerPlayerHandCopy: []
   firstTurn: 1
-  myIndex: 0
+  myIndex: 3
   countJoker: 0
   database: {fileID: 11400000, guid: 421ebad51cc74194d80b0972b624fa7f, type: 2}
   objectPlacer: {fileID: 1896926890}

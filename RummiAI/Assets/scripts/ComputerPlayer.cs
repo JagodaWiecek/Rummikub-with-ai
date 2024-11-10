@@ -72,6 +72,7 @@ public class ComputerPlayer : MonoBehaviour
                         sequencesbyColors.RemoveAt(i);
                     }
                 }
+               // else elapsedTime = 4f;
 
             }
             if (elapsedTime >= 4f && elapsedTime < 6f)
@@ -88,9 +89,24 @@ public class ComputerPlayer : MonoBehaviour
                     }
                     //Debug.Log("sekwencji tych samych liczb: " + sequencesbyNumbers.Count);
                 }
-                
+                //else elapsedTime = 6f;
+
+
             }
-            if (elapsedTime >= 6f)
+            if(elapsedTime >= 6f && elapsedTime < 8f)
+            {//przeanalizowaæ czy mo¿na coœ dodaæ
+                if (!GetFirstTour())
+                {
+                    //funkcja do znalezienia wolnych miejsc obok sekwencji
+                    //przeiterowania deku i znalezienie czy mo¿na postawiæ p³ytkê
+                    //funkcja w tile sie przyda do walidacji
+                    var board = GameController.Instance.GetBoardDictionary().board;
+                    ExtendSequence(ref board , ref this.computerPlayerHand);
+                }
+                //else elapsedTime = 8f;
+
+            }
+            if (elapsedTime >= 8f)
             {
                 elapsedTime = 0f;
                  // Resetujemy czas i tura++
@@ -98,7 +114,7 @@ public class ComputerPlayer : MonoBehaviour
                 if(computerPlayerHand.Count == computerPlayerHandCopy.Count)
                 {
                     //nie by³o ruchu
-                    List<Tile> board = GameController.Instance.GetTiles();
+                    List<Tile> board = GameController.Instance.GetGameBank();
                     AddNewTile(ref board);
                     GameController.Instance.NewTurn();
                 }
@@ -117,12 +133,17 @@ public class ComputerPlayer : MonoBehaviour
             //
         }
     }
+    /// <summary>
+    /// funkcja do zapisania kontenerów i przejœcia do nowej tury 
+    /// gdy zosta³ wykonany jakiœ ruch
+    /// </summary>
     public void NewTurn()
     {
         if (GameController.Instance != null)
         {
             objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
             placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
+            GameController.Instance.NewTurn();
         }
     }
 
@@ -233,9 +254,8 @@ public class ComputerPlayer : MonoBehaviour
 
     public List<List<Tile>> FindSequentialColorSets(ref List<Tile> tiles)
     {
-        // Sortuj listê w miejscu najpierw po kolorze, a nastêpnie po numerze
+        // Sortuje listê w miejscu najpierw po kolorze, a nastêpnie po numerze
         SortByColors();
-        //tiles.SortByColors();
 
         List<List<Tile>> sequentialColorSets = new List<List<Tile>>();
         List<Tile> currentSet = new List<Tile>();
@@ -319,10 +339,14 @@ public class ComputerPlayer : MonoBehaviour
             expectedNumber++;
         }
 
-        // Jeœli to jest pierwsza tura, sprawdŸ czy suma wynosi co najmniej 30
+        // Jeœli to jest pierwsza tura to czy suma jest >= 30
         return !firstTurn || sum >= 30;
     }
-
+    /// <summary>
+    /// funkcja do wytworzenia sekwencji, któr¹ komputerowy gracz mo¿e wy³o¿yæ na planszê
+    /// </summary>
+    /// <param name="tiles"></param>
+    /// <returns></returns>
     public List<List<Tile>> FindSameNumberDifferentColorSets(ref List<Tile> tiles)
     {
         // Sortuj listê w miejscu po numerze, a nastêpnie po kolorze
@@ -387,7 +411,12 @@ public class ComputerPlayer : MonoBehaviour
 
         return sameNumberDifferentColorSets;
     }
-
+    /// <summary>
+    /// funkcja zwraca informacje czy wprowadzona sekwencja spe³nia wszystkie za³o¿enia
+    /// i czy jest poprawna do po³o¿enia na planszê
+    /// </summary>
+    /// <param name="sequence">lista p³ytek wygenerowane przez funkcje</param>
+    /// <returns>true jeœli sekwencja jest poprana, false gdy sekwencja jest wadliwa</returns>
     private bool IsValidSequenceColor(List<Tile> sequence)
     {
         if (sequence.Count < 3 || sequence.Count > 4) return false;
@@ -508,7 +537,11 @@ public class ComputerPlayer : MonoBehaviour
 
         return list;
     }
-
+    /// <summary>
+    /// funkcja do po³o¿enia p³ytki na mapie
+    /// </summary>
+    /// <param name="gridPosition">pozycja wybrana dla p³ytki</param>
+    /// <param name="tile">konkteny obiekt do po³o¿enia na mapie</param>
     void PutTile(Vector3Int gridPosition,Tile tile)
     {
 
@@ -520,6 +553,138 @@ public class ComputerPlayer : MonoBehaviour
             index);
         tile.ShowTiles();
         Debug.Log("na pozycji:" + gridPosition);
+    }
+    void ExtendSequence(ref Dictionary<Vector3Int, Tile> board,ref List<Tile> handTiles)
+    {
+        List<Vector3Int> freePositions =  FindSequencesNeighbours(board);
+        freePositions= MoveBugableSequence(ref board, freePositions);
+        bool ifBreak = false;
+        for(int i = 0;i< handTiles.Count;i++)
+        {
+            foreach (Vector3Int position in freePositions) 
+            {
+                if (handTiles[i].CheckTileValidity(position))
+                {
+                    //postawiæ p³ytkê 
+                    PutTile(position, handTiles[i]);
+                    handTiles.RemoveAt(i);
+                    freePositions.Remove(position);
+                    Vector3Int plusjeden = new((position.x + 1), 0, position.z);
+                    Vector3Int plusdwa = new((position.x +2), 0, position.z);
+                    Vector3Int minusjeden = new((position.x - 1), 0, position.z);
+                    Vector3Int minusdwa = new((position.x - 2), 0, position.z);
+                    if(board.ContainsKey(plusjeden) && board.ContainsKey(minusdwa))//przesuwamy ten po prawej
+                    {
+                        List<Vector3Int> oldPositions = new();
+                        oldPositions.Add(position);
+                        int x = (position.x + 1);
+                        int z = position.z;
+                        Vector3Int iteratePosition = new(x, 0, z);
+                        while (board.ContainsKey(iteratePosition))
+                        {
+                            oldPositions.Add(iteratePosition);
+                            x++;
+                            iteratePosition = new(x, 0, z);
+                        }
+                        //stare pozycje ju¿ s¹, albo powinny byæ
+                        List<Vector3Int> newPositions = FreeSpaceToPut(oldPositions.Count);
+                        moveTile(newPositions, oldPositions);
+                    }
+                    else if(board.ContainsKey(minusjeden) && board.ContainsKey(plusdwa))
+                    {
+                        List<Vector3Int> oldPositions = new();
+                        oldPositions.Add(position);
+                        int x = (position.x - 1);
+                        int z = position.z;
+                        Vector3Int iteratePosition = new(x, 0, z);
+                        while (board.ContainsKey(iteratePosition))
+                        {
+                            oldPositions.Add(iteratePosition);
+                            x--;
+                            iteratePosition = new(x, 0, z);
+                        }
+                        oldPositions.Sort((a, b) => a.x.CompareTo(b.x));
+                        List<Vector3Int> newPositions = FreeSpaceToPut(oldPositions.Count);
+                        moveTile(newPositions, oldPositions);
+                    }
+
+                    if(position.x < minX)//jeœli jest poza map¹ z lewej
+                    {
+                        List<Vector3Int> oldPositions = new ();
+                        oldPositions.Add(position);
+                        int x = (position.x+1);
+                        int z  = position.z;
+                        Vector3Int iteratePosition = new(x,0,z);
+                        while(board.ContainsKey(iteratePosition))
+                        {
+                            oldPositions.Add(iteratePosition);
+                            x++;
+                            iteratePosition = new(x, 0, z);
+                        }
+                        //stare pozycje ju¿ s¹, albo powinny byæ
+                        List<Vector3Int> newPositions = FreeSpaceToPut(oldPositions.Count);
+                        moveTile(newPositions, oldPositions);
+                        // FreeSpaceToPut
+                        //przesun¹æ na prawo
+                    }
+                    else if (position.x > maxX)//jeœli jest poza map¹ z prawej
+                    {
+                        List<Vector3Int> oldPositions = new();
+                        oldPositions.Add(position);
+                        int x = (position.x - 1);
+                        int z = position.z;
+                        Vector3Int iteratePosition = new(x, 0, z);
+                        while (board.ContainsKey(iteratePosition)) 
+                        {
+                            oldPositions.Add(iteratePosition);
+                            x--;
+                            iteratePosition = new(x, 0, z);
+                        }
+                        oldPositions.Sort((a, b) => a.x.CompareTo(b.x));
+                        List<Vector3Int> newPositions = FreeSpaceToPut(oldPositions.Count);
+                        moveTile(newPositions, oldPositions);
+                        //przesun¹æ w lewo
+                    }
+                    
+                    ifBreak = true;
+                    break;
+                }
+                
+            }
+            if (ifBreak) break;
+        }
+    }
+    List<Vector3Int> FindSequencesNeighbours(Dictionary<Vector3Int, Tile> board)
+    {
+        List <Vector3Int> freeSpace = new List<Vector3Int>();
+        //int maxX = 8;
+        //int minX = -9;
+        //int maxZ = 2;
+        //int minZ = -4;
+        Vector3Int tempPosition = new Vector3Int();
+        Vector3Int temp = new Vector3Int();
+        for(int z = minZ; z <= maxZ; z++)
+        {
+            for(int x = minX;x<=maxX;x++)
+            {
+                temp = new((x-1), 0, z);
+                tempPosition = new(x, 0, z);
+                if (board.ContainsKey(tempPosition))
+                {
+                    
+                    freeSpace.Add(temp);
+                    while (board.ContainsKey(tempPosition))
+                    {
+                        x++;
+                        tempPosition = new(x, 0, z);
+
+                    }
+                    freeSpace.Add(tempPosition);
+                }
+            }
+        }
+
+        return freeSpace;
     }
 
     void RemoveFromList(List<Tile> sequence)
@@ -536,5 +701,96 @@ public class ComputerPlayer : MonoBehaviour
 
             }
         }
+    }
+
+    /// <summary>
+    /// funkcja do przeniesienia ca³ej sekwencji p³ytek na mapie
+    /// </summary>
+    /// <param name="newGridPositions">lista nowych pozycji dla p³ytek</param>
+    /// <param name="oldGridPositions">lista starych pozycji p³ytek</param>
+    void moveTile(List <Vector3Int> newGridPositions, List<Vector3Int> oldGridPositions)
+    {
+        Dictionary<Vector3Int, Tile> board = GameController.Instance.GetBoardDictionary().board;
+        for (int i =1,j=0;i< newGridPositions.Count;i++,j++)
+        {
+            if (oldGridPositions.Count > j && board.ContainsKey(oldGridPositions[j]))
+            {
+                int selectedObjectIndex = placementSystem.GetGridData().getRepresentationIndex(oldGridPositions[j]);
+                placementSystem.GetGridData().MoveObjectAt(newGridPositions[i], oldGridPositions[j], database.objectsData[0].Size);
+                objectPlacer.MoveObjectTo(selectedObjectIndex, grid.CellToWorld(newGridPositions[i]));
+                GameController.Instance.GetBoardDictionary().MoveObjectAt(newGridPositions[i], oldGridPositions[j]);
+            }
+            else break;
+
+        }
+        //void MoveObjectTo(int gameObjectIndex, Vector3 newPosition)//indeks z listy i pozycja ostateczna
+    }
+    /// <summary>
+    /// Przesuniêcie losowej sekwencji jeœli znajduj¹ siê bezpoœrednio obok siebie
+    /// </summary>
+    /// <param name="board">referencja na g³ówn¹ mapê</param>
+    /// <param name="freePositions">lista pozycji obok sekwencji</param>
+    /// <returns>listê wolnych pozycji</returns>
+    List<Vector3Int> MoveBugableSequence(ref Dictionary<Vector3Int, Tile> board, List<Vector3Int> freePositions)
+    {
+        HashSet<Vector3Int> uniquePositions = new HashSet<Vector3Int>();
+        List<Vector3Int> duplicatePositions = new List<Vector3Int>();
+
+        foreach (var position in freePositions)
+        {
+            if (!uniquePositions.Add(position))
+            {
+                // Jeœli `Add` zwraca `false`, to znaczy, ¿e `position` ju¿ istnieje w `uniquePositions`
+                duplicatePositions.Add(position);
+            }
+        }
+        if (duplicatePositions.Count > 0)
+        {
+            foreach (var position in duplicatePositions)
+            {
+                // Coœ do zrobienia z ka¿d¹ zduplikowan¹ pozycj¹
+                // Debug.Log("Zduplikowana pozycja: " + duplicate);
+                bool prawoCzyLewo = Random.value > 0.5f;
+                if (prawoCzyLewo)
+                {
+
+                    List<Vector3Int> oldPositions = new();
+                    //oldPositions.Add(position);
+                    int x = (position.x + 1);
+                    int z = position.z;
+                    Vector3Int iteratePosition = new(x, 0, z);
+                    while (board.ContainsKey(iteratePosition))
+                    {
+                        oldPositions.Add(iteratePosition);
+                        x++;
+                        iteratePosition = new(x, 0, z);
+                    }
+                    //stare pozycje ju¿ s¹, albo powinny byæ
+                    List<Vector3Int> newPositions = FreeSpaceToPut(oldPositions.Count);
+                    moveTile(newPositions, oldPositions);
+                }
+                else
+                {
+                    List<Vector3Int> oldPositions = new();
+                    //oldPositions.Add(position);
+                    int x = (position.x - 1);
+                    int z = position.z;
+                    Vector3Int iteratePosition = new(x, 0, z);
+                    while (board.ContainsKey(iteratePosition))
+                    {
+                        oldPositions.Add(iteratePosition);
+                        x--;
+                        iteratePosition = new(x, 0, z);
+                    }
+                    oldPositions.Sort((a, b) => a.x.CompareTo(b.x));
+                    List<Vector3Int> newPositions = FreeSpaceToPut(oldPositions.Count);
+                    moveTile(newPositions, oldPositions);
+                }
+            }
+            return FindSequencesNeighbours(board);
+        }
+        return freePositions;
+
+
     }
 }

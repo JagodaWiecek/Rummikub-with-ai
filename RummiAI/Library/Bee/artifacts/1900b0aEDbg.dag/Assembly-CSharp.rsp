@@ -389,6 +389,7 @@
 "Assets/scripts/PlacementState.cs"
 "Assets/scripts/PlacementSystem.cs"
 "Assets/scripts/Player.cs"
+"Assets/scripts/PlayerAI.cs"
 "Assets/scripts/PreviewSystem.cs"
 "Assets/scripts/RemovingState.cs"
 "Assets/scripts/TakeTile.cs"
