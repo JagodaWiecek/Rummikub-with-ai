@@ -68,7 +68,16 @@ public class TakeTile : MonoBehaviour
         }
         else Debug.Log("Nie zainicjowamy GameController w TakeTile");
     }
-
+    public void SortByColors()
+    {
+        GameController.Instance.GetPlayer().SortByColors();
+        ResetHand(GameController.Instance.GetPlayerHand());
+    }
+    public void SortByNumbers()
+    {
+        GameController.Instance.GetPlayer().SortByNumbers();
+        ResetHand(GameController.Instance.GetPlayerHand());
+    }
     /// <summary>
     /// Funkcja do zresetowania zawartoœci talii gracza na ekranie
     /// </summary>

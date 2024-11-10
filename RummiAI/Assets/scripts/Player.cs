@@ -81,4 +81,83 @@ public class Player : MonoBehaviour
         //Debug.Log("ile p³ytek-kopii jest w klasie player: " + playerHandCopy.Count);
     }
 
+    private void SortByNumbersOriginal()
+    {
+        playerHand.Sort((tile1, tile2) =>
+        {
+            int numberComparison = tile1.GetNumber().CompareTo(tile2.GetNumber());
+            if (numberComparison == 0)
+            {
+                // Jeœli liczby s¹ takie same, sortuj po kolorze
+                return tile1.GetColor().GetHashCode().CompareTo(tile2.GetColor().GetHashCode());
+            }
+            return numberComparison;
+        });
+    }
+    private void SortByNumbersCopy()
+    {
+        playerHandCopy.Sort((tile1, tile2) =>
+        {
+            int numberComparison = tile1.GetNumber().CompareTo(tile2.GetNumber());
+            if (numberComparison == 0)
+            {
+                // Jeœli liczby s¹ takie same, sortuj po kolorze
+                return tile1.GetColor().GetHashCode().CompareTo(tile2.GetColor().GetHashCode());
+            }
+            return numberComparison;
+        });
+    }
+
+    public void SortByNumbers()
+    {
+        SortByNumbersOriginal();
+        SortByNumbersCopy();
+    }
+
+    private void SortByColorsOriginal()
+    {
+        //computerPlayerHand.Sort((tile1, tile2) => CompareColors(tile1.GetColor(), tile2.GetColor()));
+        playerHand.Sort((tile1, tile2) =>
+        {
+            // Najpierw porównaj kolory
+            int colorComparison = CompareColors(tile1.GetColor(), tile2.GetColor());
+            if (colorComparison == 0)
+            {
+                // Jeœli kolory s¹ takie same, porównaj numery
+                return tile1.GetNumber().CompareTo(tile2.GetNumber());
+            }
+            return colorComparison;
+        });
+    }
+    private void SortByColorsCopy()
+    {
+        //computerPlayerHand.Sort((tile1, tile2) => CompareColors(tile1.GetColor(), tile2.GetColor()));
+        playerHandCopy.Sort((tile1, tile2) =>
+        {
+            // Najpierw porównaj kolory
+            int colorComparison = CompareColors(tile1.GetColor(), tile2.GetColor());
+            if (colorComparison == 0)
+            {
+                // Jeœli kolory s¹ takie same, porównaj numery
+                return tile1.GetNumber().CompareTo(tile2.GetNumber());
+            }
+            return colorComparison;
+        });
+    }
+
+    public void SortByColors()
+    {
+        SortByColorsOriginal();
+        SortByColorsCopy();
+    }
+    private static int CompareColors(Color color1, Color color2)
+    {
+        // Konwertowanie koloru na intensywnoœæ w skali szaroœci jako uproszczone porównanie
+        float intensity1 = color1.r * 0.3f + color1.g * 0.59f + color1.b * 0.11f;
+        float intensity2 = color2.r * 0.3f + color2.g * 0.59f + color2.b * 0.11f;
+        return intensity1.CompareTo(intensity2);
+    }
+
+   
+
 }
