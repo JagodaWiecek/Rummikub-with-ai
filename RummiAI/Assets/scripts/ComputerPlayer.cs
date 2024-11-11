@@ -255,61 +255,57 @@ public class ComputerPlayer : MonoBehaviour
 
     public List<List<Tile>> FindSequentialColorSets(ref List<Tile> tiles)
     {
-        // Sortuje listê w miejscu najpierw po kolorze, a nastêpnie po numerze
+        // Sortuj listê w miejscu, najpierw po kolorze, potem po numerze
         SortByColors();
 
         List<List<Tile>> sequentialColorSets = new List<List<Tile>>();
         List<Tile> currentSet = new List<Tile>();
-        int jokerCount = 0;
+        List<Tile> jokers = new List<Tile>();
 
-        for (int i = 0; i < tiles.Count; i++)
+        // Rozdziel jokery od innych p³ytek
+        foreach (Tile tile in tiles)
         {
-            Tile currentTile = tiles[i];
-            bool isJoker = currentTile.GetNumber() == 30;
-
-            // Ignoruj duplikaty
-            if (i > 0 && currentTile.GetNumber() == tiles[i - 1].GetNumber() &&
-                currentTile.GetColor() == tiles[i - 1].GetColor())
+            if (tile.GetNumber() == 30)
             {
-                continue;
-            }
-
-            if (isJoker)
-            {
-                // Jeœli kafelek jest jokerem, dodaj go do bie¿¹cego zestawu i zwiêksz licznik jokerów
-                jokerCount++;
-                currentSet.Add(currentTile);
-            }
-            else if (currentSet.Count == 0 ||
-                     (currentTile.GetNumber() == currentSet[^1].GetNumber() + 1 &&
-                      currentTile.GetColor() == currentSet[^1].GetColor()) ||
-                     (jokerCount > 0 && currentTile.GetNumber() == currentSet[^1].GetNumber() + 2 &&
-                      currentTile.GetColor() == currentSet[^1].GetColor()))
-            {
-                // Jeœli kafelek pasuje do sekwencji, dodaj go do bie¿¹cego zestawu
-                currentSet.Add(currentTile);
-
-                // Jeœli wykorzystujemy jokera do uzupe³nienia luki w sekwencji, zmniejszamy jego licznik
-                if (jokerCount > 0 && currentTile.GetNumber() == currentSet[^2].GetNumber() + 2)
-                {
-                    jokerCount--;
-                }
+                jokers.Add(tile);
             }
             else
             {
-                // Jeœli bie¿¹cy zestaw ma co najmniej 3 elementy, dodaj go do wynikowej listy
-                if (IsValidSequence(currentSet))
+                // Przetwarzamy normalne kafelki
+                if (currentSet.Count == 0 ||
+                    (tile.GetNumber() == currentSet[^1].GetNumber() + 1 && tile.GetColor() == currentSet[^1].GetColor()))
                 {
-                    sequentialColorSets.Add(new List<Tile>(currentSet));
+                    currentSet.Add(tile);
                 }
+                else if (jokers.Count > 0 &&
+                         tile.GetNumber() == currentSet[^1].GetNumber() + 2 && tile.GetColor() == currentSet[^1].GetColor())
+                {
+                    // U¿yj jokera, aby uzupe³niæ lukê
+                    currentSet.Add(jokers[0]);
+                    jokers.RemoveAt(0);
+                    currentSet.Add(tile);
+                }
+                else
+                {
+                    // Dodaj bie¿¹cy zestaw, jeœli jest prawid³owy
+                    if (IsValidSequence(currentSet))
+                    {
+                        sequentialColorSets.Add(new List<Tile>(currentSet));
+                    }
 
-                // Rozpocznij nowy zestaw, zresetuj licznik jokerów
-                currentSet = new List<Tile> { currentTile };
-                jokerCount = isJoker ? 1 : 0;
+                    // Rozpocznij nowy zestaw
+                    currentSet = new List<Tile> { tile };
+                }
             }
         }
 
-        // Sprawdzenie koñcowego zestawu po pêtli
+        // Dodajemy pozosta³e jokery na koñcu, jeœli jest to konieczne
+        if (jokers.Count > 0 && currentSet.Count >= 2)
+        {
+            currentSet.AddRange(jokers);
+        }
+
+        // Dodaj koñcowy zestaw
         if (IsValidSequence(currentSet))
         {
             sequentialColorSets.Add(currentSet);
@@ -317,6 +313,7 @@ public class ComputerPlayer : MonoBehaviour
 
         return sequentialColorSets;
     }
+
 
     private bool IsValidSequence(List<Tile> sequence)
     {
@@ -348,70 +345,62 @@ public class ComputerPlayer : MonoBehaviour
     /// </summary>
     /// <param name="tiles"></param>
     /// <returns></returns>
-    public List<List<Tile>> FindSameNumberDifferentColorSets(ref List<Tile> tiles)
+    public List<List<Tile>> FindSameNumberDifferentColorSets( ref List<Tile> tiles)
     {
-        // Sortuj listê w miejscu po numerze, a nastêpnie po kolorze
+        // Sortuj listê kafelków po numerze i kolorze
         SortByNumbers();
 
         List<List<Tile>> sameNumberDifferentColorSets = new List<List<Tile>>();
         List<Tile> currentSet = new List<Tile>();
-        int jokerCount = 0;
+        List<Tile> jokers = new List<Tile>();
 
-        for (int i = 0; i < tiles.Count; i++)
+        // Oddziel jokery od innych kafelków
+        foreach (Tile tile in tiles)
         {
-            Tile currentTile = tiles[i];
-            bool isJoker = currentTile.GetNumber() == 30;
-
-            // Ignoruj duplikaty tego samego numeru i koloru
-            if (i > 0 && currentTile.GetNumber() == tiles[i - 1].GetNumber() &&
-                currentTile.GetColor() == tiles[i - 1].GetColor())
+            if (tile.GetNumber() == 30)
             {
-                continue;
-            }
-
-            if (isJoker)
-            {
-                // Jeœli kafelek jest jokerem, dodaj go do bie¿¹cego zestawu i zwiêksz licznik jokerów
-                jokerCount++;
-                currentSet.Add(currentTile);
-            }
-            else if (currentSet.Count == 0 ||
-                     (currentTile.GetNumber() == currentSet[^1].GetNumber() &&
-                      currentTile.GetColor() != currentSet[^1].GetColor()) ||
-                     (jokerCount > 0 && currentTile.GetNumber() == currentSet[^1].GetNumber() &&
-                      currentTile.GetColor() != currentSet[^1].GetColor()))
-            {
-                // Jeœli kafelek pasuje do sekwencji (ta sama liczba, inny kolor), dodaj go do bie¿¹cego zestawu
-                currentSet.Add(currentTile);
-
-                // Jeœli wykorzystujemy jokera do uzupe³nienia luki w sekwencji, zmniejszamy jego licznik
-                if (jokerCount > 0 && currentTile.GetColor() != currentSet[^2].GetColor())
-                {
-                    jokerCount--;
-                }
+                jokers.Add(tile);
             }
             else
             {
-                // Jeœli bie¿¹cy zestaw ma co najmniej 3 elementy, dodaj go do wynikowej listy
-                if (IsValidSequenceColor(currentSet))
+                if (currentSet.Count == 0 ||
+                    (currentSet[0].GetNumber() == tile.GetNumber() &&
+                    !currentSet.Exists(t => t.GetColor() == tile.GetColor())))
                 {
-                    sameNumberDifferentColorSets.Add(new List<Tile>(currentSet));
+                    // Dodajemy kafelek do bie¿¹cego zestawu, jeœli pasuje do warunków
+                    currentSet.Add(tile);
                 }
+                else
+                {
+                    // Dodaj jokery na koñcu zestawu, jeœli istniej¹ i zestaw jest ju¿ w odpowiednim stanie
+                    if (currentSet.Count >= 2 && jokers.Count > 0)
+                    {
+                        currentSet.AddRange(jokers);
+                    }
 
-                // Rozpocznij nowy zestaw, zresetuj licznik jokerów
-                currentSet = new List<Tile> { currentTile };
-                jokerCount = isJoker ? 1 : 0;
+                    // Dodajemy zestaw do wynikowej listy, jeœli jest prawid³owy
+                    if (IsValidSequenceColor(currentSet))
+                    {
+                        sameNumberDifferentColorSets.Add(new List<Tile>(currentSet));
+                    }
+
+                    // Resetujemy bie¿¹cy zestaw i dodajemy nowy kafelek
+                    currentSet = new List<Tile> { tile };
+                }
             }
         }
 
-        // Sprawdzenie koñcowego zestawu po pêtli
-        if (IsValidSequenceColor(currentSet))
+        // Dodajemy ostatni zestaw, jeœli spe³nia kryteria
+        if (currentSet.Count >= 2 && IsValidSequenceColor(currentSet))
         {
+            currentSet.AddRange(jokers);
             sameNumberDifferentColorSets.Add(currentSet);
         }
 
         return sameNumberDifferentColorSets;
     }
+
+
     /// <summary>
     /// funkcja zwraca informacje czy wprowadzona sekwencja spe³nia wszystkie za³o¿enia
     /// i czy jest poprawna do po³o¿enia na planszê
@@ -468,11 +457,15 @@ public class ComputerPlayer : MonoBehaviour
 
     public void AddNewTile(ref List<Tile> tiles)
     {
-        int TileIndex = Random.Range(0, (tiles.Count));
-        computerPlayerHand.Add(tiles[TileIndex]);
-        tiles.RemoveAt(TileIndex);
-        SaveListToCopy();
-        countJoker = CountJoker(computerPlayerHand);
+        if (tiles.Count != 0)
+        {
+            int TileIndex = Random.Range(0, (tiles.Count));
+            computerPlayerHand.Add(tiles[TileIndex]);
+            tiles.RemoveAt(TileIndex);
+            SaveListToCopy();
+            countJoker = CountJoker(computerPlayerHand);
+        }
+        else GameController.Instance.EndGame();
     }
 
     public void PutTilesOnBoard(List<Tile> sequention)

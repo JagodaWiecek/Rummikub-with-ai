@@ -142,43 +142,47 @@ public class TakeTile : MonoBehaviour
     ///Dodanie karty do rêki gracza
     public void takeNewTile()
     {
-        ///odwo³anie do tali w innym skrypcie
-        if (GameController.Instance != null && GameController.Instance.GetGameBank().Count!=0)
+        ///odwo³anie do tali w innym skrypcie 
+        if (GameController.Instance != null)
         {
-            List<Tile> tiles = GameController.Instance.GetGameBank();//wykonanie referencji
-            List<Tile> Hand = GameController.Instance.GetPlayerHand();
-            List<Tile> copy = GameController.Instance.GetPlayerHandCopy();
-            int TileIndex = Random.Range(0, tiles.Count);
-
-            //Debug.Log(tilePrefab);
-            ///po³¹czenie prefab z nowym obiektem
-            newTile = Instantiate(tilePrefab, new Vector3(0, 0, 0), Quaternion.identity);
-            
-            newTile.transform.SetParent(this.transform);//ustawienie hierarchi
-            newTile.GetComponent<Tile>().setNumer(tiles[TileIndex].GetNumber());//ustawienie numeru klasy
-            newTile.GetComponent<Tile>().SetColor(tiles[TileIndex].GetColor());//ustawienie koloru klasy
-            newTile.GetComponent<Tile>().SetTilename(tiles[TileIndex].GetTilename());
-            newTile.GetComponent<Tile>().SetSymbol(tiles[TileIndex].GetSymbol());
-            newTile.name = tiles[TileIndex].GetTilename();//ustawienie nazwy w hierarchi
-            TextMeshProUGUI textComponent = newTile.transform.Find("Object/Number_Color").GetComponent<TextMeshProUGUI>();//odwo³anie siê do dziecka objektu
-            textComponent.text = tiles[TileIndex].GetSymbol(); //wpisanie na textmesh symbolu widocnego dla gracza
-            textComponent.color = tiles[TileIndex].GetColor(); //ustawienie koloru dla symbolu
-
-            Tile tile = new Tile(tiles[TileIndex].GetNumber(), tiles[TileIndex].GetColor(), tiles[TileIndex].GetTilename(), tiles[TileIndex].GetSymbol(), tiles[TileIndex].GetPut());
-            Button button = newTile.GetComponentInChildren<Button>();
-            if (button == null)
+            if (GameController.Instance.GetGameBank().Count != 0)
             {
-                Debug.LogError("Prefab does not contain a Button component!");
-            }
-            int idx = newTile.transform.GetSiblingIndex();
-            button.onClick.AddListener(() => OnButtonClick(tile,ref idx));//idx
-            Hand.Add(tile);
-            copy.Add(tile);
-            //Debug.Log($"W take tile jest {GameController.Instance.GetPlayerHand().Count} p³ytek");
-            tiles.RemoveAt(TileIndex);//usuniêcie p³ytki z g³ównego banku
-            SetButtonNumber();
-            LayoutElement le = newTile.AddComponent<LayoutElement>();//dodanie objektu do widoku
+                List<Tile> tiles = GameController.Instance.GetGameBank();//wykonanie referencji
+                List<Tile> Hand = GameController.Instance.GetPlayerHand();
+                List<Tile> copy = GameController.Instance.GetPlayerHandCopy();
+                int TileIndex = Random.Range(0, tiles.Count);
 
+                //Debug.Log(tilePrefab);
+                ///po³¹czenie prefab z nowym obiektem
+                newTile = Instantiate(tilePrefab, new Vector3(0, 0, 0), Quaternion.identity);
+
+                newTile.transform.SetParent(this.transform);//ustawienie hierarchi
+                newTile.GetComponent<Tile>().setNumer(tiles[TileIndex].GetNumber());//ustawienie numeru klasy
+                newTile.GetComponent<Tile>().SetColor(tiles[TileIndex].GetColor());//ustawienie koloru klasy
+                newTile.GetComponent<Tile>().SetTilename(tiles[TileIndex].GetTilename());
+                newTile.GetComponent<Tile>().SetSymbol(tiles[TileIndex].GetSymbol());
+                newTile.name = tiles[TileIndex].GetTilename();//ustawienie nazwy w hierarchi
+                TextMeshProUGUI textComponent = newTile.transform.Find("Object/Number_Color").GetComponent<TextMeshProUGUI>();//odwo³anie siê do dziecka objektu
+                textComponent.text = tiles[TileIndex].GetSymbol(); //wpisanie na textmesh symbolu widocnego dla gracza
+                textComponent.color = tiles[TileIndex].GetColor(); //ustawienie koloru dla symbolu
+
+                Tile tile = new Tile(tiles[TileIndex].GetNumber(), tiles[TileIndex].GetColor(), tiles[TileIndex].GetTilename(), tiles[TileIndex].GetSymbol(), tiles[TileIndex].GetPut());
+                Button button = newTile.GetComponentInChildren<Button>();
+                if (button == null)
+                {
+                    Debug.LogError("Prefab does not contain a Button component!");
+                }
+                int idx = newTile.transform.GetSiblingIndex();
+                button.onClick.AddListener(() => OnButtonClick(tile, ref idx));//idx
+                Hand.Add(tile);
+                copy.Add(tile);
+                //Debug.Log($"W take tile jest {GameController.Instance.GetPlayerHand().Count} p³ytek");
+                tiles.RemoveAt(TileIndex);//usuniêcie p³ytki z g³ównego banku
+                SetButtonNumber();
+                LayoutElement le = newTile.AddComponent<LayoutElement>();//dodanie objektu do widoku
+
+            }
+            else GameController.Instance.EndGame();
         }
         else
         {
