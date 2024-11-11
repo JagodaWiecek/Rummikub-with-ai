@@ -19,6 +19,8 @@ public class GameTurnManager : MonoBehaviour
     GameObject MrComputerTilesText;
     [SerializeField]
     GameObject ComputerTilesText;
+    [SerializeField]
+    GameObject AITilesText;
 
     [SerializeField]
     TakeTile takeTile;
@@ -92,6 +94,87 @@ public class GameTurnManager : MonoBehaviour
             SetTimeUI();
 
         }
+        else if(GameController.Instance.gameIndex == 1)
+        {
+            if (currentPlayerId == 0)
+            {
+                currentPlayerText.GetComponent<Text>().text = "Player: AI";
+                //takeTile.EnableAllButtons();
+                //SetPlayersTileCountUI();
+            }
+            else if (currentPlayerId == 1)
+            {
+                currentPlayerText.GetComponent<Text>().text = "Player: MrComputer";
+                //takeTile.DisableAllButtons();
+                //SetPlayersTileCountUI();
+            }
+            else if (currentPlayerId == 2)
+            {
+                currentPlayerText.GetComponent<Text>().text = "Player: MissComputer";
+               // takeTile.DisableAllButtons();
+                //SetPlayersTileCountUI();
+            }
+            else if (currentPlayerId == 3)
+            {
+                currentPlayerText.GetComponent<Text>().text = "Player: Computer";
+                //takeTile.DisableAllButtons();
+                //SetPlayersTileCountUI();
+            }
+            SetPlayersTileCountUI();
+            ResetTime();
+            SetTimeUI();
+            //gra boty vs ai
+        }
+        else if (GameController.Instance.gameIndex == 2)
+        {
+            //gra player vs ai vs boty
+            if (currentPlayerId == 0)
+            {
+                currentPlayerText.GetComponent<Text>().text = "Player: You";
+                //takeTile.EnableAllButtons();
+                //SetPlayersTileCountUI();
+            }
+            else if (currentPlayerId == 1)
+            {
+                currentPlayerText.GetComponent<Text>().text = "Player: MrComputer";
+                //takeTile.DisableAllButtons();
+                //SetPlayersTileCountUI();
+            }
+            else if (currentPlayerId == 2)
+            {
+                currentPlayerText.GetComponent<Text>().text = "Player: MissComputer";
+                // takeTile.DisableAllButtons();
+                //SetPlayersTileCountUI();
+            }
+            else if (currentPlayerId == 3)
+            {
+                currentPlayerText.GetComponent<Text>().text = "Player: AI";
+                //takeTile.DisableAllButtons();
+                //SetPlayersTileCountUI();
+            }
+            SetPlayersTileCountUI();
+            ResetTime();
+            SetTimeUI();
+        }
+        else if (GameController.Instance.gameIndex == 3)
+        {
+            if (currentPlayerId == 0)
+            {
+                currentPlayerText.GetComponent<Text>().text = "Player: You";
+                //takeTile.EnableAllButtons();
+                //SetPlayersTileCountUI();
+            }
+            else if (currentPlayerId == 1)
+            {
+                currentPlayerText.GetComponent<Text>().text = "Player: AI";
+                //takeTile.DisableAllButtons();
+                //SetPlayersTileCountUI();
+            }
+            SetPlayersTileCountUI();
+            ResetTime();
+            SetTimeUI();
+            // gra player vs ai
+        }
     }
 
     public void SetPlayersTileCountUI()
@@ -102,6 +185,14 @@ public class GameTurnManager : MonoBehaviour
             MrComputerTilesText.GetComponent<Text>().text = "MrComputer: " + GameController.Instance.GetMrComputerPlayer().GetList().Count.ToString();
             ComputerTilesText.GetComponent<Text>().text = "Computer: " + GameController.Instance.GetComputerPlayer().GetList().Count.ToString();
         }
+        else if (GameController.Instance.gameIndex == 1)
+        {
+            MissComputerTilesText.GetComponent<Text>().text = "MissComputer: " + GameController.Instance.GetMissComputerPlayer().GetList().Count.ToString();
+            MrComputerTilesText.GetComponent<Text>().text = "MrComputer: " + GameController.Instance.GetMrComputerPlayer().GetList().Count.ToString();
+            ComputerTilesText.GetComponent<Text>().text = "Computer: " + GameController.Instance.GetComputerPlayer().GetList().Count.ToString();
+            AITilesText.GetComponent<Text>().text = "AI: "  ;//+GameController.Instance.GetComputerPlayer().GetList().Count.ToString()
+        }
+
     }
     /// <summary>
     /// Ustawia liczbe czasu na przestrzeni ui
@@ -113,7 +204,12 @@ public class GameTurnManager : MonoBehaviour
     public void ChangeTurn()
     {
         currentPlayerId++;
+        if (GameController.Instance.gameIndex == 3)
+            if (currentPlayerId == 2) currentPlayerId = 0;
+        
         if (currentPlayerId == 4) currentPlayerId = 0;
+
+        takeTile.SetButtonNumber();
         SetUIText();
     }
     /// <summary>

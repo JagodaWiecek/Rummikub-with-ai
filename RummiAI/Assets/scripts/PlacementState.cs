@@ -57,8 +57,8 @@ public class PlacementState : IPlacementState
     {
        // Debug.Log("OnAction w PlacementState"+gridPosition);
         bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
-        Vector3 minRange = new Vector3Int(-9,0,-4);
-        Vector3 maxRange = new Vector3Int(8,0,2);
+        Vector3 minRange = new Vector3Int(-10,0,-4);
+        Vector3 maxRange = new Vector3Int(9,0,3);
         bool onMap = IsPositionInRange(gridPosition,minRange, maxRange);
         if (placementValidity == false || onMap == false)
         {
@@ -99,7 +99,7 @@ public class PlacementState : IPlacementState
     {
         bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
 
-        if (gridPosition.x > -10 && gridPosition.x < 9 && gridPosition.z > -5 && gridPosition.z < 3)// cellIndicator.transform.position.z = 19.15;
+        if (gridPosition.x > -11 && gridPosition.x < 10 && gridPosition.z > -5 && gridPosition.z < 4)// cellIndicator.transform.position.z = 19.15;
         {
             // cellIndicator.transform.position = grid.CellToWorld(gridPosition);
             previewSystem.UpdatePosition(grid.CellToWorld(gridPosition), placementValidity);

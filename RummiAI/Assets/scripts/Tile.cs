@@ -778,7 +778,7 @@ public class Tile : MonoBehaviour
                             if ((board[plusjeden].GetNumber() == board[plusdwa].GetNumber() || (board[plusjeden].GetNumber() == 30 || board[plusdwa].GetNumber() == 30)) &&
                                 (board[plustrzy].GetNumber() == board[plusdwa].GetNumber() || (board[plustrzy].GetNumber() == 30 || board[plusdwa].GetNumber() == 30)) &&
                                 (board[plusjeden].GetNumber() == board[plustrzy].GetNumber() || (board[plusjeden].GetNumber() == 30 || board[plustrzy].GetNumber() == 30)) &&
-                                board[minusjeden].GetColor() != board[plusdwa].GetColor() &&
+                                board[plusjeden].GetColor() != board[plusdwa].GetColor() &&
                                 board[plustrzy].GetColor() != board[plusdwa].GetColor() &&
                                 board[plusjeden].GetColor() != board[plustrzy].GetColor())
                             {

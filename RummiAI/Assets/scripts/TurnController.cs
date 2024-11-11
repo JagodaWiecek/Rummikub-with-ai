@@ -45,25 +45,28 @@ public class TurnController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {//gameTurnManager
-        if (GameController.Instance.gameTurnManager.currentPlayerId == 0)
+        if (GameController.Instance.gameIndex != 1)
         {
-            takeTileButton.gameObject.SetActive(true);
-            if (MapContents())
+            if (GameController.Instance.gameTurnManager.currentPlayerId == 0)
             {
-                undoButton.gameObject.SetActive(true);
-                endTurn.gameObject.SetActive(true);
+                takeTileButton.gameObject.SetActive(true);
+                if (MapContents())
+                {
+                    undoButton.gameObject.SetActive(true);
+                    endTurn.gameObject.SetActive(true);
+                }
+                else
+                {
+                    undoButton.gameObject.SetActive(false);
+                    endTurn.gameObject.SetActive(false);
+                }
             }
             else
             {
+                takeTileButton.gameObject.SetActive(false);
                 undoButton.gameObject.SetActive(false);
                 endTurn.gameObject.SetActive(false);
             }
-        }
-        else
-        {
-            takeTileButton.gameObject.SetActive(false);
-            undoButton.gameObject.SetActive(false);
-            endTurn.gameObject.SetActive(false);
         }
     }
 
@@ -77,49 +80,53 @@ public class TurnController : MonoBehaviour
 
                 if (CheckMap())
                 {
-                    //if(GameController.Instance.GetPlayer().GetFirstTour())
+                    if (GameController.Instance.GetPlayerHand().Count != 0)
+                    { //koniec gry
+                        //if(GameController.Instance.GetPlayer().GetFirstTour())
 
-                    if (GameController.Instance.GetPlayer().GetFirstTour())//jeœli to pierwsza tura
-                    {
-                        if (GameController.Instance.firstTurnController.CheckFirstTurnValidity(GameController.Instance.GetBoardDictionary().board) >= 30)
+                        if (GameController.Instance.GetPlayer().GetFirstTour())//jeœli to pierwsza tura
                         {
-                            GameController.Instance.GetPlayer().EndFirstTour();
-                            GameController.Instance.firstTurnController.Reset();
-
-                            foreach (KeyValuePair<Vector3Int, Tile> tile in GameController.Instance.GetBoardDictionary().board)
+                            if (GameController.Instance.firstTurnController.CheckFirstTurnValidity(GameController.Instance.GetBoardDictionary().board) >= 30)
                             {
-                                tile.Value.SetPut(true);
-                            }
+                                GameController.Instance.GetPlayer().EndFirstTour();
+                                GameController.Instance.firstTurnController.Reset();
 
-                            GameController.Instance.NewTurn();///zapisanie tablicy do listy
-                            objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
-                            placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
-                            GameController.Instance.GetPlayer().SaveListToCopy();
-                            GameController.Instance.gameTurnManager.ChangeTurn();
+                                foreach (KeyValuePair<Vector3Int, Tile> tile in GameController.Instance.GetBoardDictionary().board)
+                                {
+                                    tile.Value.SetPut(true);
+                                }
+
+                                GameController.Instance.NewTurn();///zapisanie tablicy do listy
+                                objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
+                                placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
+                                GameController.Instance.GetPlayer().SaveListToCopy();
+                                GameController.Instance.gameTurnManager.ChangeTurn();
+                            }
+                            else
+                            {
+                                Debug.Log("W pierwszej turze nale¿y wy³o¿yc sumê conajmniej = 30");
+                                return;
+                            }
                         }
-                        else 
+                        else
                         {
-                            Debug.Log("W pierwszej turze nale¿y wy³o¿yc sumê conajmniej = 30");
-                            return;
+                            if (GameController.Instance.GetPlayer().GetList().Count < GameController.Instance.GetPlayer().GetListCopy().Count)
+                            {
+                                foreach (KeyValuePair<Vector3Int, Tile> tile in GameController.Instance.GetBoardDictionary().board)
+                                {
+                                    tile.Value.SetPut(true);
+                                }
+
+                                GameController.Instance.NewTurn();///zapisanie tablicy do listy
+                                objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
+                                placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
+                                GameController.Instance.GetPlayer().SaveListToCopy();
+                                GameController.Instance.gameTurnManager.ChangeTurn();
+                            }
+                            else Debug.Log("Nale¿y wy³o¿yæ conajmniej jedn¹ p³ytkê");
                         }
                     }
-                    else
-                    {
-                        if (GameController.Instance.GetPlayer().GetList().Count < GameController.Instance.GetPlayer().GetListCopy().Count)
-                        {
-                            foreach (KeyValuePair<Vector3Int, Tile> tile in GameController.Instance.GetBoardDictionary().board)
-                            {
-                                tile.Value.SetPut(true);
-                            }
-
-                            GameController.Instance.NewTurn();///zapisanie tablicy do listy
-                            objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
-                            placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
-                            GameController.Instance.GetPlayer().SaveListToCopy();
-                            GameController.Instance.gameTurnManager.ChangeTurn();
-                        }
-                        else Debug.Log("Nale¿y wy³o¿yæ conajmniej jedn¹ p³ytkê");
-                    }
+                    else GameController.Instance.EndGame();
                 }
                 else Debug.Log("Nie poprawnie zakoñczona mapa");
 
@@ -148,9 +155,9 @@ public class TurnController : MonoBehaviour
             /// x miêdzy -9 a 8
             /// z miêdzy 2 a -4
             Vector3Int sprawdzanaLokalizacja = new();
-            for(int z = -4;z <= 2;z++)
+            for(int z = -4;z <= 3;z++)
             {
-                for(int x = -9; x <=8; x++)
+                for(int x = -10; x <=9; x++)
                 {
                     sprawdzanaLokalizacja = new(x, 0, z);
                     if (board.ContainsKey(sprawdzanaLokalizacja))

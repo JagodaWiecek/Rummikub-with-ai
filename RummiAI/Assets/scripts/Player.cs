@@ -158,6 +158,14 @@ public class Player : MonoBehaviour
         return intensity1.CompareTo(intensity2);
     }
 
-   
+   public int FinalScore()
+    {
+        int score = 0;
+        foreach(Tile tile in playerHand)
+        {
+            score += tile.GetNumber();
+        }
+        return score;
+    }
 
 }

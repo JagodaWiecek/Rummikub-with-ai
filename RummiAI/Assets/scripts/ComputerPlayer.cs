@@ -33,9 +33,9 @@ public class ComputerPlayer : MonoBehaviour
     [SerializeField]
     PlacementSystem placementSystem;
 
-    int maxX = 8;
-    int minX = -9;
-    int maxZ = 2;
+    int maxX = 9;
+    int minX = -10;
+    int maxZ = 3;
     int minZ = -4;
 
     // Start is called before the first frame update
@@ -51,7 +51,7 @@ public class ComputerPlayer : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
             //time = 2f;
-            Debug.Log("moja tura: "+this.transform.name);
+            //Debug.Log("moja tura: "+this.transform.name);
             //SortByNumbers();
             // Debug.Log(computerPlayerHand.Count);
             //StartCoroutine(ShowTilesInDeck());
@@ -128,7 +128,8 @@ public class ComputerPlayer : MonoBehaviour
                     //zapisaæ kopie
                 }
                 GameController.Instance.gameTurnManager.ChangeTurn();
-
+                if (computerPlayerHand.Count == 0)
+                    GameController.Instance.EndGame();
             }
             //
         }
@@ -552,7 +553,7 @@ public class ComputerPlayer : MonoBehaviour
             database.objectsData[0].ID,
             index);
         tile.ShowTiles();
-        Debug.Log("na pozycji:" + gridPosition);
+        //Debug.Log("na pozycji:" + gridPosition);
     }
     void ExtendSequence(ref Dictionary<Vector3Int, Tile> board,ref List<Tile> handTiles)
     {
@@ -792,5 +793,19 @@ public class ComputerPlayer : MonoBehaviour
         return freePositions;
 
 
+    }
+    /// <summary>
+    /// funkcja do uzyskania ostatecznego wyniku gry
+    /// </summary>
+    /// <returns></returns>
+    public int FinalScore()
+    {
+        int score = 0;
+        foreach (Tile tile in computerPlayerHand)
+        {
+            score += tile.GetNumber();
+        }
+        return score;
+        
     }
 }

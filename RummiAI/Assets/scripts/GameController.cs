@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 using System.Drawing;
+using UnityEngine.SocialPlatforms.Impl;
+using Unity.VisualScripting;
 /// <summary>
 /// G³ówna klasa gry
 /// </summary>
@@ -49,6 +51,18 @@ public class GameController : MonoBehaviour
     public FirstTurnController firstTurnController;
     public GameTurnManager gameTurnManager;
 
+    [SerializeField]
+    GameObject endGameObject;
+
+    [SerializeField]
+    GameObject firstPlace;
+    [SerializeField]
+    GameObject secondPlace;
+    [SerializeField]
+    GameObject thirdPlace;
+    [SerializeField]
+    GameObject fourthPlace;
+
     /// <summary>
     /// inicjuje instancje
     /// </summary>
@@ -71,7 +85,7 @@ public class GameController : MonoBehaviour
     /// </summary>
      void Start()
     {
-        //Debug.Log("Inicjacja Game Controller");
+        endGameObject.SetActive(false);
         SetTiles(ref this.mainBank);
         
         boardList = new();
@@ -84,6 +98,29 @@ public class GameController : MonoBehaviour
             mrComputerPlayer.SetPlayersHand(ref this.mainBank, 1);
             missComputerPlayer.SetPlayersHand(ref this.mainBank, 2);
             ComputerPlayer.SetPlayersHand(ref this.mainBank, 3);
+        }
+        else if (gameIndex == 1)
+        {
+            mrComputerPlayer.SetPlayersHand(ref this.mainBank, 1);
+            missComputerPlayer.SetPlayersHand(ref this.mainBank, 2);
+            ComputerPlayer.SetPlayersHand(ref this.mainBank, 3);
+            //ai z indeksem 0
+        }
+        else if (gameIndex == 2) 
+        {
+            player.SetPlayersHand(ref this.mainBank);
+            mrComputerPlayer.SetPlayersHand(ref this.mainBank, 1);
+            missComputerPlayer.SetPlayersHand(ref this.mainBank, 2);
+            //ai z indeksem 3
+        }
+        else if (gameIndex == 3) 
+        {
+            player.SetPlayersHand(ref this.mainBank);
+            //ai z indeksem 1
+        }
+        else
+        {
+            player.SetPlayersHand(ref this.mainBank);
         }
         //playerHand = player.GetList();
         //playerHandCopy = player.GetListCopy();
@@ -110,6 +147,9 @@ public class GameController : MonoBehaviour
         if (Input.GetMouseButtonDown(1) && !placementSystem.GetInputManager().isPointerOverUI())
             placementSystem.StartMowing();
         if (Input.GetKeyDown(KeyCode.A)) gameTurnManager.ChangeTurn();
+        if(Input.GetKeyDown(KeyCode.Z)) Time.timeScale = 0f;
+        if(Input.GetKeyDown(KeyCode.X)) Time.timeScale = 1f;
+        //Time.timeScale = 0f;
     }
 
     /// <summary>
@@ -248,6 +288,33 @@ public class GameController : MonoBehaviour
 
     // public void ResetList()
 
+    public void EndGame()
+    {
+        //funkcja oznaczaj¹ca koniec gry
+        // string Napis;
+        endGameObject.SetActive(true);
+        if (gameIndex == 0)
+        {
+            var playerScore = (name: "You", Score: player.FinalScore());
+            var MissComputerScore = (name: missComputerPlayer.name, Score: missComputerPlayer.FinalScore());
+            var MrComputerScore = (name: mrComputerPlayer.name, Score: mrComputerPlayer.FinalScore());
+            var ComputerScore = (name: ComputerPlayer.name, Score: ComputerPlayer.FinalScore());
+        }
+        else if (gameIndex == 1)
+        {
+
+        }
+        else if (gameIndex == 2)
+        {
+
+        }
+        else if (gameIndex == 3)
+        {
+
+        }
+
+        Time.timeScale = 0f;
+    }
 
 }
 

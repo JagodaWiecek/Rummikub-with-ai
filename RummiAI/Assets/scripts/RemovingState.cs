@@ -108,7 +108,7 @@ public class RemovingState : IPlacementState
     public void UpdateState(Vector3Int gridPosition)
     {
         bool validity = CheckIfSelectionIsValid(gridPosition);
-        if (gridPosition.x > -10 && gridPosition.x < 9 && gridPosition.z > -5 && gridPosition.z < 3) 
+        if (gridPosition.x > -11 && gridPosition.x < 10 && gridPosition.z > -5 && gridPosition.z < 4) 
             previewSystem.UpdatePosition(grid.CellToWorld(gridPosition), validity);
     }
 
