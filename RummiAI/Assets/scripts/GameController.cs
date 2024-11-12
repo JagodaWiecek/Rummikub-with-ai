@@ -19,8 +19,8 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private List<Tile> mainBank; //bank gry
-    //[SerializeField]
-    //private List<Tile> playerHand;//talia gracza
+    [SerializeField]
+    private List<Tile> playerHand;//talia gracza
     //[SerializeField]
     //private List<Tile> playerHandCopy;//talia gracza
     //private List<Tile> mrBot , mrBotCopy;
@@ -85,6 +85,7 @@ public class GameController : MonoBehaviour
     /// </summary>
      void Start()
     {
+        
         endGameObject.SetActive(false);
         SetTiles(ref this.mainBank);
         
@@ -122,7 +123,7 @@ public class GameController : MonoBehaviour
         {
             player.SetPlayersHand(ref this.mainBank);
         }
-        //playerHand = player.GetList();
+        playerHand = player.GetList();
         //playerHandCopy = player.GetListCopy();
        // firstTurnController = new();
 
@@ -139,14 +140,17 @@ public class GameController : MonoBehaviour
     /// </summary>
     void Update()
     {
-       // Vector3 position = placementSystem.GetInputManager().GetSelectedMapPosition();
+        // Vector3 position = placementSystem.GetInputManager().GetSelectedMapPosition();
         //Vector3 minRange = grid.CellToWorld(new Vector3Int(-9,0,-4));
-       // Vector3 maxRange = grid.CellToWorld(new Vector3Int(8,0,2));
-        if (Input.GetKeyDown(KeyCode.D))
-            placementSystem.StartRemoving();
-        if (Input.GetMouseButtonDown(1) && !placementSystem.GetInputManager().isPointerOverUI())
-            placementSystem.StartMowing();
-        if (Input.GetKeyDown(KeyCode.A)) gameTurnManager.ChangeTurn();
+        // Vector3 maxRange = grid.CellToWorld(new Vector3Int(8,0,2));
+        if (gameIndex != 1 && gameTurnManager.currentPlayerId ==0)
+        {
+            if (Input.GetKeyDown(KeyCode.D))
+                placementSystem.StartRemoving();
+            if (Input.GetMouseButtonDown(1) && !placementSystem.GetInputManager().isPointerOverUI())
+                placementSystem.StartMowing();
+            if (Input.GetKeyDown(KeyCode.A)) gameTurnManager.ChangeTurn();
+        }
         if(Input.GetKeyDown(KeyCode.Z)) Time.timeScale = 0f;
         if(Input.GetKeyDown(KeyCode.X)) Time.timeScale = 1f;
         //Time.timeScale = 0f;
@@ -314,6 +318,12 @@ public class GameController : MonoBehaviour
         }
 
         Time.timeScale = 0f;
+
+        
+    }
+    private void Reset()
+    {
+        
     }
 
 }

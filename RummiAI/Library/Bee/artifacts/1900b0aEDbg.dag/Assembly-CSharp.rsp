@@ -383,6 +383,7 @@
 "Assets/scripts/GridData.cs"
 "Assets/scripts/InputManager.cs"
 "Assets/scripts/IPlacementState.cs"
+"Assets/scripts/MainMenu.cs"
 "Assets/scripts/MovingState.cs"
 "Assets/scripts/ObjectPlacer.cs"
 "Assets/scripts/ObjectsDatabase.cs"
