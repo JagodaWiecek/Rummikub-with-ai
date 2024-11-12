@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|c:\\users\\jwiec\\desktop\\rummikub-with-ai\\rummiai\\assets\\scripts\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\gameturnmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gameturnmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|c:\\users\\jwiec\\desktop\\rummikub-with-ai\\rummiai\\assets\\scripts\\mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F334A6C5-69FA-2AB4-99EA-ABEC22F7D90F}|Assembly-CSharp.csproj|C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\assets\\scripts\\turncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -46,7 +46,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
@@ -59,18 +59,17 @@
               "ViewState": "AQIAANcAAAAAAAAAAAAiwLIAAABXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-08T15:18:59.956Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "GameController.cs",
               "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\GameController.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\GameController.cs",
               "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\GameController.cs",
               "RelativeToolTip": "Assets\\scripts\\GameController.cs",
-              "ViewState": "AQIAAHoAAAAAAAAAAAAwwJEAAABBAAAA",
+              "ViewState": "AQIAAIwAAAAAAAAAAMBcwJEAAABBAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-07T16:26:53.003Z",
               "IsPinned": true,
@@ -87,18 +86,17 @@
               "ViewState": "AQIAAAMBAAAAAAAAAAAjwBcBAABOAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-25T18:44:28.402Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "MainMenu.cs",
               "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\MainMenu.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\MainMenu.cs",
               "ToolTip": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\MainMenu.cs",
               "RelativeToolTip": "Assets\\scripts\\MainMenu.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAAAgwCoAAAAcAAAA",
+              "ViewState": "AQIAABMAAAAAAAAAAAAmwDAAAAAbAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-12T15:49:48.016Z",
               "EditorCaption": ""
@@ -113,8 +111,7 @@
               "RelativeToolTip": "Assets\\scripts\\ComputerPlayer.cs",
               "ViewState": "AQIAAAQBAAAAAAAAAIBZwAkBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-06T13:25:19.921Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-06T13:25:19.921Z"
             },
             {
               "$type": "Document",
@@ -138,8 +135,7 @@
               "RelativeToolTip": "Assets\\scripts\\BoardDictionary.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-10T10:59:02.907Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-10T10:59:02.907Z"
             },
             {
               "$type": "Document",
@@ -155,7 +151,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "GameTurnManager.cs",
               "DocumentMoniker": "C:\\Users\\jwiec\\Desktop\\Rummikub-with-ai\\RummiAI\\Assets\\scripts\\GameTurnManager.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\GameTurnManager.cs",
@@ -163,8 +159,7 @@
               "RelativeToolTip": "Assets\\scripts\\GameTurnManager.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAACAAAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-05T14:41:05.374Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-05T14:41:05.374Z"
             }
           ]
         }
