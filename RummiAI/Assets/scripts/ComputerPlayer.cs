@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -33,9 +34,9 @@ public class ComputerPlayer : MonoBehaviour
     [SerializeField]
     PlacementSystem placementSystem;
 
-    int maxX = 9;
-    int minX = -10;
-    int maxZ = 3;
+    int maxX = 10;
+    int minX = -11;
+    int maxZ = 4;
     int minZ = -4;
 
     // Start is called before the first frame update
@@ -255,91 +256,122 @@ public class ComputerPlayer : MonoBehaviour
 
     public List<List<Tile>> FindSequentialColorSets(ref List<Tile> tiles)
     {
-        // Sortuj listê w miejscu, najpierw po kolorze, potem po numerze
         SortByColors();
 
         List<List<Tile>> sequentialColorSets = new List<List<Tile>>();
         List<Tile> currentSet = new List<Tile>();
-        List<Tile> jokers = new List<Tile>();
+        List<Tile> jokerTiles = new List<Tile>();
 
-        // Rozdziel jokery od innych p³ytek
-        foreach (Tile tile in tiles)
+        for (int i = 0; i < tiles.Count; i++)
         {
-            if (tile.GetNumber() == 30)
+            Tile currentTile = tiles[i];
+            bool isJoker = currentTile.GetNumber() == 30;
+
+            if (isJoker && jokerTiles.Count < 2)
             {
-                jokers.Add(tile);
+                jokerTiles.Add(currentTile);
+                continue;
+            }
+            else if (currentSet.Count == 0 ||
+                     (currentTile.GetColor() == currentSet[^1].GetColor() &&
+                      currentTile.GetNumber() == currentSet[^1].GetNumber() + 1))
+            {
+                currentSet.Add(currentTile);
+            }
+            else if (currentTile.GetColor() == currentSet[^1].GetColor() &&
+                     currentTile.GetNumber() == currentSet[^1].GetNumber())
+            {
+                continue;
             }
             else
             {
-                // Przetwarzamy normalne kafelki
-                if (currentSet.Count == 0 ||
-                    (tile.GetNumber() == currentSet[^1].GetNumber() + 1 && tile.GetColor() == currentSet[^1].GetColor()))
+                if (currentSet[^1].GetNumber() != 13 && jokerTiles.Count == 1)
                 {
-                    currentSet.Add(tile);
+                    currentSet.AddRange(jokerTiles);
+                    jokerTiles.Clear();
                 }
-                else if (jokers.Count > 0 &&
-                         tile.GetNumber() == currentSet[^1].GetNumber() + 2 && tile.GetColor() == currentSet[^1].GetColor())
+                else if (currentSet[^1].GetNumber() < 12)
                 {
-                    // U¿yj jokera, aby uzupe³niæ lukê
-                    currentSet.Add(jokers[0]);
-                    jokers.RemoveAt(0);
-                    currentSet.Add(tile);
+                    currentSet.AddRange(jokerTiles);
+                    jokerTiles.Clear();
                 }
-                else
-                {
-                    // Dodaj bie¿¹cy zestaw, jeœli jest prawid³owy
-                    if (IsValidSequence(currentSet))
-                    {
-                        sequentialColorSets.Add(new List<Tile>(currentSet));
-                    }
 
-                    // Rozpocznij nowy zestaw
-                    currentSet = new List<Tile> { tile };
+                if (IsSequenceValid(currentSet))
+                {
+                    sequentialColorSets.Add(new List<Tile>(currentSet));
                 }
+
+                currentSet = new List<Tile> { currentTile };
+                jokerTiles.Clear();
             }
         }
 
-        // Dodajemy pozosta³e jokery na koñcu, jeœli jest to konieczne
-        if (jokers.Count > 0 && currentSet.Count >= 2)
-        {
-            currentSet.AddRange(jokers);
-        }
-
-        // Dodaj koñcowy zestaw
-        if (IsValidSequence(currentSet))
+        currentSet.AddRange(jokerTiles);
+        jokerTiles.Clear();
+        if (IsSequenceValid(currentSet))
         {
             sequentialColorSets.Add(currentSet);
+        }
+
+        
+        if (firstTurn && !IsTotalSumValid(sequentialColorSets))
+        {
+            sequentialColorSets.Clear(); // Jeœli suma nie spe³nia wymogu, czyszczona jest lista
         }
 
         return sequentialColorSets;
     }
 
-
-    private bool IsValidSequence(List<Tile> sequence)
+    /// Funkcja do sprawdzania, czy sekwencja ma co najmniej 3 p³ytki
+    private bool IsSequenceValid(List<Tile> sequence)
     {
-        if (sequence.Count < 3) return false;
+        return sequence.Count >= 3;
+    }
 
-        int sum = 0;
-        int expectedNumber = sequence[0].GetNumber();
+    /// Funkcja do sprawdzania, czy ca³kowita suma wartoœci sekwencji jest >= 30, jeœli jest pierwsza tura
+    private bool IsTotalSumValid(List<List<Tile>> sequences)
+    {
+        int totalSum = 0;
 
-        foreach (Tile tile in sequence)
+        foreach (List<Tile> sequence in sequences)
         {
-            if (tile.GetNumber() == 30)
+            int expectedNumber = sequence[0].GetNumber();
+
+            foreach (Tile tile in sequence)
             {
-                // Joker zastêpuje brakuj¹cy numer w sekwencji
-                sum += expectedNumber;
+                totalSum += tile.GetNumber() == 30 ? expectedNumber : tile.GetNumber();
+                if (tile.GetNumber() != 30) expectedNumber = tile.GetNumber() + 1;
             }
-            else
-            {
-                sum += tile.GetNumber();
-                expectedNumber = tile.GetNumber();
-            }
-            expectedNumber++;
         }
 
-        // Jeœli to jest pierwsza tura to czy suma jest >= 30
-        return !firstTurn || sum >= 30;
+        return totalSum >= 30;
     }
+
+    private bool IsJokerValidForSequence(List<Tile> sequence, Tile joker)
+    {
+        // Jeœli sekwencja zawiera ju¿ dwa jokery lub nie jest wystarczaj¹co d³uga, aby dodaæ jokera, zwróæ true
+        if (sequence.Count < 2) return true;
+
+        // Ostatnia i przedostatnia liczba w sekwencji
+        int lastNum = sequence[^1].GetNumber();
+        int secondLastNum = sequence[^2].GetNumber();
+
+        // Jeœli sekwencja jest ci¹g³a, nie mo¿emy dodaæ jokera na koñcu
+        if (lastNum == secondLastNum + 1)
+        {
+            return false;
+        }
+
+        // Joker mo¿e zostaæ dodany tylko na pocz¹tek sekwencji, jeœli brakuje jednej liczby
+        if (lastNum == secondLastNum + 2)
+        {
+            return true; // Joker mo¿e zast¹piæ brakuj¹c¹ liczbê na pocz¹tku (np. 11, 12, 13)
+        }
+
+        // W przeciwnym razie joker nie jest dozwolony
+        return false;
+    }
+
     /// <summary>
     /// funkcja do wytworzenia sekwencji, któr¹ komputerowy gracz mo¿e wy³o¿yæ na planszê
     /// </summary>
@@ -347,55 +379,72 @@ public class ComputerPlayer : MonoBehaviour
     /// <returns></returns>
     public List<List<Tile>> FindSameNumberDifferentColorSets( ref List<Tile> tiles)
     {
-        // Sortuj listê kafelków po numerze i kolorze
-        SortByNumbers();
+        
+        SortByNumbers();//sortowanie po numerach a potem po kolorach
 
         List<List<Tile>> sameNumberDifferentColorSets = new List<List<Tile>>();
         List<Tile> currentSet = new List<Tile>();
-        List<Tile> jokers = new List<Tile>();
+        List<Tile> jokerTiles = new List<Tile>();
 
-        // Oddziel jokery od innych kafelków
-        foreach (Tile tile in tiles)
+
+        for (int i = 0; i < tiles.Count; i++)
         {
-            if (tile.GetNumber() == 30)
+            Tile currentTile = tiles[i];
+            bool isJoker = currentTile.GetNumber() == 30;
+
+            if (isJoker && jokerTiles.Count < 2)
             {
-                jokers.Add(tile);
+                jokerTiles.Add(currentTile);
+                continue;
+            }
+            else if (currentSet.Count == 0 ||
+                     (currentTile.GetColor() != currentSet[^1].GetColor() &&
+                      currentTile.GetNumber() == currentSet[^1].GetNumber()))
+            {
+                currentSet.Add(currentTile);
+            }
+            else if (currentTile.GetColor() == currentSet[^1].GetColor() &&
+                     currentTile.GetNumber() == currentSet[^1].GetNumber())
+            {
+                continue;
             }
             else
             {
-                if (currentSet.Count == 0 ||
-                    (currentSet[0].GetNumber() == tile.GetNumber() &&
-                    !currentSet.Exists(t => t.GetColor() == tile.GetColor())))
+                // Sprawdzamy, czy mo¿emy dodaæ jokera na koñcu sekwencji
+                if (jokerTiles.Count > 0 && IsJokerValidForSequence(currentSet, jokerTiles[0]))
                 {
-                    // Dodajemy kafelek do bie¿¹cego zestawu, jeœli pasuje do warunków
-                    currentSet.Add(tile);
+                    currentSet.Add(jokerTiles[0]);
+                    jokerTiles.Clear();
                 }
-                else
+
+                if (IsSequenceValid(currentSet))
                 {
-                    // Dodaj jokery na koñcu zestawu, jeœli istniej¹ i zestaw jest ju¿ w odpowiednim stanie
-                    if (currentSet.Count >= 2 && jokers.Count > 0)
-                    {
-                        currentSet.AddRange(jokers);
-                    }
-
-                    // Dodajemy zestaw do wynikowej listy, jeœli jest prawid³owy
-                    if (IsValidSequenceColor(currentSet))
-                    {
-                        sameNumberDifferentColorSets.Add(new List<Tile>(currentSet));
-                    }
-
-                    // Resetujemy bie¿¹cy zestaw i dodajemy nowy kafelek
-                    currentSet = new List<Tile> { tile };
+                    sameNumberDifferentColorSets.Add(new List<Tile>(currentSet));
                 }
+
+                currentSet = new List<Tile> { currentTile };
+                jokerTiles.Clear();
             }
         }
 
-        // Dodajemy ostatni zestaw, jeœli spe³nia kryteria
-        if (currentSet.Count >= 2 && IsValidSequenceColor(currentSet))
+        if (jokerTiles.Count > 0 && IsJokerValidForSequence(currentSet, jokerTiles[0]))
         {
-            currentSet.AddRange(jokers);
+            currentSet.Add(jokerTiles[0]);
+            jokerTiles.Clear();
+        }
+
+        if (IsSequenceValid(currentSet))
+        {
             sameNumberDifferentColorSets.Add(currentSet);
         }
+
+        // Final check for the entire list of sequences
+        if (firstTurn && !IsTotalSumValid(sameNumberDifferentColorSets))
+        {
+            sameNumberDifferentColorSets.Clear();
+        }
+
+
 
         return sameNumberDifferentColorSets;
     }
@@ -411,28 +460,35 @@ public class ComputerPlayer : MonoBehaviour
     {
         if (sequence.Count < 3 || sequence.Count > 4) return false;
 
-        int sum = 0;
-        int expectedNumber = sequence[0].GetNumber();
         HashSet<Color> uniqueColors = new HashSet<Color>();
 
         foreach (Tile tile in sequence)
         {
-            if (tile.GetNumber() == 30)
-            {
-                // Joker zastêpuje brakuj¹cy numer w sekwencji
-                sum += expectedNumber;
-            }
-            else
-            {
-                sum += tile.GetNumber();
-                expectedNumber = tile.GetNumber();
                 uniqueColors.Add(tile.GetColor());
-            }
+            
             //expectedNumber++;
         }
         if (uniqueColors.Count != sequence.Count) return false;
+        return true;
         // Jeœli to jest pierwsza tura, sprawdŸ, czy suma wynosi co najmniej 30
-        return !firstTurn || sum >= 30;
+       // return !firstTurn || sum >= 30;
+    }
+    private bool IsTotalSumValidColor(List<List<Tile>> sequences)
+    {
+        int totalSum = 0;
+
+        foreach (List<Tile> sequence in sequences)
+        {
+            int expectedNumber = sequence[0].GetNumber();
+
+            foreach (Tile tile in sequence)
+            {
+                totalSum += tile.GetNumber() == 30 ? expectedNumber : tile.GetNumber();
+                if (tile.GetNumber() != 30) expectedNumber = tile.GetNumber() ;
+            }
+        }
+
+        return totalSum >= 30;
     }
 
     public List<Tile> GetList() { return this.computerPlayerHand; }
@@ -507,7 +563,7 @@ public class ComputerPlayer : MonoBehaviour
         //int levelX = -9;
         int amountToOccupy = tileAmount+ 2;
         Vector3Int position;
-
+        int errorAmount = 0;
         int i = 0;
         while (i < amountToOccupy)
         {
@@ -517,6 +573,8 @@ public class ComputerPlayer : MonoBehaviour
                 levelZ = Random.Range(minZ, maxZ + 1);
                 levelX = Random.Range(minX, maxX + 1 - tileAmount);
                 list.Clear();
+                errorAmount++;
+                if (errorAmount >= 5000) Debug.LogError("nie ma miejsca na planszy");
                 i = 0; 
             }
             else
@@ -524,6 +582,7 @@ public class ComputerPlayer : MonoBehaviour
                 list.Add(position);
                 levelX++;
                 i++;
+                errorAmount = 0;
             }
         }
 

@@ -157,7 +157,7 @@ public class TurnController : MonoBehaviour
             Vector3Int sprawdzanaLokalizacja = new();
             for(int z = -4;z <= 3;z++)
             {
-                for(int x = -10; x <=9; x++)
+                for(int x = -11; x <=10; x++)
                 {
                     sprawdzanaLokalizacja = new(x, 0, z);
                     if (board.ContainsKey(sprawdzanaLokalizacja))

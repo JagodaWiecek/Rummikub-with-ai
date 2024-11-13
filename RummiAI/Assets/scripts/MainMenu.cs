@@ -39,9 +39,10 @@ public class MainMenu : MonoBehaviour
 
     public void ReturnToMenu()
     {
-        //Destroy(GameController.Instance.gameObject);
-        Time.timeScale = 1f;
         SceneManager.LoadSceneAsync(0);
+        if (GameController.Instance != null)
+            Destroy(GameController.Instance.gameObject);
+        Time.timeScale = 1f;
     }
 
     public void QuitGame()

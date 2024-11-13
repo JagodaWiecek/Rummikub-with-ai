@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 using System.Drawing;
 using UnityEngine.SocialPlatforms.Impl;
 using Unity.VisualScripting;
+using System;
 /// <summary>
 /// G³ówna klasa gry
 /// </summary>
@@ -291,40 +292,97 @@ public class GameController : MonoBehaviour
     }
 
     // public void ResetList()
-
+    /// <summary>
+    /// Funkcja do wyœwietlenia ekrany zakoñczenia gry, nie skoñczona
+    /// </summary>
     public void EndGame()
     {
         //funkcja oznaczaj¹ca koniec gry
         // string Napis;
         endGameObject.SetActive(true);
+        //firstPlace.GetComponent<Text>().text = "";
+       // secondPlace.GetComponent<Text>().text = ""; 
+        //thirdPlace.GetComponent<Text>().text = ""; 
+       // fourthPlace.GetComponent<Text>().text = "";
         if (gameIndex == 0)
-        {
-            var playerScore = (name: "You", Score: player.FinalScore());
-            var MissComputerScore = (name: missComputerPlayer.name, Score: missComputerPlayer.FinalScore());
-            var MrComputerScore = (name: mrComputerPlayer.name, Score: mrComputerPlayer.FinalScore());
-            var ComputerScore = (name: ComputerPlayer.name, Score: ComputerPlayer.FinalScore());
+        {//gracz i boty
+            (string Name, int Score)[] playersScore = {
+                (Name: "You", player.FinalScore()),
+                (Name: missComputerPlayer.name,Score: missComputerPlayer.FinalScore()),
+                (Name: mrComputerPlayer.name,Score: mrComputerPlayer.FinalScore()),
+                (Name: ComputerPlayer.name,Score: ComputerPlayer.FinalScore())
+            };
+            Array.Sort(playersScore, (a, b) => a.Score.CompareTo(b.Score));
+
+            if(playersScore[0].Score == 0)
+                firstPlace.GetComponent<Text>().text = "1. " + playersScore[0].Name;
+            else
+                firstPlace.GetComponent<Text>().text = "1. " + playersScore[0].Name + " (" + playersScore[0].Score.ToString() + ") ";
+            secondPlace.GetComponent<Text>().text = "2. " +playersScore[1].Name+ " ("+ playersScore[1].Score.ToString()+") ";
+            thirdPlace.GetComponent<Text>().text = "3. " +playersScore[2].Name + " (" + playersScore[2].Score.ToString() + ") ";
+            fourthPlace.GetComponent<Text>().text = "4. " +playersScore[3].Name + " (" + playersScore[3].Score.ToString() + ") ";
         }
         else if (gameIndex == 1)
-        {
+        { //ai i boty
 
+            (string Name, int Score)[] playersScore = {
+                //(Name: AI.name, AI.FinalScore()),
+                (Name: missComputerPlayer.name,Score: missComputerPlayer.FinalScore()),
+                (Name: mrComputerPlayer.name,Score: mrComputerPlayer.FinalScore()),
+                (Name: ComputerPlayer.name,Score: ComputerPlayer.FinalScore())
+            };
+            Array.Sort(playersScore, (a, b) => a.Score.CompareTo(b.Score));
+
+            if (playersScore[0].Score == 0)
+                firstPlace.GetComponent<Text>().text = "1. " + playersScore[0].Name;
+            else
+                firstPlace.GetComponent<Text>().text = "1. " + playersScore[0].Name + " (" + playersScore[0].Score.ToString() + ") ";
+            secondPlace.GetComponent<Text>().text = "2. " + playersScore[1].Name + " (" + playersScore[1].Score.ToString() + ") ";
+            thirdPlace.GetComponent<Text>().text = "3. " + playersScore[2].Name + " (" + playersScore[2].Score.ToString() + ") ";
+            fourthPlace.GetComponent<Text>().text = "4. " + playersScore[3].Name + " (" + playersScore[3].Score.ToString() + ") ";
         }
         else if (gameIndex == 2)
-        {
+        { //gracz, boty i ai
+            (string Name, int Score)[] playersScore = {
+                (Name: "You", player.FinalScore()),
+                (Name: missComputerPlayer.name,Score: missComputerPlayer.FinalScore()),
+                (Name: mrComputerPlayer.name,Score: mrComputerPlayer.FinalScore())
+                //(Name: AI.name, AI.FinalScore()),
+            };
+            Array.Sort(playersScore, (a, b) => a.Score.CompareTo(b.Score));
 
+            if (playersScore[0].Score == 0)
+                firstPlace.GetComponent<Text>().text = "1. " + playersScore[0].Name;
+            else
+                firstPlace.GetComponent<Text>().text = "1. " + playersScore[0].Name + " (" + playersScore[0].Score.ToString() + ") ";
+            secondPlace.GetComponent<Text>().text = "2. " + playersScore[1].Name + " (" + playersScore[1].Score.ToString() + ") ";
+            thirdPlace.GetComponent<Text>().text = "3. " + playersScore[2].Name + " (" + playersScore[2].Score.ToString() + ") ";
+            fourthPlace.GetComponent<Text>().text = "4. " + playersScore[3].Name + " (" + playersScore[3].Score.ToString() + ") ";
         }
         else if (gameIndex == 3)
-        {
+        { //gracz i ai
+            (string Name, int Score)[] playersScore = {
+                (Name: "You", player.FinalScore()),
+                //(Name: AI.name, AI.FinalScore()),
+            };
+            Array.Sort(playersScore, (a, b) => a.Score.CompareTo(b.Score));
 
+            if (playersScore[0].Score == 0)
+                firstPlace.GetComponent<Text>().text = "1. " + playersScore[0].Name;
+            else
+                firstPlace.GetComponent<Text>().text = "1. " + playersScore[0].Name + " (" + playersScore[0].Score.ToString() + ") ";
+            secondPlace.GetComponent<Text>().text = "2. " + playersScore[1].Name + " (" + playersScore[1].Score.ToString() + ") ";
+
+            thirdPlace.GetComponent<Text>().text = "";
+            fourthPlace.GetComponent<Text>().text = "";
         }
 
         Time.timeScale = 0f;
+        //przekazanie listy plansz do ai
+        //na naukê
+        
+    }
 
-        
-    }
-    private void Reset()
-    {
-        
-    }
 
 }
 

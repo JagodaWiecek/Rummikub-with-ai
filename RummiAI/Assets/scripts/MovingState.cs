@@ -71,8 +71,8 @@ public class MovingState : IPlacementState
          {
              selectedData = this.tileData;
          }
-        Vector3 minRange = new Vector3Int(-10, 0, -4);
-        Vector3 maxRange = new Vector3Int(9, 0, 3);
+        Vector3 minRange = new Vector3Int(-11, 0, -4);
+        Vector3 maxRange = new Vector3Int(10, 0, 4);
         bool onMap = IsPositionInRange(gridPosition, minRange, maxRange);
 
         if (tileData != null)
@@ -119,7 +119,7 @@ public class MovingState : IPlacementState
     {
         bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
 
-        if (gridPosition.x > -11 && gridPosition.x < 10 && gridPosition.z > -5 && gridPosition.z < 4)
+        if (gridPosition.x > -12 && gridPosition.x < 11 && gridPosition.z > -5 && gridPosition.z < 5)
         {
             previewSystem.UpdatePosition(grid.CellToWorld(gridPosition), placementValidity);
         }

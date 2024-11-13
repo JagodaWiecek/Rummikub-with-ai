@@ -121,6 +121,14 @@ public class Tile : MonoBehaviour
             return true;
     }
     /// <summary>
+    /// funkcja zwracaj¹ca najwa¿niejsze zmienne klasy
+    /// </summary>
+    /// <returns>krotkê liczby i koloru p³ytki</returns>
+    public (int, UnityEngine.Color) GetTileTuplet()
+    {
+        return (this.number, this.numberColor);
+    }
+    /// <summary>
     /// Funkcja sprawdzaj¹ca wszystkie zasady gry, jakie k³adziona p³ytka musi spe³niaæ
     /// </summary>
     /// <param name="gridPosition"></param>
