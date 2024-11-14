@@ -15,7 +15,7 @@ public class ComputerPlayer : MonoBehaviour
     [SerializeField]
     private List<Tile> computerPlayerHandCopy = new();
     [SerializeField]
-    private bool firstTurn = false;
+    private bool firstTurn;
 
     [SerializeField]
     public int myIndex;
@@ -42,7 +42,7 @@ public class ComputerPlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        firstTurn = true;
     }
 
     // Update is called once per frame

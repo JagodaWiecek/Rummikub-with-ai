@@ -35,8 +35,8 @@ public class GameController : MonoBehaviour
     ComputerPlayer missComputerPlayer;
     [SerializeField]
     ComputerPlayer ComputerPlayer;
-    //[SerializeField]
-    //PlayerAI AI;
+    [SerializeField]
+    PlayerAI AI;
 
 
     [SerializeField]
@@ -73,23 +73,23 @@ public class GameController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); 
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Destroy(gameObject); 
+            Destroy(gameObject);
         }
     }
 
     /// <summary>
     /// Funkcja, która w³¹cza siê przed pierwszymi klatkami
     /// </summary>
-     void Start()
+    void Start()
     {
-        
+
         endGameObject.SetActive(false);
         SetTiles(ref this.mainBank);
-        
+
         boardList = new();
         boardDictionary = new();
         player = new();
@@ -108,16 +108,17 @@ public class GameController : MonoBehaviour
             ComputerPlayer.SetPlayersHand(ref this.mainBank, 3);
             //ai z indeksem 0
         }
-        else if (gameIndex == 2) 
+        else if (gameIndex == 2)
         {
             player.SetPlayersHand(ref this.mainBank);
             mrComputerPlayer.SetPlayersHand(ref this.mainBank, 1);
             missComputerPlayer.SetPlayersHand(ref this.mainBank, 2);
             //ai z indeksem 3
         }
-        else if (gameIndex == 3) 
+        else if (gameIndex == 3)
         {
             player.SetPlayersHand(ref this.mainBank);
+            AI.SetPlayersHand(ref this.mainBank, 1);
             //ai z indeksem 1
         }
         else
@@ -126,12 +127,12 @@ public class GameController : MonoBehaviour
         }
         playerHand = player.GetList();
         //playerHandCopy = player.GetListCopy();
-       // firstTurnController = new();
+        // firstTurnController = new();
 
         //this.playerHand.Add(new(30, new UnityEngine.Color(0.5f, 0f, 0.5f), SetName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30.ToString(), "$", false));
         //this.playerHand.Add(new(30, UnityEngine.Color.magenta, SetName(UnityEngine.Color.magenta) + "_" + 30.ToString(), "$", false));
 
-  
+
 
     }
 
@@ -144,7 +145,7 @@ public class GameController : MonoBehaviour
         // Vector3 position = placementSystem.GetInputManager().GetSelectedMapPosition();
         //Vector3 minRange = grid.CellToWorld(new Vector3Int(-9,0,-4));
         // Vector3 maxRange = grid.CellToWorld(new Vector3Int(8,0,2));
-        if (gameIndex != 1 && gameTurnManager.currentPlayerId ==0)
+        if (gameIndex != 1 && gameTurnManager.currentPlayerId == 0)
         {
             if (Input.GetKeyDown(KeyCode.D))
                 placementSystem.StartRemoving();
@@ -152,8 +153,8 @@ public class GameController : MonoBehaviour
                 placementSystem.StartMowing();
             if (Input.GetKeyDown(KeyCode.A)) gameTurnManager.ChangeTurn();
         }
-        if(Input.GetKeyDown(KeyCode.Z)) Time.timeScale = 0f;
-        if(Input.GetKeyDown(KeyCode.X)) Time.timeScale = 1f;
+        if (Input.GetKeyDown(KeyCode.Z)) Time.timeScale = 0f;
+        if (Input.GetKeyDown(KeyCode.X)) Time.timeScale = 1f;
         //Time.timeScale = 0f;
     }
 
@@ -171,7 +172,7 @@ public class GameController : MonoBehaviour
     /// Funkcja do uzyskania kopii talii gracza, 
     /// </summary>
     /// <returns></returns>
-    public List<Tile> GetPlayerHandCopy(){ return this.player.GetListCopy(); }
+    public List<Tile> GetPlayerHandCopy() { return this.player.GetListCopy(); }
 
     public Player GetPlayer() { return this.player; }
     public ComputerPlayer GetMrComputerPlayer() { return this.mrComputerPlayer; }
@@ -211,33 +212,33 @@ public class GameController : MonoBehaviour
     /// <param name="tiles">pusta lista do wype³nienia</param>
     void SetTiles(ref List<Tile> tiles)
     {
-        tiles = new ();
+        tiles = new();
         int temp;
         for (int j = 0; j < 2; j++)
         {
             for (int i = 0; i < 13; i++)///dodanie do banku p³ytek koloru czerwonego
             {
                 temp = i + 1;
-                tiles.Add(new ((temp), UnityEngine.Color.red, SetNameForTile(UnityEngine.Color.red) + "_" + temp.ToString(), temp.ToString(), false));//(int num, Color col, string name)
+                tiles.Add(new((temp), UnityEngine.Color.red, SetNameForTile(UnityEngine.Color.red) + "_" + temp.ToString(), temp.ToString(), false));//(int num, Color col, string name)
             }
-            for(int i = 0;i < 13; i++)//pomarañczowy
+            for (int i = 0; i < 13; i++)//pomarañczowy
             {
                 temp = i + 1;
-                tiles.Add(new ((temp), new UnityEngine.Color(1f, 0.50f, 0f), SetNameForTile(new UnityEngine.Color(1f, 0.50f, 0f)) + "_" + temp.ToString(), temp.ToString(), false));
+                tiles.Add(new((temp), new UnityEngine.Color(1f, 0.50f, 0f), SetNameForTile(new UnityEngine.Color(1f, 0.50f, 0f)) + "_" + temp.ToString(), temp.ToString(), false));
             }
             for (int i = 0; i < 13; i++)//czarny
             {
                 temp = i + 1;
-                tiles.Add(new ((temp), UnityEngine.Color.black, SetNameForTile(UnityEngine.Color.black) + "_" + temp.ToString(), temp.ToString(), false));
+                tiles.Add(new((temp), UnityEngine.Color.black, SetNameForTile(UnityEngine.Color.black) + "_" + temp.ToString(), temp.ToString(), false));
             }
             for (int i = 0; i < 13; i++)//niebieski
             {
                 temp = i + 1;
-                tiles.Add(new ((temp), UnityEngine.Color.blue, SetNameForTile(UnityEngine.Color.blue) + "_" + temp.ToString(), temp.ToString(), false));
+                tiles.Add(new((temp), UnityEngine.Color.blue, SetNameForTile(UnityEngine.Color.blue) + "_" + temp.ToString(), temp.ToString(), false));
             }
         }
-        tiles.Add(new (30, new UnityEngine.Color(0.5f, 0f, 0.5f), SetNameForTile(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30.ToString(), "$", false));//fiolet
-        tiles.Add(new (30, UnityEngine.Color.magenta, SetNameForTile(UnityEngine.Color.magenta) + "_" + 30.ToString(), "$", false));//magenta
+        tiles.Add(new(30, new UnityEngine.Color(0.5f, 0f, 0.5f), SetNameForTile(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30.ToString(), "$", false));//fiolet
+        tiles.Add(new(30, UnityEngine.Color.magenta, SetNameForTile(UnityEngine.Color.magenta) + "_" + 30.ToString(), "$", false));//magenta
     }
 
     /// <summary>
@@ -263,7 +264,7 @@ public class GameController : MonoBehaviour
     /// </summary>
     /// <param name="original"> lista, z której zmienne s¹ kopiowane</param>
     /// <param name="copy"> lista, do której s¹ kopiowane dane</param>
-    public void SetActualList( List<Tile> original, ref List<Tile> copy)
+    public void SetActualList(List<Tile> original, ref List<Tile> copy)
     {
         copy.Clear();
         foreach (Tile tile in original)
@@ -301,9 +302,9 @@ public class GameController : MonoBehaviour
         // string Napis;
         endGameObject.SetActive(true);
         //firstPlace.GetComponent<Text>().text = "";
-       // secondPlace.GetComponent<Text>().text = ""; 
+        // secondPlace.GetComponent<Text>().text = ""; 
         //thirdPlace.GetComponent<Text>().text = ""; 
-       // fourthPlace.GetComponent<Text>().text = "";
+        // fourthPlace.GetComponent<Text>().text = "";
         if (gameIndex == 0)
         {//gracz i boty
             (string Name, int Score)[] playersScore = {
@@ -314,13 +315,13 @@ public class GameController : MonoBehaviour
             };
             Array.Sort(playersScore, (a, b) => a.Score.CompareTo(b.Score));
 
-            if(playersScore[0].Score == 0)
+            if (playersScore[0].Score == 0)
                 firstPlace.GetComponent<Text>().text = "1. " + playersScore[0].Name;
             else
                 firstPlace.GetComponent<Text>().text = "1. " + playersScore[0].Name + " (" + playersScore[0].Score.ToString() + ") ";
-            secondPlace.GetComponent<Text>().text = "2. " +playersScore[1].Name+ " ("+ playersScore[1].Score.ToString()+") ";
-            thirdPlace.GetComponent<Text>().text = "3. " +playersScore[2].Name + " (" + playersScore[2].Score.ToString() + ") ";
-            fourthPlace.GetComponent<Text>().text = "4. " +playersScore[3].Name + " (" + playersScore[3].Score.ToString() + ") ";
+            secondPlace.GetComponent<Text>().text = "2. " + playersScore[1].Name + " (" + playersScore[1].Score.ToString() + ") ";
+            thirdPlace.GetComponent<Text>().text = "3. " + playersScore[2].Name + " (" + playersScore[2].Score.ToString() + ") ";
+            fourthPlace.GetComponent<Text>().text = "4. " + playersScore[3].Name + " (" + playersScore[3].Score.ToString() + ") ";
         }
         else if (gameIndex == 1)
         { //ai i boty
@@ -380,7 +381,7 @@ public class GameController : MonoBehaviour
         Time.timeScale = 0f;
         //przekazanie listy plansz do ai
         //na naukê
-        
+
     }
 
 
