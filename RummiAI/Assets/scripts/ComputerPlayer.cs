@@ -117,6 +117,7 @@ public class ComputerPlayer : MonoBehaviour
                     //nie by³o ruchu
                     List<Tile> board = GameController.Instance.GetGameBank();
                     AddNewTile(ref board);
+                    Debug.Log("Nie mogê siê wy³o¿yæ: "+this.transform.name);
                     GameController.Instance.NewTurn();
                 }
                 else
@@ -604,7 +605,7 @@ public class ComputerPlayer : MonoBehaviour
             database.objectsData[0].Size,
             database.objectsData[0].ID,
             index);
-        tile.ShowTiles();
+        //tile.ShowTiles();
         //Debug.Log("na pozycji:" + gridPosition);
     }
     void ExtendSequence(ref Dictionary<Vector3Int, Tile> board,ref List<Tile> handTiles)

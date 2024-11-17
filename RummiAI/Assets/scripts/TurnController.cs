@@ -38,8 +38,11 @@ public class TurnController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        undoButton.gameObject.SetActive(false);
-        endTurn.gameObject.SetActive(false);
+        if (GameController.Instance.gameIndex != 1)
+        {
+            undoButton.gameObject.SetActive(false);
+            endTurn.gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame

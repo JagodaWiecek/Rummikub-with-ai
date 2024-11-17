@@ -30,7 +30,7 @@ public class GameTurnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentPlayerId = 0;
+        currentPlayerId = 1;
         turnTime = 60;
         currentTurnTime = turnTime;
         SetUIText();
@@ -56,6 +56,21 @@ public class GameTurnManager : MonoBehaviour
                     ChangeTurn();
                 }
             }
+        }
+        else if(GameController.Instance.gameIndex == 1)
+        {
+            if(currentTurnTime <= 0)
+            {
+                ChangeTurn();
+            }
+        }
+        else if (GameController.Instance.gameIndex == 2)
+        {
+
+        }
+        else if (GameController.Instance.gameIndex == 3)
+        {
+
         }
     }
     /// <summary>
@@ -190,7 +205,7 @@ public class GameTurnManager : MonoBehaviour
             MissComputerTilesText.GetComponent<Text>().text = "MissComputer: " + GameController.Instance.GetMissComputerPlayer().GetList().Count.ToString();
             MrComputerTilesText.GetComponent<Text>().text = "MrComputer: " + GameController.Instance.GetMrComputerPlayer().GetList().Count.ToString();
             ComputerTilesText.GetComponent<Text>().text = "Computer: " + GameController.Instance.GetComputerPlayer().GetList().Count.ToString();
-            AITilesText.GetComponent<Text>().text = "AI: "  ;//+GameController.Instance.GetComputerPlayer().GetList().Count.ToString()
+            AITilesText.GetComponent<Text>().text = "Agent: " + GameController.Instance.GetPlayerAI().GetList().Count.ToString();// 
         }
 
     }
@@ -209,7 +224,7 @@ public class GameTurnManager : MonoBehaviour
         
         if (currentPlayerId == 4) currentPlayerId = 0;
 
-        takeTile.SetButtonNumber();
+        if (GameController.Instance.gameIndex != 1) { takeTile.SetButtonNumber(); }
         SetUIText();
     }
     /// <summary>

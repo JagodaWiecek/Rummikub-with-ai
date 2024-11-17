@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     // Static instantion, globally available
     public static GameController Instance { get; private set; }
 
+    public int mapId;
     [SerializeField]
     public int gameIndex;///inne rzeczy zostan¹ za³adowane w zale¿noœci od indeksu
 
@@ -69,15 +70,28 @@ public class GameController : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        // Only one instance of object
+
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                // Jeœli instancja ju¿ istnieje, to nie przypisujemy jej ponownie
+                Destroy(gameObject);
+            }
+        
+    }
+    public static void SetInstance(GameController instance)
+    {
         if (Instance == null)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            Instance = instance;
         }
         else
         {
-            Destroy(gameObject);
+            Debug.LogWarning("Instance GameController already set.");
         }
     }
 
@@ -87,7 +101,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
 
-        endGameObject.SetActive(false);
+        if (endGameObject != null) endGameObject.SetActive(false);
         SetTiles(ref this.mainBank);
 
         boardList = new();
@@ -103,6 +117,7 @@ public class GameController : MonoBehaviour
         }
         else if (gameIndex == 1)
         {
+            AI.SetPlayersHand(ref this.mainBank, 0);
             mrComputerPlayer.SetPlayersHand(ref this.mainBank, 1);
             missComputerPlayer.SetPlayersHand(ref this.mainBank, 2);
             ComputerPlayer.SetPlayersHand(ref this.mainBank, 3);
@@ -153,6 +168,8 @@ public class GameController : MonoBehaviour
                 placementSystem.StartMowing();
             if (Input.GetKeyDown(KeyCode.A)) gameTurnManager.ChangeTurn();
         }
+        if(gameIndex == 1)
+            if (Input.GetKeyDown(KeyCode.A)) gameTurnManager.ChangeTurn();
         if (Input.GetKeyDown(KeyCode.Z)) Time.timeScale = 0f;
         if (Input.GetKeyDown(KeyCode.X)) Time.timeScale = 1f;
         //Time.timeScale = 0f;
@@ -178,6 +195,7 @@ public class GameController : MonoBehaviour
     public ComputerPlayer GetMrComputerPlayer() { return this.mrComputerPlayer; }
     public ComputerPlayer GetMissComputerPlayer() { return this.missComputerPlayer; }
     public ComputerPlayer GetComputerPlayer() { return this.ComputerPlayer; }
+    public PlayerAI GetPlayerAI() { return this.AI; }
 
     /// <summary>
     /// Getter zmiennej klasowej, boardDictionary
@@ -326,7 +344,7 @@ public class GameController : MonoBehaviour
         else if (gameIndex == 1)
         { //ai i boty
 
-            (string Name, int Score)[] playersScore = {
+            /*(string Name, int Score)[] playersScore = {
                 //(Name: AI.name, AI.FinalScore()),
                 (Name: missComputerPlayer.name,Score: missComputerPlayer.FinalScore()),
                 (Name: mrComputerPlayer.name,Score: mrComputerPlayer.FinalScore()),
@@ -340,7 +358,7 @@ public class GameController : MonoBehaviour
                 firstPlace.GetComponent<Text>().text = "1. " + playersScore[0].Name + " (" + playersScore[0].Score.ToString() + ") ";
             secondPlace.GetComponent<Text>().text = "2. " + playersScore[1].Name + " (" + playersScore[1].Score.ToString() + ") ";
             thirdPlace.GetComponent<Text>().text = "3. " + playersScore[2].Name + " (" + playersScore[2].Score.ToString() + ") ";
-            fourthPlace.GetComponent<Text>().text = "4. " + playersScore[3].Name + " (" + playersScore[3].Score.ToString() + ") ";
+            fourthPlace.GetComponent<Text>().text = "4. " + playersScore[3].Name + " (" + playersScore[3].Score.ToString() + ") ";*/
         }
         else if (gameIndex == 2)
         { //gracz, boty i ai
