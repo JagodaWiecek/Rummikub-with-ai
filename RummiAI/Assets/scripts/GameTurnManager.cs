@@ -30,7 +30,7 @@ public class GameTurnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentPlayerId = 1;
+        currentPlayerId = Random.Range(0,4);
         turnTime = 60;
         currentTurnTime = turnTime;
         SetUIText();

@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
+using UnityEngine.UIElements;
 
 public class PlayerAI : Agent
 {//MonoBehaviour
@@ -30,6 +31,11 @@ public class PlayerAI : Agent
     [SerializeField]
     PlacementSystem placementSystem;
 
+    int maxX = 10;
+    int minX = -11;
+    int maxZ = 4;
+    int minZ = -4;
+
     void Start()
     {
         //firstTurn = true;
@@ -53,6 +59,43 @@ public class PlayerAI : Agent
     //}
     public override void CollectObservations(VectorSensor sensor)
     {
+        var board = GameController.Instance.GetBoardDictionary().board;
+        sensor.AddObservation(AIPlayerHand.Count);
+        sensor.AddObservation(firstTurn ? 1 : 0);//jeœli true to trzeba mieæ conajmniej 30 na start
+
+        foreach(Tile tile in AIPlayerHand)
+        {
+            sensor.AddObservation(tile.GetNumber());
+            sensor.AddObservation(tile.GetColor().r);
+            sensor.AddObservation(tile.GetColor().g);
+            sensor.AddObservation(tile.GetColor().b);
+        }
+
+        for(int z= minZ; z<= maxZ;z++)
+        {
+            for(int x= minX; x<= maxX;x++)
+            {
+                if(board.ContainsKey(new(x,0,z)))
+                {
+                    sensor.AddObservation(board[new(x,0,z)].GetNumber());
+                    sensor.AddObservation(board[new(x,0,z)].GetColor().r);
+                    sensor.AddObservation(board[new(x,0,z)].GetColor().g);
+                    sensor.AddObservation(board[new(x,0,z)].GetColor().b);
+                    sensor.AddObservation(board[new(x, 0, z)].GetPut() ? 1 : 0); 
+                }
+                else
+                {
+                    //puste pola
+                    sensor.AddObservation(0);    
+                    sensor.AddObservation(0f);  
+                    sensor.AddObservation(0f);  
+                    sensor.AddObservation(0f);  
+                    sensor.AddObservation(0);   
+                }
+                sensor.AddObservation(x); // Pozycja x
+                sensor.AddObservation(z); // Pozycja z
+            }
+        }
         //do obserwacji
         //co ma na rêce
         //ile ma na rêce
