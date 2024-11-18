@@ -9754,7 +9754,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5778576, y: -0, z: -0, w: 0.8161377}
-  m_LocalPosition: {x: -489.1, y: -56.27, z: 8.5}
+  m_LocalPosition: {x: -489.1, y: -55.68, z: 8.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -16043,6 +16043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e73cded3be31e924c915ddbfa691e07e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapId: 0
   gameIndex: 0
   mainBank: []
   playerHand: []
@@ -16050,6 +16051,7 @@ MonoBehaviour:
   mrComputerPlayer: {fileID: 576707204}
   missComputerPlayer: {fileID: 1543495819}
   ComputerPlayer: {fileID: 1875033053}
+  AI: {fileID: 0}
   placementSystem: {fileID: 1434540506}
   boardDictionary: {fileID: 0}
   boardList: []

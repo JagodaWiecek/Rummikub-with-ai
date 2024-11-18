@@ -225,7 +225,15 @@ public class GameTurnManager : MonoBehaviour
         if (currentPlayerId == 4) currentPlayerId = 0;
 
         if (GameController.Instance.gameIndex != 1) { takeTile.SetButtonNumber(); }
+        EndTurn();
         SetUIText();
+    }
+    public void EndTurn()
+    {
+        foreach (KeyValuePair<Vector3Int, Tile> tile in GameController.Instance.GetBoardDictionary().board)
+        {
+            tile.Value.SetPut(true);
+        }
     }
     /// <summary>
     /// resetuje zmienn¹ float turnTime

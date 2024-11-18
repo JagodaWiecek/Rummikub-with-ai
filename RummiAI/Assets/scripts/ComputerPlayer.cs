@@ -608,6 +608,11 @@ public class ComputerPlayer : MonoBehaviour
         //tile.ShowTiles();
         //Debug.Log("na pozycji:" + gridPosition);
     }
+    /// <summary>
+    /// postawienie ca³ej sekwencji na mapie
+    /// </summary>
+    /// <param name="board">plansza</param>
+    /// <param name="handTiles">talia p³ytek gracza</param>
     void ExtendSequence(ref Dictionary<Vector3Int, Tile> board,ref List<Tile> handTiles)
     {
         List<Vector3Int> freePositions =  FindSequencesNeighbours(board);
@@ -708,13 +713,15 @@ public class ComputerPlayer : MonoBehaviour
             if (ifBreak) break;
         }
     }
+
+    /// <summary>
+    /// Funkcja która podaje liste pozycji wolnych na mapie
+    /// </summary>
+    /// <param name="board">ca³a plansza</param>
+    /// <returns>Lista wolnych pozycji obok siebie na poziomie x</returns>
     List<Vector3Int> FindSequencesNeighbours(Dictionary<Vector3Int, Tile> board)
     {
         List <Vector3Int> freeSpace = new List<Vector3Int>();
-        //int maxX = 8;
-        //int minX = -9;
-        //int maxZ = 2;
-        //int minZ = -4;
         Vector3Int tempPosition = new Vector3Int();
         Vector3Int temp = new Vector3Int();
         for(int z = minZ; z <= maxZ; z++)

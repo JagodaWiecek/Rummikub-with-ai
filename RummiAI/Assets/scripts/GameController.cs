@@ -128,6 +128,7 @@ public class GameController : MonoBehaviour
             player.SetPlayersHand(ref this.mainBank);
             mrComputerPlayer.SetPlayersHand(ref this.mainBank, 1);
             missComputerPlayer.SetPlayersHand(ref this.mainBank, 2);
+            AI.SetPlayersHand(ref this.mainBank, 3);
             //ai z indeksem 3
         }
         else if (gameIndex == 3)
