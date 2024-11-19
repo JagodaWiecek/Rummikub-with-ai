@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FirstTurnController : MonoBehaviour
@@ -12,6 +13,8 @@ public class FirstTurnController : MonoBehaviour
     Vector3Int joker1;
     [SerializeField]
     Vector3Int joker2;
+    [SerializeField]
+    List<Vector3Int> positionsList;
 
 
     // Start is called before the first frame update
@@ -42,6 +45,7 @@ public class FirstTurnController : MonoBehaviour
         jokerAmount = 0;
         joker1 = new Vector3Int(-20, -20, -20);
         joker2 = new Vector3Int(-20, -20, -20);
+        positionsList.Clear();
     }
     /// <summary>
     /// funkcja s³u¿y do poinformowania ¿e w zmiennej joker1 znajduje siê informacja czy jest z niej obiekt czy nie
@@ -93,7 +97,9 @@ public class FirstTurnController : MonoBehaviour
         else
         {
             sum += number;
+            
         }
+        AddPosition(gridPosition);
     }
     /// <summary>
     /// Funkcja do zmniejszenia wartoœci sumy
@@ -108,20 +114,27 @@ public class FirstTurnController : MonoBehaviour
             jokerAmount--;
             SetNullJoker(gridPosition);
         }
-        else sum-=number;
+        else
+        {
+            sum -= number;
+
+        }
+          RemovePosition(gridPosition );
     }
     /// <summary>
     /// Funkcja do zmiany pozycji jokera na mapie
     /// </summary>
     /// <param name="gridPosition">pozycja docelowa</param>
     /// <param name="previousPosition">poprzednia pozycja jokera</param>
-    public void ChangeJokerPosition(Vector3Int gridPosition, Vector3Int previousPosition)
+    public void ChangePosition(Vector3Int gridPosition, Vector3Int previousPosition)
     {
         if (joker1 == previousPosition) joker1 = gridPosition;
-        else if (joker2 == previousPosition) joker2= gridPosition;  
+        else if (joker2 == previousPosition) joker2= gridPosition;
+        MovePosition(gridPosition, previousPosition);
+
     }
 
-    public int CheckFirstTurnValidity(Dictionary<Vector3Int, Tile> board)
+    public bool CheckFirstTurnValidity(Dictionary<Vector3Int, Tile> board)
     {
         if (!FirstJokerNull())
         {
@@ -141,7 +154,7 @@ public class FirstTurnController : MonoBehaviour
         }
 
          Debug.Log("Suma wynosi:" + sum);
-        return sum;
+        return sum>=30 & CheckSequences();
     }
     /// <summary>
     /// funkcja do sprawdzenia wartoœci, któr¹ zastêpuje joker
@@ -330,5 +343,84 @@ public class FirstTurnController : MonoBehaviour
         return 0; 
     }
 
+    public void AddPosition(Vector3Int position)
+    {
+        positionsList.Add(position);
+    }
+    public void RemovePosition(Vector3Int position) 
+    {
+        for (int i = 0; i < positionsList.Count; i++) 
+        {
+            if( positionsList[i]== position)
+            {
+                positionsList.RemoveAt(i);
+                break;
+            }
+
+
+        }
+    }
+    public void MovePosition(Vector3Int newPosition, Vector3Int previousPosition) 
+    {
+        for (int i = 0; i < positionsList.Count; i++)
+        {
+            if (positionsList[i] == previousPosition)
+            {
+                positionsList[i] = newPosition;
+                break;
+            }
+        }
+    }
+
+    public bool CheckSequences()
+    {
+
+        // Grupowanie pozycji wed³ug wspólnego 'z'
+        var groups = positionsList
+            .GroupBy(position => position.z)
+            .ToList();
+
+        foreach (var group in groups)
+        {
+            // Sortowanie pozycji wed³ug 'x' w ka¿dej grupie
+            var sortedGroup = group
+                .OrderBy(position => position.x)
+                .ToList();
+
+            int consecutiveCount = 1;
+            bool hasValidSequence = false;
+
+            for (int i = 1; i < sortedGroup.Count; i++)
+            {
+                if (sortedGroup[i].x == sortedGroup[i - 1].x + 1)
+                {
+                    consecutiveCount++;
+                }
+                else
+                {
+                    // Sprawdzanie, czy zakoñczona sekwencja jest poprawna
+                    if (consecutiveCount >= 3)
+                    {
+                        hasValidSequence = true;
+                    }
+                    consecutiveCount = 1; // Rozpoczynanie nowej sekwencji
+                }
+            }
+
+            // Sprawdzanie ostatniej sekwencji w grupie
+            if (consecutiveCount >= 3)
+            {
+                hasValidSequence = true;
+            }
+            else hasValidSequence = false;
+
+            if (!hasValidSequence)
+            {
+                return false; // Jeœli jakikolwiek poziom z nie ma poprawnych sekwencji
+            }
+        }
+
+        return true; // Wszystkie poziomy z maj¹ poprawne sekwencje
+    }
 
 }

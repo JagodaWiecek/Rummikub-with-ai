@@ -6,6 +6,9 @@ using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine.UIElements;
 using Palmmedia.ReportGenerator.Core.Parser.Analysis;
+using UnityEngine.Tilemaps;
+using TreeEditor;
+//using System;
 
 public class PlayerAI : Agent
 {//MonoBehaviour
@@ -131,7 +134,7 @@ public class PlayerAI : Agent
             //dodawanie punktów:
             //dodanie p³ytki na mapê w dostêpnym miejscu
             //
-            //pierwsza tura tylko ci¹g³e p³ytki p³ytki
+            //pierwsza tura tylko ci¹g³e p³ytki 
 
             //DiscreteActions[4] DiscreteActions[5] dla nowych pozycji na mapie, w innych momentach nieu¿ywane
         }
@@ -211,7 +214,35 @@ public class PlayerAI : Agent
     void PutTileAction(int x, int z, int indeks)
     {
         //sprawdziæ czy mo¿na po³o¿yæ
+        Vector3Int position = new Vector3Int(x, 0, z);
+        bool placementValidity = CheckPlacementValidity(position, 0, indeks);
+
+        if (placementValidity)
+        {
+            PutTile(position, AIPlayerHand[indeks]);
+            AIPlayerHand.RemoveAt(indeks);
+            AddReward(0.2f);//TODO
+        }
+        else AddReward(-0.1f);//TODO
     }
+
+    private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex, int index)
+    {
+
+        bool placementValidity = placementSystem.GetGridData().CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);//zwraca false jak nie mozna postawiæ
+        if (placementValidity && AIPlayerHand[index].CheckTileValidity(gridPosition))
+            return true;
+        else return false;
+        //return tileData.CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);
+    }
+    private bool CheckPlacementValidity(Vector3Int gridPosition, Vector3Int previousPosition, int selectedObjectIndex, Tile tile)
+    {
+        bool placementValidity = placementSystem.GetGridData().CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);//zwraca false jak nie mozna postawiæ
+        if (placementValidity && tile.CheckMovedTileValidity(gridPosition, previousPosition))//CheckTileValidity
+            return true;
+        else return false;
+    }
+
     /// <summary>
     /// Funkcja do przesuwania p³ytek
     /// </summary>
@@ -221,6 +252,32 @@ public class PlayerAI : Agent
     /// <param name="newZ">nowa pozycja z dla p³ytki</param>
     void MoveTileAction(int oldX, int oldZ, int newX, int newZ)
     {
+        Vector3Int oldPosition = new Vector3Int(oldX, 0, oldZ);
+        Vector3Int newPosition = new Vector3Int(oldX, 0, oldZ);
+        Tile tile;
+        if (GameController.Instance.GetBoardDictionary().board.ContainsKey(oldPosition) &&
+            (firstTurn &&
+            !GameController.Instance.GetBoardDictionary().board[oldPosition].GetPut()))//wybrana pozycja istnieje
+        {
+            tile = GameController.Instance.GetBoardDictionary().board[oldPosition].getTile();
+            AddReward(0.1f);//TODO 
+        }
+        else
+        {
+            AddReward(-0.1f);//TODO
+            return;
+        }//TODO
+        bool placementValidity = CheckPlacementValidity(newPosition, oldPosition, 0, tile);//jest wolne miejsce
+        if (placementValidity)
+        {
+            moveTile(newPosition, oldPosition);
+            AddReward(0.1f);//TODO
+        }
+        else
+        {
+            AddReward(-0.1f);//TODO
+            return;
+        }
         //sprawdziæ
         //jeœli pierwsza tura to wszystkie przesuwane p³ytki musz¹ mieæ bool false
         //sprawdziæ czy nowa pozycja jest zajêta
@@ -236,7 +293,22 @@ public class PlayerAI : Agent
     {//p³ytka nie zawsze mo¿e byæ usuniêta
      //sprawdziæ czy mo¿e usun¹æ, jeœli nie ukaraæ
      //jeœli tak to daæ mniejsz¹ karê bo dodaje to p³ytki do talii
+        Vector3Int position = new Vector3Int(x, 0, z);
 
+        if(GameController.Instance.GetBoardDictionary().board.ContainsKey(position) )
+        {
+            //reward dla wykrycia pozycji
+            if (!GameController.Instance.GetBoardDictionary().board[position].GetPut())
+            {
+                AddReward(0.1f);//TODO
+                AIPlayerHand.Add(GameController.Instance.GetBoardDictionary().board[position].getTile());
+                removeTile(position);
+            }
+            else
+            {
+                AddReward(-0.3f);//TODO
+            }
+        }
     }
 
     void UndoAction()
@@ -257,6 +329,23 @@ public class PlayerAI : Agent
     {
         //nie chcemy by bra³ nowe p³ytki, ujemne punkty
         //anulowanie zmian na mapie jeœli siê pojawi³y
+        //undo wy uniwersalne zrobiæ
+        List<Tile> tiles = GameController.Instance.GetGameBank();
+        AddNewTile(ref tiles);
+        AddReward(-0.1f);//TODO
+        //undo
+    }
+
+    public void EndGame()
+    {
+        if(AIPlayerHand.Count == 0)
+        {
+            AddReward(1f);//TODO
+        }
+        else
+        {
+            //kary w zale¿noœci od wyniku
+        }
     }
         
     /// <summary>
@@ -267,6 +356,7 @@ public class PlayerAI : Agent
     void PutTile(Vector3Int gridPosition, Tile tile)
     {//jeszcze sprawdzenia poprawnoœci
 
+        if(firstTurn) GameController.Instance.firstTurnController.Increment(tile.GetNumber(), grid.WorldToCell(gridPosition));
         int index = objectPlacer.PlacedObject(database.objectsData[0].Prefab, grid.CellToWorld(gridPosition), ref tile, grid);
 
         placementSystem.GetGridData().AddObjectAt(gridPosition,
@@ -281,16 +371,29 @@ public class PlayerAI : Agent
     void moveTile(Vector3Int newGridPosition, Vector3Int oldGridPosition)
     {//jeszcze sprawdzenia poprawnoœci
         Dictionary<Vector3Int, Tile> board = GameController.Instance.GetBoardDictionary().board;
-
+        if (firstTurn)
+        {
+            GameController.Instance.firstTurnController.ChangePosition(newGridPosition, oldGridPosition);
+        }
         int selectedObjectIndex = placementSystem.GetGridData().getRepresentationIndex(oldGridPosition);
         placementSystem.GetGridData().MoveObjectAt(newGridPosition, oldGridPosition, database.objectsData[0].Size);
         objectPlacer.MoveObjectTo(selectedObjectIndex, grid.CellToWorld(newGridPosition));
         GameController.Instance.GetBoardDictionary().MoveObjectAt(newGridPosition, oldGridPosition);
+
     }
+    /// <summary>
+    /// funkcja do usuniêcia p³ytki z mapy
+    /// </summary>
+    /// <param name="gridPosition">pozycja na mapie</param>
     void removeTile(Vector3Int gridPosition)
     {
         //jeszcze sprawdzenia poprawnoœci
         //oraz dodanie p³ytki spowrotem do deku
+        if (GameController.Instance.GetPlayer().GetFirstTour())
+        {
+            GameController.Instance.firstTurnController.Decrease(GameController.Instance.GetBoardDictionary().board[gridPosition].getTile().GetNumber(), gridPosition);
+
+        }
         int gameObjectIndex = placementSystem.GetGridData().getRepresentationIndex(gridPosition);
         placementSystem.GetGridData().RemoveObjectAt(gridPosition);
         objectPlacer.RemoveObjectAt(gameObjectIndex);

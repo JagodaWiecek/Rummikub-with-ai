@@ -77,9 +77,9 @@ public class PlacementState : IPlacementState
     }
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
     {
-       // bool tilesValidity = ; //zwraca false jak s¹siedzi s¹ wbrew zasadom
+       
         bool placementValidity = tileData.CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);//zwraca false jak nie mozna postawiæ
-        if (placementValidity && this.tile.CheckTileValidity(gridPosition))//&& CheckTiles(gridPosition)
+        if (placementValidity && this.tile.CheckTileValidity(gridPosition))
              return true;
         else return false;
         //return tileData.CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);

@@ -88,7 +88,7 @@ public class MovingState : IPlacementState
              GameController.Instance.GetBoardDictionary().MoveObjectAt(gridPosition, this.previousPosition);
             if (GameController.Instance.GetPlayer().GetFirstTour())
             {
-                GameController.Instance.firstTurnController.ChangeJokerPosition(gridPosition, this.previousPosition);
+                GameController.Instance.firstTurnController.ChangePosition(gridPosition, this.previousPosition);
             }
             //ChangeJokerPosition
         }

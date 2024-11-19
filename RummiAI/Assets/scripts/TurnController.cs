@@ -89,7 +89,7 @@ public class TurnController : MonoBehaviour
 
                         if (GameController.Instance.GetPlayer().GetFirstTour())//jeœli to pierwsza tura
                         {
-                            if (GameController.Instance.firstTurnController.CheckFirstTurnValidity(GameController.Instance.GetBoardDictionary().board) >= 30)
+                            if (GameController.Instance.firstTurnController.CheckFirstTurnValidity(GameController.Instance.GetBoardDictionary().board) )
                             {
                                 GameController.Instance.GetPlayer().EndFirstTour();
                                 GameController.Instance.firstTurnController.Reset();
