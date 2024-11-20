@@ -133,7 +133,13 @@ public class FirstTurnController : MonoBehaviour
         MovePosition(gridPosition, previousPosition);
 
     }
-
+    /// <summary>
+    /// funkcja do sprawdzenia czy wyrzucone p³ytki na planszê
+    /// w pierwszej turze s¹ wy³o¿one poprawnie
+    /// z minimaln¹ sum¹ 30 i sekwencjami minimum 3
+    /// </summary>
+    /// <param name="board"></param>
+    /// <returns>true dla poprawnego wy³o¿enia, false dla b³êdnego wy³o¿enia</returns>
     public bool CheckFirstTurnValidity(Dictionary<Vector3Int, Tile> board)
     {
         if (!FirstJokerNull())
@@ -154,7 +160,7 @@ public class FirstTurnController : MonoBehaviour
         }
 
          Debug.Log("Suma wynosi:" + sum);
-        return sum>=30 & CheckSequences();
+        return (sum>=30 & CheckSequences());
     }
     /// <summary>
     /// funkcja do sprawdzenia wartoœci, któr¹ zastêpuje joker

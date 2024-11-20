@@ -25,7 +25,7 @@ public class GameTurnManager : MonoBehaviour
     [SerializeField]
     TakeTile takeTile;
     [SerializeField]
-    TurnController turnController;
+    public TurnController turnController;
 
     // Start is called before the first frame update
     void Start()
@@ -59,9 +59,16 @@ public class GameTurnManager : MonoBehaviour
         }
         else if(GameController.Instance.gameIndex == 1)
         {
+
             if(currentTurnTime <= 0)
             {
-                ChangeTurn();
+                if (currentPlayerId == 0)
+                {
+                    GameController.Instance.GetPlayerAI().EndOfTime();
+                    ChangeTurn();
+                }
+                else 
+                    ChangeTurn();
             }
         }
         else if (GameController.Instance.gameIndex == 2)
@@ -241,6 +248,14 @@ public class GameTurnManager : MonoBehaviour
     public void ResetTime()
     {
         currentTurnTime = turnTime;
+    }
+
+    public void Reset()
+    {
+        currentPlayerId = Random.Range(0, 4);
+        turnTime = 60;
+        currentTurnTime = turnTime;
+        SetUIText();
     }
 
 }

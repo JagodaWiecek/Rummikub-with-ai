@@ -21,8 +21,8 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private List<Tile> mainBank; //bank gry
-    [SerializeField]
-    private List<Tile> playerHand;//talia gracza
+    //[SerializeField]
+   // private List<Tile> playerHand;//talia gracza
     //[SerializeField]
     //private List<Tile> playerHandCopy;//talia gracza
     //private List<Tile> mrBot , mrBotCopy;
@@ -42,6 +42,9 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     PlacementSystem placementSystem;
+
+    [SerializeField]
+    private ObjectPlacer objectPlacer;
 
     public BoardDictionary boardDictionary;
     [SerializeField]
@@ -141,7 +144,7 @@ public class GameController : MonoBehaviour
         {
             player.SetPlayersHand(ref this.mainBank);
         }
-        playerHand = player.GetList();
+       // playerHand = player.GetList();
         //playerHandCopy = player.GetListCopy();
         // firstTurnController = new();
 
@@ -319,7 +322,7 @@ public class GameController : MonoBehaviour
     {
         //funkcja oznaczaj¹ca koniec gry
         // string Napis;
-        endGameObject.SetActive(true);
+       if (endGameObject!=null) endGameObject.SetActive(true);
         //firstPlace.GetComponent<Text>().text = "";
         // secondPlace.GetComponent<Text>().text = ""; 
         //thirdPlace.GetComponent<Text>().text = ""; 
@@ -341,6 +344,8 @@ public class GameController : MonoBehaviour
             secondPlace.GetComponent<Text>().text = "2. " + playersScore[1].Name + " (" + playersScore[1].Score.ToString() + ") ";
             thirdPlace.GetComponent<Text>().text = "3. " + playersScore[2].Name + " (" + playersScore[2].Score.ToString() + ") ";
             fourthPlace.GetComponent<Text>().text = "4. " + playersScore[3].Name + " (" + playersScore[3].Score.ToString() + ") ";
+
+            Time.timeScale = 0f;
         }
         else if (gameIndex == 1)
         { //ai i boty
@@ -360,6 +365,24 @@ public class GameController : MonoBehaviour
             secondPlace.GetComponent<Text>().text = "2. " + playersScore[1].Name + " (" + playersScore[1].Score.ToString() + ") ";
             thirdPlace.GetComponent<Text>().text = "3. " + playersScore[2].Name + " (" + playersScore[2].Score.ToString() + ") ";
             fourthPlace.GetComponent<Text>().text = "4. " + playersScore[3].Name + " (" + playersScore[3].Score.ToString() + ") ";*/
+
+            AI.EndGame();//Do dokoñczenia
+
+            missComputerPlayer.Reset();
+            mrComputerPlayer.Reset();
+            ComputerPlayer.Reset();
+            objectPlacer.Reset();
+            gameTurnManager.turnController.Reset();
+            SetTiles(ref this.mainBank);
+            boardList = new();
+            boardDictionary = new();
+
+            AI.SetPlayersHand(ref this.mainBank, 0);
+            mrComputerPlayer.SetPlayersHand(ref this.mainBank, 1);
+            missComputerPlayer.SetPlayersHand(ref this.mainBank, 2);
+            ComputerPlayer.SetPlayersHand(ref this.mainBank, 3);
+
+            gameTurnManager.Reset();
         }
         else if (gameIndex == 2)
         { //gracz, boty i ai
@@ -378,6 +401,8 @@ public class GameController : MonoBehaviour
             secondPlace.GetComponent<Text>().text = "2. " + playersScore[1].Name + " (" + playersScore[1].Score.ToString() + ") ";
             thirdPlace.GetComponent<Text>().text = "3. " + playersScore[2].Name + " (" + playersScore[2].Score.ToString() + ") ";
             fourthPlace.GetComponent<Text>().text = "4. " + playersScore[3].Name + " (" + playersScore[3].Score.ToString() + ") ";
+
+            Time.timeScale = 0f;
         }
         else if (gameIndex == 3)
         { //gracz i ai
@@ -395,9 +420,10 @@ public class GameController : MonoBehaviour
 
             thirdPlace.GetComponent<Text>().text = "";
             fourthPlace.GetComponent<Text>().text = "";
+            Time.timeScale = 0f;
         }
 
-        Time.timeScale = 0f;
+        
         //przekazanie listy plansz do ai
         //na naukê
 

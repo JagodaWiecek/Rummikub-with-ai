@@ -15,9 +15,9 @@ public class PlayerAI : Agent
 
 
     [SerializeField]
-    private List<Tile> AIPlayerHand = new();
+    private List<Tile> AIPlayerHand;
     [SerializeField]
-    private List<Tile> AIPlayerHandCopy = new();
+    private List<Tile> AIPlayerHandCopy;
     [SerializeField]
     private bool firstTurn;
 
@@ -43,7 +43,7 @@ public class PlayerAI : Agent
     void Start()
     {
         //firstTurn = true;
-        //Time.timeScale = 0.2f;
+        firstTurn = true;
         //int beginTileNumber = 14;
         // var actionSpec = ActionSpec.MakeDiscrete(beginTileNumber);
         // SetActionSpec(actionSpec);
@@ -51,8 +51,9 @@ public class PlayerAI : Agent
     public override void OnEpisodeBegin()
     {
         //base.OnEpisodeBegin();
-        firstTurn = true;
+        
 
+        //Time.timeScale = 0.2f;
 
     }
 
@@ -65,6 +66,7 @@ public class PlayerAI : Agent
     {
         var board = GameController.Instance.GetBoardDictionary().board;
         sensor.AddObservation(AIPlayerHand.Count);
+        sensor.AddObservation(GameController.Instance.gameTurnManager.currentTurnTime);//obserwacja czasu tury
         sensor.AddObservation(firstTurn ? 1 : 0);//jeœli true to trzeba mieæ conajmniej 30 na start
 
 
@@ -115,13 +117,16 @@ public class PlayerAI : Agent
         {
             int xAction = actions.DiscreteActions[0];
             int zAction = actions.DiscreteActions[1];
-            int chosenTileIndex = actions.DiscreteActions[2];
+            int chosenTileIndex = actions.DiscreteActions[3];
 
             int xCoord = xAction - 11; //przekszta³cenie na koordynaty x
             int zCoord = zAction - 4; // przekszta³cenie na koordynaty z
             //base.OnActionReceived(actions);
-            Debug.Log("x: " + xCoord + " z: " + zCoord);
-
+           // Debug.Log("x: " + xCoord + " z: " + zCoord);
+            int xNewAction = actions.DiscreteActions[4];
+            int zNewAction = actions.DiscreteActions[5];
+            int xNewCoord = xAction - 11; //przekszta³cenie na koordynaty x
+            int zNewCoord = zAction - 4; // przekszta³cenie na koordynaty z
             //wybór akcji 
             //0. k³adzenie
             //1. usuwanie
@@ -129,6 +134,23 @@ public class PlayerAI : Agent
             //3. pobranie nowej karty
             //4. anulowanie ruchu 
             //5. zakoñczenie tury (wzi¹æ pod uwagê koniec tury przy zakoñczeniu czasu)
+
+            int akcjaAgenta = actions.DiscreteActions[3];
+            switch (akcjaAgenta)
+            {
+                case 0:
+                    PutTileAction(xCoord, zCoord, chosenTileIndex); break;
+                case 1:
+                    RemoveTileAction(xCoord, zCoord); break;
+                case 2:
+                    MoveTileAction(xCoord, zCoord, xNewCoord, zNewCoord); break;
+                case 3:
+                    TakeTileAction(); break;
+                case 4:
+                    UndoAction(); break;
+                case 5:
+                    EndTurnAction(); break;
+            }
 
 
             //dodawanie punktów:
@@ -161,21 +183,28 @@ public class PlayerAI : Agent
     public List<Tile> GetList() { return this.AIPlayerHand; }
     public List<Tile> GetListCopy() { return this.AIPlayerHandCopy; }
     public bool GetFirstTour() { return this.firstTurn; }
-    public void EndFirstTour() { this.firstTurn = false; }
-
+    public void EndFirstTour() { this.firstTurn = false; Debug.Log("Agent zakoñczy³ swoj¹ pierwsz¹ turê"); }
+    /// <summary>
+    /// dodanie nowej p³ytki do tali gracza
+    /// </summary>
+    /// <param name="tiles"></param>
     public void AddNewTile(ref List<Tile> tiles)
     {
+        Debug.Log("Nowa p³ytka dla agenta");
         if (tiles.Count != 0)
         {
             int TileIndex = Random.Range(0, (tiles.Count));
             AIPlayerHand.Add(tiles[TileIndex]);
             tiles.RemoveAt(TileIndex);
             SaveListToCopy();
+            AddReward(-0.1f);//TODO
             //countJoker = CountJoker(AIPlayerHand);
         }
         else GameController.Instance.EndGame();
     }
-
+    /// <summary>
+    /// zapisanie nowej kopii
+    /// </summary>
     public void SaveListToCopy()
     {
         AIPlayerHandCopy.Clear();
@@ -185,15 +214,33 @@ public class PlayerAI : Agent
         }
 
     }
+    /// <summary>
+    /// funkcja do zwrócenia p³ytek do tali agenta
+    /// agent dostaje kary w zale¿noci od iloœci przywracanych p³ytek
+    /// </summary>
+    public void RestoreCopyList()
+    {
+        float amount = AIPlayerHandCopy.Count - AIPlayerHand.Count;
+        AIPlayerHand.Clear();
+        foreach (Tile tile in AIPlayerHandCopy)
+        {
+            AIPlayerHand.Add(tile);
+        }
+        float reward = amount *(-0.1f);
+        AddReward(reward);//TODO
+
+    }
 
     public void SetPlayersHand(ref List<Tile> tiles, int idx)
     {
+        AIPlayerHand = new();
+        AIPlayerHandCopy = new();
         // playerHand = new ();
         int TileIndex;
         for (int i = 0; i < 14; i++)
         {
             TileIndex = Random.Range(0, (tiles.Count));
-            tiles[TileIndex].ShowTiles();
+           // tiles[TileIndex].ShowTiles();
             AIPlayerHand.Add(tiles[TileIndex]);
             tiles.RemoveAt(TileIndex);
         }
@@ -221,9 +268,9 @@ public class PlayerAI : Agent
         {
             PutTile(position, AIPlayerHand[indeks]);
             AIPlayerHand.RemoveAt(indeks);
-            AddReward(0.2f);//TODO
+            AddReward(0.5f);//TODO
         }
-        else AddReward(-0.1f);//TODO
+        else AddReward(-0.2f);//TODO
     }
 
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex, int index)
@@ -260,7 +307,7 @@ public class PlayerAI : Agent
             !GameController.Instance.GetBoardDictionary().board[oldPosition].GetPut()))//wybrana pozycja istnieje
         {
             tile = GameController.Instance.GetBoardDictionary().board[oldPosition].getTile();
-            AddReward(0.1f);//TODO 
+            AddReward(0.3f);//TODO 
         }
         else
         {
@@ -271,7 +318,7 @@ public class PlayerAI : Agent
         if (placementValidity)
         {
             moveTile(newPosition, oldPosition);
-            AddReward(0.1f);//TODO
+            AddReward(0.5f);//TODO
         }
         else
         {
@@ -300,7 +347,7 @@ public class PlayerAI : Agent
             //reward dla wykrycia pozycji
             if (!GameController.Instance.GetBoardDictionary().board[position].GetPut())
             {
-                AddReward(0.1f);//TODO
+                AddReward(-0.1f);//TODO
                 AIPlayerHand.Add(GameController.Instance.GetBoardDictionary().board[position].getTile());
                 removeTile(position);
             }
@@ -309,12 +356,43 @@ public class PlayerAI : Agent
                 AddReward(-0.3f);//TODO
             }
         }
+        else AddReward(-0.4f);//TODO
     }
 
+    /// <summary>
+    /// funkcja do anulowania porzednich ruchów dla agenta
+    /// </summary>
     void UndoAction()
     {
         //przyznaæ ujemne punkty za anulowanie
         //w zale¿noœci od iloœci wracaj¹cych p³ytek
+        if (GameController.Instance.gameTurnManager.turnController.MapContents())
+        {
+
+            if (GameController.Instance.GetBoardDictionaryList().Count != 0)
+            {
+                int index = GameController.Instance.GetBoardDictionaryList().Count - 1;
+                placementSystem.GetGridData().RestoreCopyDictionary();
+                GameController.Instance.GetBoardDictionary().SaveDictionary(GameController.Instance.GetBoardDictionaryList()[index].board);
+                RestoreCopyList();
+                GameController.Instance.gameTurnManager.turnController.Restore3DMap();
+            }
+            else
+            {
+                if (GameController.Instance.GetBoardDictionary().board.Count != 0)
+                {
+                    objectPlacer.ClearplacedGameObjects();
+                    GameController.Instance.GetBoardDictionary().board.Clear();
+                    RestoreCopyList();
+                    placementSystem.GetGridData().GetDictionary().Clear();
+                    GameController.Instance.gameTurnManager.turnController.RemoveAllChildren();
+                }
+            }
+            if(firstTurn) GameController.Instance.firstTurnController.Reset();
+
+            AddReward(-0.3f);//TODO
+        }
+        else AddReward(-0.01f);//TODO
     }
 
     void EndTurnAction()
@@ -323,29 +401,104 @@ public class PlayerAI : Agent
         //zakoñczenie tury jesli jest poprawnie
         //zmiana statusu firstTurn na false jeœli jest true
         //
+        if (GameController.Instance.gameTurnManager.turnController.CheckMap())
+        {
+            if (firstTurn)
+            {
+                if (GameController.Instance.firstTurnController.CheckFirstTurnValidity(GameController.Instance.GetBoardDictionary().board))
+                {
+                    EndFirstTour();
+                    AddReward(0.5f);//TODO
+                    SaveListToCopy();
+                    GameController.Instance.firstTurnController.Reset();
+                    GameController.Instance.gameTurnManager.ChangeTurn();
+                    objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
+                    placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
+                    GameController.Instance.NewTurn();
+                    //zapisaæ mapê
+                    if(AIPlayerHand.Count==0)
+                    {
+                        GameController.Instance.EndGame();
+                    }
+                }
+                else
+                {
+                    AddReward(-0.4f);//TODO
+                    Debug.Log("Agent Ÿle wy³o¿y³ siê w pierwszej turze");
+                }
+            }
+            else
+            {
+                if (AIPlayerHand.Count == AIPlayerHandCopy.Count)
+                {
+                    //TakeTileAction();
+                    AddReward(-0.5f);//TODO
+                    Debug.Log("Agent nic nie wy³o¿y³");
+                }
+                else
+                {
+                    SaveListToCopy();
+                    AddReward(0.6f);//TODO
+                    GameController.Instance.gameTurnManager.ChangeTurn();
+                    objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
+                    placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
+                    GameController.Instance.NewTurn();
+                    if (AIPlayerHand.Count == 0)
+                    {
+                        GameController.Instance.EndGame();
+                    }
+                }
+            }
 
+        }
+        else
+        {
+            AddReward(-0.5f);//TODO
+            Debug.Log("Agent Ÿle zakoñczy³ ture");
+        }
     }
     void TakeTileAction()
     {
         //nie chcemy by bra³ nowe p³ytki, ujemne punkty
         //anulowanie zmian na mapie jeœli siê pojawi³y
         //undo wy uniwersalne zrobiæ
+        UndoAction();
         List<Tile> tiles = GameController.Instance.GetGameBank();
         AddNewTile(ref tiles);
-        AddReward(-0.1f);//TODO
+        AddReward(-0.3f);//TODO
+        if (firstTurn) GameController.Instance.firstTurnController.Reset();
+
+        GameController.Instance.gameTurnManager.ChangeTurn();
         //undo
     }
-
+    /// <summary>
+    /// funkcja do wykonania na koñcu gry
+    /// </summary>
     public void EndGame()
     {
         if(AIPlayerHand.Count == 0)
         {
-            AddReward(1f);//TODO
+            AddReward(5f);//TODO
         }
         else
         {
+            //int score = FinalScore();
+            float reward = AIPlayerHand.Count * (-0.3f);
+            AddReward(reward);//TODO
             //kary w zale¿noœci od wyniku
         }
+        EndEpisode();
+        //Reset();
+    }
+
+    public void EndOfTime()
+    {
+        //funkcja undo
+        TakeTileAction();
+        AddReward(-0.5f);//TODO
+        //dodanie p³ytki
+        //restore mapy
+        //kara
     }
         
     /// <summary>
@@ -363,7 +516,7 @@ public class PlayerAI : Agent
             database.objectsData[0].Size,
             database.objectsData[0].ID,
             index);
-        tile.ShowTiles();
+       // tile.ShowTiles();
 
         //do usuniêcia postawiona p³ytka
         //Debug.Log("na pozycji:" + gridPosition);
@@ -389,16 +542,29 @@ public class PlayerAI : Agent
     {
         //jeszcze sprawdzenia poprawnoœci
         //oraz dodanie p³ytki spowrotem do deku
+        int gameObjectIndex = placementSystem.GetGridData().getRepresentationIndex(gridPosition);
+        placementSystem.GetGridData().RemoveObjectAt(gridPosition);
+        objectPlacer.RemoveObjectAt(gameObjectIndex);
         if (GameController.Instance.GetPlayer().GetFirstTour())
         {
             GameController.Instance.firstTurnController.Decrease(GameController.Instance.GetBoardDictionary().board[gridPosition].getTile().GetNumber(), gridPosition);
 
         }
-        int gameObjectIndex = placementSystem.GetGridData().getRepresentationIndex(gridPosition);
-        placementSystem.GetGridData().RemoveObjectAt(gridPosition);
-        objectPlacer.RemoveObjectAt(gameObjectIndex);
         GameController.Instance.GetBoardDictionary().board.Remove(gridPosition);
     }
 
     //sprawdzanie mapy i funkcje undo
+
+
+    public int FinalScore()
+    {
+        int score = 0;
+        foreach (Tile tile in AIPlayerHand)
+        {
+            score += tile.GetNumber();
+        }
+
+        return score;
+
+    }
 }

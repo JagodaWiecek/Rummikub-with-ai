@@ -20,7 +20,13 @@ public class ObjectPlacer : MonoBehaviour
     [SerializeField]
     private GameObject tilePrefab;
     GameObject newTile = null;
-    
+
+
+    public void Reset()
+    {
+        placedGameObjects.Clear();
+        placedGameObjectsCopy.Clear();
+    }
 
     /// <summary>
     /// Czyœci liste obiektów

@@ -8,14 +8,20 @@ using static UnityEngine.GraphicsBuffer;
 
 public class GridData
 {
-    
+
     Dictionary<Vector3Int, PlacementData> placedObjects = new();
     Dictionary<Vector3Int, PlacementData> placedObjectsCopy = new();
 
-    public Dictionary<Vector3Int, PlacementData> GetDictionary() {  return placedObjects; }
-    public Dictionary<Vector3Int, PlacementData> GetDictionaryCopy() {  return placedObjectsCopy; }
+    public Dictionary<Vector3Int, PlacementData> GetDictionary() { return placedObjects; }
+    public Dictionary<Vector3Int, PlacementData> GetDictionaryCopy() { return placedObjectsCopy; }
 
-   // public int placedObjects
+    // public int placedObjects
+
+    public void Reset()
+    {
+        placedObjects.Clear();
+        placedObjectsCopy.Clear();
+    }
 
     public void AddObjectAt(Vector3Int gridPosition,
                             Vector2Int objectSize,
@@ -105,7 +111,7 @@ public class GridData
     /// <summary>
     /// Funkcja do nadpisania zawartoœci s³ownika zawartoœci¹ kopii
     /// </summary>
-    public void SaveDictionary()
+    public void RestoreCopyDictionary()
     {
         placedObjects.Clear();
 

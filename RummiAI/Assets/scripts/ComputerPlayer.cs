@@ -117,7 +117,7 @@ public class ComputerPlayer : MonoBehaviour
                     //nie by³o ruchu
                     List<Tile> board = GameController.Instance.GetGameBank();
                     AddNewTile(ref board);
-                    Debug.Log("Nie mogê siê wy³o¿yæ: "+this.transform.name);
+                    //Debug.Log("Nie mogê siê wy³o¿yæ: "+this.transform.name);
                     GameController.Instance.NewTurn();
                 }
                 else
@@ -569,7 +569,7 @@ public class ComputerPlayer : MonoBehaviour
         while (i < amountToOccupy)
         {
             position = new Vector3Int(levelX, 0, levelZ);
-            if (board.ContainsKey(position))
+            if (board.ContainsKey(position) || !CheckPlacementValidity(position,0))
             {
                 levelZ = Random.Range(minZ, maxZ + 1);
                 levelX = Random.Range(minX, maxX + 1 - tileAmount);
@@ -591,6 +591,17 @@ public class ComputerPlayer : MonoBehaviour
 
         return list;
     }
+
+    private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex)
+    {
+
+        bool placementValidity = placementSystem.GetGridData().CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);//zwraca false jak nie mozna postawiæ
+        if (placementValidity)// && AIPlayerHand[index].CheckTileValidity(gridPosition)
+            return true;
+        else return false;
+        //return tileData.CanPlaceObjectAt(gridPosition, database.objectsData[selectedObjectIndex].Size);
+    }
+
     /// <summary>
     /// funkcja do po³o¿enia p³ytki na mapie
     /// </summary>
@@ -867,5 +878,12 @@ public class ComputerPlayer : MonoBehaviour
         }
         return score;
         
+    }
+
+    public void Reset()
+    {
+        computerPlayerHand.Clear();
+        computerPlayerHandCopy.Clear();
+        firstTurn = true;
     }
 }

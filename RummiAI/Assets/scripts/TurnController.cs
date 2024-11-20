@@ -158,7 +158,7 @@ public class TurnController : MonoBehaviour
             /// x miêdzy -9 a 8
             /// z miêdzy 2 a -4
             Vector3Int sprawdzanaLokalizacja = new();
-            for(int z = -4;z <= 3;z++)
+            for(int z = -4;z <= 4;z++)
             {
                 for(int x = -11; x <=10; x++)
                 {
@@ -180,7 +180,7 @@ public class TurnController : MonoBehaviour
             }
             return true; 
     }
-    void RemoveAllChildren()
+    public void RemoveAllChildren()
     {
          for (int i = this.transform.childCount - 1; i >= 0; i--)
          {
@@ -189,7 +189,15 @@ public class TurnController : MonoBehaviour
          }
 
     }
-    void Restore3DMap()
+    public void Reset()
+    {
+        placementSystem.GetGridData().Reset();
+        RemoveAllChildren();
+    }
+    /// <summary>
+    /// funkcja do przywrócenia pozycji przed zmian¹ mapy
+    /// </summary>
+    public void Restore3DMap()
     {
 
         for (int i =0;i< objectPlacer.GetplacedGameObjectsCopy().Count;i++)
@@ -220,7 +228,7 @@ public class TurnController : MonoBehaviour
             {
                 int index = GameController.Instance.GetBoardDictionaryList().Count - 1;
                 
-                placementSystem.GetGridData().SaveDictionary();
+                placementSystem.GetGridData().RestoreCopyDictionary();
                 GameController.Instance.GetPlayer().RestoreCopyList();
                 GameController.Instance.GetBoardDictionary().SaveDictionary(GameController.Instance.GetBoardDictionaryList()[index].board);
                 takeTile.ResetHand(GameController.Instance.GetPlayerHandCopy());
