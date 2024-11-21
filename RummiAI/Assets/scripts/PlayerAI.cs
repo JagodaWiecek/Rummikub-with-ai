@@ -122,7 +122,8 @@ public class PlayerAI : Agent
             int xCoord = xAction - 11; //przekszta³cenie na koordynaty x
             int zCoord = zAction - 4; // przekszta³cenie na koordynaty z
             //base.OnActionReceived(actions);
-           // Debug.Log("x: " + xCoord + " z: " + zCoord);
+           // Debug.Log("wybrana akcja: "+ actions.DiscreteActions[2]);
+            //Debug.Log("id karty: "+ actions.DiscreteActions[3]);
             int xNewAction = actions.DiscreteActions[4];
             int zNewAction = actions.DiscreteActions[5];
             int xNewCoord = xAction - 11; //przekszta³cenie na koordynaty x
@@ -135,7 +136,7 @@ public class PlayerAI : Agent
             //4. anulowanie ruchu 
             //5. zakoñczenie tury (wzi¹æ pod uwagê koniec tury przy zakoñczeniu czasu)
 
-            int akcjaAgenta = actions.DiscreteActions[3];
+            int akcjaAgenta = actions.DiscreteActions[2];
             switch (akcjaAgenta)
             {
                 case 0:
@@ -151,7 +152,7 @@ public class PlayerAI : Agent
                 case 5:
                     EndTurnAction(); break;
             }
-
+         
 
             //dodawanie punktów:
             //dodanie p³ytki na mapê w dostêpnym miejscu
