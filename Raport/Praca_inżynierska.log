@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  26 NOV 2024 17:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  27 NOV 2024 17:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -154,10 +154,16 @@ Package: titlesec 2023/10/27 v2.16 Sectioning titles
 \titlewidthlast=\dimen148
 \titlewidthfirst=\dimen149
 )
-LaTeX Font Info:    Trying to load font information for T1+ptm on input line 11
-.
+(C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/tocbibind\tocbibind.sty
+Package: tocbibind 2010/10/13 v1.5k extra ToC listings
+Package tocbibind Info: The document has section divisions on input line 50.
 
-(C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\t1ptm.fd
+Package tocbibind Note: Using section or other style headings.
+
+)
+LaTeX Font Info:    Trying to load font information for T1+ptm on input line 12
+.
+ (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 )
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
@@ -168,20 +174,20 @@ File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 ) (Praca_inżynierska.aux)
 \openout1 = `Praca_inżynierska.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
-LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
 
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
@@ -212,7 +218,7 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 <LOGO.png, id=1, 137.51375pt x 137.51375pt>
 File: LOGO.png Graphic file (type png)
 <use LOGO.png>
-Package pdftex.def Info: LOGO.png  used on input line 16.
+Package pdftex.def Info: LOGO.png  used on input line 17.
 (pdftex.def)             Requested size: 136.50238pt x 136.51462pt.
 
 
@@ -222,69 +228,78 @@ Package pdftex.def Info: LOGO.png  used on input line 16.
 c/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc} <./LOGO.png>]
 (Praca_inżynierska.toc
 LaTeX Font Info:    Trying to load font information for OT1+ztmcm on input line
- 4.
+ 5.
 
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1ztmcm.fd
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
 )
 LaTeX Font Info:    Trying to load font information for OML+ztmcm on input line
- 4.
+ 5.
 
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\omlztmcm.fd
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
 LaTeX Font Info:    Trying to load font information for OMS+ztmcm on input line
- 4.
+ 5.
 
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\omsztmcm.fd
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
 LaTeX Font Info:    Trying to load font information for OMX+ztmcm on input line
- 4.
+ 5.
 
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\omxztmcm.fd
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
-LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 4
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 5
 .
 
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 4.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 5.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 4.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 5.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 4.
-)
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 5.
+
+
+[1])
 \tf@toc=\write3
 \openout3 = `Praca_inżynierska.toc'.
 
 
 
-[1]
+[2]
 
-[2] (Praca_inżynierska.aux)
+[3]
+
+[4]
+Overfull \vbox (213.40392pt too high) has occurred while \output is active []
+
+
+
+[5] (Praca_inżynierska.aux)
  ***********
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 3424 strings out of 473682
- 57265 string characters out of 5719215
- 458963 words of memory out of 5000000
- 26473 multiletter control sequences out of 15000+600000
+ 3519 strings out of 473682
+ 58869 string characters out of 5719215
+ 468766 words of memory out of 5000000
+ 26564 multiletter control sequences out of 15000+600000
  597177 words of font info for 77 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,5n,65p,252b,355s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,6n,65p,572b,355s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pf
 b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pf
 b>
-Output written on Praca_inżynierska.pdf (3 pages, 61117 bytes).
+Output written on Praca_inżynierska.pdf (6 pages, 70311 bytes).
 PDF statistics:
- 26 PDF objects out of 1000 (max. 8388607)
+ 35 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

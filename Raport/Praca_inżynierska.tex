@@ -7,6 +7,7 @@
 \date{ }
 \usepackage{blindtext}
 \usepackage{titlesec}
+\usepackage{tocbibind}
 
 \begin{document}
 	
@@ -47,25 +48,79 @@
 	\end{center}
 \end{titlepage}
 	
-% Spis treści
+
 \tableofcontents
 \newpage % Przejście na nową stronę
 
 % Sekcje dokumentu
-\section{Wprowadzenie}
-To jest tekst we wprowadzeniu.
+\section{Streszczenie}
 
-\section{Metodyka}
-Opis metodologii pracy.
+\section{Wstęp}
+\subsection{Cel pracy}
+Celem pracy jest zaimplementowanie gracza komputerowego z algorytmami nauczania maszynowego w unity. Zamierzonym efektem tego projektu ma być gracz komputerowy, który będzie w stanie wykonywać ruchy na planszy jak żywy gracz. 
+\subsection{Zakres pracy}
+W projekcie należy uwzględnić: 
+\\ - wybraną grę planszową oraz jej zasady
+\\ - sposób poruszania się dla gracza
+\\ - ograniczenia i możliwe ruchy dla modelu
+\\ - kary i nagrody po wykonaniu konkretnych ruchów
 
-\subsection{Eksperymenty}
-Opis przeprowadzonych eksperymentów.
 
-\subsubsection{Szczegóły eksperymentu A}
-Szczegółowy opis eksperymentu A.
+\subsection{Charakterystyka rozdziałów}
+\textbf{Wstęp} - przedstawienie celu oraz zakres pracy, określenie grup docelowych
+\\ \textbf{Analiza tematu} - zawiera ogólną analizę wszystkich możliwych rozwiązań tego projektu.
+\\ \textbf{Wymagania i narzędzia} - przedstawienie wymagań, jakie projekt narzucił oraz wykorzystane narzędzia do jego wykonania
+\\ \textbf{Specyfikacja zewnętrzna} - określenie wymagań sprzętowych, scenariusz korzystania z aplikacji oraz instalacja potrzebnych narzędzi. 
+\\ \textbf{Specyfikacja wewnętrzna} - przedstawienie wykorzystanych bibliotek w projekcie, opis najważniejszych klas oraz diagramy.
+\\ \textbf{Weryfikacja i walidacja} - przedstawienie możliwych modyfikacji dla modelu, które mogą wpływać na tok nauczania, testowanie aplikacji pod kątem nieprzewidzianych błędów. 
+\\ \textbf{Podsumowanie i wnioski} - obserwacje toku nauki modelu i wnioski względem możliwości rozwoju.
 
-\section{Wyniki}
-Omówienie wyników.
+\section{Analiza tematu}
+Tematem pracy jest cyfrowa gra planszowa z wykorzystaniem algorytmów sztucznej inteligencji. Kluczowym problemem jest zaimplementowanie inteligentnego gracza, który poprzez system prób i błędów, nauczy się grać. Wybranie gry planszowej ma również znaczenie, im bardziej skomplikowane zasady gry, tym trudniej będzie modelowi nauczyć się zasad.
+\\Do realizacji tego projektu została wybrana gra planszowa o nazwie Rummikub.
+\subsection{Sformułowanie problemu}
+Gry planszowe w wersji cyfrowej są kodowane w celu gry online z innymi osobami za pośrednictwem internetu. Jednak zaprogramowanie gry z komputerowo uczącym się graczem wymaga innej taktyki, model nie może się uczyć na graniu z żywymi graczami, gdyż zajęło by mu to za długo. Algorytmy AI potrzebują dużej ilości powtórzeń aby nauczyć się zasad gry. W projekcie zostanie uwzględniony jeden żywy gracz, gracze komputerowi z predefiniowanymi ruchami oraz komputerowy gracz z algorytmem nauczania maszynowego.
+\subsection{Znane rozwiązania}
+Na rynku jest wiele gier planszowych, najpopularniejsze z nich doczekały się swojej cyfrowej wersji. Są nimi między innymi:\\
+	- Monopoli\\
+	- Cantan\\
+ 	- Rummikub
+ - Wydana gra online Rummikub jest nastawiona na grę z użyciem internetu do komunikacji innych graczy z całego świata. Gra jest zaimplementowana w grafice 2D bez algorytmów sztucznej inteligencji. 
 
+\section{Wymagania i narzędzia}
+\subsection{Wymagania funkcjonalne}
+\subsection{Wymagania niefunkcjonalne}
+\subsection{Opis narzędzi}
+\subsubsection{unity}
+
+\section{Specyfikacja zewnętrzna}
+\subsection{Wymagania sprzętowe i programowe}
+\subsection{Instalacja}
+\subsubsection{unity}
+\subsubsection{biblioteka ml-agents}
+\subsection{Aktywacja}
+\subsection{Sposób obsługi}
+\subsection{Ekran aplikacji}
+\subsubsection{Zasady gry}
+\subsubsection{Opis ekranu gry}
+
+\section{Specyfikacja wewnętrzna}
+\subsection{Biblioteka ml-agents}
+\subsection{Klasa PlayerIA}
+\subsection{Klasa GameController}
+\subsection{Klasa Tile}
+
+
+\section{Weryfikacja i walidacja}
+\subsection{Testowanie}
+\subsection{Wykryte błędy}
+
+\section{Podsumowanie i wnioski}
+\subsection{Napotkane problemy}
+\subsection{Możliwy rozwój}
+
+\section{Bibliografia}
+\section{Spis skrótów i symboli}
+\section{Spis rysunków}
 
 \end{document}%closing the document
