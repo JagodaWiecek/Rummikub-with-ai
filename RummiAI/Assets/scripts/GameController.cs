@@ -68,6 +68,9 @@ public class GameController : MonoBehaviour
     [SerializeField]
     GameObject fourthPlace;
 
+    [SerializeField]
+    GameObject stopScreen;
+
     /// <summary>
     /// inicjuje instancje
     /// </summary>
@@ -105,6 +108,8 @@ public class GameController : MonoBehaviour
     {
 
         if (endGameObject != null) endGameObject.SetActive(false);
+        if (stopScreen != null) stopScreen.SetActive(false);
+        else Debug.Log("stopScreen is null");
         SetTiles(ref this.mainBank);
 
         boardList = new();
@@ -144,13 +149,6 @@ public class GameController : MonoBehaviour
         {
             player.SetPlayersHand(ref this.mainBank);
         }
-       // playerHand = player.GetList();
-        //playerHandCopy = player.GetListCopy();
-        // firstTurnController = new();
-
-        //this.playerHand.Add(new(30, new UnityEngine.Color(0.5f, 0f, 0.5f), SetName(new UnityEngine.Color(0.5f, 0f, 0.5f)) + "_" + 30.ToString(), "$", false));
-        //this.playerHand.Add(new(30, UnityEngine.Color.magenta, SetName(UnityEngine.Color.magenta) + "_" + 30.ToString(), "$", false));
-
 
 
     }
@@ -161,24 +159,37 @@ public class GameController : MonoBehaviour
     /// </summary>
     void Update()
     {
-        // Vector3 position = placementSystem.GetInputManager().GetSelectedMapPosition();
-        //Vector3 minRange = grid.CellToWorld(new Vector3Int(-9,0,-4));
-        // Vector3 maxRange = grid.CellToWorld(new Vector3Int(8,0,2));
         if (gameIndex != 1 && gameTurnManager.currentPlayerId == 0)
         {
             if (Input.GetKeyDown(KeyCode.D))
                 placementSystem.StartRemoving();
             if (Input.GetMouseButtonDown(1) && !placementSystem.GetInputManager().isPointerOverUI())
                 placementSystem.StartMowing();
-            if (Input.GetKeyDown(KeyCode.A)) gameTurnManager.ChangeTurn();
         }
         if(gameIndex == 1)
             if (Input.GetKeyDown(KeyCode.A)) gameTurnManager.ChangeTurn();
-        if (Input.GetKeyDown(KeyCode.Z)) Time.timeScale = 0f;
-        if (Input.GetKeyDown(KeyCode.X)) Time.timeScale = 1f;
+
+        if (Input.GetKeyDown(KeyCode.Escape)) StopGame();
         //Time.timeScale = 0f;
     }
-
+    public void StopGame()
+    { 
+        if(stopScreen!=null)
+        {
+            if(stopScreen.activeSelf)
+            {
+                stopScreen.SetActive(false);
+                Time.timeScale = 1f;
+            }
+            else
+            {
+                stopScreen.SetActive(true);
+                Time.timeScale = 0f;
+            }
+        }
+        else Debug.Log("stopScreen is null");
+        //stopScreen.
+    }
     /// <summary>
     /// Funkcja do zwrócenia ca³ej listy p³ytek
     /// </summary>
@@ -350,21 +361,6 @@ public class GameController : MonoBehaviour
         else if (gameIndex == 1)
         { //ai i boty
 
-            /*(string Name, int Score)[] playersScore = {
-                //(Name: AI.name, AI.FinalScore()),
-                (Name: missComputerPlayer.name,Score: missComputerPlayer.FinalScore()),
-                (Name: mrComputerPlayer.name,Score: mrComputerPlayer.FinalScore()),
-                (Name: ComputerPlayer.name,Score: ComputerPlayer.FinalScore())
-            };
-            Array.Sort(playersScore, (a, b) => a.Score.CompareTo(b.Score));
-
-            if (playersScore[0].Score == 0)
-                firstPlace.GetComponent<Text>().text = "1. " + playersScore[0].Name;
-            else
-                firstPlace.GetComponent<Text>().text = "1. " + playersScore[0].Name + " (" + playersScore[0].Score.ToString() + ") ";
-            secondPlace.GetComponent<Text>().text = "2. " + playersScore[1].Name + " (" + playersScore[1].Score.ToString() + ") ";
-            thirdPlace.GetComponent<Text>().text = "3. " + playersScore[2].Name + " (" + playersScore[2].Score.ToString() + ") ";
-            fourthPlace.GetComponent<Text>().text = "4. " + playersScore[3].Name + " (" + playersScore[3].Score.ToString() + ") ";*/
 
             AI.EndGame();//Do dokoñczenia
 
@@ -408,7 +404,7 @@ public class GameController : MonoBehaviour
         { //gracz i ai
             (string Name, int Score)[] playersScore = {
                 (Name: "You", player.FinalScore()),
-                //(Name: AI.name, AI.FinalScore()),
+                (Name: AI.name, AI.FinalScore()),
             };
             Array.Sort(playersScore, (a, b) => a.Score.CompareTo(b.Score));
 

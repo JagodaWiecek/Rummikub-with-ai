@@ -554,8 +554,6 @@ public class PlayerAI : Agent
         GameController.Instance.GetBoardDictionary().board.Remove(gridPosition);
     }
 
-    //sprawdzanie mapy i funkcje undo
-
 
     public int FinalScore()
     {

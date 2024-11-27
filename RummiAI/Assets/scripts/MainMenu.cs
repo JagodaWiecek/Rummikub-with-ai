@@ -9,11 +9,11 @@ public class MainMenu : MonoBehaviour
 
     public void PlayWithCP()
     {
-        if (GameController.Instance != null)
-            Destroy(GameController.Instance.gameObject);
+
 
         Time.timeScale = 1f;
         SceneManager.LoadSceneAsync(1);  
+
     }
     public void AIvsCP()
     {
@@ -40,9 +40,10 @@ public class MainMenu : MonoBehaviour
     public void ReturnToMenu()
     {
         SceneManager.LoadSceneAsync(0);
+
+        Time.timeScale = 1f;
         if (GameController.Instance != null)
             Destroy(GameController.Instance.gameObject);
-        Time.timeScale = 1f;
     }
 
     public void QuitGame()
