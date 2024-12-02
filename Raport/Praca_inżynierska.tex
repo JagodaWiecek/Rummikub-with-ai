@@ -53,10 +53,11 @@
 \newpage % Przejście na nową stronę
 
 % Sekcje dokumentu
-\section{Streszczenie}
-
-\section{Wstęp}
-\subsection{Cel pracy}
+\section{Streszczenie} %TODO
+TODO
+\section{Wstęp} %DONE
+Gry planszowe są formą rozrywki dla ludzi od wieków jak i formą intelektualnego wyzwania. We współczesnych czasach znaczna część życia podlega cyfryzacji, od komunikacji do płatności bankowych. Z tego powodu również wszelkie gry planszowe są przenoszone do cyfrowego świata. Takie rozwiązanie pozwala na rozpoczęcie rozgrywki ulubionej gry planszowej w świecie online wraz z graczami z całego świata bez żadnych ograniczeń. Są to jednak głównie gry online, zakładają one grę z żywym przeciwnikiem, nie rozgrywkę z maszyną. Ten projekt zakłada możliwość napisania gry, w której gracz będzie mieć do czynienia z graczem komputerowym wraz z zaimplementowanym algorytmem uczenia maszynowego.
+\subsection{Cel pracy} 
 Celem pracy jest zaimplementowanie gracza komputerowego z algorytmami nauczania maszynowego w unity. Zamierzonym efektem tego projektu ma być gracz komputerowy, który będzie w stanie wykonywać ruchy na planszy jak żywy gracz. 
 \subsection{Zakres pracy}
 W projekcie należy uwzględnić: 
@@ -75,8 +76,8 @@ W projekcie należy uwzględnić:
 \\ \textbf{Weryfikacja i walidacja} - przedstawienie możliwych modyfikacji dla modelu, które mogą wpływać na tok nauczania, testowanie aplikacji pod kątem nieprzewidzianych błędów. 
 \\ \textbf{Podsumowanie i wnioski} - obserwacje toku nauki modelu i wnioski względem możliwości rozwoju.
 
-\section{Analiza tematu}
-Tematem pracy jest cyfrowa gra planszowa z wykorzystaniem algorytmów sztucznej inteligencji. Kluczowym problemem jest zaimplementowanie inteligentnego gracza, który poprzez system prób i błędów, nauczy się grać. Wybranie gry planszowej ma również znaczenie, im bardziej skomplikowane zasady gry, tym trudniej będzie modelowi nauczyć się zasad.
+\section{Analiza tematu}%mniej więcej zrobione
+Tematem pracy jest cyfrowa gra planszowa z wykorzystaniem algorytmów sztucznej inteligencji. Kluczowym problemem jest zaimplementowanie inteligentnego gracza, który poprzez system prób i błędów, nauczy się grać. Wybranie gry planszowej ma duże znaczenie, im bardziej skomplikowane zasady gry, tym trudniej będzie modelowi nauczyć się zasad.
 \\Do realizacji tego projektu została wybrana gra planszowa o nazwie Rummikub.
 \subsection{Sformułowanie problemu}
 Gry planszowe w wersji cyfrowej są kodowane w celu gry online z innymi osobami za pośrednictwem internetu. Jednak zaprogramowanie gry z komputerowo uczącym się graczem wymaga innej taktyki, model nie może się uczyć na graniu z żywymi graczami, gdyż zajęło by mu to za długo. Algorytmy AI potrzebują dużej ilości powtórzeń aby nauczyć się zasad gry. W projekcie zostanie uwzględniony jeden żywy gracz, gracze komputerowi z predefiniowanymi ruchami oraz komputerowy gracz z algorytmem nauczania maszynowego.
@@ -87,13 +88,33 @@ Na rynku jest wiele gier planszowych, najpopularniejsze z nich doczekały się s
  	- Rummikub
  - Wydana gra online Rummikub jest nastawiona na grę z użyciem internetu do komunikacji innych graczy z całego świata. Gra jest zaimplementowana w grafice 2D bez algorytmów sztucznej inteligencji. 
 
-\section{Wymagania i narzędzia}
+\section{Wymagania i narzędzia}%TODO
+W tej sekcji przedstawiono wymagania funkcjonalne i niefunkcjonalne projektu oraz narzędzia technologiczne i programistyczne, które zostały wykorzystane do jego realizacji. Opisane zostaną także kluczowe zasoby niezbędne do wdrożenia rozwiązania, takie jak środowiska programistyczne, biblioteki, frameworki oraz sprzęt.
 \subsection{Wymagania funkcjonalne}
+\textbf{Interakcja z mapą :}
+\begin{itemize}
+\item Gra musi pozwolić graczowi i agentowi na wybór płytki, którą chcą postawić bądź wejść z nią w interakcje.
+\item Gracz oraz agent powinni być w stanie postawić nową płytkę na mapie, przesunąć istniejącą bądź usunąć ją z mapy, jeśli jest to możliwe.
+\item Agent oraz gracz muszą układać sekwencje płytek jak najszybciej.
+\item Gra musi ograniczać graczy, aby nie mogli tworzyć sekwencji niedozwolonych w zasadach gry.
+\end{itemize}
+\textbf{Ruchy gracza :}
+\begin{itemize}
+	\item Użytkownik musi mieć możliwość widzieć swoje płytki i wykładać je na mapę oraz tworzyć 
+	\item W trakcie tury gra na bieżąco weryfikuje czy daną płytkę można postawić, pod koniec tury sprawdza czy każda wyłożona sekwencja posiada co najmniej 3 płytki w jednym ciągu.
+	\item Gracz powinien móc zakończyć turę, cofnąć wszystkie akcje oraz dobrać nową płytkę.
+	\item Użytkownik powinien móc posortować swoje płytki seryjnie aniżeli ręcznie.
+\end{itemize}
 \subsection{Wymagania niefunkcjonalne}
 \subsection{Opis narzędzi}
+W tej sekcji przedstawiono narzędzia, które zostały wykorzystane do zrealizowania projektu.
 \subsubsection{unity}
+\subsubsection{C\#}
+\subsubsection{ML-Agents}
 
-\section{Specyfikacja zewnętrzna}
+
+\section{Specyfikacja zewnętrzna}%TODO
+TODO
 \subsection{Wymagania sprzętowe i programowe}
 \subsection{Instalacja}
 \subsubsection{unity}
@@ -104,23 +125,27 @@ Na rynku jest wiele gier planszowych, najpopularniejsze z nich doczekały się s
 \subsubsection{Zasady gry}
 \subsubsection{Opis ekranu gry}
 
-\section{Specyfikacja wewnętrzna}
+\section{Specyfikacja wewnętrzna}%TODO
+TODO
 \subsection{Biblioteka ml-agents}
 \subsection{Klasa PlayerIA}
 \subsection{Klasa GameController}
 \subsection{Klasa Tile}
 
 
-\section{Weryfikacja i walidacja}
+\section{Weryfikacja i walidacja}%TODO
+TODO
 \subsection{Testowanie}
 \subsection{Wykryte błędy}
 
-\section{Podsumowanie i wnioski}
-\subsection{Napotkane problemy}
-\subsection{Możliwy rozwój}
+\section{Podsumowanie i wnioski}%TODO
+TODO
+\subsection{Napotkane problemy}%TODO
+\subsection{Możliwy rozwój}%TODO
 
-\section{Bibliografia}
-\section{Spis skrótów i symboli}
-\section{Spis rysunków}
+\section{Bibliografia}%TODO
+TODO
+\section{Spis skrótów i symboli}%TODO
+\section{Spis rysunków}%TODO
 
 \end{document}%closing the document
