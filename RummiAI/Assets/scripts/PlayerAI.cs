@@ -140,17 +140,32 @@ public class PlayerAI : Agent
             switch (akcjaAgenta)
             {
                 case 0:
-                    PutTileAction(xCoord, zCoord, chosenTileIndex); break;
+                    if (AIPlayerHand.Count != 0)
+                    {
+                        PutTileAction(xCoord, zCoord, chosenTileIndex);
+                    }
+                    Debug.Log("Akcja k³adzenia p³ytki");
+                    break; 
                 case 1:
-                    RemoveTileAction(xCoord, zCoord); break;
+                    RemoveTileAction(xCoord, zCoord);
+                    Debug.Log("Akcja usiniêcia p³ytki");
+                    break;
                 case 2:
-                    MoveTileAction(xCoord, zCoord, xNewCoord, zNewCoord); break;
+                    MoveTileAction(xCoord, zCoord, xNewCoord, zNewCoord);
+                    Debug.Log("Akcja przesuniêcia p³ytki");
+                    break;
                 case 3:
-                    TakeTileAction(); break;
+                    TakeTileAction();
+                    Debug.Log("Akcja pobrania nowej p³ytki");
+                    break;
                 case 4:
-                    UndoAction(); break;
+                    UndoAction();
+                    Debug.Log("Akcja anulowania wszystkich ruchów");
+                    break;
                 case 5:
-                    EndTurnAction(); break;
+                    EndTurnAction();
+                    Debug.Log("Akcja zakoñczenia tury");
+                    break;
             }
          
 
@@ -175,9 +190,12 @@ public class PlayerAI : Agent
         int availableTiles = AIPlayerHand.Count; // Liczba dostêpnych p³ytek w rêce agenta
 
         // Wy³¹czanie akcji powy¿ej dostêpnych p³ytek
-        for (int i = availableTiles; i < maxTiles; i++)
+        if (AIPlayerHand.Count > 0)
         {
-            actionMask.SetActionEnabled(branchIndex, i, false); // Wy³¹czanie akcji
+            for (int i = availableTiles; i < maxTiles; i++)
+            {
+                actionMask.SetActionEnabled(branchIndex, i, false); // Wy³¹czanie akcji
+            }
         }
     }
 
@@ -262,14 +280,17 @@ public class PlayerAI : Agent
     void PutTileAction(int x, int z, int indeks)
     {
         //sprawdziæ czy mo¿na po³o¿yæ
-        Vector3Int position = new Vector3Int(x, 0, z);
-        bool placementValidity = CheckPlacementValidity(position, 0, indeks);
+        if(AIPlayerHand.Count > 0) { 
+            Vector3Int position = new Vector3Int(x, 0, z);
+            bool placementValidity = CheckPlacementValidity(position, 0, indeks);
 
-        if (placementValidity)
-        {
-            PutTile(position, AIPlayerHand[indeks]);
-            AIPlayerHand.RemoveAt(indeks);
-            AddReward(0.5f);//TODO
+            if (placementValidity)
+            {
+                PutTile(position, AIPlayerHand[indeks]);
+                AIPlayerHand.RemoveAt(indeks);
+                AddReward(2f);//TODO
+            }
+            else AddReward(-0.2f);//TODO
         }
         else AddReward(-0.2f);//TODO
     }
@@ -303,9 +324,9 @@ public class PlayerAI : Agent
         Vector3Int oldPosition = new Vector3Int(oldX, 0, oldZ);
         Vector3Int newPosition = new Vector3Int(oldX, 0, oldZ);
         Tile tile;
-        if (GameController.Instance.GetBoardDictionary().board.ContainsKey(oldPosition) &&
+        if (GameController.Instance.GetBoardDictionary().board.ContainsKey(oldPosition) &&//wybrana pozycja istnieje
             (firstTurn &&
-            !GameController.Instance.GetBoardDictionary().board[oldPosition].GetPut()))//wybrana pozycja istnieje
+            !GameController.Instance.GetBoardDictionary().board[oldPosition].GetPut()))//w pierwszej turze mo¿na poruszaæ tylko nowo postawionym p³ytkami
         {
             tile = GameController.Instance.GetBoardDictionary().board[oldPosition].getTile();
             AddReward(0.3f);//TODO 
@@ -479,7 +500,7 @@ public class PlayerAI : Agent
     {
         if(AIPlayerHand.Count == 0)
         {
-            AddReward(5f);//TODO
+            AddReward(10f);//TODO
         }
         else
         {
@@ -548,7 +569,7 @@ public class PlayerAI : Agent
         objectPlacer.RemoveObjectAt(gameObjectIndex);
         if (GameController.Instance.GetPlayer().GetFirstTour())
         {
-            GameController.Instance.firstTurnController.Decrease(GameController.Instance.GetBoardDictionary().board[gridPosition].getTile().GetNumber(), gridPosition);
+            GameController.Instance.firstTurnController.Decrease(GameController.Instance.GetBoardDictionary().board[gridPosition].GetNumber(), gridPosition);
 
         }
         GameController.Instance.GetBoardDictionary().board.Remove(gridPosition);

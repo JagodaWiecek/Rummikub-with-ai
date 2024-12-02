@@ -42,6 +42,8 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadSceneAsync(0);
 
         Time.timeScale = 1f;
+        if (GameController.Instance.gameIndex == 1)
+            GameController.Instance.GetPlayerAI().EndEpisode();
         if (GameController.Instance != null)
             Destroy(GameController.Instance.gameObject);
     }
