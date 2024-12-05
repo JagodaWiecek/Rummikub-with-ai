@@ -1,3 +1,0 @@
-Model testując opcje wyrzucania płytek na mapę, wyrzuca wszystkie przez co pojawia się problem z zamaskowaną akcją dla modelu
-
-model wykonuje kilka ruchów na jedną klatkę, co powoduje że zanim nastąpi zmiana na mapie to model już chce dokonać interakcji z obiektem co powoduje błąd
