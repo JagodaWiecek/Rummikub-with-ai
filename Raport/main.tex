@@ -513,9 +513,13 @@
 	
 	%
 	\chapter{Wstęp}% do akceptacji
+	\label{ch:wstep}
 	Gry planszowe są formą rozrywki dla ludzi od wieków jak i formą intelektualnego wyzwania. We współczesnych czasach znaczna część życia podlega cyfryzacji, od komunikacji do płatności bankowych. Z tego powodu również wszelkie gry planszowe są przenoszone do cyfrowego świata. Takie rozwiązanie pozwala na rozpoczęcie rozgrywki ulubionej gry planszowej w świecie online wraz z graczami z całego świata bez żadnych ograniczeń.
 	\section{Cel pracy} 
 	Celem pracy jest zaimplementowanie gry planszowej 2.5D w unity. Dodatkowo w ramach gry zostanie zaimplementowany gracz komputerowy z wykorzystaniem uczenia maszynowego.
+	
+
+
 	\section{Zakres pracy}
 	
 	\begin{itemize}
@@ -620,11 +624,48 @@
 	\section{Opis narzędzi}
 	W tej sekcji przedstawiono narzędzia, które zostały wykorzystane do zrealizowania projektu.
 	\subsection{Unity}
-	edycja 2022.3.48f1
+	 Środowisko gry zostało zaimplementowane z silniku Unity w najnowszej stabilnej wersji 2022.3.48f1.
+	 Unity jest wieloplatformowym silnikiem do tworzenia gier i aplikacji 3D jak i 2D stworzony przez Unity Technologies. Jest szeroko stosowany nie tylko do gier wideo, ale również do symulatorów, wizualizacji interaktywnych oraz aplikacji. 
+	 Unity oferuje dużo możliwości, takie jak:
+	 \begin{itemize}
+	 	\item Tworzenie modeli 2D i 3D
+	 	\item Animacje i symulacja fizyki
+	 	\item Renderowanie grafiki
+	 \end{itemize}
+	 
+	  
 	\subsection{C\#}
-	\subsection{ML-Agents}
+	\textbf{C\#} (C-Sharp) to nowoczesny, obiektowy język programowania opracowany przez firmę Microsoft. Łączy zalety języków C++ oraz Java, co czyni go uniwersalnym przy użytkowaniu. Może być wykorzystany do tworzenia gier wideo czy aplikacji mobilnych.
+	\\C\# wyróżnia się następującymi cechami:
+	\begin{itemize}
+		\item Programowanie obiektowe.
+		\item Zarządzanie pamięcią - posiadając funkcję garbage collector, nie trzeba martwić się o wycieki pamięci.
+		 \item Wszechstronność – umożliwia tworzenie aplikacji dla systemów Windows, macOS, Android, iOS oraz gier w środowisku Unity.
+	\end{itemize}
+	 C\# w projekcie został wykorzystany do zaimplementowania logiki gry, komunikacji z modelem oraz zarządzania interakcji między graczem a środowiskiem w Unity.
 	\subsection{Python}
+	Python to wszechstronny, wysokopoziomowy język programowania, głównie znany z prostoty i przejrzystości kodu. 
+	Najważniejsze cechy języka Python to:
+	\begin{itemize}
+		\item Bogata biblioteka standardowa – zawiera moduły do pracy z danymi, plikami, sieciami, obliczeniami naukowymi i innymi zadaniami.
+		\item Przenośność i wszechstronność – Python działa na większości systemów operacyjnych, takich jak Windows, macOS czy Linux i jest wykorzystywany w aplikacjach desktopowych, webowych, a także w badaniach naukowych.
+		\item Poprzez istnienie wielu zewnętrznych bibliotek, takich jak NumPy, TensorFlow, PyTorch, idealnie nadaje się do analizy danych.
+	\end{itemize}
+	Python w wersji 3.9 jest wykorzystany jaki środowisko do implementacji modelu uczenia maszynowego, jest to konieczne w przypadku biblioteki ML-Agents.
+	\subsection{ML-Agents}
+	ML-Agents (Machine Learning Agents) to ,opracowany przez Unity Technologies, zestaw narzędzi do wykorzystywania technik sztucznej inteligencji i uczenia maszynowego w projektach w środowisku Unity. 
+	Narzędzie pozwala na implementację agentów, którzy mogą podejmować decyzje w zaimplementowanym środowisku.
+	\\ Kluczowymi cechami ML-Agents:
+	\begin{itemize}
+		\item Nauczanie wzmacniane - agenci uczą się na bazie dostawanych kar i nagród, jakie otrzymują.
+		\item Narzędzie jest uniwersalne, można je zaimplementować do prostych jak i zaawansowanych gier, w których muszą podejmować decyzje.
+		\item Agenta można zaimplementować do różnego rodzaju scenariuszy.
 	
+	\end{itemize}
+	
+	W tym projekcie, narzędzie, do poprawnej nauki wykorzystuje środowisko python oraz unity. Unity jest miejscem implementacji akcji, obserwacji, nagród i kar dla modelu. Środowisko python jest wykorzystywane do implementacji modelu oraz rozpoczynania nauki.
+	
+	\section{Przypadki użycia}
 	
 	
 	
@@ -679,7 +720,7 @@
 		
 		% TODO
 		\chapter{Spis skrótów i symboli}
-		
+	
 		
 		% TODO
 		\chapter{Źródła}

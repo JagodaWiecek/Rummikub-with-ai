@@ -19,8 +19,9 @@
 \contentsline {section}{\numberline {3.3}Opis narzędzi}{7}{}%
 \contentsline {subsection}{\numberline {3.3.1}Unity}{7}{}%
 \contentsline {subsection}{\numberline {3.3.2}C\#}{7}{}%
-\contentsline {subsection}{\numberline {3.3.3}ML-Agents}{7}{}%
-\contentsline {subsection}{\numberline {3.3.4}Python}{7}{}%
+\contentsline {subsection}{\numberline {3.3.3}Python}{7}{}%
+\contentsline {subsection}{\numberline {3.3.4}ML-Agents}{8}{}%
+\contentsline {section}{\numberline {3.4}Przypadki użycia}{8}{}%
 \contentsline {chapter}{\numberline {4}Specyfikacja zewnętrzna}{9}{}%
 \contentsline {section}{\numberline {4.1}Wymagania sprzętowe i programowe}{9}{}%
 \contentsline {section}{\numberline {4.2}Instalacja}{9}{}%
