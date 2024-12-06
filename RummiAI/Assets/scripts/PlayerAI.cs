@@ -280,7 +280,8 @@ public class PlayerAI : Agent
     void PutTileAction(int x, int z, int indeks)
     {
         //sprawdziæ czy mo¿na po³o¿yæ
-        if(AIPlayerHand.Count > 0) { 
+        var board = GameController.Instance.GetBoardDictionary().board;
+        if (AIPlayerHand.Count > 0) { 
             Vector3Int position = new Vector3Int(x, 0, z);
             bool placementValidity = CheckPlacementValidity(position, 0, indeks);
 
@@ -288,7 +289,12 @@ public class PlayerAI : Agent
             {
                 PutTile(position, AIPlayerHand[indeks]);
                 AIPlayerHand.RemoveAt(indeks);
-                AddReward(2f);//TODO
+                Vector3Int positionplusjeden = new Vector3Int(x+1, 0, z);
+                Vector3Int positionminusjeden = new Vector3Int(x-1, 0, z);
+                if (board.ContainsKey(positionplusjeden) || board.ContainsKey(positionminusjeden))
+                    AddReward(2f);
+                else 
+                    AddReward(1f);//TODO
             }
             else AddReward(-0.2f);//TODO
         }
@@ -412,7 +418,7 @@ public class PlayerAI : Agent
             }
             if(firstTurn) GameController.Instance.firstTurnController.Reset();
 
-            AddReward(-0.3f);//TODO
+            AddReward(-1f);//TODO
         }
         else AddReward(-0.01f);//TODO
     }
@@ -516,8 +522,12 @@ public class PlayerAI : Agent
     public void EndOfTime()
     {
         //funkcja undo
-        TakeTileAction();
-        AddReward(-0.5f);//TODO
+        UndoAction();
+        List<Tile> tiles = GameController.Instance.GetGameBank();
+        AddNewTile(ref tiles);
+        AddReward(-0.3f);//TODO
+        if (firstTurn) GameController.Instance.firstTurnController.Reset();
+        AddReward(-1f);//TODO
         //dodanie p³ytki
         //restore mapy
         //kara

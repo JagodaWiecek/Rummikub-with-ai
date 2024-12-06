@@ -30,7 +30,8 @@ public class GameTurnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentPlayerId = Random.Range(0,4);
+        if(GameController.Instance.gameIndex != 3) currentPlayerId = Random.Range(0,4);
+        else currentPlayerId = Random.Range(0, 2);
         turnTime = 60;
         currentTurnTime = turnTime;
         SetUIText();
@@ -73,11 +74,37 @@ public class GameTurnManager : MonoBehaviour
         }
         else if (GameController.Instance.gameIndex == 2)
         {
-
+            if (currentTurnTime <= 0)
+            {
+                if (currentPlayerId == 3)
+                {
+                    GameController.Instance.GetPlayerAI().EndOfTime();
+                    ChangeTurn();
+                }
+                else if (currentPlayerId == 0)
+                {
+                    turnController.TakeTile();//ju¿ ma ChangeTurn();
+                }
+                else
+                    ChangeTurn();
+            }
         }
         else if (GameController.Instance.gameIndex == 3)
         {
-
+            if (currentTurnTime <= 0)
+            {
+                if (currentPlayerId == 1)
+                {
+                    GameController.Instance.GetPlayerAI().EndOfTime();
+                    ChangeTurn();
+                }
+                else if (currentPlayerId == 0)
+                {
+                    turnController.TakeTile();//ju¿ ma ChangeTurn();
+                }
+                else
+                    ChangeTurn();
+            }
         }
     }
     /// <summary>
@@ -153,25 +180,25 @@ public class GameTurnManager : MonoBehaviour
             if (currentPlayerId == 0)
             {
                 currentPlayerText.GetComponent<Text>().text = "Player: You";
-                //takeTile.EnableAllButtons();
+                takeTile.EnableAllButtons();
                 //SetPlayersTileCountUI();
             }
             else if (currentPlayerId == 1)
             {
                 currentPlayerText.GetComponent<Text>().text = "Player: MrComputer";
-                //takeTile.DisableAllButtons();
+                takeTile.DisableAllButtons();
                 //SetPlayersTileCountUI();
             }
             else if (currentPlayerId == 2)
             {
                 currentPlayerText.GetComponent<Text>().text = "Player: MissComputer";
-                // takeTile.DisableAllButtons();
+                 takeTile.DisableAllButtons();
                 //SetPlayersTileCountUI();
             }
             else if (currentPlayerId == 3)
             {
                 currentPlayerText.GetComponent<Text>().text = "Player: AI";
-                //takeTile.DisableAllButtons();
+                takeTile.DisableAllButtons();
                 //SetPlayersTileCountUI();
             }
             SetPlayersTileCountUI();
@@ -183,13 +210,13 @@ public class GameTurnManager : MonoBehaviour
             if (currentPlayerId == 0)
             {
                 currentPlayerText.GetComponent<Text>().text = "Player: You";
-                //takeTile.EnableAllButtons();
+                takeTile.EnableAllButtons();
                 //SetPlayersTileCountUI();
             }
             else if (currentPlayerId == 1)
             {
                 currentPlayerText.GetComponent<Text>().text = "Player: AI";
-                //takeTile.DisableAllButtons();
+                takeTile.DisableAllButtons();
                 //SetPlayersTileCountUI();
             }
             SetPlayersTileCountUI();
@@ -212,6 +239,16 @@ public class GameTurnManager : MonoBehaviour
             MissComputerTilesText.GetComponent<Text>().text = "MissComputer: " + GameController.Instance.GetMissComputerPlayer().GetList().Count.ToString();
             MrComputerTilesText.GetComponent<Text>().text = "MrComputer: " + GameController.Instance.GetMrComputerPlayer().GetList().Count.ToString();
             ComputerTilesText.GetComponent<Text>().text = "Computer: " + GameController.Instance.GetComputerPlayer().GetList().Count.ToString();
+            AITilesText.GetComponent<Text>().text = "Agent: " + GameController.Instance.GetPlayerAI().GetList().Count.ToString();// 
+        }
+        else if(GameController.Instance.gameIndex == 2)
+        {
+            MissComputerTilesText.GetComponent<Text>().text = "MissComputer: " + GameController.Instance.GetMissComputerPlayer().GetList().Count.ToString();
+            MrComputerTilesText.GetComponent<Text>().text = "MrComputer: " + GameController.Instance.GetMrComputerPlayer().GetList().Count.ToString();
+            AITilesText.GetComponent<Text>().text = "Agent: " + GameController.Instance.GetPlayerAI().GetList().Count.ToString();// 
+        }
+        else if (GameController.Instance.gameIndex == 3)
+        {
             AITilesText.GetComponent<Text>().text = "Agent: " + GameController.Instance.GetPlayerAI().GetList().Count.ToString();// 
         }
 

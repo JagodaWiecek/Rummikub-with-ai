@@ -72,11 +72,13 @@ public class TakeTile : MonoBehaviour
     {
         GameController.Instance.GetPlayer().SortByColors();
         ResetHand(GameController.Instance.GetPlayerHand());
+        StartCoroutine(SetTilesSort());
     }
     public void SortByNumbers()
     {
         GameController.Instance.GetPlayer().SortByNumbers();
         ResetHand(GameController.Instance.GetPlayerHand());
+        StartCoroutine(SetTilesSort());
     }
     /// <summary>
     /// Funkcja do zresetowania zawartoœci talii gracza na ekranie
@@ -264,4 +266,14 @@ public class TakeTile : MonoBehaviour
         }
     }
 
+    private IEnumerator SetTilesSort()
+    {
+        yield return new WaitForEndOfFrame();
+        if (GameController.Instance.gameIndex != 1)
+        {
+            if (GameController.Instance.gameTurnManager.currentPlayerId == 0)
+                EnableAllButtons();
+            else DisableAllButtons();
+        }
+    }
 }

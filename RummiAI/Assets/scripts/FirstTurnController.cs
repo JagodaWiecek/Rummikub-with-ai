@@ -142,13 +142,15 @@ public class FirstTurnController : MonoBehaviour
     /// <returns>true dla poprawnego wy³o¿enia, false dla b³êdnego wy³o¿enia</returns>
     public bool CheckFirstTurnValidity(Dictionary<Vector3Int, Tile> board)
     {
+        int temp = sum;
         if (!FirstJokerNull())
         {
             ///wstaw pozycje jokera do funkcji, która sprawdzi jak¹ wartoœæ zastêpuje
             ///zwrócona wartoœæ ma zostaæ dodana do sumy
             int numer = GetJokerAmount(joker1, board);
+
             //Debug.Log("joker1 imituje numer: "+ numer);
-            sum += numer;
+            temp += numer;
         }
         if (!SecondJokerNull()) 
         {
@@ -156,11 +158,11 @@ public class FirstTurnController : MonoBehaviour
             ///zwrócona wartoœæ ma zostaæ dodana do sumy
             int numer = GetJokerAmount(joker2, board);
             //Debug.Log("joker2 imituje numer: " + numer);
-            sum += numer;
+            temp += numer;
         }
 
-         Debug.Log("Suma wynosi:" + sum);
-        return (sum>=30 & CheckSequences());
+         Debug.Log("Suma wynosi:" + temp);
+        return (temp >= 30 & CheckSequences());
     }
     /// <summary>
     /// funkcja do sprawdzenia wartoœci, któr¹ zastêpuje joker

@@ -34,6 +34,11 @@ public class TurnController : MonoBehaviour
     [SerializeField]
     UnityEngine.UI.Button takeTileButton;
 
+    [SerializeField]
+    GameObject napis;
+    float setNapisTime = 1f;
+    float napisTime;
+
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +48,10 @@ public class TurnController : MonoBehaviour
             undoButton.gameObject.SetActive(false);
             endTurn.gameObject.SetActive(false);
         }
+        if (napis != null) { 
+            napis.gameObject.SetActive(false);
+        }
+        napisTime = setNapisTime;
     }
 
     // Update is called once per frame
@@ -71,6 +80,19 @@ public class TurnController : MonoBehaviour
                 endTurn.gameObject.SetActive(false);
             }
         }
+
+        if (napis != null  && napis.activeSelf) {
+            napisTime -= Time.deltaTime;
+
+            if (napisTime <= 0f)
+            {
+                napis.gameObject.SetActive(false);
+                napis.gameObject.GetComponentInChildren<Text>().text = "";
+                napisTime = setNapisTime;
+
+            }
+        }
+
     }
 
     public void NewTurn()
@@ -89,7 +111,7 @@ public class TurnController : MonoBehaviour
 
                         if (GameController.Instance.GetPlayer().GetFirstTour())//jeœli to pierwsza tura
                         {
-                            if (GameController.Instance.firstTurnController.CheckFirstTurnValidity(GameController.Instance.GetBoardDictionary().board) )
+                            if (GameController.Instance.firstTurnController.CheckFirstTurnValidity(GameController.Instance.GetBoardDictionary().board))
                             {
                                 GameController.Instance.GetPlayer().EndFirstTour();
                                 GameController.Instance.firstTurnController.Reset();
@@ -103,11 +125,13 @@ public class TurnController : MonoBehaviour
                                 objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
                                 placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
                                 GameController.Instance.GetPlayer().SaveListToCopy();
+                                placementSystem.StopPlacement();
                                 GameController.Instance.gameTurnManager.ChangeTurn();
                             }
                             else
                             {
                                 Debug.Log("W pierwszej turze nale¿y wy³o¿yc sumê conajmniej = 30");
+                                ShowNapis("W pierwszej turze nale¿y wy³o¿yæ sumê conajmniej 30 lub wiêcej");
                                 return;
                             }
                         }
@@ -124,6 +148,7 @@ public class TurnController : MonoBehaviour
                                 objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
                                 placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
                                 GameController.Instance.GetPlayer().SaveListToCopy();
+                                placementSystem.StopPlacement();
                                 GameController.Instance.gameTurnManager.ChangeTurn();
                             }
                             else Debug.Log("Nale¿y wy³o¿yæ conajmniej jedn¹ p³ytkê");
@@ -131,7 +156,9 @@ public class TurnController : MonoBehaviour
                     }
                     else GameController.Instance.EndGame();
                 }
-                else Debug.Log("Nie poprawnie zakoñczona mapa");
+                else { Debug.Log("Nie poprawnie zakoñczona mapa");
+                    ShowNapis("Mapa zosta³a niepoprawnie zakoñczona");
+                }
 
             }
             else Debug.Log("Na mapie nie ma ¿adnych p³ytek");
@@ -251,6 +278,7 @@ public class TurnController : MonoBehaviour
                 GameController.Instance.firstTurnController.Reset();
 
             //takeTile.takeNewTile();
+            placementSystem.StopPlacement();
         }
         else Debug.LogError("CancelMove - problem z game instance");
     }
@@ -276,6 +304,7 @@ public class TurnController : MonoBehaviour
         objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
         placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
         GameController.Instance.GetPlayer().SaveListToCopy();///nadpisanie kopii
+        placementSystem.StopPlacement();
         GameController.Instance.gameTurnManager.ChangeTurn();
 
 
@@ -292,5 +321,17 @@ public class TurnController : MonoBehaviour
             !GameController.Instance.GetBoardDictionary().AreEqual(GameController.Instance.GetBoardDictionaryList()[GameController.Instance.GetBoardDictionaryList().Count - 1].board))
             return true;
         return false;
+    }
+
+    public void ShowNapis(String input)
+    {
+        if (napis != null)
+        {
+            //napis.gameObject.fi.GetComponent<Text>().text = input;
+            napis.gameObject.GetComponentInChildren<Text>().text = input;
+                 napis.gameObject.SetActive(true);
+               
+        }
+
     }
 }

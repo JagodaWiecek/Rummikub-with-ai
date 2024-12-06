@@ -100,7 +100,7 @@ public class PlacementSystem : MonoBehaviour
         StopPlacement();
     }
 
-    private void StopPlacement()
+    public void StopPlacement()
     {
 
         if (placementState == null)
