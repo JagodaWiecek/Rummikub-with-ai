@@ -21,31 +21,31 @@
 \contentsline {subsection}{\numberline {3.3.2}C\#}{7}{}%
 \contentsline {subsection}{\numberline {3.3.3}Python}{7}{}%
 \contentsline {subsection}{\numberline {3.3.4}ML-Agents}{8}{}%
-\contentsline {section}{\numberline {3.4}Przypadki użycia}{8}{}%
-\contentsline {chapter}{\numberline {4}Specyfikacja zewnętrzna}{9}{}%
-\contentsline {section}{\numberline {4.1}Wymagania sprzętowe i programowe}{9}{}%
-\contentsline {section}{\numberline {4.2}Instalacja}{9}{}%
-\contentsline {subsection}{\numberline {4.2.1}unity}{9}{}%
-\contentsline {subsection}{\numberline {4.2.2}biblioteka ml-agents}{9}{}%
-\contentsline {section}{\numberline {4.3}Aktywacja}{9}{}%
-\contentsline {section}{\numberline {4.4}Sposób obsługi}{9}{}%
-\contentsline {section}{\numberline {4.5}Ekran aplikacji}{9}{}%
-\contentsline {subsection}{\numberline {4.5.1}Zasady gry}{9}{}%
-\contentsline {subsection}{\numberline {4.5.2}Opis ekranu gry}{9}{}%
-\contentsline {chapter}{\numberline {5}Specyfikacja wewnętrzna}{11}{}%
-\contentsline {section}{\numberline {5.1}Biblioteka ml-agents}{11}{}%
-\contentsline {section}{\numberline {5.2}Klasa PlayerIA}{11}{}%
-\contentsline {section}{\numberline {5.3}Klasa GameController}{11}{}%
-\contentsline {section}{\numberline {5.4}Klasa Tile}{11}{}%
-\contentsline {chapter}{\numberline {6}Weryfikacja i walidacja}{13}{}%
-\contentsline {section}{\numberline {6.1}Testowanie}{13}{}%
-\contentsline {section}{\numberline {6.2}Wykryte błędy}{13}{}%
-\contentsline {chapter}{\numberline {7}Podsumowanie i wnioski}{15}{}%
-\contentsline {section}{\numberline {7.1}Napotkane problemy}{15}{}%
-\contentsline {section}{\numberline {7.2}Możliwy rozwój}{15}{}%
-\contentsline {chapter}{Bibliografia}{17}{}%
-\contentsline {chapter}{Spis skrótów i symboli}{19}{}%
-\contentsline {chapter}{Źródła}{21}{}%
-\contentsline {chapter}{Lista dodatkowych plików, uzupełniających tekst pracy}{23}{}%
-\contentsline {chapter}{Spis rysunków}{25}{}%
-\contentsline {chapter}{Spis tabel}{27}{}%
+\contentsline {section}{\numberline {3.4}Przypadki użycia}{9}{}%
+\contentsline {chapter}{\numberline {4}Specyfikacja zewnętrzna}{11}{}%
+\contentsline {section}{\numberline {4.1}Wymagania sprzętowe i programowe}{11}{}%
+\contentsline {section}{\numberline {4.2}Instalacja}{11}{}%
+\contentsline {subsection}{\numberline {4.2.1}unity}{11}{}%
+\contentsline {subsection}{\numberline {4.2.2}biblioteka ml-agents}{11}{}%
+\contentsline {section}{\numberline {4.3}Aktywacja}{11}{}%
+\contentsline {section}{\numberline {4.4}Sposób obsługi}{11}{}%
+\contentsline {section}{\numberline {4.5}Ekran aplikacji}{11}{}%
+\contentsline {subsection}{\numberline {4.5.1}Zasady gry}{11}{}%
+\contentsline {subsection}{\numberline {4.5.2}Opis ekranu gry}{11}{}%
+\contentsline {chapter}{\numberline {5}Specyfikacja wewnętrzna}{13}{}%
+\contentsline {section}{\numberline {5.1}Biblioteka ml-agents}{13}{}%
+\contentsline {section}{\numberline {5.2}Klasa PlayerIA}{13}{}%
+\contentsline {section}{\numberline {5.3}Klasa GameController}{13}{}%
+\contentsline {section}{\numberline {5.4}Klasa Tile}{13}{}%
+\contentsline {chapter}{\numberline {6}Weryfikacja i walidacja}{15}{}%
+\contentsline {section}{\numberline {6.1}Testowanie}{15}{}%
+\contentsline {section}{\numberline {6.2}Wykryte błędy}{15}{}%
+\contentsline {chapter}{\numberline {7}Podsumowanie i wnioski}{17}{}%
+\contentsline {section}{\numberline {7.1}Napotkane problemy}{17}{}%
+\contentsline {section}{\numberline {7.2}Możliwy rozwój}{17}{}%
+\contentsline {chapter}{Bibliografia}{19}{}%
+\contentsline {chapter}{Spis skrótów i symboli}{21}{}%
+\contentsline {chapter}{Źródła}{23}{}%
+\contentsline {chapter}{Lista dodatkowych plików, uzupełniających tekst pracy}{25}{}%
+\contentsline {chapter}{Spis rysunków}{27}{}%
+\contentsline {chapter}{Spis tabel}{29}{}%
