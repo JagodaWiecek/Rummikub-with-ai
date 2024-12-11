@@ -17,37 +17,6 @@
 \endgroup
 
 \datalist[entry]{nty/global//global/global/global}
-  \entry{bib:internet}{online}{}{}
-    \name{author}{2}{}{%
-      {{hash=NI}{%
-         family={Nazwisko},
-         familyi={N\bibinitperiod},
-         given={Imię},
-         giveni={I\bibinitperiod},
-      }}%
-      {{hash=NI}{%
-         family={Nazwisko},
-         familyi={N\bibinitperiod},
-         given={Imię},
-         giveni={I\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{NINI1}
-    \strng{fullhash}{NINI1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{N}
-    \field{sortinithash}{N}
-    \field{title}{Tytuł strony internetowej}
-    \verb{url}
-    \verb http://gdzies/w/internecie/internet.html
-    \endverb
-    \field{year}{2021}
-    \field{urlday}{30}
-    \field{urlmonth}{09}
-    \field{urlyear}{2021}
-  \endentry
-
   \entry{bib:konferencja}{inproceedings}{}{}
     \name{author}{3}{}{%
       {{hash=NI}{%
@@ -152,6 +121,31 @@
       {Warszawa}%
     }
     \field{year}{2017}
+  \endentry
+
+  \entry{bib:internet}{online}{}{}
+    \name{author}{1}{}{%
+      {{hash=TU}{%
+         family={Technologies},
+         familyi={T\bibinitperiod},
+         given={Unity},
+         giveni={U\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{TU1}
+    \strng{fullhash}{TU1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{T}
+    \field{sortinithash}{T}
+    \field{title}{Unity ML-Agents Toolkit}
+    \verb{url}
+    \verb https://github.com/Unity-Technologies/ml-agents
+    \endverb
+    \field{year}{2024}
+    \field{urlday}{05}
+    \field{urlmonth}{11}
+    \field{urlyear}{2024}
   \endentry
 \enddatalist
 \endinput

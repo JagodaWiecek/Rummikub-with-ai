@@ -554,11 +554,12 @@
 	\section{Sformułowanie problemu}
 	Cyfrowe wersje gier planszowych często są projektowane z myślą o rozgrywkach online z innymi graczami za pośrednictwem internetu. Jednak stworzenie gry z komputerowym przeciwnikiem opartym na algorytmach nauczania maszynowego wymaga odmiennego podejścia i zastosowania innych technik programistycznych, model nie powinien się uczyć na graniu z żywymi graczami, gdyż zajęło by mu to za długo. Algorytmy AI potrzebują dużej ilości powtórzeń aby nauczyć się zasad gry. W projekcie zostanie uwzględniony jeden żywy gracz, gracze komputerowi z predefiniowanymi ruchami oraz komputerowy gracz z algorytmem nauczania maszynowego.
 	\section{Znane rozwiązania}
-	Na rynku jest wiele gier planszowych, najpopularniejsze z nich doczekały się swojej cyfrowej wersji. Są nimi między innymi:\\
-	- Monopoli\\
-	- Cantan\\
-	- Rummikub
-	- Wydana gra online Rummikub jest nastawiona na grę sieciową do komunikacji innych graczy z całego świata. Gra jest zaimplementowana w grafice 2D bez algorytmów sztucznej inteligencji. 
+	Na rynku jest wiele gier planszowych, najpopularniejsze z nich doczekały się swojej cyfrowej wersji. Są nimi między innymi:
+	\begin{itemize}
+	\item Monopoli
+	\item Cantan
+	\item Rummikub - Wydana gra online Rummikub jest nastawiona na grę sieciową do komunikacji innych graczy z całego świata. Gra jest zaimplementowana w grafice 2D bez algorytmów sztucznej inteligencji. 
+\end{itemize}
 	
 	% TODO
 	\chapter{Wymagania i narzędzia}% TODO
@@ -677,12 +678,89 @@
 	% TODO
 	\chapter{Specyfikacja zewnętrzna}% TODO
 	\label{ch:04}
-	TODO
+	
 	\section{Wymagania sprzętowe i programowe}
+	Minimalne wymagania zostały opisane w dokumentacji Unity \cite{bib:wymagania_dokumentacja}, użytkownik powinien posiadać komputer z tymi bądź lepszymi komponentami:
+		\begin{itemize}
+			\item Windows 10 and Windows 11 tylko w wersji 64-bitowej
+			\item CPU x64 z obsługą zestawu instrukcji SSE2.
+			\item GPU kompatybilne z DX10, DX11 i DX12.
+		\end{itemize}
+		
+		System był testowany na komputerze z komponentami:
+		\begin{itemize}
+			\item AMD Ryzen 9 7940HS w/ Radeon 780M Graphics 4.00 GHz
+			\item 16,0 GB pamięci RAM
+			\item System 64-bitowy Windows 11 
+			\item NVIDIA GeForce RTX 4050
+		\end{itemize}
 	\section{Instalacja}
-	\subsection{unity}
-	\subsection{biblioteka ml-agents}
+	Aby uruchomić grę w trybie edycyjnym, należy zainstalować poniższe oprogramowanie i biblioteki:
+	\subsection{Unity}
+	Do uruchomienia projektu wymagana jest instalacja Unity w wersji co najmniej 2022.3 . Więcej informacji, na temat instalacji, znajduje się \cite{bib:Unity_instalacja}. Aby pobrać i zainstalować Unity, należy:
+	\begin{enumerate}
+		\item Pobierz Unity Hub z oficjalnej strony: \url{https://unity.com/download}.
+		\item Zainstaluj Unity Hub i dodaj wersję edytora Unity 2022.3 lub nowszą.
+		\item Skonfiguruj środowisko projektu, upewniając się, że zainstalowane są wybrane moduły.
+	\end{enumerate}
+	\subsection{Python}
+	Konieczne jest zainstalowanie Pythona w wersji 3.8 bądź nowsza, więcej informacji można znaleźć \cite{bib:link_do_instrukcji_python}.
+	\begin{enumerate}
+		\item Należy pobrać instalator z odpowiednią wersją oficjalnej strony 
+		\url{https://www.python.org/downloads/}.
+		\item Uruchomić instalacje.
+	\end{enumerate}
+	\subsection{Biblioteka ml-agents}
+	Biblioteka ML-Agents Toolkit jest wymagana do wdrożenia komponentów sztucznej inteligencji w grze. Szczegółowa instrukcja instalacji znajduje się \cite{bib:link_do_instrukcji_ml-agents}. Konieczne jest zainstalowanie jej w środowisku Python jak i w Unity.
+	\begin{enumerate}
+	\item Przejdź do zakładki Okno (Window) w Unity 
+	\item Wybierz Menedżer Pakietów (Package Manager)
+	\item W okienko wyszukiwania wpisz \textit{ml-agents}
+	\item Zainstaluj wybraną wersję
+	\item W plikach projektu stwórz środowisko wirtualne Python przy użyciu \textit{Wiersza poleceń}
+	\begin{verbatim}
+		python -m venv nazwa_folderu
+	\end{verbatim}
+	bądź 
+	\begin{verbatim}
+		py -m venv nazwa_folderu
+	\end{verbatim}
+	
+	\item Aktywuj środowisko przy użyciu:
+	\begin{verbatim}
+		nazwa_folderu\Scripts\activate
+	\end{verbatim}
+	
+	\item Zainstaluj w środowisku wirtualnym potrzebne biblioteki
+		\begin{verbatim}
+		py -m pip install --upgrade pip
+		pip install torch
+		\end{verbatim}
+		aby zainstalować konkretną wersję biblioteki pytorch, należy wpisać komendę:
+		\begin{verbatim}
+			pip install torch==(wybrana wersja)
+		\end{verbatim}
+		Ostatecznie należy wpisać komendę:
+		\begin{verbatim}
+			pip install mlagents
+		\end{verbatim}
+		Jeśli ta komenda wywoła błąd, należy wpisać:
+		\begin{verbatim}
+			pip install mlagents --use-feature=2020-resolver
+		\end{verbatim}
+		Aby zweryfikować, czy biblioteka została poprawnie zainstalowana, należy wpisać:
+		\begin{verbatim}
+			mlagents-learn --help
+		\end{verbatim}
+		Jeśli biblioteka jest poprawnie zainstalowana, to polecenie wyświetli dostępne komendy w ramach biblioteki ml-agents.
+	\end{enumerate}
+	
 	\section{Aktywacja}
+	Po poprawnej instalacji i konfiguracji bibliotek oraz oprogramowania, można uruchomić aplikacje.
+		\begin{enumerate}
+			\item Otwórz Unity Hub i wybierz projekt z listy w odpowiedniej wersji edytora Unity.
+			\item 
+		\end{enumerate}
 	\section{Sposób obsługi}
 	\section{Ekran aplikacji}
 	\subsection{Zasady gry}

@@ -16,5 +16,108 @@
   {}
 \endgroup
 
-\datalist[entry]{nty/global//global/global/global}\enddatalist
+\datalist[entry]{nty/global//global/global/global}
+  \entry{bib:link_do_instrukcji_python}{online}{}{}
+    \name{author}{1}{}{%
+      {{hash=FPS}{%
+         family={Foundation},
+         familyi={F\bibinitperiod},
+         given={Python\bibnamedelima Software},
+         giveni={P\bibinitperiod\bibinitdelim S\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{FPS1}
+    \strng{fullhash}{FPS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{F}
+    \field{sortinithash}{F}
+    \field{title}{Beginners Guide to Python: Download}
+    \verb{url}
+    \verb https://wiki.python.org/moin/BeginnersGuide/Download
+    \endverb
+    \field{year}{2024}
+    \field{urlday}{05}
+    \field{urlmonth}{11}
+    \field{urlyear}{2024}
+  \endentry
+
+  \entry{bib:link_do_instrukcji_ml-agents}{online}{}{}
+    \name{author}{1}{}{%
+      {{hash=TU}{%
+         family={Technologies},
+         familyi={T\bibinitperiod},
+         given={Unity},
+         giveni={U\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{TU1}
+    \strng{fullhash}{TU1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{T}
+    \field{sortinithash}{T}
+    \field{title}{ML-Agents Toolkit: Installation Guide}
+    \verb{url}
+    \verb https://github.com/Unity-Technologies/ml-agents/blob/develop/docs/Ins
+    \verb tallation.md
+    \endverb
+    \field{year}{2024}
+    \field{urlday}{11}
+    \field{urlmonth}{12}
+    \field{urlyear}{2024}
+  \endentry
+
+  \entry{bib:wymagania_dokumentacja}{online}{}{}
+    \name{author}{1}{}{%
+      {{hash=TU}{%
+         family={Technologies},
+         familyi={T\bibinitperiod},
+         given={Unity},
+         giveni={U\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{TU1}
+    \strng{fullhash}{TU1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{T}
+    \field{sortinithash}{T}
+    \field{title}{Unity System Requirements}
+    \verb{url}
+    \verb https://docs.unity3d.com/2022.3/Documentation/Manual/system-requireme
+    \verb nts.html
+    \endverb
+    \field{year}{2023}
+    \field{urlday}{10}
+    \field{urlmonth}{12}
+    \field{urlyear}{2024}
+  \endentry
+
+  \entry{bib:Unity_instalacja}{online}{}{}
+    \name{author}{1}{}{%
+      {{hash=TU}{%
+         family={Technologies},
+         familyi={T\bibinitperiod},
+         given={Unity},
+         giveni={U\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{TU1}
+    \strng{fullhash}{TU1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{T}
+    \field{sortinithash}{T}
+    \field{title}{Unity System Requirements}
+    \verb{url}
+    \verb https://docs.unity3d.com/550/Documentation/Manual/InstallingUnity.htm
+    \verb l
+    \endverb
+    \field{year}{2023}
+    \field{urlday}{11}
+    \field{urlmonth}{12}
+    \field{urlyear}{2024}
+  \endentry
+\enddatalist
 \endinput
