@@ -533,8 +533,8 @@
 	\begin{itemize}
 		\item \textbf{Wstęp} - przedstawienie celu oraz zakres pracy, określenie grup docelowych
 		\item \textbf{Analiza tematu} - zawiera ogólną analizę wszystkich możliwych rozwiązań tego projektu.
-		\item  \textbf{Wymagania i narzędzia} - 
-		\item\textbf{Specyfikacja zewnętrzna} - 
+		\item  \textbf{Wymagania i narzędzia} - przedstawienie narzędzi, wykorzystanych przy tworzeniu projektu, wymagania funkcjonalne, wymagania niefunkcjonalne oraz diagram UML przedstawiający przypadki użycia. 
+		\item\textbf{Specyfikacja zewnętrzna} - Przestawia minimalne wymagania sprzętowe, jakie użytkownik powinien spełniać, aby korzystać z aplikacji. Zawiera również instrukcje dotyczące instalacji, aktywacji, zasady gry oraz ogólny opis użytkowania aplikacji.
 		\item\textbf{Specyfikacja wewnętrzna} - 
 		\item\textbf{Weryfikacja i walidacja} - 
 		\item\textbf{Podsumowanie i wnioski} - 
@@ -542,12 +542,12 @@
 	
 	
 	
-	\chapter{Analiza tematu}% do akceptacji
+	\chapter{Analiza tematu}%TODO
 	Tematem pracy jest cyfrowa gra planszowa z wykorzystaniem algorytmów sztucznej inteligencji. Kluczowym problemem jest zaimplementowanie inteligentnego gracza, który poprzez system prób i błędów, nauczy się grać. Wybranie gry planszowej ma duże znaczenie, im bardziej skomplikowane zasady gry, tym trudniej będzie modelowi nauczyć się zasad.
 	Do realizacji tego projektu została wybrana gra planszowa o nazwie Rummikub.\\ Rummikub to gra planszowa, w której gracze rywalizują, układając płytki w:
 	\begin{itemize}
 		\item grupy - te same liczby w różnych kolorach 
-		\item sekwencje - kolejne liczby w tym samym kolorze.
+		\item serie - kolejne liczby w tym samym kolorze.
 	\end{itemize} 
 	Celem graczy jest jako pierwszy wyłożyć wszystkie płytki, przy czym pierwszy ruch wymaga uzyskania układów o sumie co najmniej 30 punktów. Gra kończy się, gdy gracz wyłoży wszystkie płytki, a punkty zależą od liczby pozostałych płytek u przeciwników.
 	
@@ -555,14 +555,14 @@
 	Cyfrowe wersje gier planszowych często są projektowane z myślą o rozgrywkach online z innymi graczami za pośrednictwem internetu. Jednak stworzenie gry z komputerowym przeciwnikiem opartym na algorytmach nauczania maszynowego wymaga odmiennego podejścia i zastosowania innych technik programistycznych, model nie powinien się uczyć na graniu z żywymi graczami, gdyż zajęło by mu to za długo. Algorytmy AI potrzebują dużej ilości powtórzeń aby nauczyć się zasad gry. W projekcie zostanie uwzględniony jeden żywy gracz, gracze komputerowi z predefiniowanymi ruchami oraz komputerowy gracz z algorytmem nauczania maszynowego.
 	\section{Znane rozwiązania}
 	Na rynku jest wiele gier planszowych, najpopularniejsze z nich doczekały się swojej cyfrowej wersji. Są nimi między innymi:
-	\begin{itemize}
+	\begin{itemize}%TODO
 	\item Monopoli
 	\item Cantan
 	\item Rummikub - Wydana gra online Rummikub jest nastawiona na grę sieciową do komunikacji innych graczy z całego świata. Gra jest zaimplementowana w grafice 2D bez algorytmów sztucznej inteligencji. 
 \end{itemize}
 	
 	% TODO
-	\chapter{Wymagania i narzędzia}% TODO
+	\chapter{Wymagania i narzędzia}% do akceptacji
 	\label{ch:wymagania-i-narzedzia}
 	W tej sekcji przedstawiono wymagania funkcjonalne i niefunkcjonalne projektu oraz narzędzia technologiczne i programistyczne, które zostały wykorzystane do jego realizacji. Opisane zostaną także kluczowe zasoby niezbędne do wdrożenia rozwiązania, takie jak środowiska programistyczne, biblioteki, frameworki oraz sprzęt.
 	\section{Wymagania funkcjonalne}
@@ -570,13 +570,13 @@
 	\begin{itemize}
 		\item Gra musi pozwolić graczowi i agentowi na wybór płytki, którą chcą postawić bądź wejść z nią w interakcje.
 		\item Gracz oraz agent powinni być w stanie postawić nową płytkę na mapie, przesunąć istniejącą bądź usunąć ją z mapy, jeśli jest to możliwe.
-		\item Agent oraz gracz muszą wyłożyć sekwencje bądź grupy płytek jak najszybciej.
-		\item Gra musi ograniczać graczy, aby nie mogli tworzyć sekwencji niedozwolonych w zasadach gry.
+		\item Agent oraz gracz muszą wyłożyć serie bądź grupy płytek jak najszybciej.
+		\item Gra musi ograniczać graczy, aby nie mogli tworzyć serii niedozwolonych w zasadach gry.
 		
 	\end{itemize}
 	\textbf{Ruchy gracza :}
 	\begin{itemize}
-		\item Użytkownik musi mieć możliwość widzieć swoje płytki, wykładać je na mapę oraz tworzyć sekwencje bądź grupy
+		\item Użytkownik musi mieć możliwość widzieć swoje płytki, wykładać je na mapę oraz tworzyć serie bądź grupy
 		\item W trakcie tury gra na bieżąco weryfikuje czy daną płytkę można postawić, pod koniec tury sprawdza czy każdy wyłożony ciąg płytek posiada co najmniej 3 płytki w jednym ciągu.
 		\item Gracz powinien móc zakończyć turę, cofnąć wszystkie akcje oraz dobrać nową płytkę.
 		\item Użytkownik powinien móc posortować swoje płytki.
@@ -585,13 +585,13 @@
 	\begin{itemize}
 		\item Jeśli jest to pierwsza tura gracza:
 		\begin{itemize}
-			\item Sprawdza możliwość wyłożenia sekwencji, gdzie jej suma wynosi conajmiej 30 lub więcej.
+			\item Sprawdza możliwość wyłożenia serii, gdzie jej suma wynosi conajmiej 30 lub więcej.
 			\item Sprawdza możliwość wyłożenia grupy, gdzie jej suma wynosi conajmiej 30 lub więcej.
 		\end{itemize}
 		\item Gdy pierwsza tura zostanie zakończona:
 		\begin{itemize}
-			\item Sprawdza możliwość wyłożenia sekwencji i grup.
-			\item Jeśli to możliwe, dokłada płytki do innych grup i sekwencji.
+			\item Sprawdza możliwość wyłożenia serii i grup.
+			\item Jeśli to możliwe, dokłada płytki do innych grup i serii.
 		\end{itemize}
 	\end{itemize}
 	\textbf{Tryby gry :}
@@ -670,7 +670,7 @@
 	Diagram przypadków użycia pokazuje możliwe funkcje dla gracza w menu oraz w grze.
 	\begin{figure}[ht]
 		\centering
-		\includegraphics[width=\textwidth]{use_case.png}
+		\includegraphics[width=\textwidth]{photos/use_case.png}
 		\caption{Diagram przypadków użycia}
 		\label{fig:usecase}
 	\end{figure}
@@ -757,14 +757,62 @@
 	
 	\section{Aktywacja}
 	Po poprawnej instalacji i konfiguracji bibliotek oraz oprogramowania, można uruchomić aplikacje.
+	\\Aby włączyć symulacje aplikacji, należy wykonać następujące kroki:
 		\begin{enumerate}
 			\item Otwórz Unity Hub i wybierz projekt z listy w odpowiedniej wersji edytora Unity.
-			\item 
+			\item Kliknij przycisk \texttt{Open}, aby załadować projekt.
+			\item W edytorze Unity załaduj scenę \texttt{Menu}
+			\item Naciśnij przycisk \textbf{Play}, aby uruchomić grę w trybie symulacji.
 		\end{enumerate}
+	Jeżeli gra została zbudowana jako aplikacja, aktywacja przebiega następująco:
+		\begin{enumerate}
+			\item Otwórz folder z plikami projektu (np. \texttt{Build/Release}).
+			\item Uruchom plik wykonywalny (na Windows jest to plik typu \texttt{.exe}).
+			
+		\end{enumerate}
+	Aby rozpocząć naukę sztucznej inteligencji (ML-Agents), należy wykonać kolejne polecenia:
+		\begin{enumerate}
+			\item Otwórz Unity Hub i wybierz projekt z listy w odpowiedniej wersji edytora Unity.
+			\item Kliknij przycisk \texttt{Open}, aby załadować projekt.
+			\item W edytorze Unity załaduj scenę \texttt{CP\_AI\_GAME}
+			\item W \texttt{Wierszu poleceń} przejdź do plików gry
+			\item Aktywuj środowisko wirtualne w Python
+			\item Wpisz poniższą komendę:
+				\begin{verbatim}
+					mlagents-learn --run-id=nazwa
+				\end{verbatim}
+			\item Naciśnij przycisk \textbf{Play} w Unity.
+		\end{enumerate}
+
 	\section{Sposób obsługi}
-	\section{Ekran aplikacji}
+	Sposób obsługi zawiera szczegółową instrukcję, jak korzystać z aplikacji z perspektywy użytkownika.
 	\subsection{Zasady gry}
-	\subsection{Opis ekranu gry}
+	Projekt gry Rummikub jest oparty na fizycznej grze planszowej, której zasady zostały opisane dokładnie w \cite{bib:rummikub_rules}.
+	Gra wymaga od dwóch do czterech graczy. Gra podstawowa zawiera 106 płytek, w którym jest osiem serii o wartościach od jeden do trzynaście w czterech kolorach, oraz dwa jokery. Jokery to płytki specjalne, które mogą zastąpić każdą płytkę na mapie. Zadaniem każdego gracza jest jak najszybciej wyłożyć na stół wszystkie płytki, które zawiera w swojej tabliczce.
+	W grze znajdują się dwa typy sekwencji płytek
+		\begin{itemize}
+			\item Grupy - jest to sekwencja płytek, w skład której wchodzą od trzech płytek o tej samej liczbie ale różnych kolorach. Joker może zastąpić płytkę w takiej sekwencji, grupa nie może zawierać więcej niż 4 płytki
+			\item Serie - jest to sekwencja co najmniej trzech płytek w tym samym kolorze o różnych wartościach w kolejności od najmniejszej do największej. W takiej sekwencji może znajdować się maksymalnie 13 płytek, rozpoczynającą płytką jest zawsze o numerze jeden, a kończącą o numerze trzynaście.
+		\end{itemize}
+	Każdy gracz zaczyna rozgrywkę z czternastoma płytkami. Na początku rozgrywki gracze muszą wyłożyć sekwencje i grupy o łącznej wartości trzydziestu punktów i więcej. Każda płytka ma swoją wagę punktową, zależną od liczby wypisanej na płytce. Wartością wagową jokera jest liczba jaką zastępuje na planszy. 
+	Dopóki gracz nie wykona pierwszego ruchu, nie może manipulować żadnymi płytkami na mapie. Gracz również nie może manipulować żadnymi sekwencjami na mapie w trakcie swojego pierwszego wyłożenia. Po zakończeniu pierwszej tury, gracz może wykładać grupy i serie oraz wykonywać akcje, takie jak:
+		\begin{itemize}
+			\item dokładanie płytek na końcu i początku sekwencji na mapie
+			\item rozdzielać jedną większą sekwencje na dwie mniejsze
+			\item podmieniać jokery na mapie z płytkami ze swojego stojaka.
+			\item przebudowywać grupy na serie oraz serie na grupy  
+		\end{itemize}
+	Gracz musi w każdej turze wyłożyć co najmniej jedną płytkę, jeśli nie może tego zrobić, musi pobrać płytkę z banku, co kończy jego turę i uniemożliwia wykonanie ruchu na mapie.
+	W grze obowiązuje limit czasu. Jeśli gracz nie zakończy swoich manipulacji przed upływem czasu, wszystkie jego ruchy należy cofnąć, a gracz dobiera płytkę z głównego banku.
+	Gra może zakończyć się w dwóch momentach:
+	\begin{enumerate}
+		\item gdy jeden gracz wyłoży wszystkie płytki ze swojego stojaka
+		\item jeśli w głównym banku skończą się płytki a gracz, który ma swoją turę, chce dobrać kolejną.
+	\end{enumerate}
+	Wynik gry zależy od płytek w stojaku gracza. Na końcu gry są podliczane wyniki na podstawie wag wartości płytek. Wagi jokerów są równe 30. Wygrywa ten, którego wynik jest najmniejszy.
+	\subsection{Ekran aplikacji}
+	
+	\subsection{Przebieg gry}
 	
 	% TODO
 	\chapter{Specyfikacja wewnętrzna}% TODO
@@ -778,7 +826,7 @@
 	% TODO
 	\chapter{Weryfikacja i walidacja}% TODO
 	\label{ch:06}
-	TODO
+	
 	\section{Testowanie}
 	\section{Wykryte błędy}
 	
@@ -786,7 +834,7 @@
 	
 	% TODO
 	\chapter{Podsumowanie i wnioski}% TODO
-	TODO
+	
 	\section{Napotkane problemy}%TODO
 	\section{Możliwy rozwój}%TODO
 	

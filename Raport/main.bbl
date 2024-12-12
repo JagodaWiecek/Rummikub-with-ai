@@ -42,6 +42,25 @@
     \field{urlyear}{2024}
   \endentry
 
+  \entry{bib:rummikub_rules}{misc}{}{}
+    \name{author}{1}{}{%
+      {{hash=R}{%
+         family={Rummikub},
+         familyi={R\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{R1}
+    \strng{fullhash}{R1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{R}
+    \field{sortinithash}{R}
+    \field{howpublished}{PDF dokument}
+    \field{note}{\url{rummikub_rules.pdf}}
+    \field{title}{Zasady gry Rummikub}
+    \field{year}{2019}
+  \endentry
+
   \entry{bib:link_do_instrukcji_ml-agents}{online}{}{}
     \name{author}{1}{}{%
       {{hash=TU}{%
