@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  12 DEC 2024 18:35
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  13 DEC 2024 19:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1114,6 +1114,14 @@ Package: ifmtarg 2018/04/16 v1.2b check for an empty argument
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/setspace\setspace.sty
 Package: setspace 2022/12/04 v6.7b set line spacing
 )
+(C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count467
+\float@exts=\toks52
+\float@box=\box68
+\@float@everytoks=\toks53
+\@floatcapt=\box69
+)
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/fancyhdr\fancyhdr.sty
 Package: fancyhdr 2024/11/20 v4.4 Extensive control of page headers and footers
 
@@ -1127,20 +1135,20 @@ Package: fancyhdr 2024/11/20 v4.4 Extensive control of page headers and footers
 \f@nch@O@olf=\skip90
 \f@nch@O@orf=\skip91
 )
-\c@stronyPozaNumeracja=\count467
+\c@stronyPozaNumeracja=\count468
 
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.sty
-\lst@mode=\count468
-\lst@gtempboxa=\box68
-\lst@token=\toks52
-\lst@length=\count469
+\lst@mode=\count469
+\lst@gtempboxa=\box70
+\lst@token=\toks54
+\lst@length=\count470
 \lst@currlwidth=\dimen313
-\lst@column=\count470
-\lst@pos=\count471
+\lst@column=\count471
+\lst@pos=\count472
 \lst@lostspace=\dimen314
 \lst@width=\dimen315
-\lst@newlines=\count472
-\lst@lineno=\count473
+\lst@newlines=\count473
+\lst@lineno=\count474
 \lst@maxwidth=\dimen316
 
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstpatch.sty
@@ -1148,9 +1156,9 @@ File: lstpatch.sty 2024/09/23 1.10c (Carsten Heinz)
 )
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty
 File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
-\c@lstnumber=\count474
-\lst@skipnumbers=\count475
-\lst@framebox=\box69
+\c@lstnumber=\count475
+\lst@skipnumbers=\count476
+\lst@framebox=\box71
 )
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.cfg
 File: listings.cfg 2024/09/23 1.10c listings configuration
@@ -1170,27 +1178,27 @@ Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'polish'.
 LaTeX Font Info:    Trying to load font information for T1+lmr on input line 38
-1.
+2.
 
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) (main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 381.
-LaTeX Font Info:    ... okay on input line 381.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 381.
-LaTeX Font Info:    ... okay on input line 381.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 381.
-LaTeX Font Info:    ... okay on input line 381.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 381.
-LaTeX Font Info:    ... okay on input line 381.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 381.
-LaTeX Font Info:    ... okay on input line 381.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 381.
-LaTeX Font Info:    ... okay on input line 381.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 381.
-LaTeX Font Info:    ... okay on input line 381.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 382.
+LaTeX Font Info:    ... okay on input line 382.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 382.
+LaTeX Font Info:    ... okay on input line 382.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 382.
+LaTeX Font Info:    ... okay on input line 382.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 382.
+LaTeX Font Info:    ... okay on input line 382.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 382.
+LaTeX Font Info:    ... okay on input line 382.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 382.
+LaTeX Font Info:    ... okay on input line 382.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 382.
+LaTeX Font Info:    ... okay on input line 382.
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -1229,17 +1237,17 @@ LaTeX Font Info:    ... okay on input line 381.
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count476
+\scratchcounter=\count477
 \scratchdimen=\dimen317
-\scratchbox=\box70
-\nofMPsegments=\count477
-\nofMParguments=\count478
-\everyMPshowfont=\toks53
-\MPscratchCnt=\count479
+\scratchbox=\box72
+\nofMPsegments=\count478
+\nofMParguments=\count479
+\everyMPshowfont=\toks55
+\MPscratchCnt=\count480
 \MPscratchDim=\dimen318
-\MPnumerator=\count480
-\makeMPintoPDFobject=\count481
-\everyMPtoPDFconversion=\toks54
+\MPnumerator=\count481
+\makeMPintoPDFobject=\count482
+\everyMPtoPDFconversion=\toks56
 )
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
 ase.sty
@@ -1255,9 +1263,10 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
 ick labels; missing features). Consider writing \pgfplotsset{compat=1.18} into 
 your preamble.
- on input line 381.
+ on input line 382.
 
 Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 Package biblatex Info: Trying to load language 'polish'...
@@ -1290,9 +1299,9 @@ Package biblatex Info: Data encoding 'utf8' specified.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'main.bbl' found.
  (main.bbl)
-Package biblatex Info: Reference section=0 on input line 381.
-Package biblatex Info: Reference segment=0 on input line 381.
-\c@lstlisting=\count482
+Package biblatex Info: Reference section=0 on input line 382.
+Package biblatex Info: Reference segment=0 on input line 382.
+\c@lstlisting=\count483
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: pdftex
 * paper: a4paper
@@ -1326,7 +1335,7 @@ Package biblatex Info: Reference segment=0 on input line 381.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 LaTeX Font Info:    Trying to load font information for T1+lmss on input line 4
-06.
+07.
 
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmss.fd
 File: t1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
@@ -1335,7 +1344,7 @@ File: t1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 File: politechnika_sl_logo_bw_pion_pl.pdf Graphic file (type pdf)
 <use politechnika_sl_logo_bw_pion_pl.pdf>
 Package pdftex.def Info: politechnika_sl_logo_bw_pion_pl.pdf  used on input lin
-e 408.
+e 409.
 (pdftex.def)             Requested size: 142.26378pt x 182.80913pt.
 
 
@@ -1409,7 +1418,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 [6]
 Rozdzia\l  1.
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 5
-26.
+27.
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -1487,7 +1496,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 <photos/use_case.png, id=59, 884.30376pt x 673.51625pt>
 File: photos/use_case.png Graphic file (type png)
 <use photos/use_case.png>
-Package pdftex.def Info: photos/use_case.png  used on input line 673.
+Package pdftex.def Info: photos/use_case.png  used on input line 674.
 (pdftex.def)             Requested size: 455.24411pt x 346.73628pt.
 
 
@@ -1514,7 +1523,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 ]
 Rozdzia\l  4.
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 7
-02.
+03.
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -1550,6 +1559,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [14]
+<photos/Menu_gry.png, id=83, 789.70032pt x 438.13687pt>
+File: photos/Menu_gry.png Graphic file (type png)
+<use photos/Menu_gry.png>
+Package pdftex.def Info: photos/Menu_gry.png  used on input line 818.
+(pdftex.def)             Requested size: 455.24411pt x 252.57523pt.
+
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1560,6 +1575,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [15]
+<photos/start_gry.png, id=87, 748.29562pt x 419.31656pt>
+File: photos/start_gry.png Graphic file (type png)
+<use photos/start_gry.png>
+Package pdftex.def Info: photos/start_gry.png  used on input line 833.
+(pdftex.def)             Requested size: 455.24411pt x 255.1045pt.
+
+Underfull \vbox (badness 4886) has occurred while \output is active []
+
+
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1569,13 +1593,17 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[16
-
-]
-Rozdzia\l  5.
+[16 <./photos/Menu_gry.png>]
 
 
-[17]
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[17 <./photos/start_gry.png>]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1588,7 +1616,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [18
 
 ]
-Rozdzia\l  6.
+Rozdzia\l  5.
 
 
 [19]
@@ -1604,7 +1632,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [20
 
 ]
-Rozdzia\l  7.
+Rozdzia\l  6.
 
 
 [21]
@@ -1620,36 +1648,10 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [22
 
 ]
-Overfull \hbox (15.34717pt too wide) in paragraph at lines 848--848
-\T1/lmtt/m/n/12 https : / / wiki . python . org / moin / BeginnersGuide / Downl
-oad$ \T1/lmr/m/n/12 (term. wiz. 05. 11. 2024). 
- []
+Rozdzia\l  7.
 
 
-Overfull \hbox (8.33395pt too wide) in paragraph at lines 848--848
-\T1/lmtt/m/n/12 github . com / Unity -[] Technologies / ml -[] agents / blob / 
-develop / docs / Installation .
- []
-
-
-Overfull \hbox (1.33812pt too wide) in paragraph at lines 848--848
-[]\T1/lmr/m/n/12 Unity Tech-no-lo-gies. \T1/lmr/m/it/12 Unity Sys-tem Re-qu-ire
--ments\T1/lmr/m/n/12 . 2023. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 : $\T1/lmtt/m/n/
-12 https : / / docs . unity3d .
- []
-
-
-Overfull \hbox (1.33812pt too wide) in paragraph at lines 848--848
-[]\T1/lmr/m/n/12 Unity Tech-no-lo-gies. \T1/lmr/m/it/12 Unity Sys-tem Re-qu-ire
--ments\T1/lmr/m/n/12 . 2023. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 : $\T1/lmtt/m/n/
-12 https : / / docs . unity3d .
- []
-
-
-
-[23
-
-]
+[23]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1662,12 +1664,34 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [24
 
 ]
+Overfull \hbox (15.34717pt too wide) in paragraph at lines 871--871
+\T1/lmtt/m/n/12 https : / / wiki . python . org / moin / BeginnersGuide / Downl
+oad$ \T1/lmr/m/n/12 (term. wiz. 05. 11. 2024). 
+ []
 
-[25]
 
-[26]
+Overfull \hbox (8.33395pt too wide) in paragraph at lines 871--871
+\T1/lmtt/m/n/12 github . com / Unity -[] Technologies / ml -[] agents / blob / 
+develop / docs / Installation .
+ []
 
-[27
+
+Overfull \hbox (1.33812pt too wide) in paragraph at lines 871--871
+[]\T1/lmr/m/n/12 Unity Tech-no-lo-gies. \T1/lmr/m/it/12 Unity Sys-tem Re-qu-ire
+-ments\T1/lmr/m/n/12 . 2023. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 : $\T1/lmtt/m/n/
+12 https : / / docs . unity3d .
+ []
+
+
+Overfull \hbox (1.33812pt too wide) in paragraph at lines 871--871
+[]\T1/lmr/m/n/12 Unity Tech-no-lo-gies. \T1/lmr/m/it/12 Unity Sys-tem Re-qu-ire
+-ments\T1/lmr/m/n/12 . 2023. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 : $\T1/lmtt/m/n/
+12 https : / / docs . unity3d .
+ []
+
+
+
+[25
 
 ]
 
@@ -1679,11 +1703,17 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[28
+[26
 
 ]
 
-[29]
+[27]
+
+[28]
+
+[29
+
+]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1709,11 +1739,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [32
 
-] (main.lof)
-\tf@lof=\write6
-\openout6 = `main.lof'.
-
-
+]
 
 [33]
 
@@ -1727,13 +1753,31 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [34
 
+] (main.lof)
+\tf@lof=\write6
+\openout6 = `main.lof'.
+
+
+
+[35]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[36
+
 ] (main.lot)
 \tf@lot=\write7
 \openout7 = `main.lot'.
 
 
 
-[35] (main.aux)
+[37] (main.aux)
  ***********
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
@@ -1743,10 +1787,10 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 38587 strings out of 473682
- 897275 string characters out of 5719215
- 1698618 words of memory out of 5000000
- 61048 multiletter control sequences out of 15000+600000
+ 38660 strings out of 473682
+ 898631 string characters out of 5719215
+ 1700113 words of memory out of 5000000
+ 61117 multiletter control sequences out of 15000+600000
  619822 words of font info for 72 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,11n,93p,1873b,2439s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1758,9 +1802,9 @@ b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pf
 b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.
 pfb><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.
 pfb>
-Output written on main.pdf (41 pages, 302359 bytes).
+Output written on main.pdf (43 pages, 475609 bytes).
 PDF statistics:
- 186 PDF objects out of 1000 (max. 8388607)
+ 197 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 23 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 33 words of extra memory for PDF output out of 10000 (max. 10000000)
 

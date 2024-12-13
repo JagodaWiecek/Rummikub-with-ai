@@ -32,21 +32,21 @@
 \contentsline {section}{\numberline {4.4}Sposób obsługi}{14}{}%
 \contentsline {subsection}{\numberline {4.4.1}Zasady gry}{14}{}%
 \contentsline {subsection}{\numberline {4.4.2}Ekran aplikacji}{15}{}%
-\contentsline {subsection}{\numberline {4.4.3}Przebieg gry}{15}{}%
-\contentsline {chapter}{\numberline {5}Specyfikacja wewnętrzna}{17}{}%
-\contentsline {section}{\numberline {5.1}Biblioteka ml-agents}{17}{}%
-\contentsline {section}{\numberline {5.2}Klasa PlayerIA}{17}{}%
-\contentsline {section}{\numberline {5.3}Klasa GameController}{17}{}%
-\contentsline {section}{\numberline {5.4}Klasa Tile}{17}{}%
-\contentsline {chapter}{\numberline {6}Weryfikacja i walidacja}{19}{}%
-\contentsline {section}{\numberline {6.1}Testowanie}{19}{}%
-\contentsline {section}{\numberline {6.2}Wykryte błędy}{19}{}%
-\contentsline {chapter}{\numberline {7}Podsumowanie i wnioski}{21}{}%
-\contentsline {section}{\numberline {7.1}Napotkane problemy}{21}{}%
-\contentsline {section}{\numberline {7.2}Możliwy rozwój}{21}{}%
-\contentsline {chapter}{Bibliografia}{23}{}%
-\contentsline {chapter}{Spis skrótów i symboli}{27}{}%
-\contentsline {chapter}{Źródła}{29}{}%
-\contentsline {chapter}{Lista dodatkowych plików, uzupełniających tekst pracy}{31}{}%
-\contentsline {chapter}{Spis rysunków}{33}{}%
-\contentsline {chapter}{Spis tabel}{35}{}%
+\contentsline {subsection}{\numberline {4.4.3}Przebieg gry}{17}{}%
+\contentsline {chapter}{\numberline {5}Specyfikacja wewnętrzna}{19}{}%
+\contentsline {section}{\numberline {5.1}Biblioteka ml-agents}{19}{}%
+\contentsline {section}{\numberline {5.2}Klasa PlayerIA}{19}{}%
+\contentsline {section}{\numberline {5.3}Klasa GameController}{19}{}%
+\contentsline {section}{\numberline {5.4}Klasa Tile}{19}{}%
+\contentsline {chapter}{\numberline {6}Weryfikacja i walidacja}{21}{}%
+\contentsline {section}{\numberline {6.1}Testowanie}{21}{}%
+\contentsline {section}{\numberline {6.2}Wykryte błędy}{21}{}%
+\contentsline {chapter}{\numberline {7}Podsumowanie i wnioski}{23}{}%
+\contentsline {section}{\numberline {7.1}Napotkane problemy}{23}{}%
+\contentsline {section}{\numberline {7.2}Możliwy rozwój}{23}{}%
+\contentsline {chapter}{Bibliografia}{25}{}%
+\contentsline {chapter}{Spis skrótów i symboli}{29}{}%
+\contentsline {chapter}{Źródła}{31}{}%
+\contentsline {chapter}{Lista dodatkowych plików, uzupełniających tekst pracy}{33}{}%
+\contentsline {chapter}{Spis rysunków}{35}{}%
+\contentsline {chapter}{Spis tabel}{37}{}%

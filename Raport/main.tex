@@ -162,6 +162,7 @@
 \usepackage{ifmtarg}   % empty commands  
 
 \usepackage{setspace}
+\usepackage{float}
 \onehalfspacing
 
 
@@ -585,8 +586,8 @@
 	\begin{itemize}
 		\item Jeśli jest to pierwsza tura gracza:
 		\begin{itemize}
-			\item Sprawdza możliwość wyłożenia serii, gdzie jej suma wynosi conajmiej 30 lub więcej.
-			\item Sprawdza możliwość wyłożenia grupy, gdzie jej suma wynosi conajmiej 30 lub więcej.
+			\item Sprawdza możliwość wyłożenia serii, gdzie jej suma wynosi co najmniej 30 lub więcej.
+			\item Sprawdza możliwość wyłożenia grupy, gdzie jej suma wynosi co najmniej 30 lub więcej.
 		\end{itemize}
 		\item Gdy pierwsza tura zostanie zakończona:
 		\begin{itemize}
@@ -791,7 +792,7 @@
 	Gra wymaga od dwóch do czterech graczy. Gra podstawowa zawiera 106 płytek, w którym jest osiem serii o wartościach od jeden do trzynaście w czterech kolorach, oraz dwa jokery. Jokery to płytki specjalne, które mogą zastąpić każdą płytkę na mapie. Zadaniem każdego gracza jest jak najszybciej wyłożyć na stół wszystkie płytki, które zawiera w swojej tabliczce.
 	W grze znajdują się dwa typy sekwencji płytek
 		\begin{itemize}
-			\item Grupy - jest to sekwencja płytek, w skład której wchodzą od trzech płytek o tej samej liczbie ale różnych kolorach. Joker może zastąpić płytkę w takiej sekwencji, grupa nie może zawierać więcej niż 4 płytki
+			\item Grupy - jest to sekwencja płytek, w skład której wchodzą co najmniej trzy płytki o tej samej liczbie ale różnych kolorach. Joker może zastąpić płytkę w takiej sekwencji, grupa nie może zawierać więcej niż 4 płytki
 			\item Serie - jest to sekwencja co najmniej trzech płytek w tym samym kolorze o różnych wartościach w kolejności od najmniejszej do największej. W takiej sekwencji może znajdować się maksymalnie 13 płytek, rozpoczynającą płytką jest zawsze o numerze jeden, a kończącą o numerze trzynaście.
 		\end{itemize}
 	Każdy gracz zaczyna rozgrywkę z czternastoma płytkami. Na początku rozgrywki gracze muszą wyłożyć sekwencje i grupy o łącznej wartości trzydziestu punktów i więcej. Każda płytka ma swoją wagę punktową, zależną od liczby wypisanej na płytce. Wartością wagową jokera jest liczba jaką zastępuje na planszy. 
@@ -811,7 +812,29 @@
 	\end{enumerate}
 	Wynik gry zależy od płytek w stojaku gracza. Na końcu gry są podliczane wyniki na podstawie wag wartości płytek. Wagi jokerów są równe 30. Wygrywa ten, którego wynik jest najmniejszy.
 	\subsection{Ekran aplikacji}
-	
+	Rozgrywka rozpoczyna się widokiem menu głównego gry
+		\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{photos/Menu_gry.png}
+		\caption{Menu gry}
+		\label{fig:menugry}
+		\end{figure}
+		
+		Na ekranie widać cztery przyciski, każdy z nich wykonuje co innego:
+		\begin{itemize}
+			\item \textbf{Play with computer players} - jest to rozgrywka, w której biorą udział trzej gracze komputerowi z predefiniowanymi ruchami wraz z użytkownikiem. Tryb służy jedynie do potencjalnego zapoznania się z grą i jej mechanikami.
+			\item \textbf{Play with AI and computer players} - tryb gry, w którym użytkownik gra wraz z dwoma graczami komputerowymi oraz jednym graczem komputerowym z algorytmami sztucznej inteligencji. Jest to docelowy tryb projektu. 
+			\item \textbf{AI vs computer players} - w tym trybie gry jest jeden gracz z algorytmami sztucznej inteligencji oraz trzej gracze komputerowi z predefiniowanymi ruchami. Ten tryb służy tylko do nauki modelu.
+			\item \textbf{Play with AI} - ten tryb gry jest grą jeden na jeden, gdzie użytkownik gra przeciwko komputerowemu graczowi z uczeniem maszynowym. Ten tryb służy do walidacji nauki danego modelu.
+			\item \textbf{Quit game} - przycisk służący do opuszczenia gry.
+		\end{itemize}
+				\begin{figure}[H]
+			\centering
+			\includegraphics[width=\textwidth]{photos/start_gry.png}
+			\caption{Ekran początku gry}
+			\label{fig:start_ekran_gry}
+		\end{figure}
+		
 	\subsection{Przebieg gry}
 	
 	% TODO
