@@ -171,6 +171,20 @@ public class GameController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape)) StopGame();
         //Time.timeScale = 0f;
+        if(Input.GetKeyDown(KeyCode.S))
+        {
+            if (Time.timeScale == 0f)
+                Time.timeScale = 1f;
+            else if (Time.timeScale == 1f)
+                Time.timeScale = 0f;
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            if (Time.timeScale == 1f)
+                Time.timeScale = 2f;
+            else if (Time.timeScale == 2f)
+                Time.timeScale = 1f;
+        }
     }
     public void StopGame()
     { 

@@ -292,9 +292,9 @@ public class PlayerAI : Agent
                 Vector3Int positionplusjeden = new Vector3Int(x+1, 0, z);
                 Vector3Int positionminusjeden = new Vector3Int(x-1, 0, z);
                 if (board.ContainsKey(positionplusjeden) || board.ContainsKey(positionminusjeden))
-                    AddReward(2f);
+                    AddReward(4f);
                 else 
-                    AddReward(1f);//TODO
+                    AddReward(2f);//TODO
             }
             else AddReward(-0.1f);//TODO
         }

@@ -10,7 +10,8 @@ public class MainMenu : MonoBehaviour
     public void PlayWithCP()
     {
 
-
+        if (GameController.Instance != null)
+            Destroy(GameController.Instance.gameObject);
         Time.timeScale = 1f;
         SceneManager.LoadSceneAsync(1);  
 
@@ -25,7 +26,9 @@ public class MainMenu : MonoBehaviour
     public void PlayervsAIvsCP()
     {
         if (GameController.Instance != null)
+        {
             Destroy(GameController.Instance.gameObject);
+        }
         Time.timeScale = 1f;
         SceneManager.LoadSceneAsync(3);
     }
