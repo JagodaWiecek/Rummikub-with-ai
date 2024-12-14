@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  13 DEC 2024 19:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  14 DEC 2024 20:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -187,6 +187,9 @@ Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 Package: xstring 2023/08/22 v1.86 String manipulations (CT)
 ) (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty
 Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
+)
+(C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/placeins\placeins.sty
+Package: placeins 2005/04/18  v 2.2
 )
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifxetex.sty
 Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
@@ -1447,6 +1450,11 @@ Underfull \vbox (badness 2547) has occurred while \output is active []
 [3
 
 ]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 5
+60.
+ (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
+File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1493,10 +1501,10 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [8]
-<photos/use_case.png, id=59, 884.30376pt x 673.51625pt>
+<photos/use_case.png, id=60, 884.30376pt x 673.51625pt>
 File: photos/use_case.png Graphic file (type png)
 <use photos/use_case.png>
-Package pdftex.def Info: photos/use_case.png  used on input line 674.
+Package pdftex.def Info: photos/use_case.png  used on input line 676.
 (pdftex.def)             Requested size: 455.24411pt x 346.73628pt.
 
 
@@ -1522,11 +1530,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 ]
 Rozdzia\l  4.
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 7
-03.
-(C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
-File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
+
 
 [11]
 
@@ -1562,7 +1566,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 <photos/Menu_gry.png, id=83, 789.70032pt x 438.13687pt>
 File: photos/Menu_gry.png Graphic file (type png)
 <use photos/Menu_gry.png>
-Package pdftex.def Info: photos/Menu_gry.png  used on input line 818.
+Package pdftex.def Info: photos/Menu_gry.png  used on input line 823.
 (pdftex.def)             Requested size: 455.24411pt x 252.57523pt.
 
 
@@ -1578,7 +1582,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 <photos/start_gry.png, id=87, 748.29562pt x 419.31656pt>
 File: photos/start_gry.png Graphic file (type png)
 <use photos/start_gry.png>
-Package pdftex.def Info: photos/start_gry.png  used on input line 833.
+Package pdftex.def Info: photos/start_gry.png  used on input line 838.
 (pdftex.def)             Requested size: 455.24411pt x 255.1045pt.
 
 Underfull \vbox (badness 4886) has occurred while \output is active []
@@ -1594,6 +1598,20 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [16 <./photos/Menu_gry.png>]
+<photos/current_player.png, id=92, 241.65282pt x 30.86531pt>
+File: photos/current_player.png Graphic file (type png)
+<use photos/current_player.png>
+Package pdftex.def Info: photos/current_player.png  used on input line 845.
+(pdftex.def)             Requested size: 455.24411pt x 58.1525pt.
+<photos/time.png, id=93, 144.54pt x 44.41594pt>
+File: photos/time.png Graphic file (type png)
+<use photos/time.png>
+Package pdftex.def Info: photos/time.png  used on input line 857.
+(pdftex.def)             Requested size: 455.24411pt x 139.90074pt.
+
+Underfull \vbox (badness 2538) has occurred while \output is active []
+
+
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1603,7 +1621,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[17 <./photos/start_gry.png>]
+[17 <./photos/start_gry.png> <./photos/current_player.png>]
+<photos/lista graczy.png, id=99, 488.57532pt x 185.19188pt>
+File: photos/lista graczy.png Graphic file (type png)
+<use photos/lista graczy.png>
+Package pdftex.def Info: photos/lista graczy.png  used on input line 866.
+(pdftex.def)             Requested size: 455.24411pt x 172.56009pt.
+
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1613,107 +1637,203 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[18
+[18 <./photos/time.png> <./photos/lista graczy.png>]
+<photos/dragable.png, id=105, 394.47375pt x 141.52875pt>
+File: photos/dragable.png Graphic file (type png)
+<use photos/dragable.png>
+Package pdftex.def Info: photos/dragable.png  used on input line 880.
+(pdftex.def)             Requested size: 455.24411pt x 163.33339pt.
+<photos/out_turn_przyciski.png, id=106, 164.11313pt x 85.06781pt>
+File: photos/out_turn_przyciski.png Graphic file (type png)
+<use photos/out_turn_przyciski.png>
+Package pdftex.def Info: photos/out_turn_przyciski.png  used on input line 888.
+
+(pdftex.def)             Requested size: 455.24411pt x 236.00235pt.
+<photos/przed_ruchem_przyciski.png, id=107, 143.03438pt x 127.97812pt>
+File: photos/przed_ruchem_przyciski.png Graphic file (type png)
+<use photos/przed_ruchem_przyciski.png>
+Package pdftex.def Info: photos/przed_ruchem_przyciski.png  used on input line 
+899.
+(pdftex.def)             Requested size: 455.24411pt x 407.32973pt.
+
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[19 <./photos/dragable.png> <./photos/out_turn_przyciski.png>]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[20 <./photos/przed_ruchem_przyciski.png>]
+<photos/po_ruchu_przyciski.png, id=118, 124.21407pt x 170.13562pt>
+File: photos/po_ruchu_przyciski.png Graphic file (type png)
+<use photos/po_ruchu_przyciski.png>
+Package pdftex.def Info: photos/po_ruchu_przyciski.png  used on input line 909.
+
+(pdftex.def)             Requested size: 318.66948pt x 436.5711pt.
+
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[21 <./photos/po_ruchu_przyciski.png>]
+<photos/zla_mapa.png, id=123, 746.79pt x 83.5622pt>
+File: photos/zla_mapa.png Graphic file (type png)
+<use photos/zla_mapa.png>
+Package pdftex.def Info: photos/zla_mapa.png  used on input line 919.
+(pdftex.def)             Requested size: 455.24411pt x 50.9397pt.
+<photos/zla_pierwsza_tura.png, id=124, 746.03719pt x 91.09032pt>
+File: photos/zla_pierwsza_tura.png Graphic file (type png)
+<use photos/zla_pierwsza_tura.png>
+Package pdftex.def Info: photos/zla_pierwsza_tura.png  used on input line 927.
+(pdftex.def)             Requested size: 455.24411pt x 55.58446pt.
+<photos/co_najmniej.png, id=125, 748.29562pt x 79.04532pt>
+File: photos/co_najmniej.png Graphic file (type png)
+<use photos/co_najmniej.png>
+Package pdftex.def Info: photos/co_najmniej.png  used on input line 934.
+(pdftex.def)             Requested size: 455.24411pt x 48.0897pt.
+<photos/juz_polozone.png, id=126, 747.54282pt x 83.5622pt>
+File: photos/juz_polozone.png Graphic file (type png)
+<use photos/juz_polozone.png>
+Package pdftex.def Info: photos/juz_polozone.png  used on input line 942.
+(pdftex.def)             Requested size: 455.24411pt x 50.8887pt.
+<photos/endgame_screen.png, id=127, 785.93625pt x 438.13687pt>
+File: photos/endgame_screen.png Graphic file (type png)
+<use photos/endgame_screen.png>
+Package pdftex.def Info: photos/endgame_screen.png  used on input line 949.
+(pdftex.def)             Requested size: 455.24411pt x 253.79196pt.
+
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[22 <./photos/zla_mapa.png> <./photos/zla_pierwsza_tura.png> <./photos/co_najmn
+iej.png> <./photos/juz_polozone.png>]
+<photos/endgame_pusty_bank.png, id=135, 748.29562pt x 419.31656pt>
+File: photos/endgame_pusty_bank.png Graphic file (type png)
+<use photos/endgame_pusty_bank.png>
+Package pdftex.def Info: photos/endgame_pusty_bank.png  used on input line 957.
+
+(pdftex.def)             Requested size: 455.24411pt x 255.1045pt.
+
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[23 <./photos/endgame_screen.png> <./photos/endgame_pusty_bank.png>]
+<photos/Jokery.png, id=141, 91.09032pt x 93.34875pt>
+File: photos/Jokery.png Graphic file (type png)
+<use photos/Jokery.png>
+Package pdftex.def Info: photos/Jokery.png  used on input line 972.
+(pdftex.def)             Requested size: 182.09486pt x 186.63292pt.
+<photos/stop_game.png, id=142, 746.79pt x 421.575pt>
+File: photos/stop_game.png Graphic file (type png)
+<use photos/stop_game.png>
+Package pdftex.def Info: photos/stop_game.png  used on input line 979.
+(pdftex.def)             Requested size: 364.19667pt x 205.59578pt.
+
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[24 <./photos/Jokery.png> <./photos/stop_game.png>]
+<photos/w_turze.png, id=148, 785.93625pt x 439.6425pt>
+File: photos/w_turze.png Graphic file (type png)
+<use photos/w_turze.png>
+Package pdftex.def Info: photos/w_turze.png  used on input line 990.
+(pdftex.def)             Requested size: 455.24411pt x 254.66411pt.
+<photos/zle_polozenie.png, id=149, 746.79pt x 418.56375pt>
+File: photos/zle_polozenie.png Graphic file (type png)
+<use photos/zle_polozenie.png>
+Package pdftex.def Info: photos/zle_polozenie.png  used on input line 997.
+(pdftex.def)             Requested size: 455.24411pt x 255.15744pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[25 <./photos/w_turze.png>]
+<photos/usuwanie.png, id=155, 743.02594pt x 419.31656pt>
+File: photos/usuwanie.png Graphic file (type png)
+<use photos/usuwanie.png>
+Package pdftex.def Info: photos/usuwanie.png  used on input line 1004.
+(pdftex.def)             Requested size: 455.24411pt x 256.9152pt.
+
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[26 <./photos/zle_polozenie.png> <./photos/usuwanie.png>]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[27]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[28
 
 ]
 Rozdzia\l  5.
 
 
-[19]
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[20
-
-]
-Rozdzia\l  6.
-
-
-[21]
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[22
-
-]
-Rozdzia\l  7.
-
-
-[23]
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[24
-
-]
-Overfull \hbox (15.34717pt too wide) in paragraph at lines 871--871
-\T1/lmtt/m/n/12 https : / / wiki . python . org / moin / BeginnersGuide / Downl
-oad$ \T1/lmr/m/n/12 (term. wiz. 05. 11. 2024). 
- []
-
-
-Overfull \hbox (8.33395pt too wide) in paragraph at lines 871--871
-\T1/lmtt/m/n/12 github . com / Unity -[] Technologies / ml -[] agents / blob / 
-develop / docs / Installation .
- []
-
-
-Overfull \hbox (1.33812pt too wide) in paragraph at lines 871--871
-[]\T1/lmr/m/n/12 Unity Tech-no-lo-gies. \T1/lmr/m/it/12 Unity Sys-tem Re-qu-ire
--ments\T1/lmr/m/n/12 . 2023. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 : $\T1/lmtt/m/n/
-12 https : / / docs . unity3d .
- []
-
-
-Overfull \hbox (1.33812pt too wide) in paragraph at lines 871--871
-[]\T1/lmr/m/n/12 Unity Tech-no-lo-gies. \T1/lmr/m/it/12 Unity Sys-tem Re-qu-ire
--ments\T1/lmr/m/n/12 . 2023. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 : $\T1/lmtt/m/n/
-12 https : / / docs . unity3d .
- []
-
-
-
-[25
-
-]
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[26
-
-]
-
-[27]
-
-[28]
-
-[29
-
-]
+[29]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1726,6 +1846,8 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [30
 
 ]
+Rozdzia\l  6.
+
 
 [31]
 
@@ -1740,6 +1862,8 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [32
 
 ]
+Rozdzia\l  7.
+
 
 [33]
 
@@ -1753,13 +1877,37 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [34
 
-] (main.lof)
-\tf@lof=\write6
-\openout6 = `main.lof'.
+]
+Overfull \hbox (15.34717pt too wide) in paragraph at lines 1041--1041
+\T1/lmtt/m/n/12 https : / / wiki . python . org / moin / BeginnersGuide / Downl
+oad$ \T1/lmr/m/n/12 (term. wiz. 05. 11. 2024). 
+ []
+
+
+Overfull \hbox (8.33395pt too wide) in paragraph at lines 1041--1041
+\T1/lmtt/m/n/12 github . com / Unity -[] Technologies / ml -[] agents / blob / 
+develop / docs / Installation .
+ []
+
+
+Overfull \hbox (1.33812pt too wide) in paragraph at lines 1041--1041
+[]\T1/lmr/m/n/12 Unity Tech-no-lo-gies. \T1/lmr/m/it/12 Unity Sys-tem Re-qu-ire
+-ments\T1/lmr/m/n/12 . 2023. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 : $\T1/lmtt/m/n/
+12 https : / / docs . unity3d .
+ []
+
+
+Overfull \hbox (1.33812pt too wide) in paragraph at lines 1041--1041
+[]\T1/lmr/m/n/12 Unity Tech-no-lo-gies. \T1/lmr/m/it/12 Unity Sys-tem Re-qu-ire
+-ments\T1/lmr/m/n/12 . 2023. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 : $\T1/lmtt/m/n/
+12 https : / / docs . unity3d .
+ []
 
 
 
-[35]
+[35
+
+]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1771,13 +1919,79 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [36
 
+]
+
+[37]
+
+[38]
+
+[39
+
+]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[40
+
+]
+
+[41]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[42
+
+]
+
+[43]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[44
+
+] (main.lof)
+\tf@lof=\write6
+\openout6 = `main.lof'.
+
+
+
+[45]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[46
+
 ] (main.lot)
 \tf@lot=\write7
 \openout7 = `main.lot'.
 
 
 
-[37] (main.aux)
+[47] (main.aux)
  ***********
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
@@ -1787,13 +2001,13 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 38660 strings out of 473682
- 898631 string characters out of 5719215
- 1700113 words of memory out of 5000000
- 61117 multiletter control sequences out of 15000+600000
+ 38832 strings out of 473682
+ 903483 string characters out of 5719215
+ 1700257 words of memory out of 5000000
+ 61285 multiletter control sequences out of 15000+600000
  619822 words of font info for 72 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,11n,93p,1873b,2439s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,12n,93p,1873b,2439s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pf
 b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.p
 fb><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pf
@@ -1802,9 +2016,9 @@ b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pf
 b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.
 pfb><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.
 pfb>
-Output written on main.pdf (43 pages, 475609 bytes).
+Output written on main.pdf (53 pages, 1089772 bytes).
 PDF statistics:
- 197 PDF objects out of 1000 (max. 8388607)
+ 264 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 33 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 123 words of extra memory for PDF output out of 10000 (max. 10000000)
 

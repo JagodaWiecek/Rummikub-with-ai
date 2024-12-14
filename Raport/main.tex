@@ -125,7 +125,7 @@
 \usepackage{xstring}
 \usepackage{ifthen}
 
-
+\usepackage{placeins}
 
 \usepackage{ifxetex}
 
@@ -543,7 +543,7 @@
 	
 	
 	
-	\chapter{Analiza tematu}%TODO
+	\chapter{Analiza tematu}% do akceptacji
 	Tematem pracy jest cyfrowa gra planszowa z wykorzystaniem algorytmów sztucznej inteligencji. Kluczowym problemem jest zaimplementowanie inteligentnego gracza, który poprzez system prób i błędów, nauczy się grać. Wybranie gry planszowej ma duże znaczenie, im bardziej skomplikowane zasady gry, tym trudniej będzie modelowi nauczyć się zasad.
 	Do realizacji tego projektu została wybrana gra planszowa o nazwie Rummikub.\\ Rummikub to gra planszowa, w której gracze rywalizują, układając płytki w:
 	\begin{itemize}
@@ -556,9 +556,11 @@
 	Cyfrowe wersje gier planszowych często są projektowane z myślą o rozgrywkach online z innymi graczami za pośrednictwem internetu. Jednak stworzenie gry z komputerowym przeciwnikiem opartym na algorytmach nauczania maszynowego wymaga odmiennego podejścia i zastosowania innych technik programistycznych, model nie powinien się uczyć na graniu z żywymi graczami, gdyż zajęło by mu to za długo. Algorytmy AI potrzebują dużej ilości powtórzeń aby nauczyć się zasad gry. W projekcie zostanie uwzględniony jeden żywy gracz, gracze komputerowi z predefiniowanymi ruchami oraz komputerowy gracz z algorytmem nauczania maszynowego.
 	\section{Znane rozwiązania}
 	Na rynku jest wiele gier planszowych, najpopularniejsze z nich doczekały się swojej cyfrowej wersji. Są nimi między innymi:
-	\begin{itemize}%TODO
-	\item Monopoli
-	\item Cantan
+	\begin{itemize}
+	\item Monopoli - Jedna z najpopularniejszych gier planszowych. Gra oparta na finansach i rywalizacji z innymi graczami została wydana w wersji cyfrowej. Gra doczekała się również gier o charakterze monopoly, takimi jak \texttt{business tour}
+	\item Go - Chińska gra planszowa, popularna również w Korei i Japonii. Celem gry jest zajęcie jak większej powierzchni na planszy od przeciwnika. Gra \texttt{go} ma swoją wersję cyfrową na stronach internetowych.
+	\item Cantan - Strategiczna gra planszowa. Gracze mają za zadanie zyskiwać punkty zwycięstwa poprzez wykonywanie konkretnych ruchów na mapie. W grze stawia się budynki i drogi w miejscach strategicznych, co daje graczowi przewagę nad innymi. Wygrywa gracz, który uzyska ustaloną ilość punktów zwycięstwa. Gra planszowa \texttt{Cantan} ma swoją wersję cyfrową dostępną dla graczy z całego świata.
+	\item Szachy - Jedna z najbardziej popularnych strategicznych gier planszowych. Gra, oparta na rywalizacji z drugim graczem, posiada wiele wersji cyfrowych. Szachy są nie tylko grą online opartą na grę innym użytkownikiem, ale również jednym z pierwszych gier, w jakiej zastosowano graczy komputerowych z algorytmami sztucznej inteligencji, czyniąc rozgrywkę jeszcze bardziej skomplikowaną.
 	\item Rummikub - Wydana gra online Rummikub jest nastawiona na grę sieciową do komunikacji innych graczy z całego świata. Gra jest zaimplementowana w grafice 2D bez algorytmów sztucznej inteligencji. 
 \end{itemize}
 	
@@ -677,7 +679,7 @@
 	\end{figure}
 	
 	% TODO
-	\chapter{Specyfikacja zewnętrzna}% TODO
+	\chapter{Specyfikacja zewnętrzna}% do akceptacji
 	\label{ch:04}
 	
 	\section{Wymagania sprzętowe i programowe}
@@ -788,6 +790,7 @@
 	\section{Sposób obsługi}
 	Sposób obsługi zawiera szczegółową instrukcję, jak korzystać z aplikacji z perspektywy użytkownika.
 	\subsection{Zasady gry}
+	
 	Projekt gry Rummikub jest oparty na fizycznej grze planszowej, której zasady zostały opisane dokładnie w \cite{bib:rummikub_rules}.
 	Gra wymaga od dwóch do czterech graczy. Gra podstawowa zawiera 106 płytek, w którym jest osiem serii o wartościach od jeden do trzynaście w czterech kolorach, oraz dwa jokery. Jokery to płytki specjalne, które mogą zastąpić każdą płytkę na mapie. Zadaniem każdego gracza jest jak najszybciej wyłożyć na stół wszystkie płytki, które zawiera w swojej tabliczce.
 	W grze znajdują się dwa typy sekwencji płytek
@@ -811,6 +814,8 @@
 		\item jeśli w głównym banku skończą się płytki a gracz, który ma swoją turę, chce dobrać kolejną.
 	\end{enumerate}
 	Wynik gry zależy od płytek w stojaku gracza. Na końcu gry są podliczane wyniki na podstawie wag wartości płytek. Wagi jokerów są równe 30. Wygrywa ten, którego wynik jest najmniejszy.
+	
+	
 	\subsection{Ekran aplikacji}
 	Rozgrywka rozpoczyna się widokiem menu głównego gry
 		\begin{figure}[H]
@@ -828,15 +833,180 @@
 			\item \textbf{Play with AI} - ten tryb gry jest grą jeden na jeden, gdzie użytkownik gra przeciwko komputerowemu graczowi z uczeniem maszynowym. Ten tryb służy do walidacji nauki danego modelu.
 			\item \textbf{Quit game} - przycisk służący do opuszczenia gry.
 		\end{itemize}
-				\begin{figure}[H]
+		\begin{figure}[H]
 			\centering
 			\includegraphics[width=\textwidth]{photos/start_gry.png}
-			\caption{Ekran początku gry}
+			\caption{Przykładowy ekran początku gry}
 			\label{fig:start_ekran_gry}
 		\end{figure}
+		Gra rozpoczyna się z każdym graczem posiadającym po czternaście płytek na swoim stojaku.\\Nad mapą widać napis:
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=\textwidth]{photos/current_player.png}
+			\caption{Aktualna tura: Gracz X}
+			\label{fig:napis_gracza}
+		\end{figure}
+		Napis ten informuje użytkownika, który gracz ma w danej chwili wykonuje turę ruchu. W tym miejscu mogą pojawić się różne napisy:
+		\begin{itemize}
+			\item Computer, MissComputer, MrComputer - są to wyznaczniki, że daną turę wykonuje gracz komputerowy o predefiniowanych ruchach.
+			\item You - informacja, że to użytkownik może wykonać ruch.
+			\item Agent - oznacza to, że gracz komputerowy z algorytmem uczenia maszynowego ma turę w danym momencie.
+		\end{itemize}
+				\begin{figure}[H]
+			\centering
+			\includegraphics[width=\textwidth]{photos/time.png}
+			\caption{widok czasu gry}
+			\label{fig:czas}
+		\end{figure}
+		Na obrazku znajduje się reprezentacja czasu gry w aplikacji. Każda tura trwa pewną ilość czasu, jeśli dany gracz nie zakończy swojej tury przed czasem, wszystkie jego ruchy zostają cofnięte, oraz dostaje nową płytkę z banku. Jedna tura zazwyczaj trwa 60 sekund.
+		\\Z lewej strony ekranu znajdują się pewne napisy. Są one reprezentacją listy gracz w danym trybie gry. Dostarcza również informacje, ile który gracz ma płytek na swoim stojaku. Lista graczy różni się w zależności od trybu gry:
+				
+		\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{photos/lista graczy.png}
+		\caption{widok listy graczy}
+		\label{fig:lista_graczy}
+		\end{figure}
+		\begin{enumerate}
+			\item Jest to lista graczy w trybie nauki. Znajdują się tutaj trzej gracze komputerowi z predefiniowanymi ruchami oraz jeden agent. Lista w tym trybie jest jedynie poglądowa dla użytkownika.
+			\item To lista graczy z trybu gry użytkownik przeciwko dwóm graczom komputerowym z predefiniowanymi ruchami oraz jednemu graczowi komputerowemu z algorytmami uczenia maszynowego.
+			\item Jest to lista z trybu gracz przeciwko trzem graczom komputerowym z predefiniowanymi ruchami.
+			\item Ta lista jest z trybu gry użytkownik przeciwko gracz komputerowy z algorytmem uczenia maszynowego.
+			
+		\end{enumerate}
+		Użytkownik ma możliwość interakcji z płytkami w stojaku.
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=\textwidth]{photos/dragable.png}
+			\caption{widok stojaku z płytkami}
+			\label{fig:przesuwanie}
+		\end{figure}
+		Przytrzymanie wybranej płytki pozwala na jej przesuwanie w prawo bądź lewo w celu ułożenia jej w konkretnej sekwencji.
+		\\W prawym górnym rogu znajdują się przyciski, w zależności od momentu rozgrywki, są one różne:
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=\textwidth]{photos/out_turn_przyciski.png}
+			\caption{przyciski poza turą}
+			\label{fig:przyciski_poza_tura}
+		\end{figure}
+		Tak wygląda widok przycisków, gdy nie ma tury użytkownika : 
+		\begin{itemize}
+			\item pierwszy przycisk służy do sortowania względem serii.
+			\item drugi przycisk służy do sortowania względem grup.
+		\end{itemize}
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=\textwidth]{photos/przed_ruchem_przyciski.png}
+			\caption{przyciski przed wykonaniem ruchu}
+			\label{fig:przyciski_przed_ruchem}
+		\end{figure}
+		\FloatBarrier
 		
-	\subsection{Przebieg gry}
-	
+		Tak wyglądają przyciski, gdy użytkownik ma swoją turę, ale jeszcze nie wykonał ruchu. Przycisk \texttt{Take a tile (34)} pozwala graczowi na pobranie płytki, wraz z czym kończy turę. Liczba w nawiasach na zdjęciu informuje, ile zostało płytek w głównym banku. Jeśli został użyty po wykonaniu ruchu na mapie, wszystkie manipulacje zostaną cofnięte. 
+		\newpage
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\textwidth]{photos/po_ruchu_przyciski.png}
+		\caption{przyciski po wykonaniu ruchu}
+		\label{fig:przyciski_po_ruchu}
+	\end{figure}
+	Przycisk \texttt{End Turn} wykona sprawdzenie, czy wszystkie sekwencje na mapie zawierają co najmniej trzy płytki. Jeśli funkcja wykryje błąd, tura nie zakończy się oraz zostanie pokazany komunikat o niepoprawnym zakończeniu tury.
+	\\Przycisk \texttt{Undo} cofa wszystkie zmiany i wyłożenia, jakie użytkownik wykonał w trakcie danej tury.
+	\newpage
+	Jeśli gracz spróbuje zakończyć turę przyciskiem \texttt{End Turn}, podczas gdy na mapie co najmniej jedna sekwencja nie zawiera minimalnie trzech płytek, na ekranie użytkownika wyświetli się ten komunikat:
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=\textwidth]{photos/zla_mapa.png}
+			\caption{komunikat o źle zakończonej mapie}
+			\label{fig:komunikat_zla_mapa}
+		\end{figure}
+		
+	Jeśli gracz wykonuje swoją pierwszą turę, ale suma sekwencji, jakie wyłożył, nie jest równa bądź większa trzydzieści, to na ekranie pokaże się komunikat:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{photos/zla_pierwsza_tura.png}
+		\caption{komunikat o źle zakończonej pierwszej turze}
+		\label{fig:nie_ma_sumy_30}
+	\end{figure}
+	Gdy gracz już zakończył swoją pierwszą turę i w trakcie kolejnej tury wykona manipulacje sekwencjami na mapie nie wykładając przy tym ani jednej płytki ze swojego stojaka, pokaże się taki komunikat na mapie:
+		\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{photos/co_najmniej.png}
+		\caption{komunikat braku wyłożonej płytki}
+		\label{fig:nie_wylozona_plytka}
+	\end{figure}
+	Nie dozwolone jest, na daną turę, manipulowanie mapą bez wyłożenia nowej płytki.
+	\\Jeżeli gracz zdecyduje się zabrać z planszy płytkę, która została położona przez niego bądź kogoś innego w innej turze, pojawi się na ekranie komunikat:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{photos/juz_polozone.png}
+		\caption{komunikat przy niedozwolonym usuwaniu płytki}
+		\label{fig:już_wylozona_plytka}
+	\end{figure}
+	Gdy pierwszy gracz wyłoży wszystkie płytki na mapę, pokaże się ekran zakończenia gry:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{photos/endgame_screen.png}
+		\caption{ekran końca gry}
+		\label{fig:endgame_screen}
+	\end{figure}
+	Na zdjęciu widać hierarchię graczy w zależności od ich wyniku. Każdy gracz w hierarchii, pod zwycięzcą, ma w nawiasie zapisany wynik sumy płytek, które miał na swoim stojaku pod koniec gry. W takiej sytuacji wygrywa gracz, który nie ma już żadnych płytek na stojaku.
+	\\Jeśli gra jednak zakończy się brakiem płytek w głównym banku, ekran końca gry będzie wyglądać tak:
+	  	\begin{figure}[H]
+	  	\centering
+	  	\includegraphics[width=\textwidth]{photos/endgame_pusty_bank.png}
+	  	\caption{ekran końca gry przy pustym banku}
+	  	\label{fig:endgame_screen_empty_bank}
+	  \end{figure}
+	  W takiej sytuacji, każdy gracz ma wyliczoną sumę płytek na swoim stojaku. W takiej sytuacji wygrywa gracz, którego suma punktów jest najmniejsza.
+	  
+	  Na ekranie końca gry, oprócz hierarchii, znajdują się dwa przyciski:
+	  \begin{itemize}
+	  	\item \textbf{Return to menu} - jego użycie przeniesie użytkownika do menu głównego gry.
+	  	\item \textbf{Play again} - wykorzystanie tego przycisku pozwoli graczowi wzięcie udziału w nowej rozgrywce w tym samym trybie.
+	  \end{itemize}
+	  
+	  Każda płytka w grze odpowiada obiektom wykorzystywanym w oryginalnej grze planszowej, oprócz płytek jokerów. Jokery w tej aplikacji wyglądają tak:
+	  \begin{figure}[H]
+	  	\centering
+	  	\includegraphics[width=0.4\textwidth]{photos/Jokery.png}
+	  	\caption{jokery}
+	  	\label{fig:jokery}
+	  \end{figure}
+	   W trakcie gry można również ją zatrzymać, jeśli użytkownik musi na chwilę odejść od urządzenia, albo jakby chciał zmienić tryb bez przymusu czekania na zakończenie rozgrywki. W tym przypadku może nacisnąć przycisk \texttt{Esc} aby uruchomił się ekran:
+	  \begin{figure}[H]
+	  	\centering
+	  	\includegraphics[width=0.8\textwidth]{photos/stop_game.png}
+	  	\caption{Ekran zatrzymania gry}
+	  	\label{fig:stop_game}
+	  \end{figure}
+	  W tym stanie, gra zostaje zatrzymana. Wciśnięcie przycisku \texttt{Return to menu} będzie skutkowało przedwczesnym zakończeniem gry i powrotem do menu głównego. Aby wznowić grę, użytkownik musi ponownie wcisnąć klawisz \texttt{Esc}.
+	\subsection{Rozgrywka}
+	Po wybraniu trybu gry, użytkownik widzi mapę rozgrywki. Zadaniem gracza jest, aby jak najszybciej wyłożyć płytki ze swojego stojaka.
+	Podczas interakcji z mapą, pojawia się siatka, aby gracz wiedział, gdzie może płytka może być położona.
+	Aby położyć płytkę na mapie, należy nacisnąć lewym przyciskiem myszy wybraną płytkę, a następnie przesunąć kursor myszy w stronę wybranej pozycji na mapie.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{photos/w_turze.png}
+		\caption{Kładzenie płytki na mapę}
+		\label{fig:w_turze}
+	\end{figure}
+	Na ekranie widać obiekt, podobny do płytki. Gracz dzięki temu widzi, gdzie płytka będzie położona. Aby zakończyć akcję, wystarczy nacisnąć lewym przyciskiem myszy punkt na mapie. Jeśli gracz przeciągnie kursorem myszy na pole, na którym nie może położyć płytki, obiekt zostanie pokazany na czerwono
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{photos/zle_polozenie.png}
+		\caption{Złe położenie płytki}
+		\label{fig:zle_polozenie}
+	\end{figure}
+	Aby usunąć płytkę z mapy, należy wcisnąć klawisz \texttt{D}, a następnie kliknąć lewym przyciskiem myszy na płytkę, którą chce się usunąć. Ta akcja usuwa płytkę z mapy i przywraca ją do stojaka gracza. Użytkownik może usunąć jedynie płytki wyłożone w trakcie trwającej tury. Gracz, chcąc usunąć płytkę z mapy zobaczy czerwony obiekt jako kursor. Oznacza on, że nie można usunąć obiekt z miejsca, w którym obiektu nie ma. Obiekt zmienia kolor na biały, gdy zostanie umiejscowiony na pozycji, gdzie znajduje się płytka 
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{photos/usuwanie.png}
+		\caption{wygląd usuwania płytki}
+		\label{fig:usuwanie}
+	\end{figure}
+	Gdy gracz chce przesunąć płytkę na mapie, musi najpierw nacisnąć prawym przyciskiem myszy na wybraną płytkę. Następnie wybrać nową pozycję na mapie i nacisnąć lewy przycisk myszy na wybranej pozycji. W trakcie przesuwania płytki pojawia się obiekt tak samo, jak przy wykładaniu nowej płytki
+	\\Jeśli gracz zdecyduje się zaprzestać wykonywania którejś akcji jak wykładania czy przesuwania, musi nacisnąć klawisz \texttt{Q}
 	% TODO
 	\chapter{Specyfikacja wewnętrzna}% TODO
 	\label{ch:05}
