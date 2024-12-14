@@ -147,7 +147,7 @@ public class GameTurnManager : MonoBehaviour
         {
             if (currentPlayerId == 0)
             {
-                currentPlayerText.GetComponent<Text>().text = "Player: AI";
+                currentPlayerText.GetComponent<Text>().text = "Player: Agent";
                 //takeTile.EnableAllButtons();
                 //SetPlayersTileCountUI();
             }
@@ -197,7 +197,7 @@ public class GameTurnManager : MonoBehaviour
             }
             else if (currentPlayerId == 3)
             {
-                currentPlayerText.GetComponent<Text>().text = "Player: AI";
+                currentPlayerText.GetComponent<Text>().text = "Player: Agent";
                 takeTile.DisableAllButtons();
                 //SetPlayersTileCountUI();
             }
@@ -215,7 +215,7 @@ public class GameTurnManager : MonoBehaviour
             }
             else if (currentPlayerId == 1)
             {
-                currentPlayerText.GetComponent<Text>().text = "Player: AI";
+                currentPlayerText.GetComponent<Text>().text = "Player: Agent";
                 takeTile.DisableAllButtons();
                 //SetPlayersTileCountUI();
             }

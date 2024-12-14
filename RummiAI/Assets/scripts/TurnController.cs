@@ -152,6 +152,7 @@ public class TurnController : MonoBehaviour
                                 GameController.Instance.gameTurnManager.ChangeTurn();
                             }
                             else Debug.Log("Nale¿y wy³o¿yæ conajmniej jedn¹ p³ytkê");
+                            ShowNapis("Nale¿y wy³o¿yæ co najmniej jedn¹ p³ytkê");
                         }
                     }
                     else GameController.Instance.EndGame();

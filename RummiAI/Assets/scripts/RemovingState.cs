@@ -64,7 +64,10 @@ public class RemovingState : IPlacementState
             if (GameController.Instance != null && GameController.Instance.GetBoardDictionary().board.ContainsKey(gridPosition) == true)
             {
                 if (GameController.Instance.GetBoardDictionary().board[gridPosition].GetPut())
+                {
                     Debug.Log("nie mo¿na usun¹æ ju¿ po³o¿onego obiektu");
+                    GameController.Instance.gameTurnManager.turnController.ShowNapis("nie mo¿na usun¹æ ju¿ po³o¿onego obiektu");
+                }
                 else
                 {
 

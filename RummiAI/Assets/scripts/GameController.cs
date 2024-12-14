@@ -181,8 +181,8 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W))
         {
             if (Time.timeScale == 1f)
-                Time.timeScale = 2f;
-            else if (Time.timeScale == 2f)
+                Time.timeScale = 3f;
+            else if (Time.timeScale == 3f)
                 Time.timeScale = 1f;
         }
     }
