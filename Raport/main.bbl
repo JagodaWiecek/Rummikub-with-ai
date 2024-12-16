@@ -61,6 +61,58 @@
     \field{year}{2019}
   \endentry
 
+  \entry{bib:Unity_instalacja}{online}{}{}
+    \name{author}{1}{}{%
+      {{hash=TU}{%
+         family={Technologies},
+         familyi={T\bibinitperiod},
+         given={Unity},
+         giveni={U\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{TU1}
+    \strng{fullhash}{TU1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{T}
+    \field{sortinithash}{T}
+    \field{title}{Installing Unity}
+    \verb{url}
+    \verb https://docs.unity3d.com/550/Documentation/Manual/InstallingUnity.htm
+    \verb l
+    \endverb
+    \field{year}{2016}
+    \field{urlday}{11}
+    \field{urlmonth}{12}
+    \field{urlyear}{2024}
+  \endentry
+
+  \entry{bib:parametry_yaml}{online}{}{}
+    \name{author}{1}{}{%
+      {{hash=TU}{%
+         family={Technologies},
+         familyi={T\bibinitperiod},
+         given={Unity},
+         giveni={U\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{TU1}
+    \strng{fullhash}{TU1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{T}
+    \field{sortinithash}{T}
+    \field{title}{ML-Agents Toolkit: Creating New Learning Environments}
+    \verb{url}
+    \verb https://github.com/Unity-Technologies/ml-agents/blob/develop/docs/Lea
+    \verb rning-Environment-Create-New.md
+    \endverb
+    \field{year}{2024}
+    \field{urlday}{15}
+    \field{urlmonth}{12}
+    \field{urlyear}{2024}
+  \endentry
+
   \entry{bib:link_do_instrukcji_ml-agents}{online}{}{}
     \name{author}{1}{}{%
       {{hash=TU}{%
@@ -109,32 +161,6 @@
     \endverb
     \field{year}{2023}
     \field{urlday}{10}
-    \field{urlmonth}{12}
-    \field{urlyear}{2024}
-  \endentry
-
-  \entry{bib:Unity_instalacja}{online}{}{}
-    \name{author}{1}{}{%
-      {{hash=TU}{%
-         family={Technologies},
-         familyi={T\bibinitperiod},
-         given={Unity},
-         giveni={U\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{TU1}
-    \strng{fullhash}{TU1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{T}
-    \field{sortinithash}{T}
-    \field{title}{Unity System Requirements}
-    \verb{url}
-    \verb https://docs.unity3d.com/550/Documentation/Manual/InstallingUnity.htm
-    \verb l
-    \endverb
-    \field{year}{2023}
-    \field{urlday}{11}
     \field{urlmonth}{12}
     \field{urlyear}{2024}
   \endentry

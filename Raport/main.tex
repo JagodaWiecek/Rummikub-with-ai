@@ -1010,11 +1010,99 @@
 	% TODO
 	\chapter{Specyfikacja wewnętrzna}% TODO
 	\label{ch:05}
-	TODO
-	\section{Biblioteka ml-agents}
+	Specyfikacja wewnętrzna opisuje szczegóły techniczne implementacji projektu. Projekt został zrealizowany w środowisku Unity, jego kluczowe komponenty zostały zaimplementowane z C\#. To pozwoliło zaimplementować logikę gry, obiekty wykorzystywane w grze oraz gracza komputerowego z algorytmami uczenia maszynowego.
+	\section{Biblioteka ML-Agents}
+	Unity ML-Agents Toolkit to biblioteka służąca do implementowania i trenowania agentów z algorytmami uczenia maszynowego. Biblioteka pozwala na wykorzystanie metod takich jak uczenie ze wzmocnieniem, uczenie nadzorowane oraz uczenie w grupie. Biblioteka ML-Agents została wybrana do implementacji przeciwnika komputerowego w grze Rummikub, ponieważ:
+	
+	\begin{itemize}
+		\item Umożliwia łatwe tworzenie środowiska treningowego w Unity.
+		\item Pozwala dostosowywać metody modelu bezpośrednio do mechanik gry.
+		\item Daje możliwość modyfikacji zmiennych modelu.
+	\end{itemize}
+	
+	Kluczowymi komponentami ML-Agents są obserwacje, akcje oraz nagrody. 
+	\begin{enumerate}
+		\item Obserwacje dają agentowi potrzebne informacje, aby zaplanować swoje kolejne ruchy. Ilość obserwacji jest ustalana przy implementacji statycznie, nie ma możliwości zmieniać ilości obserwacji w trakcie rozgrywki.
+		\item Akcje są funkcjami, jakie podejmuje na bazie obserwacji oraz nagród, jakie otrzymuje. Agent podejmuje akcje, dzielą się one na dwa typy
+		\begin{itemize}
+			\item akcje ciągłe - model wyznacza akcje z podanego przedziału liczbowego w wartościach zmiennoprzecinkowych, zazwyczaj od -1 do 1. Takie akcje są najlepsze przy funkcjach ruchu czy rotacji.
+			\item akcje dyskretne - akcje modelu z podanego przedziału liczbowego w wartościach całkowitych. Najlepsze do konkretnych decyzji, jak wybieranie indeksów płytek w liście.
+		\end{itemize}
+		\item Otrzymywanie nagród i kar za konkretne działania dają agentowi informacje, jakie ruchy powinien wykonywać a jakie nie.
+	\end{enumerate}
+	Decyzje agenta są interpretowane jako wartości liczbowe, przy implementacji należy przypisać konkretnych wartościom funkcje. W zależności od decyzji agenta, należy mu przypisać nagrodę bądź karę. Z czasem agent uczy się, jakie decyzje są najbardziej opłacalne i częściej je wykonuje.
+	
+	Zmienne modelu mogą być modyfikowane w plikach typu \texttt{.yaml}. Na stronie \cite{bib:parametry_yaml} jest to dokładniej opisane.
+	\begin{figure}[H]
+		\centering
+	\begin{lstlisting}
+		behaviors:
+			behaviors_name:
+				trainer_type: ppo
+				hyperparameters:
+					batch_size: 10
+					buffer_size: 100
+					learning_rate: 3.0e-4
+					beta: 5.0e-4
+					epsilon: 0.2
+					lambd: 0.99
+					num_epoch: 3
+					learning_rate_schedule: linear
+					beta_schedule: constant
+					epsilon_schedule: linear
+				network_settings:
+					normalize: false
+					hidden_units: 128
+					num_layers: 2
+				reward_signals:
+					extrinsic:
+						gamma: 0.99
+						strength: 1.0
+				max_steps: 500000
+				time_horizon: 64
+				summary_freq: 10000
+	\end{lstlisting}
+	\caption{Przykładowe środowisko .yaml .}
+	\label{fig:model_ml-agents:listings}
+	\end{figure}
+	Modyfikacja parametrów środowiska pozwala na dostosowanie modelu do aplikacji, w której jest implementowanie.
+	
+	Każdy parametr odpowiada innej funkcjonalności modelu:
+	\begin{itemize}
+		\item \textbf{behaviors} - jest główną sekcją definiującą zachowanie agenta. Zawiera wszystkie szczegóły dotyczące jego treningu.
+		\item \textbf{behaviors\_name} - nazwa konkretnego zachowania, musi być identyczna do zaimplementowanej nazwy w Unity.
+		\item \textbf{trainer\_type} - Typ algorytmu używanego do treningu. W przykładzie zawarty jest algorytm ppo (Proximal Policy Optimization).
+		\item \textbf{hyperparameters} - przedział zmiennych algorytmu:
+		\begin{enumerate}
+			\item batch\_size - liczba próbek przetwarzanych w jednej iteracji.
+			\item buffer\_size - liczba przechowywanych danych w pamięci bufora przez aktualizacją sieci.
+			\item learning\_rate - określone tempo aktualizacji wag modelu podczas każdej iteracji.
+			\item beta - współczynnik entropii, im wyższa wartość, tym model jest bardziej skłonny do eksploracji nowych strategii podczas nauki.
+			\item epsilon - wyznacza maksymalną wartość, z jaką może zmieniać się polityka (policy) w jednej aktualizacji.
+			\item lambd - współczynnik wygaśnięcia, do balansowania między dokładnością a stabilnością wyceny nagrody.
+			\item num\_epoch - liczna iteracji gradientowych dla każdej próbki.
+			\item learning\_rate\_schedule, beta\_schedule, epsilon\_schedule - określają jak wartości zmiennych \texttt{learning\_rate}, \texttt{beta} oraz \texttt{epsilon} zmieniają się w czasie treningu.
+		\end{enumerate}
+		\item \textbf{network\_settings} - definiuje strukturę sieci neuronalnej, której używa agent:
+			\begin{enumerate}
+				\item normalize - definiuje, czy dane wejściowe mają zostać zoptymalizowane czy nie.
+				\item hidden\_units - liczba jednostek w każdej warstwie ukrytej sieci neuronalnej.
+				\item num\_layers - ilość warstw sieci neuronalnej.
+			\end{enumerate}
+		\item \textbf{reward\_signals} - definiuje sygnał nagrody dla agenta. Tutaj jest użyty typ \texttt{extrinsic}, czyli nagroda bazująca na środowisku:
+			\begin{enumerate}
+				\item gamma - współczynnik wygaśnięcia, który określa w jakim stopniu agent bierze pod uwagę przyszłe nagrody.
+				\item strength - skala wpływu sygnału na trening.
+			\end{enumerate}
+		\item \textbf{max\_steps} - Maksymalna liczba kroków treningowych, jakie może wykonać agent. Po osiągnięciu tej wartości, model nie może być dalej uczony.
+		\item \textbf{time\_horizon} - maksymalny czas, po jakim agent kończy zbieranie danych do bufora.
+		\item \textbf{summary\_freq} - określa, co ile zostają wygenerowane dane podsumowania treningu.
+	\end{itemize}
+	 
 	\section{Klasa PlayerIA}
-	\section{Klasa GameController}
 	\section{Klasa Tile}
+	\section{Mechanika gry}
+	\section{Struktura danych}
 	
 	% TODO
 	\chapter{Weryfikacja i walidacja}% TODO

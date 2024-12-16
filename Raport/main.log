@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  14 DEC 2024 20:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  16 DEC 2024 18:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1843,11 +1843,21 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[30
+[30]
+Overfull \hbox (17.97858pt too wide) in paragraph at lines 1092--1093
+[]\T1/lmr/bx/n/12 reward_signals \T1/lmr/m/n/12 - de-fi-niuje sy-gnaª na-grody 
+dla agenta. Tu-taj jest u»yty typ \T1/lmtt/m/n/12 extrinsic\T1/lmr/m/n/12 ,
+ []
 
-]
-Rozdzia\l  6.
 
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [31]
 
@@ -1859,13 +1869,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[32
+[32]
+Rozdzia\l  6.
+
+
+[33
 
 ]
-Rozdzia\l  7.
-
-
-[33]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1878,36 +1888,10 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [34
 
 ]
-Overfull \hbox (15.34717pt too wide) in paragraph at lines 1041--1041
-\T1/lmtt/m/n/12 https : / / wiki . python . org / moin / BeginnersGuide / Downl
-oad$ \T1/lmr/m/n/12 (term. wiz. 05. 11. 2024). 
- []
+Rozdzia\l  7.
 
 
-Overfull \hbox (8.33395pt too wide) in paragraph at lines 1041--1041
-\T1/lmtt/m/n/12 github . com / Unity -[] Technologies / ml -[] agents / blob / 
-develop / docs / Installation .
- []
-
-
-Overfull \hbox (1.33812pt too wide) in paragraph at lines 1041--1041
-[]\T1/lmr/m/n/12 Unity Tech-no-lo-gies. \T1/lmr/m/it/12 Unity Sys-tem Re-qu-ire
--ments\T1/lmr/m/n/12 . 2023. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 : $\T1/lmtt/m/n/
-12 https : / / docs . unity3d .
- []
-
-
-Overfull \hbox (1.33812pt too wide) in paragraph at lines 1041--1041
-[]\T1/lmr/m/n/12 Unity Tech-no-lo-gies. \T1/lmr/m/it/12 Unity Sys-tem Re-qu-ire
--ments\T1/lmr/m/n/12 . 2023. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 : $\T1/lmtt/m/n/
-12 https : / / docs . unity3d .
- []
-
-
-
-[35
-
-]
+[35]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1920,12 +1904,27 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [36
 
 ]
+Overfull \hbox (15.34717pt too wide) in paragraph at lines 1129--1129
+\T1/lmtt/m/n/12 https : / / wiki . python . org / moin / BeginnersGuide / Downl
+oad$ \T1/lmr/m/n/12 (term. wiz. 05. 11. 2024). 
+ []
 
-[37]
 
-[38]
+Overfull \hbox (8.33395pt too wide) in paragraph at lines 1129--1129
+\T1/lmtt/m/n/12 github . com / Unity -[] Technologies / ml -[] agents / blob / 
+develop / docs / Installation .
+ []
 
-[39
+
+Overfull \hbox (1.33812pt too wide) in paragraph at lines 1129--1129
+[]\T1/lmr/m/n/12 Unity Tech-no-lo-gies. \T1/lmr/m/it/12 Unity Sys-tem Re-qu-ire
+-ments\T1/lmr/m/n/12 . 2023. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 : $\T1/lmtt/m/n/
+12 https : / / docs . unity3d .
+ []
+
+
+
+[37
 
 ]
 
@@ -1937,11 +1936,17 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[40
+[38
 
 ]
 
-[41]
+[39]
+
+[40]
+
+[41
+
+]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1967,11 +1972,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [44
 
-] (main.lof)
-\tf@lof=\write6
-\openout6 = `main.lof'.
-
-
+]
 
 [45]
 
@@ -1985,13 +1986,31 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [46
 
+] (main.lof)
+\tf@lof=\write6
+\openout6 = `main.lof'.
+
+
+
+[47]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[48
+
 ] (main.lot)
 \tf@lot=\write7
 \openout7 = `main.lot'.
 
 
 
-[47] (main.aux)
+[49] (main.aux)
  ***********
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
@@ -2001,24 +2020,25 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 38832 strings out of 473682
- 903483 string characters out of 5719215
- 1700257 words of memory out of 5000000
- 61285 multiletter control sequences out of 15000+600000
- 619822 words of font info for 72 fonts, out of 8000000 for 9000
+ 39265 strings out of 473682
+ 907772 string characters out of 5719215
+ 1751257 words of memory out of 5000000
+ 61717 multiletter control sequences out of 15000+600000
+ 622810 words of font info for 73 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,12n,93p,1873b,2439s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pf
 b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.p
 fb><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pf
-b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pf
-b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pf
-b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.
-pfb><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.
-pfb>
-Output written on main.pdf (53 pages, 1089772 bytes).
+b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb>
+<C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb>
+<C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pfb>
+<C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pf
+b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pf
+b>
+Output written on main.pdf (55 pages, 1124340 bytes).
 PDF statistics:
- 264 PDF objects out of 1000 (max. 8388607)
+ 276 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  123 words of extra memory for PDF output out of 10000 (max. 10000000)
 
