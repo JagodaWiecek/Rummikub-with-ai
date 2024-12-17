@@ -34,20 +34,20 @@
 \contentsline {subsection}{\numberline {4.4.2}Ekran aplikacji}{15}{}%
 \contentsline {subsection}{\numberline {4.4.3}Rozgrywka}{25}{}%
 \contentsline {chapter}{\numberline {5}Specyfikacja wewnętrzna}{29}{}%
-\contentsline {section}{\numberline {5.1}Biblioteka ML-Agents}{29}{}%
-\contentsline {section}{\numberline {5.2}Klasa PlayerIA}{32}{}%
-\contentsline {section}{\numberline {5.3}Klasa Tile}{32}{}%
-\contentsline {section}{\numberline {5.4}Mechanika gry}{32}{}%
-\contentsline {section}{\numberline {5.5}Struktura danych}{32}{}%
-\contentsline {chapter}{\numberline {6}Weryfikacja i walidacja}{33}{}%
-\contentsline {section}{\numberline {6.1}Testowanie}{33}{}%
-\contentsline {section}{\numberline {6.2}Wykryte błędy}{33}{}%
-\contentsline {chapter}{\numberline {7}Podsumowanie i wnioski}{35}{}%
-\contentsline {section}{\numberline {7.1}Napotkane problemy}{35}{}%
-\contentsline {section}{\numberline {7.2}Możliwy rozwój}{35}{}%
-\contentsline {chapter}{Bibliografia}{37}{}%
-\contentsline {chapter}{Spis skrótów i symboli}{41}{}%
-\contentsline {chapter}{Źródła}{43}{}%
-\contentsline {chapter}{Lista dodatkowych plików, uzupełniających tekst pracy}{45}{}%
-\contentsline {chapter}{Spis rysunków}{47}{}%
-\contentsline {chapter}{Spis tabel}{49}{}%
+\contentsline {section}{\numberline {5.1}Klasa Tile}{29}{}%
+\contentsline {section}{\numberline {5.2}Struktura danych}{30}{}%
+\contentsline {section}{\numberline {5.3}System przemieszczania}{30}{}%
+\contentsline {section}{\numberline {5.4}Biblioteka ML-Agents}{32}{}%
+\contentsline {section}{\numberline {5.5}Klasa PlayerIA}{35}{}%
+\contentsline {chapter}{\numberline {6}Weryfikacja i walidacja}{37}{}%
+\contentsline {section}{\numberline {6.1}Testowanie}{37}{}%
+\contentsline {section}{\numberline {6.2}Wykryte błędy}{37}{}%
+\contentsline {chapter}{\numberline {7}Podsumowanie i wnioski}{39}{}%
+\contentsline {section}{\numberline {7.1}Napotkane problemy}{39}{}%
+\contentsline {section}{\numberline {7.2}Możliwy rozwój}{39}{}%
+\contentsline {chapter}{Bibliografia}{41}{}%
+\contentsline {chapter}{Spis skrótów i symboli}{45}{}%
+\contentsline {chapter}{Źródła}{47}{}%
+\contentsline {chapter}{Lista dodatkowych plików, uzupełniających tekst pracy}{49}{}%
+\contentsline {chapter}{Spis rysunków}{51}{}%
+\contentsline {chapter}{Spis tabel}{53}{}%

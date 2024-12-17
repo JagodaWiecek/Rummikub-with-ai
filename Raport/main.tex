@@ -1011,6 +1011,55 @@
 	\chapter{Specyfikacja wewnętrzna}% TODO
 	\label{ch:05}
 	Specyfikacja wewnętrzna opisuje szczegóły techniczne implementacji projektu. Projekt został zrealizowany w środowisku Unity, jego kluczowe komponenty zostały zaimplementowane z C\#. To pozwoliło zaimplementować logikę gry, obiekty wykorzystywane w grze oraz gracza komputerowego z algorytmami uczenia maszynowego.
+	\section{Klasa Tile}
+	Klasa Tile jest wykorzystywana do implementacji pojedynczej płytki w grze Rummikub. Każda płytka ma swój numer i kolor, również jokery w tym projekcie mają swoje konkretne kolory i wartości. Klasa zawiera cztery zmienne:
+	\begin{lstlisting}
+		 private int number; 
+		 private UnityEngine.Color numberColor; 
+		 private string tilename; 
+		 private string symbol;
+		 private bool put; 
+	\end{lstlisting}
+	\begin{itemize}
+		\item number - określa wartość danej płytki, joker ma wartość 30.
+		\item numberColor - klasa środowiska UnityEngine, określa kolor dla płytki w systemie RGB.
+		\item tilename - nazwa płytki wykorzystywana do nazywania obiektów tworzonych na mapie.
+		\item symbol - zmienna do określania płytki, wykorzystywana przy inicjowania obiektu na mapie, aby użytkownik widział, jaką płytkę widzi. Taka zmienna jest konieczna przez istnienie jokerów w grze, którzy na mapie są widoczni jako "\$"
+		\item put - określa, czy dana płytka może zostać usunięta z mapy. Jeśli zmienna jest równa \texttt{False}, wtedy można usunąć, jeśli \texttt{True} co oznacza, że płytka została położona i nie można jej usunąć.
+	\end{itemize}
+	\section{Struktura danych}
+	Aplikacja musi być w środowisku 2.5D, co wymaga zaimplementowania obiektów w przestrzeni 3D. 
+	
+	Stojak gracza jest obiektem 2D, każda płytka, jaką gracz posiada, jest obiektem typy \texttt{photo} z dynamicznie zmiennym tekstem. W pamięci, stojak jest przechowywany jako lista obiektów klasy Tile.
+	
+	Jednak sama mapa, jak i obiekty na mapie, są zaimplementowane w przestrzeni 3D. W pamięci systemu, mapa jest reprezentowana jako słownik płytek \texttt{Dictionary<Vector3Int, Tile>}, gdzie każda lokalna pozycja na mapie jest zapisana jako klucz. Mapa, widziana przez użytkownika, opiera się na funkcjach siatki, jest to wbudowana funkcjonalność środowiska Unity. Siatka składa się z wierszy i kolumn, która pozwala na jednoznaczne określenie pozycji obiektów na mapie. Najważniejsze funkcjonalności wykorzystane w projekcie:
+	\begin{lstlisting}
+		CellToWorld(Vector3Int) 
+		WorldToCell(Vector3)
+	\end{lstlisting}
+	\begin{itemize}
+		\item CellToWorld - Wartością wejściową funkcji jest Wektor 3D z wartościami całkowitymi, zwraca natomiast Wektor 3D wartości zmiennoprzecinkowych. Pozwala na wyciągnięcie pozycji obiektu w przestrzeni globalnej w czasie interakcji z nimi.
+		\item WorldToCell - funkcja interpretująca pozycje świata obiektu do pozycji lokalnej siatki. Zmienną wejściową do funkcji jest Wektor 3D z wartościami zmiennoprzecinkowymi. Funkcja zwraca Wektor 3D liczb całkowitych
+	\end{itemize}
+	Wykorzystanie tych funkcji pozwala na łatwiejsze przechowywanie danych i pozycji na planszy.
+	\section{System przemieszczania}
+	System przemieszczania w aplikacji opiera się na interfejsie IPlacementState, który definiuje wspólny zestaw funkcji umożliwiających zarządzanie obiektami na mapie siatki (grid). Interfejs został zaimplementowany przez trzy klasy: PlacementState, RemovingState oraz MovingState, które różnią się sposobem inicjowania i realizacji funkcji.
+	\begin{lstlisting}
+		public interface IPlacementState
+		{
+			void EndState();
+			void UpdateState(Vector3Int gridPosition);
+			void OnAction(Vector3Int gridPosition);
+		}
+	\end{lstlisting}
+	Każda interakcja użytkownika z obiektem tworzy nowy obiekt \texttt{IPlacementState}. Gdy gracz zakończy wybraną akcje, zaimplementowany interfejs zostaje usunięty.
+		\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{photos/Grid_placement.png}
+		\caption{Uproszczony diagram IPlacement}
+		\label{fig:Diagram_placement_state}
+	\end{figure}
+	\newpage
 	\section{Biblioteka ML-Agents}
 	Unity ML-Agents Toolkit to biblioteka służąca do implementowania i trenowania agentów z algorytmami uczenia maszynowego. Biblioteka pozwala na wykorzystanie metod takich jak uczenie ze wzmocnieniem, uczenie nadzorowane oraz uczenie w grupie. Biblioteka ML-Agents została wybrana do implementacji przeciwnika komputerowego w grze Rummikub, ponieważ:
 	
@@ -1036,36 +1085,37 @@
 	\begin{figure}[H]
 		\centering
 	\begin{lstlisting}
-		behaviors:
-			behaviors_name:
-				trainer_type: ppo
-				hyperparameters:
-					batch_size: 10
-					buffer_size: 100
-					learning_rate: 3.0e-4
-					beta: 5.0e-4
-					epsilon: 0.2
-					lambd: 0.99
-					num_epoch: 3
-					learning_rate_schedule: linear
-					beta_schedule: constant
-					epsilon_schedule: linear
-				network_settings:
-					normalize: false
-					hidden_units: 128
-					num_layers: 2
-				reward_signals:
-					extrinsic:
-						gamma: 0.99
-						strength: 1.0
-				max_steps: 500000
-				time_horizon: 64
-				summary_freq: 10000
+	behaviors:
+		behaviors_name: 
+			trainer_type: ppo
+			hyperparameters:
+				batch_size: 64
+				buffer_size: 2048
+				learning_rate: 3.0e-4
+				beta: 5.0e-4
+				epsilon: 0.2
+				lambd: 0.95
+				num_epoch: 3
+				learning_rate_schedule: linear
+				beta_schedule: constant
+				epsilon_schedule: linear
+			network_settings:
+				normalize: true
+				hidden_units: 128
+				num_layers: 2
+			reward_signals:
+				extrinsic:
+					gamma: 0.99
+					strength: 1.0
+			max_steps: 500000
+			time_horizon: 64
+			summary_freq: 10000
+
 	\end{lstlisting}
-	\caption{Przykładowe środowisko .yaml .}
+	\caption{Domyślne środowisko .yaml .}
 	\label{fig:model_ml-agents:listings}
 	\end{figure}
-	Modyfikacja parametrów środowiska pozwala na dostosowanie modelu do aplikacji, w której jest implementowanie.
+	Na zdjęciu widać domyślną konfigurację. Modyfikacja parametrów środowiska pozwala na dostosowanie modelu do aplikacji, w której jest implementowane.
 	
 	Każdy parametr odpowiada innej funkcjonalności modelu:
 	\begin{itemize}
@@ -1098,11 +1148,15 @@
 		\item \textbf{time\_horizon} - maksymalny czas, po jakim agent kończy zbieranie danych do bufora.
 		\item \textbf{summary\_freq} - określa, co ile zostają wygenerowane dane podsumowania treningu.
 	\end{itemize}
-	 
+
+	 Parametry środowiskowe mogą się różnić w zależności od wybranego \texttt{trainer\_type}. Przy grze Rummikub ważne jest, aby dostosować parametry do dużej ilości obserwacji oraz akcji.
 	\section{Klasa PlayerIA}
-	\section{Klasa Tile}
-	\section{Mechanika gry}
-	\section{Struktura danych}
+	Klasa PlayerIA implementuje metody dla agenta do wykonywania konkretnych funkcjonalności i interakcji w środowisku. Klasa dziedziczy po interfejsie \texttt{Agent}, która jest dostarczana przez bibliotekę ML-Agents.
+	
+	
+	
+	
+	
 	
 	% TODO
 	\chapter{Weryfikacja i walidacja}% TODO

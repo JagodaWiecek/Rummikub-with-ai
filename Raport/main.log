@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  16 DEC 2024 18:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  17 DEC 2024 17:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1834,6 +1834,12 @@ Rozdzia\l  5.
 
 
 [29]
+Overfull \hbox (3.2112pt too wide) in paragraph at lines 1035--1036
+\T1/lmr/m/n/12 pa-mi¦ci sys-temu, mapa jest re-pre-zen-to-wana jako sªow-nik pª
+y-tek \T1/lmtt/m/n/12 Dictionary<Vector3Int,
+ []
+
+
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1844,7 +1850,43 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [30]
-Overfull \hbox (17.97858pt too wide) in paragraph at lines 1092--1093
+<photos/Grid_placement.png, id=174, 1044.90375pt x 623.32875pt>
+File: photos/Grid_placement.png Graphic file (type png)
+<use photos/Grid_placement.png>
+Package pdftex.def Info: photos/Grid_placement.png  used on input line 1058.
+(pdftex.def)             Requested size: 455.24411pt x 271.57382pt.
+
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[31 <./photos/Grid_placement.png>]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[32]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[33]
+Overfull \hbox (17.97858pt too wide) in paragraph at lines 1142--1143
 []\T1/lmr/bx/n/12 reward_signals \T1/lmr/m/n/12 - de-fi-niuje sy-gnaª na-grody 
 dla agenta. Tu-taj jest u»yty typ \T1/lmtt/m/n/12 extrinsic\T1/lmr/m/n/12 ,
  []
@@ -1859,7 +1901,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[31]
+[34]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1868,28 +1910,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[32]
-Rozdzia\l  6.
-
-
-[33
-
-]
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[34
-
-]
-Rozdzia\l  7.
-
 
 [35]
 
@@ -1904,29 +1924,10 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [36
 
 ]
-Overfull \hbox (15.34717pt too wide) in paragraph at lines 1129--1129
-\T1/lmtt/m/n/12 https : / / wiki . python . org / moin / BeginnersGuide / Downl
-oad$ \T1/lmr/m/n/12 (term. wiz. 05. 11. 2024). 
- []
+Rozdzia\l  6.
 
 
-Overfull \hbox (8.33395pt too wide) in paragraph at lines 1129--1129
-\T1/lmtt/m/n/12 github . com / Unity -[] Technologies / ml -[] agents / blob / 
-develop / docs / Installation .
- []
-
-
-Overfull \hbox (1.33812pt too wide) in paragraph at lines 1129--1129
-[]\T1/lmr/m/n/12 Unity Tech-no-lo-gies. \T1/lmr/m/it/12 Unity Sys-tem Re-qu-ire
--ments\T1/lmr/m/n/12 . 2023. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 : $\T1/lmtt/m/n/
-12 https : / / docs . unity3d .
- []
-
-
-
-[37
-
-]
+[37]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1939,10 +1940,41 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [38
 
 ]
+Rozdzia\l  7.
+
 
 [39]
 
-[40]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[40
+
+]
+Overfull \hbox (15.34717pt too wide) in paragraph at lines 1183--1183
+\T1/lmtt/m/n/12 https : / / wiki . python . org / moin / BeginnersGuide / Downl
+oad$ \T1/lmr/m/n/12 (term. wiz. 05. 11. 2024). 
+ []
+
+
+Overfull \hbox (8.33395pt too wide) in paragraph at lines 1183--1183
+\T1/lmtt/m/n/12 github . com / Unity -[] Technologies / ml -[] agents / blob / 
+develop / docs / Installation .
+ []
+
+
+Overfull \hbox (1.33812pt too wide) in paragraph at lines 1183--1183
+[]\T1/lmr/m/n/12 Unity Tech-no-lo-gies. \T1/lmr/m/it/12 Unity Sys-tem Re-qu-ire
+-ments\T1/lmr/m/n/12 . 2023. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 : $\T1/lmtt/m/n/
+12 https : / / docs . unity3d .
+ []
+
+
 
 [41
 
@@ -1962,19 +1994,11 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [43]
 
+[44]
 
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[44
+[45
 
 ]
-
-[45]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1986,11 +2010,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [46
 
-] (main.lof)
-\tf@lof=\write6
-\openout6 = `main.lof'.
-
-
+]
 
 [47]
 
@@ -2004,13 +2024,45 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [48
 
+]
+
+[49]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[50
+
+] (main.lof)
+\tf@lof=\write6
+\openout6 = `main.lof'.
+
+
+
+[51]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[52
+
 ] (main.lot)
 \tf@lot=\write7
 \openout7 = `main.lot'.
 
 
 
-[49] (main.aux)
+[53] (main.aux)
  ***********
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
@@ -2020,10 +2072,10 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 39265 strings out of 473682
- 907772 string characters out of 5719215
+ 39321 strings out of 473682
+ 908663 string characters out of 5719215
  1751257 words of memory out of 5000000
- 61717 multiletter control sequences out of 15000+600000
+ 61773 multiletter control sequences out of 15000+600000
  622810 words of font info for 73 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,12n,93p,1873b,2439s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -2036,9 +2088,9 @@ b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb>
 <C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pf
 b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pf
 b>
-Output written on main.pdf (55 pages, 1124340 bytes).
+Output written on main.pdf (59 pages, 1147980 bytes).
 PDF statistics:
- 276 PDF objects out of 1000 (max. 8388607)
+ 290 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 123 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 128 words of extra memory for PDF output out of 10000 (max. 10000000)
 
