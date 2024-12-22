@@ -517,7 +517,7 @@
 	\label{ch:wstep}
 	Gry planszowe są formą rozrywki dla ludzi od wieków jak i formą intelektualnego wyzwania. We współczesnych czasach znaczna część życia podlega cyfryzacji, od komunikacji do płatności bankowych. Z tego powodu również wszelkie gry planszowe są przenoszone do cyfrowego świata. Takie rozwiązanie pozwala na rozpoczęcie rozgrywki ulubionej gry planszowej w świecie online wraz z graczami z całego świata bez żadnych ograniczeń.
 	\section{Cel pracy} 
-	Celem pracy jest zaimplementowanie gry planszowej 2.5D w unity. Dodatkowo w ramach gry zostanie zaimplementowany gracz komputerowy z wykorzystaniem uczenia maszynowego.
+	Celem pracy jest zaimplementowanie gry planszowej 2.5D w unity. Dodatkowo w ramach gry zostanie zaimplementowany gracz komputerowy z wykorzystaniem uczenia maszynowego. Gra będzie przeznaczona wyłącznie do rozgrywki jednoosobowej, w której gracz zmierzy się z wyuczonym graczem komputerowym. 
 	
 
 
@@ -525,9 +525,11 @@
 	
 	\begin{itemize}
 		\item Przegląd algorytmów uczenia maszynowego dostępnego w unity.
-		\item Zaimplementowanie graczy komputerowych z algorytmem uczenia maszynowego oraz graczy komputerowych z predefiniowanymi ruchami.
 		\item Zaimplementowanie gry planszowej Rummikub 2.5D w unity.
 		\item Zaprojektowanie mapy do gry.
+		\item Zaimplementowanie graczy komputerowych z algorytmem uczenia maszynowego oraz graczy komputerowych z predefiniowanymi ruchami.
+		
+		
 	\end{itemize} 
 	
 	\section{Charakterystyka rozdziałów}
@@ -543,75 +545,53 @@
 	
 	
 	
-	\chapter{Analiza tematu}% do akceptacji
-	Tematem pracy jest cyfrowa gra planszowa z wykorzystaniem algorytmów sztucznej inteligencji. Kluczowym problemem jest zaimplementowanie inteligentnego gracza, który poprzez system prób i błędów, nauczy się grać. Wybranie gry planszowej ma duże znaczenie, im bardziej skomplikowane zasady gry, tym trudniej będzie modelowi nauczyć się zasad.
-	Do realizacji tego projektu została wybrana gra planszowa o nazwie Rummikub.\\ Rummikub to gra planszowa, w której gracze rywalizują, układając płytki w:
+	\chapter{Analiza tematu}% do akceptacji LINKII DO GIER
+	Tematem pracy jest cyfrowa gra planszowa z wykorzystaniem algorytmów sztucznej inteligencji. Kluczowym problemem jest zaimplementowanie inteligentnego gracza, który poprzez system prób i błędów, nauczy się grać. Do realizacji tego projektu została wybrana gra planszowa o nazwie Rummikub.\\ Rummikub to gra planszowa, w której gracze rywalizują, układając płytki w:
 	\begin{itemize}
 		\item grupy - te same liczby w różnych kolorach 
 		\item serie - kolejne liczby w tym samym kolorze.
 	\end{itemize} 
-	Celem graczy jest jako pierwszy wyłożyć wszystkie płytki, przy czym pierwszy ruch wymaga uzyskania układów o sumie co najmniej 30 punktów. Gra kończy się, gdy gracz wyłoży wszystkie płytki, a punkty zależą od liczby pozostałych płytek u przeciwników.
+	Celem graczy jest jako pierwszy wyłożyć wszystkie płytki, przy czym pierwszy ruch wymaga uzyskania układów o sumie co najmniej 30 punktów. Gra kończy się, gdy jeden z graczy wyłoży wszystkie płytki. Wynik pozostałych graczy zależy od płytek, jakie pozostały na ich stojakach. Każdy gracz powinien dążyć do uzyskania jak najmniejszego wyniku.
 	
 	\section{Sformułowanie problemu}
-	Cyfrowe wersje gier planszowych często są projektowane z myślą o rozgrywkach online z innymi graczami za pośrednictwem internetu. Jednak stworzenie gry z komputerowym przeciwnikiem opartym na algorytmach nauczania maszynowego wymaga odmiennego podejścia i zastosowania innych technik programistycznych, model nie powinien się uczyć na graniu z żywymi graczami, gdyż zajęło by mu to za długo. Algorytmy AI potrzebują dużej ilości powtórzeń aby nauczyć się zasad gry. W projekcie zostanie uwzględniony jeden żywy gracz, gracze komputerowi z predefiniowanymi ruchami oraz komputerowy gracz z algorytmem nauczania maszynowego.
+	Cyfrowe wersje gier planszowych często są projektowane z myślą o rozgrywkach online z innymi graczami za pośrednictwem internetu. Jednak implementacja komputerowego przeciwnika opartego na algorytmach uczenia maszynowego wymaga innego podejścia, skoncentrowanego na samodzielnym procesie uczenia się przez model. Algorytmy AI potrzebują dużej liczby powtórzeń, aby efektywnie nauczyć się zasad gry, dlatego proces uczenia zostanie przeprowadzony w środowisku symulacyjnym, bez udziału żywych graczy.
+
+	W projekcie uwzględniono jednego żywego gracza, który będzie mógł rywalizować z komputerowymi przeciwnikami. W grze znajdą się zarówno gracze komputerowi wykonujący predefiniowane ruchy, jak i gracz sterowany algorytmem uczenia maszynowego, który będzie podejmował decyzje na podstawie wytrenowanego modelu.
 	\section{Znane rozwiązania}
 	Na rynku jest wiele gier planszowych, najpopularniejsze z nich doczekały się swojej cyfrowej wersji. Są nimi między innymi:
 	\begin{itemize}
-	\item Monopoli - Jedna z najpopularniejszych gier planszowych. Gra oparta na finansach i rywalizacji z innymi graczami została wydana w wersji cyfrowej. Gra doczekała się również gier o charakterze monopoly, takimi jak \texttt{business tour}
-	\item Go - Chińska gra planszowa, popularna również w Korei i Japonii. Celem gry jest zajęcie jak większej powierzchni na planszy od przeciwnika. Gra \texttt{go} ma swoją wersję cyfrową na stronach internetowych.
+	\item Monopoli - Jedna z najpopularniejszych gier planszowych. Gra oparta na finansach i rywalizacji z innymi graczami została wydana w wersji cyfrowej. Gra doczekała się również gier o charakterze monopoly, takich jak \texttt{Business Tour}
+	\item Go - Chińska gra planszowa, popularna również w Korei i Japonii. Celem gry jest zajęcie jak największej powierzchni na planszy od przeciwnika. Gra \texttt{go} ma swoją wersję cyfrową na stronach internetowych.
 	\item Cantan - Strategiczna gra planszowa. Gracze mają za zadanie zyskiwać punkty zwycięstwa poprzez wykonywanie konkretnych ruchów na mapie. W grze stawia się budynki i drogi w miejscach strategicznych, co daje graczowi przewagę nad innymi. Wygrywa gracz, który uzyska ustaloną ilość punktów zwycięstwa. Gra planszowa \texttt{Cantan} ma swoją wersję cyfrową dostępną dla graczy z całego świata.
-	\item Szachy - Jedna z najbardziej popularnych strategicznych gier planszowych. Gra, oparta na rywalizacji z drugim graczem, posiada wiele wersji cyfrowych. Szachy są nie tylko grą online opartą na grę innym użytkownikiem, ale również jednym z pierwszych gier, w jakiej zastosowano graczy komputerowych z algorytmami sztucznej inteligencji, czyniąc rozgrywkę jeszcze bardziej skomplikowaną.
-	\item Rummikub - Wydana gra online Rummikub jest nastawiona na grę sieciową do komunikacji innych graczy z całego świata. Gra jest zaimplementowana w grafice 2D bez algorytmów sztucznej inteligencji. 
+	\item Szachy - Jedna z najbardziej popularnych strategicznych gier planszowych. Gra, oparta na rywalizacji z drugim graczem, posiada wiele wersji cyfrowych. Pewne wersje szachów w wersji online posiada zaimplementowane algorytmy sztucznej inteligencji, jedną z nich jest silnik gry \cite{bib:chess_online}, gdzie znajduje się pełna dokumentacja o zastosowanych algorytmach.
+	\item Rummikub - Wydana gra online Rummikub jest nastawiona na grę sieciową do komunikacji innych graczy z całego świata. Gra jest bez algorytmów sztucznej inteligencji, zaimplementowana w grafice 2D, co można zauważyć na zdjęciu \ref{fig:gra_rummikub}. 
+		\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{photos/rummikub_game.png}
+		\caption{Zrzut ekranu gry Rummikub online}
+		\label{fig:gra_rummikub}
+	\end{figure}
 \end{itemize}
 	
 	% TODO
 	\chapter{Wymagania i narzędzia}% do akceptacji
 	\label{ch:wymagania-i-narzedzia}
-	W tej sekcji przedstawiono wymagania funkcjonalne i niefunkcjonalne projektu oraz narzędzia technologiczne i programistyczne, które zostały wykorzystane do jego realizacji. Opisane zostaną także kluczowe zasoby niezbędne do wdrożenia rozwiązania, takie jak środowiska programistyczne, biblioteki, frameworki oraz sprzęt.
+	W tym rozdziale przedstawiono wymagania funkcjonalne i niefunkcjonalne projektu oraz narzędzia technologiczne i programistyczne, które zostały wykorzystane do jego realizacji. Opisane zostały także kluczowe zasoby niezbędne do wdrożenia rozwiązania, takie jak środowiska programistyczne, biblioteki oraz wymagany sprzęt.
 	\section{Wymagania funkcjonalne}
-	\textbf{Interakcja z mapą :}
 	\begin{itemize}
-		\item Gra musi pozwolić graczowi i agentowi na wybór płytki, którą chcą postawić bądź wejść z nią w interakcje.
-		\item Gracz oraz agent powinni być w stanie postawić nową płytkę na mapie, przesunąć istniejącą bądź usunąć ją z mapy, jeśli jest to możliwe.
-		\item Agent oraz gracz muszą wyłożyć serie bądź grupy płytek jak najszybciej.
-		\item Gra musi ograniczać graczy, aby nie mogli tworzyć serii niedozwolonych w zasadach gry.
-		
-	\end{itemize}
-	\textbf{Ruchy gracza :}
-	\begin{itemize}
-		\item Użytkownik musi mieć możliwość widzieć swoje płytki, wykładać je na mapę oraz tworzyć serie bądź grupy
-		\item W trakcie tury gra na bieżąco weryfikuje czy daną płytkę można postawić, pod koniec tury sprawdza czy każdy wyłożony ciąg płytek posiada co najmniej 3 płytki w jednym ciągu.
-		\item Gracz powinien móc zakończyć turę, cofnąć wszystkie akcje oraz dobrać nową płytkę.
-		\item Użytkownik powinien móc posortować swoje płytki.
-	\end{itemize}
-	\textbf{Komputerowi gracze :}
-	\begin{itemize}
-		\item Jeśli jest to pierwsza tura gracza:
-		\begin{itemize}
-			\item Sprawdza możliwość wyłożenia serii, gdzie jej suma wynosi co najmniej 30 lub więcej.
-			\item Sprawdza możliwość wyłożenia grupy, gdzie jej suma wynosi co najmniej 30 lub więcej.
-		\end{itemize}
-		\item Gdy pierwsza tura zostanie zakończona:
-		\begin{itemize}
-			\item Sprawdza możliwość wyłożenia serii i grup.
-			\item Jeśli to możliwe, dokłada płytki do innych grup i serii.
-		\end{itemize}
-	\end{itemize}
-	\textbf{Tryby gry :}
-	\begin{itemize}
-		\item Użytkownik przeciwko trzem graczom komputerowym
-		\item Trzej gracze komputerowi przeciwko agentowi, tryb służy głównie do nauki modelu
-		\item Użytkownik przeciwko modelowi, tryb służy głównie do testowania, czy model jest poprawnie nauczony.
-		\item Użytkownik przeciwko dwóm graczom komputerowym i jednemu agentowi.
+		\item Wizualizacja rozgrywki.
+		\item Interakcja użytkownika z elementami gry.
+		\item Zapobieganie zachowaniom graczy wbrew zasadom gry.
+		\item Interakcja użytkownika z grą za pośrednictwem klawiatury i myszy.
+		\item Zaimplementowanie gracza komputerowego z predefiniowanymi zachowaniami zgodnie z zasadami gry.
+		\item Implementacja różnych trybów gry.
+		\item Zaimplementowanie gracza komputerowego z algorytmem uczenia maszynowego.
 	\end{itemize}
 	\section{Wymagania niefunkcjonalne}
-	
 	\begin{itemize}
-		
 		\item \textbf{Kompatybilność :}
 		\begin{itemize}
 			\item Gra musi działać na systemach Windows.
-			\item Rozgrywka wymaga klawiatury i myszki do sterowania.
 		\end{itemize}
 		
 		\item \textbf{Użyteczność :}
@@ -619,46 +599,44 @@
 			\item Interfejs użytkownika powinien być intuicyjny i zrozumiały dla nowych graczy.
 			\item Kolorystyka i oznaczenia płytek powinny odpowiadać klasycznym zasadom gry Rummikub.
 		\end{itemize}
-		
-		\item \textbf{Niezawodność :}
-		\begin{itemize}
-			\item Gra nie zezwala graczom na wykonanie ruchów wbrew zasadom.
-		\end{itemize}
 	\end{itemize}
+	
 	\section{Opis narzędzi}
-	W tej sekcji przedstawiono narzędzia, które zostały wykorzystane do zrealizowania projektu.
+	W tej części przedstawiono narzędzia, które zostały wykorzystane do zrealizowania projektu.
 	\subsection{Unity}
-	 Środowisko gry zostało zaimplementowane z silniku Unity w najnowszej stabilnej wersji 2022.3.48f1.
-	 Unity jest wieloplatformowym silnikiem do tworzenia gier i aplikacji 3D jak i 2D stworzony przez Unity Technologies. Jest szeroko stosowany nie tylko do gier wideo, ale również do symulatorów, wizualizacji interaktywnych oraz aplikacji. 
+	 Środowisko gry zostało zaimplementowane w silniku Unity w wersji 2022.3.48f1.
+	 Unity jest wszechstronnym silnikiem do tworzenia gier i aplikacji 3D jak i 2D zaimplementowany przez Unity Technologies \cite{bib:unity_opis}. Jest szeroko stosowany nie tylko do gier wideo, ale również do symulatorów, wizualizacji interaktywnych oraz aplikacji mobilnych. 
 	 Unity oferuje dużo możliwości, takie jak:
 	 \begin{itemize}
 	 	\item Tworzenie modeli 2D i 3D
 	 	\item Animacje i symulacja fizyki
 	 	\item Renderowanie grafiki
+	 	\item Wykorzystanie narzędzi, takich jak okulary wirtualnej rzeczywistości oraz rozszerzonej rzeczywistości.
+	 	\item Tworzenie gier z trybem wieloosobowym.
 	 \end{itemize}
 	 
 	  
 	\subsection{C\#}
-	\textbf{C\#} (C-Sharp) to nowoczesny, obiektowy język programowania opracowany przez firmę Microsoft. Łączy zalety języków C++ oraz Java, co czyni go uniwersalnym przy użytkowaniu. Może być wykorzystany do tworzenia gier wideo czy aplikacji mobilnych.
+	\textbf{C\#} (C-Sharp) to nowoczesny, obiektowy język programowania opracowany przez firmę Microsoft \cite{bib:csharp_doc}. Łączy zalety języków C++ oraz Java, co czyni go uniwersalnym przy użytkowaniu. Może być wykorzystany do tworzenia gier wideo czy aplikacji mobilnych.
 	\\C\# wyróżnia się następującymi cechami:
 	\begin{itemize}
 		\item Programowanie obiektowe.
 		\item Zarządzanie pamięcią - posiadając funkcję garbage collector, nie trzeba martwić się o wycieki pamięci.
-		 \item Wszechstronność – umożliwia tworzenie aplikacji dla systemów Windows, macOS, Android, iOS oraz gier w środowisku Unity.
+		 \item Uniwersalność – umożliwia tworzenie aplikacji dla systemów Windows, macOS, Android, iOS oraz gier w środowisku Unity.
 	\end{itemize}
 	 C\# w projekcie został wykorzystany do zaimplementowania logiki gry, komunikacji z modelem oraz zarządzania interakcji między graczem a środowiskiem w Unity.
 	\subsection{Python}
-	Python to wszechstronny, wysokopoziomowy język programowania, głównie znany z prostoty i przejrzystości kodu. 
+	Python to obiektowy, wysokopoziomowy język programowania, głównie znany z prostoty i przejrzystości kodu. Więcej informacji na temat języka Python znajduje się w dokumentacji Python Software Foundation \cite{pythonblurb}.
 	Najważniejsze cechy języka Python to:
 	\begin{itemize}
 		\item Bogata biblioteka standardowa – zawiera moduły do pracy z danymi, plikami, sieciami, obliczeniami naukowymi i innymi zadaniami.
-		\item Przenośność i wszechstronność – Python działa na większości systemów operacyjnych, takich jak Windows, macOS czy Linux i jest wykorzystywany w aplikacjach desktopowych, webowych, a także w badaniach naukowych.
-		\item Poprzez istnienie wielu zewnętrznych bibliotek, takich jak NumPy, TensorFlow, PyTorch, idealnie nadaje się do analizy danych.
+		\item Przenośność i uniwersalność – Python działa na większości systemów operacyjnych, takich jak Windows, macOS czy Linux i jest wykorzystywany w aplikacjach desktopowych oraz webowych.
+		\item Poprzez istnienie wielu zewnętrznych bibliotek, takich jak NumPy, TensorFlow, PyTorch, idealnie nadaje się do analizy danych oraz wspomagania tworzenia podsumowań wyników badań naukowych.
 	\end{itemize}
-	Python w wersji 3.9 jest wykorzystany jaki środowisko do implementacji modelu uczenia maszynowego, jest to konieczne w przypadku biblioteki ML-Agents.
-	\subsection{ML-Agents}
+	W niniejszym projekcie Python w wersji 3.9 jest wykorzystany jako środowisko do implementacji modelu uczenia maszynowego, jest to konieczne w przypadku biblioteki ML-Agents.
+	\subsection{ML-Agents Toolkit}
 	ML-Agents (Machine Learning Agents) to ,opracowany przez Unity Technologies, zestaw narzędzi do wykorzystywania technik sztucznej inteligencji i uczenia maszynowego w projektach w środowisku Unity. 
-	Narzędzie pozwala na implementację agentów, którzy mogą podejmować decyzje w zaimplementowanym środowisku.
+	Narzędzie pozwala na implementację agentów, którzy mogą podejmować decyzje w zaimplementowanym środowisku. Więcej informacji na temat ML-Agents Toolkit można znaleźć w repozytorium GitHub Unity Technologies \cite{mlagents2024}.
 	\\ Kluczowymi cechami ML-Agents:
 	\begin{itemize}
 		\item Nauczanie wzmacniane - agenci uczą się na bazie dostawanych kar i nagród, jakie otrzymują.
@@ -670,7 +648,7 @@
 	W tym projekcie, narzędzie, do poprawnej nauki wykorzystuje środowisko Python oraz unity. Unity jest miejscem implementacji akcji, obserwacji, nagród i kar dla modelu. Środowisko Python jest wykorzystywane do implementacji modelu oraz rozpoczynania nauki.
 	\newpage
 	\section{Przypadki użycia}
-	Diagram przypadków użycia pokazuje możliwe funkcje dla gracza w menu oraz w grze.
+	Rysunek \ref{fig:usecase} przedstawia diagram przypadków użycia pokazuje możliwe funkcje dla gracza w menu oraz w grze.
 	\begin{figure}[ht]
 		\centering
 		\includegraphics[width=\textwidth]{photos/use_case.png}
@@ -698,23 +676,23 @@
 			\item NVIDIA GeForce RTX 4050
 		\end{itemize}
 	\section{Instalacja}
-	Aby uruchomić grę w trybie edycyjnym, należy zainstalować poniższe oprogramowanie i biblioteki:
+	Aby uruchomić grę, należy zainstalować poniższe oprogramowanie i biblioteki.:
 	\subsection{Unity}
-	Do uruchomienia projektu wymagana jest instalacja Unity w wersji co najmniej 2022.3 . Więcej informacji, na temat instalacji, znajduje się \cite{bib:Unity_instalacja}. Aby pobrać i zainstalować Unity, należy:
+	Do uruchomienia projektu wymagana jest instalacja Unity w wersji co najmniej 2022.3 . Więcej informacji, na temat instalacji, znajduje się \cite{bib:Unity_instalacja}. Aby zainstalować Unity, należy:
 	\begin{enumerate}
-		\item Pobierz Unity Hub z oficjalnej strony: \url{https://unity.com/download}.
-		\item Zainstaluj Unity Hub i dodaj wersję edytora Unity 2022.3 lub nowszą.
-		\item Skonfiguruj środowisko projektu, upewniając się, że zainstalowane są wybrane moduły.
+		\item Pobrać Unity Hub z oficjalnej strony: \url{https://unity.com/download}.
+		\item Zainstalować Unity Hub i dodaj wersję edytora Unity 2022.3 lub nowszą.
+		\item Pobierz wybrane biblioteki.
 	\end{enumerate}
 	\subsection{Python}
-	Konieczne jest zainstalowanie Pythona w wersji 3.8 bądź nowsza, więcej informacji można znaleźć \cite{bib:link_do_instrukcji_python}.
+	Konieczne jest zainstalowanie Pythona w wersji 3.8 bądź nowsza, więcej informacji można znaleźć w \cite{bib:link_do_instrukcji_python}.
 	\begin{enumerate}
 		\item Należy pobrać instalator z odpowiednią wersją oficjalnej strony 
 		\url{https://www.python.org/downloads/}.
 		\item Uruchomić instalacje.
 	\end{enumerate}
 	\subsection{Biblioteka ml-agents}
-	Biblioteka ML-Agents Toolkit jest wymagana do wdrożenia komponentów sztucznej inteligencji w grze. Szczegółowa instrukcja instalacji znajduje się \cite{bib:link_do_instrukcji_ml-agents}. Konieczne jest zainstalowanie jej w środowisku Python jak i w Unity.
+	Biblioteka ML-Agents Toolkit jest wymagana do wdrożenia komponentów sztucznej inteligencji w grze. Szczegółowa instrukcja instalacji znajduje się w \cite{bib:link_do_instrukcji_ml-agents}. Konieczne jest zainstalowanie jej w środowisku Python jak i w Unity.
 	\begin{enumerate}
 	\item Przejdź do zakładki Okno (Window) w Unity 
 	\item Wybierz Menedżer Pakietów (Package Manager)
@@ -759,20 +737,6 @@
 	\end{enumerate}
 	
 	\section{Aktywacja}
-	Po poprawnej instalacji i konfiguracji bibliotek oraz oprogramowania, można uruchomić aplikacje.
-	\\Aby włączyć symulacje aplikacji, należy wykonać następujące kroki:
-		\begin{enumerate}
-			\item Otwórz Unity Hub i wybierz projekt z listy w odpowiedniej wersji edytora Unity.
-			\item Kliknij przycisk \texttt{Open}, aby załadować projekt.
-			\item W edytorze Unity załaduj scenę \texttt{Menu}
-			\item Naciśnij przycisk \textbf{Play}, aby uruchomić grę w trybie symulacji.
-		\end{enumerate}
-	Jeżeli gra została zbudowana jako aplikacja, aktywacja przebiega następująco:
-		\begin{enumerate}
-			\item Otwórz folder z plikami projektu (np. \texttt{Build/Release}).
-			\item Uruchom plik wykonywalny (na Windows jest to plik typu \texttt{.exe}).
-			
-		\end{enumerate}
 	Aby rozpocząć naukę sztucznej inteligencji (ML-Agents), należy wykonać kolejne polecenia:
 		\begin{enumerate}
 			\item Otwórz Unity Hub i wybierz projekt z listy w odpowiedniej wersji edytora Unity.
@@ -786,7 +750,7 @@
 				\end{verbatim}
 			\item Naciśnij przycisk \textbf{Play} w Unity.
 		\end{enumerate}
-
+	Po wykonaniu powyższej instrukcji, w środowisku wirtualnym oraz w unity zostanie aktywowana nauka modelu, którą użytkownik będzie mógł obserwować.
 	\section{Sposób obsługi}
 	Sposób obsługi zawiera szczegółową instrukcję, jak korzystać z aplikacji z perspektywy użytkownika.
 	\subsection{Zasady gry}
@@ -817,7 +781,7 @@
 	
 	
 	\subsection{Ekran aplikacji}
-	Rozgrywka rozpoczyna się widokiem menu głównego gry
+	Rozgrywka rozpoczyna się widokiem menu głównego gry, co widać na rysunku \ref{fig:menugry}
 		\begin{figure}[H]
 		\centering
 		\includegraphics[width=\textwidth]{photos/Menu_gry.png}
@@ -839,14 +803,14 @@
 			\caption{Przykładowy ekran początku gry}
 			\label{fig:start_ekran_gry}
 		\end{figure}
-		Gra rozpoczyna się z każdym graczem posiadającym po czternaście płytek na swoim stojaku.\\Nad mapą widać napis:
+		Na obrazku \ref{fig:start_ekran_gry} można zobaczyć przykładowy ekran rozpoczęcia gry. Gra rozpoczyna się z każdym graczem posiadającym po czternaście płytek na swoim stojaku.\\Nad mapą widać napis zaprezentowany na rysunku \ref{fig:napis_gracza}:
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=\textwidth]{photos/current_player.png}
 			\caption{Aktualna tura: Gracz X}
 			\label{fig:napis_gracza}
 		\end{figure}
-		Napis ten informuje użytkownika, który gracz ma w danej chwili wykonuje turę ruchu. W tym miejscu mogą pojawić się różne napisy:
+		Napis ten informuje użytkownika, który gracz ma w danej chwili wykonuje turę ruchu. W miejscu \texttt{X} mogą pojawić się różne napisy:
 		\begin{itemize}
 			\item Computer, MissComputer, MrComputer - są to wyznaczniki, że daną turę wykonuje gracz komputerowy o predefiniowanych ruchach.
 			\item You - informacja, że to użytkownik może wykonać ruch.
@@ -858,8 +822,8 @@
 			\caption{widok czasu gry}
 			\label{fig:czas}
 		\end{figure}
-		Na obrazku znajduje się reprezentacja czasu gry w aplikacji. Każda tura trwa pewną ilość czasu, jeśli dany gracz nie zakończy swojej tury przed czasem, wszystkie jego ruchy zostają cofnięte, oraz dostaje nową płytkę z banku. Jedna tura zazwyczaj trwa 60 sekund.
-		\\Z lewej strony ekranu znajdują się pewne napisy. Są one reprezentacją listy gracz w danym trybie gry. Dostarcza również informacje, ile który gracz ma płytek na swoim stojaku. Lista graczy różni się w zależności od trybu gry:
+		W lewym górnym rogu znajduje się informacja o czasie w aplikacji, co można zobaczyć na rysunku \ref{fig:czas}. Każda tura trwa pewną ilość czasu, jeśli dany gracz nie zakończy swojej tury przed czasem, wszystkie jego ruchy zostają cofnięte, oraz dostaje nową płytkę z banku. Jedna tura zazwyczaj trwa 60 sekund.
+		\\Z lewej strony ekranu znajduje się lista graczy komputerowych. Dostarcza ona informacje, ile ma płytek każdy z graczy. Lista graczy różni się w zależności od trybu gry:
 				
 		\begin{figure}[H]
 		\centering
@@ -874,46 +838,49 @@
 			\item Ta lista jest z trybu gry użytkownik przeciwko gracz komputerowy z algorytmem uczenia maszynowego.
 			
 		\end{enumerate}
-		Użytkownik ma możliwość interakcji z płytkami w stojaku.
+		Użytkownik ma możliwość interakcji z płytkami w stojaku, widocznym na rysunku \ref{fig:przesuwanie}. Przytrzymanie wybranej płytki pozwala na jej przesuwanie w prawo bądź lewo w celu ułożenia jej w konkretnej sekwencji.
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=\textwidth]{photos/dragable.png}
 			\caption{widok stojaku z płytkami}
 			\label{fig:przesuwanie}
 		\end{figure}
-		Przytrzymanie wybranej płytki pozwala na jej przesuwanie w prawo bądź lewo w celu ułożenia jej w konkretnej sekwencji.
-		\\W prawym górnym rogu znajdują się przyciski, w zależności od momentu rozgrywki, są one różne:
+		
+		W prawym górnym rogu ekranu znajdują się przyciski. W zależności od momentu rozgrywki:
 		\begin{figure}[H]
 			\centering
-			\includegraphics[width=\textwidth]{photos/out_turn_przyciski.png}
+			\includegraphics[width=0.95\textwidth]{photos/out_turn_przyciski.png}
 			\caption{przyciski poza turą}
 			\label{fig:przyciski_poza_tura}
 		\end{figure}
-		Tak wygląda widok przycisków, gdy nie ma tury użytkownika : 
+		
+		Nie ma tury użytkownika: 
 		\begin{itemize}
 			\item pierwszy przycisk służy do sortowania względem serii.
 			\item drugi przycisk służy do sortowania względem grup.
 		\end{itemize}
-		\begin{figure}[H]
-			\centering
-			\includegraphics[width=\textwidth]{photos/przed_ruchem_przyciski.png}
-			\caption{przyciski przed wykonaniem ruchu}
-			\label{fig:przyciski_przed_ruchem}
-		\end{figure}
-		\FloatBarrier
 		
-		Tak wyglądają przyciski, gdy użytkownik ma swoją turę, ale jeszcze nie wykonał ruchu. Przycisk \texttt{Take a tile (34)} pozwala graczowi na pobranie płytki, wraz z czym kończy turę. Liczba w nawiasach na zdjęciu informuje, ile zostało płytek w głównym banku. Jeśli został użyty po wykonaniu ruchu na mapie, wszystkie manipulacje zostaną cofnięte. 
-		\newpage
+		Gdy użytkownik ma swoją turę, ale jeszcze nie wykonał ruchu, pojawia się dodatkowy przycisk \texttt{Take a tile (34)}, widoczny na obrazku \ref{fig:przyciski_przed_ruchem}, który pozwala graczowi na pobranie płytki, wraz z czym kończy turę. Liczba w nawiasach w przycisku informuje, ile zostało płytek w głównym banku. Jeśli został użyty po wykonaniu ruchu na mapie, wszystkie manipulacje zostaną cofnięte. 
+		
+		Przycisk \texttt{End Turn} wykona sprawdzenie, czy wszystkie sekwencje na mapie zawierają co najmniej trzy płytki. Jeśli funkcja wykryje błąd, tura nie zakończy się oraz zostanie pokazany komunikat o niepoprawnym zakończeniu tury.
+		\\Przycisk \texttt{Undo} cofa wszystkie zmiany i wyłożenia, jakie użytkownik wykonał w trakcie danej tury.
+
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.7\textwidth]{photos/po_ruchu_przyciski.png}
+		\includegraphics[width=0.75\textwidth]{photos/po_ruchu_przyciski.png}
 		\caption{przyciski po wykonaniu ruchu}
 		\label{fig:przyciski_po_ruchu}
 	\end{figure}
-	Przycisk \texttt{End Turn} wykona sprawdzenie, czy wszystkie sekwencje na mapie zawierają co najmniej trzy płytki. Jeśli funkcja wykryje błąd, tura nie zakończy się oraz zostanie pokazany komunikat o niepoprawnym zakończeniu tury.
-	\\Przycisk \texttt{Undo} cofa wszystkie zmiany i wyłożenia, jakie użytkownik wykonał w trakcie danej tury.
-	\newpage
-	Jeśli gracz spróbuje zakończyć turę przyciskiem \texttt{End Turn}, podczas gdy na mapie co najmniej jedna sekwencja nie zawiera minimalnie trzech płytek, na ekranie użytkownika wyświetli się ten komunikat:
+		
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{photos/przed_ruchem_przyciski.png}
+	\caption{przyciski przed wykonaniem ruchu}
+	\label{fig:przyciski_przed_ruchem}
+\end{figure}
+
+	
+	Jeśli gracz spróbuje zakończyć turę przyciskiem \texttt{End Turn}, podczas gdy na mapie co najmniej jedna sekwencja nie zawiera minimalnie trzech płytek, na ekranie użytkownika wyświetli się ten komunikat widoczny na rysunku \ref{fig:komunikat_zla_mapa}:
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=\textwidth]{photos/zla_mapa.png}
@@ -921,14 +888,14 @@
 			\label{fig:komunikat_zla_mapa}
 		\end{figure}
 		
-	Jeśli gracz wykonuje swoją pierwszą turę, ale suma sekwencji, jakie wyłożył, nie jest równa bądź większa trzydzieści, to na ekranie pokaże się komunikat:
+	Jeśli gracz wykonuje swoją pierwszą turę, ale suma sekwencji, jakie wyłożył, nie jest równa bądź większa trzydzieści, to na ekranie pokaże się komunikat widoczny na rysunku \ref{fig:nie_ma_sumy_30}:
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=\textwidth]{photos/zla_pierwsza_tura.png}
 		\caption{komunikat o źle zakończonej pierwszej turze}
 		\label{fig:nie_ma_sumy_30}
 	\end{figure}
-	Gdy gracz już zakończył swoją pierwszą turę i w trakcie kolejnej tury wykona manipulacje sekwencjami na mapie nie wykładając przy tym ani jednej płytki ze swojego stojaka, pokaże się taki komunikat na mapie:
+	Gdy gracz już zakończył swoją pierwszą turę i w trakcie kolejnej tury wykona manipulacje sekwencjami na mapie nie wykładając przy tym ani jednej płytki ze swojego stojaka, pokaże się komunikat zaprezentowany na rysunku \ref{fig:nie_wylozona_plytka}:
 		\begin{figure}[H]
 		\centering
 		\includegraphics[width=\textwidth]{photos/co_najmniej.png}
@@ -936,7 +903,7 @@
 		\label{fig:nie_wylozona_plytka}
 	\end{figure}
 	Nie dozwolone jest, na daną turę, manipulowanie mapą bez wyłożenia nowej płytki.
-	\\Jeżeli gracz zdecyduje się zabrać z planszy płytkę, która została położona przez niego bądź kogoś innego w innej turze, pojawi się na ekranie komunikat:
+	\\Jeżeli gracz zdecyduje się zabrać z planszy płytkę, która została położona przez niego bądź kogoś innego w innej turze, na ekranie pojawi się komunikat widoczny na rysunku \ref{fig:już_wylozona_plytka}:
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=\textwidth]{photos/juz_polozone.png}
@@ -950,55 +917,54 @@
 		\caption{ekran końca gry}
 		\label{fig:endgame_screen}
 	\end{figure}
-	Na zdjęciu widać hierarchię graczy w zależności od ich wyniku. Każdy gracz w hierarchii, pod zwycięzcą, ma w nawiasie zapisany wynik sumy płytek, które miał na swoim stojaku pod koniec gry. W takiej sytuacji wygrywa gracz, który nie ma już żadnych płytek na stojaku.
-	\\Jeśli gra jednak zakończy się brakiem płytek w głównym banku, ekran końca gry będzie wyglądać tak:
+	Na rysunku \ref{fig:endgame_screen} widać hierarchię graczy w zależności od ich wyniku. Każdy gracz w hierarchii, pod zwycięzcą, ma w nawiasie zapisany wynik sumy płytek, które miał na swoim stojaku pod koniec gry. W takiej sytuacji wygrywa gracz, który nie ma już żadnych płytek na stojaku.
+	\\Jeśli gra jednak zakończy się brakiem płytek w głównym banku, ekran końca gry będzie wyglądać jak na rysunku \ref{fig:endgame_screen_empty_bank}:
 	  	\begin{figure}[H]
 	  	\centering
 	  	\includegraphics[width=\textwidth]{photos/endgame_pusty_bank.png}
 	  	\caption{ekran końca gry przy pustym banku}
 	  	\label{fig:endgame_screen_empty_bank}
 	  \end{figure}
-	  W takiej sytuacji, każdy gracz ma wyliczoną sumę płytek na swoim stojaku. W takiej sytuacji wygrywa gracz, którego suma punktów jest najmniejsza.
+	  W takiej sytuacji, każdy gracz ma wyliczoną sumę płytek na swoim stojaku. Wygrywa gracz, którego suma punktów jest najmniejsza.
 	  
-	  Na ekranie końca gry, oprócz hierarchii, znajdują się dwa przyciski:
+	  Na ekranie końca gry, oprócz wyników graczy, znajdują się dwa przyciski:
 	  \begin{itemize}
 	  	\item \textbf{Return to menu} - jego użycie przeniesie użytkownika do menu głównego gry.
 	  	\item \textbf{Play again} - wykorzystanie tego przycisku pozwoli graczowi wzięcie udziału w nowej rozgrywce w tym samym trybie.
 	  \end{itemize}
 	  
-	  Każda płytka w grze odpowiada obiektom wykorzystywanym w oryginalnej grze planszowej, oprócz płytek jokerów. Jokery w tej aplikacji wyglądają tak:
+	  Każda płytka w grze odpowiada obiektom wykorzystywanym w oryginalnej grze planszowej, oprócz płytek jokerów. Rysunek \ref{fig:jokery} prezentuje wygląd jokerów w grze:
 	  \begin{figure}[H]
 	  	\centering
-	  	\includegraphics[width=0.4\textwidth]{photos/Jokery.png}
+	  	\includegraphics[width=0.45\textwidth]{photos/Jokery.png}
 	  	\caption{jokery}
 	  	\label{fig:jokery}
 	  \end{figure}
-	   W trakcie gry można również ją zatrzymać, jeśli użytkownik musi na chwilę odejść od urządzenia, albo jakby chciał zmienić tryb bez przymusu czekania na zakończenie rozgrywki. W tym przypadku może nacisnąć przycisk \texttt{Esc} aby uruchomił się ekran:
+	  W trakcie gry istnieje możliwość jej zatrzymania, na przykład gdy użytkownik musi na chwilę odejść od urządzenia lub chce zmienić tryb gry bez konieczności czekania na zakończenie rozgrywki. W takim przypadku wystarczy nacisnąć przycisk \texttt{Esc}. Po jego naciśnięciu, pojawi się ekran, który jest widoczny na rysunku \ref{fig:stop_game}:
 	  \begin{figure}[H]
 	  	\centering
-	  	\includegraphics[width=0.8\textwidth]{photos/stop_game.png}
+	  	\includegraphics[width=\textwidth]{photos/stop_game.png}
 	  	\caption{Ekran zatrzymania gry}
 	  	\label{fig:stop_game}
 	  \end{figure}
-	  W tym stanie, gra zostaje zatrzymana. Wciśnięcie przycisku \texttt{Return to menu} będzie skutkowało przedwczesnym zakończeniem gry i powrotem do menu głównego. Aby wznowić grę, użytkownik musi ponownie wcisnąć klawisz \texttt{Esc}.
-	\subsection{Rozgrywka}
-	Po wybraniu trybu gry, użytkownik widzi mapę rozgrywki. Zadaniem gracza jest, aby jak najszybciej wyłożyć płytki ze swojego stojaka.
-	Podczas interakcji z mapą, pojawia się siatka, aby gracz wiedział, gdzie może płytka może być położona.
-	Aby położyć płytkę na mapie, należy nacisnąć lewym przyciskiem myszy wybraną płytkę, a następnie przesunąć kursor myszy w stronę wybranej pozycji na mapie.
+	  W tym momencie gra zostaje wstrzymana, a dalsza rozgrywka nie jest możliwa. Jeśli użytkownik zdecyduje się zakończyć grę, może to zrobić, klikając przycisk \texttt{Return to menu}, co spowoduje powrót do głównego ekranu gry i zakończenie bieżącej sesji. Jeżeli gracz chce wznowić rozgrywkę, wystarczy, że naciśnie ponownie klawisz \texttt{Esc}, co pozwoli na kontynuację gry od miejsca, w którym została przerwana.
+	\subsection{Interakcja z płytkami gry}
+	Po wybraniu trybu gry, użytkownik zostaje przeniesiony do mapy rozgrywki. Jego głównym celem jest jak najszybsze wyłożenie płytek ze swojego stojaka. W trakcie interakcji z mapą pojawia się siatka, która pomaga graczowi zorientować się, gdzie dokładnie można umieścić płytkę. Aby położyć płytkę na mapie, należy najpierw kliknąć lewym przyciskiem myszy na wybraną płytkę, a następnie przesunąć kursor w kierunku miejsca, w którym gracz chce ją umieścić.
+	Na rysunku \ref{fig:w_turze} widać obiekt, podobny do płytki. Gracz dzięki temu widzi, gdzie płytka będzie położona. Aby zakończyć akcję, wystarczy nacisnąć lewym przyciskiem myszy punkt na mapie:
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=\textwidth]{photos/w_turze.png}
 		\caption{Kładzenie płytki na mapę}
 		\label{fig:w_turze}
 	\end{figure}
-	Na ekranie widać obiekt, podobny do płytki. Gracz dzięki temu widzi, gdzie płytka będzie położona. Aby zakończyć akcję, wystarczy nacisnąć lewym przyciskiem myszy punkt na mapie. Jeśli gracz przeciągnie kursorem myszy na pole, na którym nie może położyć płytki, obiekt zostanie pokazany na czerwono
+	Jeśli gracz przeciągnie kursorem myszy na pole, na którym nie może położyć płytki, obiekt zostanie pokazany na czerwono tak jak widać na rysunku \ref{fig:zle_polozenie}:
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=\textwidth]{photos/zle_polozenie.png}
 		\caption{Złe położenie płytki}
 		\label{fig:zle_polozenie}
 	\end{figure}
-	Aby usunąć płytkę z mapy, należy wcisnąć klawisz \texttt{D}, a następnie kliknąć lewym przyciskiem myszy na płytkę, którą chce się usunąć. Ta akcja usuwa płytkę z mapy i przywraca ją do stojaka gracza. Użytkownik może usunąć jedynie płytki wyłożone w trakcie trwającej tury. Gracz, chcąc usunąć płytkę z mapy zobaczy czerwony obiekt jako kursor. Oznacza on, że nie można usunąć obiekt z miejsca, w którym obiektu nie ma. Obiekt zmienia kolor na biały, gdy zostanie umiejscowiony na pozycji, gdzie znajduje się płytka 
+	Aby usunąć płytkę z mapy, należy wcisnąć klawisz \texttt{D}, a następnie kliknąć lewym przyciskiem myszy na płytkę, którą chce się usunąć. Ta akcja usuwa płytkę z mapy i przywraca ją do stojaka gracza. Użytkownik może usunąć jedynie płytki wyłożone w trakcie trwającej tury. Gracz, chcąc usunąć płytkę z mapy zobaczy czerwony obiekt jako kursor, jak na rysunku \ref{fig:usuwanie}. Oznacza on, że nie można usunąć obiekt z miejsca, w którym obiektu nie ma. Obiekt zmienia kolor na biały, gdy zostanie umiejscowiony na pozycji, gdzie znajduje się płytka 
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=\textwidth]{photos/usuwanie.png}
@@ -1007,6 +973,9 @@
 	\end{figure}
 	Gdy gracz chce przesunąć płytkę na mapie, musi najpierw nacisnąć prawym przyciskiem myszy na wybraną płytkę. Następnie wybrać nową pozycję na mapie i nacisnąć lewy przycisk myszy na wybranej pozycji. W trakcie przesuwania płytki pojawia się obiekt tak samo, jak przy wykładaniu nowej płytki
 	\\Jeśli gracz zdecyduje się zaprzestać wykonywania którejś akcji jak wykładania czy przesuwania, musi nacisnąć klawisz \texttt{Q}
+	
+	%Opis nauki od strony użytkownika
+	%opis graczy komputerowych z predefiniowanymi zachowaniami
 	% TODO
 	\chapter{Specyfikacja wewnętrzna}% TODO
 	\label{ch:05}

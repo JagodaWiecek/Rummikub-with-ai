@@ -15,39 +15,39 @@
 \contentsline {section}{\numberline {2.2}Znane rozwiązania}{4}{}%
 \contentsline {chapter}{\numberline {3}Wymagania i narzędzia}{5}{}%
 \contentsline {section}{\numberline {3.1}Wymagania funkcjonalne}{5}{}%
-\contentsline {section}{\numberline {3.2}Wymagania niefunkcjonalne}{6}{}%
-\contentsline {section}{\numberline {3.3}Opis narzędzi}{7}{}%
-\contentsline {subsection}{\numberline {3.3.1}Unity}{7}{}%
-\contentsline {subsection}{\numberline {3.3.2}C\#}{7}{}%
+\contentsline {section}{\numberline {3.2}Wymagania niefunkcjonalne}{5}{}%
+\contentsline {section}{\numberline {3.3}Opis narzędzi}{6}{}%
+\contentsline {subsection}{\numberline {3.3.1}Unity}{6}{}%
+\contentsline {subsection}{\numberline {3.3.2}C\#}{6}{}%
 \contentsline {subsection}{\numberline {3.3.3}Python}{7}{}%
-\contentsline {subsection}{\numberline {3.3.4}ML-Agents}{8}{}%
-\contentsline {section}{\numberline {3.4}Przypadki użycia}{9}{}%
-\contentsline {chapter}{\numberline {4}Specyfikacja zewnętrzna}{11}{}%
-\contentsline {section}{\numberline {4.1}Wymagania sprzętowe i programowe}{11}{}%
-\contentsline {section}{\numberline {4.2}Instalacja}{11}{}%
-\contentsline {subsection}{\numberline {4.2.1}Unity}{11}{}%
-\contentsline {subsection}{\numberline {4.2.2}Python}{12}{}%
-\contentsline {subsection}{\numberline {4.2.3}Biblioteka ml-agents}{12}{}%
-\contentsline {section}{\numberline {4.3}Aktywacja}{13}{}%
-\contentsline {section}{\numberline {4.4}Sposób obsługi}{14}{}%
-\contentsline {subsection}{\numberline {4.4.1}Zasady gry}{14}{}%
-\contentsline {subsection}{\numberline {4.4.2}Ekran aplikacji}{15}{}%
-\contentsline {subsection}{\numberline {4.4.3}Rozgrywka}{25}{}%
-\contentsline {chapter}{\numberline {5}Specyfikacja wewnętrzna}{29}{}%
-\contentsline {section}{\numberline {5.1}Klasa Tile}{29}{}%
-\contentsline {section}{\numberline {5.2}Struktura danych}{30}{}%
-\contentsline {section}{\numberline {5.3}System przemieszczania}{30}{}%
-\contentsline {section}{\numberline {5.4}Biblioteka ML-Agents}{32}{}%
-\contentsline {section}{\numberline {5.5}Klasa PlayerIA}{35}{}%
-\contentsline {chapter}{\numberline {6}Weryfikacja i walidacja}{37}{}%
-\contentsline {section}{\numberline {6.1}Testowanie}{37}{}%
-\contentsline {section}{\numberline {6.2}Wykryte błędy}{37}{}%
-\contentsline {chapter}{\numberline {7}Podsumowanie i wnioski}{39}{}%
-\contentsline {section}{\numberline {7.1}Napotkane problemy}{39}{}%
-\contentsline {section}{\numberline {7.2}Możliwy rozwój}{39}{}%
-\contentsline {chapter}{Bibliografia}{41}{}%
-\contentsline {chapter}{Spis skrótów i symboli}{45}{}%
-\contentsline {chapter}{Źródła}{47}{}%
-\contentsline {chapter}{Lista dodatkowych plików, uzupełniających tekst pracy}{49}{}%
-\contentsline {chapter}{Spis rysunków}{51}{}%
-\contentsline {chapter}{Spis tabel}{53}{}%
+\contentsline {subsection}{\numberline {3.3.4}ML-Agents Toolkit}{7}{}%
+\contentsline {section}{\numberline {3.4}Przypadki użycia}{8}{}%
+\contentsline {chapter}{\numberline {4}Specyfikacja zewnętrzna}{9}{}%
+\contentsline {section}{\numberline {4.1}Wymagania sprzętowe i programowe}{9}{}%
+\contentsline {section}{\numberline {4.2}Instalacja}{9}{}%
+\contentsline {subsection}{\numberline {4.2.1}Unity}{9}{}%
+\contentsline {subsection}{\numberline {4.2.2}Python}{10}{}%
+\contentsline {subsection}{\numberline {4.2.3}Biblioteka ml-agents}{10}{}%
+\contentsline {section}{\numberline {4.3}Aktywacja}{11}{}%
+\contentsline {section}{\numberline {4.4}Sposób obsługi}{12}{}%
+\contentsline {subsection}{\numberline {4.4.1}Zasady gry}{12}{}%
+\contentsline {subsection}{\numberline {4.4.2}Ekran aplikacji}{13}{}%
+\contentsline {subsection}{\numberline {4.4.3}Interakcja z płytkami gry}{21}{}%
+\contentsline {chapter}{\numberline {5}Specyfikacja wewnętrzna}{25}{}%
+\contentsline {section}{\numberline {5.1}Klasa Tile}{25}{}%
+\contentsline {section}{\numberline {5.2}Struktura danych}{26}{}%
+\contentsline {section}{\numberline {5.3}System przemieszczania}{26}{}%
+\contentsline {section}{\numberline {5.4}Biblioteka ML-Agents}{28}{}%
+\contentsline {section}{\numberline {5.5}Klasa PlayerIA}{31}{}%
+\contentsline {chapter}{\numberline {6}Weryfikacja i walidacja}{33}{}%
+\contentsline {section}{\numberline {6.1}Testowanie}{33}{}%
+\contentsline {section}{\numberline {6.2}Wykryte błędy}{33}{}%
+\contentsline {chapter}{\numberline {7}Podsumowanie i wnioski}{35}{}%
+\contentsline {section}{\numberline {7.1}Napotkane problemy}{35}{}%
+\contentsline {section}{\numberline {7.2}Możliwy rozwój}{35}{}%
+\contentsline {chapter}{Bibliografia}{37}{}%
+\contentsline {chapter}{Spis skrótów i symboli}{41}{}%
+\contentsline {chapter}{Źródła}{43}{}%
+\contentsline {chapter}{Lista dodatkowych plików, uzupełniających tekst pracy}{45}{}%
+\contentsline {chapter}{Spis rysunków}{47}{}%
+\contentsline {chapter}{Spis tabel}{49}{}%

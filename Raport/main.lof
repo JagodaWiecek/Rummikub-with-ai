@@ -7,32 +7,33 @@
 \babel@toc {polish}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Zrzut ekranu gry Rummikub online}}{4}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Diagram przypadków użycia}}{9}{}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Diagram przypadków użycia}}{8}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Menu gry}}{16}{}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Przykładowy ekran początku gry}}{17}{}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Aktualna tura: Gracz X}}{17}{}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces widok czasu gry}}{18}{}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces widok listy graczy}}{18}{}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces widok stojaku z płytkami}}{19}{}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces przyciski poza turą}}{19}{}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces przyciski przed wykonaniem ruchu}}{20}{}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces przyciski po wykonaniu ruchu}}{21}{}%
-\contentsline {figure}{\numberline {4.10}{\ignorespaces komunikat o źle zakończonej mapie}}{22}{}%
-\contentsline {figure}{\numberline {4.11}{\ignorespaces komunikat o źle zakończonej pierwszej turze}}{22}{}%
-\contentsline {figure}{\numberline {4.12}{\ignorespaces komunikat braku wyłożonej płytki}}{22}{}%
-\contentsline {figure}{\numberline {4.13}{\ignorespaces komunikat przy niedozwolonym usuwaniu płytki}}{22}{}%
-\contentsline {figure}{\numberline {4.14}{\ignorespaces ekran końca gry}}{23}{}%
-\contentsline {figure}{\numberline {4.15}{\ignorespaces ekran końca gry przy pustym banku}}{23}{}%
-\contentsline {figure}{\numberline {4.16}{\ignorespaces jokery}}{24}{}%
-\contentsline {figure}{\numberline {4.17}{\ignorespaces Ekran zatrzymania gry}}{24}{}%
-\contentsline {figure}{\numberline {4.18}{\ignorespaces Kładzenie płytki na mapę}}{25}{}%
-\contentsline {figure}{\numberline {4.19}{\ignorespaces Złe położenie płytki}}{26}{}%
-\contentsline {figure}{\numberline {4.20}{\ignorespaces wygląd usuwania płytki}}{26}{}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Menu gry}}{13}{}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Przykładowy ekran początku gry}}{14}{}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Aktualna tura: Gracz X}}{14}{}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces widok czasu gry}}{15}{}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces widok listy graczy}}{15}{}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces widok stojaku z płytkami}}{16}{}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces przyciski poza turą}}{16}{}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces przyciski po wykonaniu ruchu}}{17}{}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces przyciski przed wykonaniem ruchu}}{18}{}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces komunikat o źle zakończonej mapie}}{18}{}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces komunikat o źle zakończonej pierwszej turze}}{18}{}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces komunikat braku wyłożonej płytki}}{19}{}%
+\contentsline {figure}{\numberline {4.13}{\ignorespaces komunikat przy niedozwolonym usuwaniu płytki}}{19}{}%
+\contentsline {figure}{\numberline {4.14}{\ignorespaces ekran końca gry}}{19}{}%
+\contentsline {figure}{\numberline {4.15}{\ignorespaces ekran końca gry przy pustym banku}}{20}{}%
+\contentsline {figure}{\numberline {4.16}{\ignorespaces jokery}}{20}{}%
+\contentsline {figure}{\numberline {4.17}{\ignorespaces Ekran zatrzymania gry}}{21}{}%
+\contentsline {figure}{\numberline {4.18}{\ignorespaces Kładzenie płytki na mapę}}{22}{}%
+\contentsline {figure}{\numberline {4.19}{\ignorespaces Złe położenie płytki}}{22}{}%
+\contentsline {figure}{\numberline {4.20}{\ignorespaces wygląd usuwania płytki}}{23}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Uproszczony diagram IPlacement}}{31}{}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Domyślne środowisko .yaml .}}{33}{}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Uproszczony diagram IPlacement}}{27}{}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Domyślne środowisko .yaml .}}{29}{}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

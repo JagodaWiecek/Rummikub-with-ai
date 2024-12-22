@@ -17,6 +17,34 @@
 \endgroup
 
 \datalist[entry]{nty/global//global/global/global}
+  \entry{bib:csharp_doc}{online}{}{}
+  \endentry
+
+  \entry{bib:chess_online}{online}{}{}
+    \name{author}{1}{}{%
+      {{hash=DS}{%
+         family={Developers},
+         familyi={D\bibinitperiod},
+         given={Stockfish},
+         giveni={S\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{DS1}
+    \strng{fullhash}{DS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{D}
+    \field{sortinithash}{D}
+    \field{title}{Stockfish - Open Source Chess Engine}
+    \verb{url}
+    \verb https://github.com/official-stockfish/Stockfish
+    \endverb
+    \field{year}{2024}
+    \field{urlday}{22}
+    \field{urlmonth}{12}
+    \field{urlyear}{2024}
+  \endentry
+
   \entry{bib:link_do_instrukcji_python}{online}{}{}
     \name{author}{1}{}{%
       {{hash=FPS}{%
@@ -39,6 +67,31 @@
     \field{year}{2024}
     \field{urlday}{05}
     \field{urlmonth}{11}
+    \field{urlyear}{2024}
+  \endentry
+
+  \entry{pythonblurb}{online}{}{}
+    \name{author}{1}{}{%
+      {{hash=FPS}{%
+         family={Foundation},
+         familyi={F\bibinitperiod},
+         given={Python\bibnamedelima Software},
+         giveni={P\bibinitperiod\bibinitdelim S\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{FPS1}
+    \strng{fullhash}{FPS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{F}
+    \field{sortinithash}{F}
+    \field{title}{The Python Programming Language}
+    \verb{url}
+    \verb https://www.python.org/doc/essays/blurb/
+    \endverb
+    \field{year}{2024}
+    \field{urlday}{22}
+    \field{urlmonth}{12}
     \field{urlyear}{2024}
   \endentry
 
@@ -83,6 +136,31 @@
     \endverb
     \field{year}{2016}
     \field{urlday}{11}
+    \field{urlmonth}{12}
+    \field{urlyear}{2024}
+  \endentry
+
+  \entry{mlagents2024}{online}{}{}
+    \name{author}{1}{}{%
+      {{hash=TU}{%
+         family={Technologies},
+         familyi={T\bibinitperiod},
+         given={Unity},
+         giveni={U\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{TU1}
+    \strng{fullhash}{TU1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{T}
+    \field{sortinithash}{T}
+    \field{title}{ML-Agents Toolkit}
+    \verb{url}
+    \verb https://github.com/Unity-Technologies/ml-agents
+    \endverb
+    \field{year}{2024}
+    \field{urlday}{22}
     \field{urlmonth}{12}
     \field{urlyear}{2024}
   \endentry
@@ -135,6 +213,31 @@
     \endverb
     \field{year}{2024}
     \field{urlday}{11}
+    \field{urlmonth}{12}
+    \field{urlyear}{2024}
+  \endentry
+
+  \entry{bib:unity_opis}{online}{}{}
+    \name{author}{1}{}{%
+      {{hash=TU}{%
+         family={Technologies},
+         familyi={T\bibinitperiod},
+         given={Unity},
+         giveni={U\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{TU1}
+    \strng{fullhash}{TU1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{T}
+    \field{sortinithash}{T}
+    \field{title}{Unity - Game Development Platform}
+    \verb{url}
+    \verb https://unity.com/games
+    \endverb
+    \field{year}{2024}
+    \field{urlday}{22}
     \field{urlmonth}{12}
     \field{urlyear}{2024}
   \endentry
