@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  22 DEC 2024 21:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  26 DEC 2024 12:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1778,6 +1778,17 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [23 <./photos/usuwanie.png>]
+<photos/start.png, id=153, 1428.83812pt x 590.95781pt>
+File: photos/start.png Graphic file (type png)
+<use photos/start.png>
+Package pdftex.def Info: photos/start.png  used on input line 990.
+(pdftex.def)             Requested size: 455.24411pt x 188.28076pt.
+<photos/uruchomione.png, id=154, 707.64375pt x 681.29532pt>
+File: photos/uruchomione.png Graphic file (type png)
+<use photos/uruchomione.png>
+Package pdftex.def Info: photos/uruchomione.png  used on input line 999.
+(pdftex.def)             Requested size: 455.24411pt x 438.29378pt.
+
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1787,33 +1798,69 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[24
+[24 <./photos/start.png>]
+<photos/nauka.png, id=159, 819.8128pt x 176.15813pt>
+File: photos/nauka.png Graphic file (type png)
+<use photos/nauka.png>
+Package pdftex.def Info: photos/nauka.png  used on input line 1006.
+(pdftex.def)             Requested size: 455.24411pt x 97.82266pt.
 
-]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[25 <./photos/uruchomione.png> <./photos/nauka.png>]
+<photos/strona.png, id=166, 623.32875pt x 83.5622pt>
+File: photos/strona.png Graphic file (type png)
+<use photos/strona.png>
+Package pdftex.def Info: photos/strona.png  used on input line 1018.
+(pdftex.def)             Requested size: 455.24411pt x 61.03049pt.
+<photos/strona_localhost.png, id=167, 1577.14218pt x 898.85812pt>
+File: photos/strona_localhost.png Graphic file (type png)
+<use photos/strona_localhost.png>
+Package pdftex.def Info: photos/strona_localhost.png  used on input line 1026.
+(pdftex.def)             Requested size: 455.24411pt x 259.45522pt.
+
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[26 <./photos/strona.png> <./photos/strona_localhost.png>]
 Rozdzia\l  5.
 
 
-[25]
-Overfull \hbox (3.2112pt too wide) in paragraph at lines 1004--1005
+[27
+
+]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[28]
+Overfull \hbox (3.2112pt too wide) in paragraph at lines 1066--1067
 \T1/lmr/m/n/12 pa-mi¦ci sys-temu, mapa jest re-pre-zen-to-wana jako sªow-nik pª
 y-tek \T1/lmtt/m/n/12 Dictionary<Vector3Int,
  []
 
-
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[26]
-<photos/Grid_placement.png, id=164, 1044.90375pt x 623.32875pt>
+<photos/Grid_placement.png, id=180, 1044.90375pt x 623.32875pt>
 File: photos/Grid_placement.png Graphic file (type png)
 <use photos/Grid_placement.png>
-Package pdftex.def Info: photos/Grid_placement.png  used on input line 1027.
+Package pdftex.def Info: photos/Grid_placement.png  used on input line 1089.
 (pdftex.def)             Requested size: 455.24411pt x 271.57382pt.
 
 
@@ -1825,28 +1872,28 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[27 <./photos/Grid_placement.png>]
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[28]
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
 [29]
-Overfull \hbox (17.97858pt too wide) in paragraph at lines 1111--1112
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[30 <./photos/Grid_placement.png>]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[31]
+Overfull \hbox (17.97858pt too wide) in paragraph at lines 1173--1174
 []\T1/lmr/bx/n/12 reward_signals \T1/lmr/m/n/12 - de-fi-niuje sy-gnaª na-grody 
 dla agenta. Tu-taj jest u»yty typ \T1/lmtt/m/n/12 extrinsic\T1/lmr/m/n/12 ,
  []
@@ -1861,7 +1908,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[30]
+[32]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1870,22 +1917,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[31]
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[32
-
-]
-Rozdzia\l  6.
-
 
 [33]
 
@@ -1900,7 +1931,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [34
 
 ]
-Rozdzia\l  7.
+Rozdzia\l  6.
 
 
 [35]
@@ -1916,36 +1947,10 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [36
 
 ]
-Overfull \hbox (21.22215pt too wide) in paragraph at lines 1152--1152
-\T1/lmtt/m/n/12 https : / / wiki . python . org / moin / BeginnersGuide / Downl
-oad$ \T1/lmr/m/n/12 (term. wiz. 05. 11. 2024). 
- []
+Rozdzia\l  7.
 
 
-Overfull \hbox (5.93211pt too wide) in paragraph at lines 1152--1152
-[]\T1/lmr/m/n/12 Python So-ftware Fo-un-da-tion. \T1/lmr/m/it/12 The Py-thon Pr
-o-gram-ming Lan-gu-age\T1/lmr/m/n/12 . 2024. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 
-: $\T1/lmtt/m/n/12 https :
- []
-
-
-Overfull \hbox (14.20894pt too wide) in paragraph at lines 1152--1152
-\T1/lmtt/m/n/12 github . com / Unity -[] Technologies / ml -[] agents / blob / 
-develop / docs / Installation .
- []
-
-
-Overfull \hbox (7.2131pt too wide) in paragraph at lines 1152--1152
-[]\T1/lmr/m/n/12 Unity Tech-no-lo-gies. \T1/lmr/m/it/12 Unity Sys-tem Re-qu-ire
--ments\T1/lmr/m/n/12 . 2023. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 : $\T1/lmtt/m/n/
-12 https : / / docs . unity3d .
- []
-
-
-
-[37
-
-]
+[37]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1958,12 +1963,34 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [38
 
 ]
+Overfull \hbox (21.22215pt too wide) in paragraph at lines 1214--1214
+\T1/lmtt/m/n/12 https : / / wiki . python . org / moin / BeginnersGuide / Downl
+oad$ \T1/lmr/m/n/12 (term. wiz. 05. 11. 2024). 
+ []
 
-[39]
 
-[40]
+Overfull \hbox (5.93211pt too wide) in paragraph at lines 1214--1214
+[]\T1/lmr/m/n/12 Python So-ftware Fo-un-da-tion. \T1/lmr/m/it/12 The Py-thon Pr
+o-gram-ming Lan-gu-age\T1/lmr/m/n/12 . 2024. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 
+: $\T1/lmtt/m/n/12 https :
+ []
 
-[41
+
+Overfull \hbox (14.20894pt too wide) in paragraph at lines 1214--1214
+\T1/lmtt/m/n/12 github . com / Unity -[] Technologies / ml -[] agents / blob / 
+develop / docs / Installation .
+ []
+
+
+Overfull \hbox (7.2131pt too wide) in paragraph at lines 1214--1214
+[]\T1/lmr/m/n/12 Unity Tech-no-lo-gies. \T1/lmr/m/it/12 Unity Sys-tem Re-qu-ire
+-ments\T1/lmr/m/n/12 . 2023. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 : $\T1/lmtt/m/n/
+12 https : / / docs . unity3d .
+ []
+
+
+
+[39
 
 ]
 
@@ -1975,11 +2002,17 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[42
+[40
 
 ]
 
-[43]
+[41]
+
+[42]
+
+[43
+
+]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2005,11 +2038,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [46
 
-] (main.lof)
-\tf@lof=\write6
-\openout6 = `main.lof'.
-
-
+]
 
 [47]
 
@@ -2023,13 +2052,31 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [48
 
+] (main.lof)
+\tf@lof=\write6
+\openout6 = `main.lof'.
+
+
+
+[49]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[50
+
 ] (main.lot)
 \tf@lot=\write7
 \openout7 = `main.lot'.
 
 
 
-[49] (main.aux)
+[51] (main.aux)
  ***********
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
@@ -2039,10 +2086,10 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 39349 strings out of 473682
- 909815 string characters out of 5719215
- 1751257 words of memory out of 5000000
- 61801 multiletter control sequences out of 15000+600000
+ 39393 strings out of 473682
+ 910885 string characters out of 5719215
+ 1747257 words of memory out of 5000000
+ 61845 multiletter control sequences out of 15000+600000
  622810 words of font info for 73 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,12n,93p,1873b,2439s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -2055,9 +2102,9 @@ b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb>
 <C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pf
 b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pf
 b>
-Output written on main.pdf (55 pages, 1535360 bytes).
+Output written on main.pdf (57 pages, 1861144 bytes).
 PDF statistics:
- 280 PDF objects out of 1000 (max. 8388607)
+ 296 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 133 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 158 words of extra memory for PDF output out of 10000 (max. 10000000)
 

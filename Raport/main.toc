@@ -33,21 +33,24 @@
 \contentsline {subsection}{\numberline {4.4.1}Zasady gry}{12}{}%
 \contentsline {subsection}{\numberline {4.4.2}Ekran aplikacji}{13}{}%
 \contentsline {subsection}{\numberline {4.4.3}Interakcja z płytkami gry}{21}{}%
-\contentsline {chapter}{\numberline {5}Specyfikacja wewnętrzna}{25}{}%
-\contentsline {section}{\numberline {5.1}Klasa Tile}{25}{}%
-\contentsline {section}{\numberline {5.2}Struktura danych}{26}{}%
-\contentsline {section}{\numberline {5.3}System przemieszczania}{26}{}%
-\contentsline {section}{\numberline {5.4}Biblioteka ML-Agents}{28}{}%
-\contentsline {section}{\numberline {5.5}Klasa PlayerIA}{31}{}%
-\contentsline {chapter}{\numberline {6}Weryfikacja i walidacja}{33}{}%
-\contentsline {section}{\numberline {6.1}Testowanie}{33}{}%
-\contentsline {section}{\numberline {6.2}Wykryte błędy}{33}{}%
-\contentsline {chapter}{\numberline {7}Podsumowanie i wnioski}{35}{}%
-\contentsline {section}{\numberline {7.1}Napotkane problemy}{35}{}%
-\contentsline {section}{\numberline {7.2}Możliwy rozwój}{35}{}%
-\contentsline {chapter}{Bibliografia}{37}{}%
-\contentsline {chapter}{Spis skrótów i symboli}{41}{}%
-\contentsline {chapter}{Źródła}{43}{}%
-\contentsline {chapter}{Lista dodatkowych plików, uzupełniających tekst pracy}{45}{}%
-\contentsline {chapter}{Spis rysunków}{47}{}%
-\contentsline {chapter}{Spis tabel}{49}{}%
+\contentsline {subsection}{\numberline {4.4.4}Predefiniowani gracze komputerowi}{23}{}%
+\contentsline {subsection}{\numberline {4.4.5}Nauka od strony użytkownika}{24}{}%
+\contentsline {chapter}{\numberline {5}Specyfikacja wewnętrzna}{27}{}%
+\contentsline {section}{\numberline {5.1}Struktura projektu}{27}{}%
+\contentsline {section}{\numberline {5.2}Klasa Tile}{28}{}%
+\contentsline {section}{\numberline {5.3}Struktura danych}{29}{}%
+\contentsline {section}{\numberline {5.4}System przemieszczania}{29}{}%
+\contentsline {section}{\numberline {5.5}Biblioteka ML-Agents}{30}{}%
+\contentsline {section}{\numberline {5.6}Klasa PlayerIA}{33}{}%
+\contentsline {chapter}{\numberline {6}Weryfikacja i walidacja}{35}{}%
+\contentsline {section}{\numberline {6.1}Testowanie}{35}{}%
+\contentsline {section}{\numberline {6.2}Wykryte błędy}{35}{}%
+\contentsline {chapter}{\numberline {7}Podsumowanie i wnioski}{37}{}%
+\contentsline {section}{\numberline {7.1}Napotkane problemy}{37}{}%
+\contentsline {section}{\numberline {7.2}Możliwy rozwój}{37}{}%
+\contentsline {chapter}{Bibliografia}{39}{}%
+\contentsline {chapter}{Spis skrótów i symboli}{43}{}%
+\contentsline {chapter}{Źródła}{45}{}%
+\contentsline {chapter}{Lista dodatkowych plików, uzupełniających tekst pracy}{47}{}%
+\contentsline {chapter}{Spis rysunków}{49}{}%
+\contentsline {chapter}{Spis tabel}{51}{}%
