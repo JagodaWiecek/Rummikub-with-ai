@@ -534,11 +534,11 @@
 	
 	\section{Charakterystyka rozdziałów}
 	\begin{itemize}
-		\item \textbf{Wstęp} - przedstawienie celu oraz zakres pracy, określenie grup docelowych
-		\item \textbf{Analiza tematu} - zawiera ogólną analizę wszystkich możliwych rozwiązań tego projektu.
-		\item  \textbf{Wymagania i narzędzia} - przedstawienie narzędzi, wykorzystanych przy tworzeniu projektu, wymagania funkcjonalne, wymagania niefunkcjonalne oraz diagram UML przedstawiający przypadki użycia. 
+		\item \textbf{Wstęp} - Przedstawienie celu oraz zakres pracy, określenie grup docelowych
+		\item \textbf{Analiza tematu} - Zawiera ogólną analizę wszystkich możliwych rozwiązań tego projektu.
+		\item  \textbf{Wymagania i narzędzia} - Przedstawienie narzędzi, wykorzystanych przy tworzeniu projektu, wymagania funkcjonalne, wymagania niefunkcjonalne oraz diagram UML przedstawiający przypadki użycia. 
 		\item\textbf{Specyfikacja zewnętrzna} - Przestawia minimalne wymagania sprzętowe, jakie użytkownik powinien spełniać, aby korzystać z aplikacji. Zawiera również instrukcje dotyczące instalacji, aktywacji, zasady gry oraz ogólny opis użytkowania aplikacji.
-		\item\textbf{Specyfikacja wewnętrzna} - 
+		\item\textbf{Specyfikacja wewnętrzna} - Przedstawia ogólny opis struktury projektu, najważniejsze klasy w projekcie oraz opis działania i implementacji modelu uczenia maszynowego.
 		\item\textbf{Weryfikacja i walidacja} - 
 		\item\textbf{Podsumowanie i wnioski} - 
 	\end{itemize} 
@@ -561,9 +561,9 @@
 	Na rynku jest wiele gier planszowych, najpopularniejsze z nich doczekały się swojej cyfrowej wersji. Są nimi między innymi:
 	\begin{itemize}
 	\item Monopoli - Jedna z najpopularniejszych gier planszowych. Gra oparta na finansach i rywalizacji z innymi graczami została wydana w wersji cyfrowej. Gra doczekała się również gier o charakterze monopoly, takich jak \texttt{Business Tour}
-	\item Go - Chińska gra planszowa, popularna również w Korei i Japonii. Celem gry jest zajęcie jak największej powierzchni na planszy od przeciwnika. Gra \texttt{go} ma swoją wersję cyfrową na stronach internetowych.
+	\item Go - Chińska gra planszowa, popularna również w Korei i Japonii. Celem gry jest zajęcie większej powierzchni planszy od przeciwnika. Gra \texttt{go} ma swoją wersję cyfrową na stronach internetowych.
 	\item Cantan - Strategiczna gra planszowa. Gracze mają za zadanie zyskiwać punkty zwycięstwa poprzez wykonywanie konkretnych ruchów na mapie. W grze stawia się budynki i drogi w miejscach strategicznych, co daje graczowi przewagę nad innymi. Wygrywa gracz, który uzyska ustaloną ilość punktów zwycięstwa. Gra planszowa \texttt{Cantan} ma swoją wersję cyfrową dostępną dla graczy z całego świata.
-	\item Szachy - Jedna z najbardziej popularnych strategicznych gier planszowych. Gra, oparta na rywalizacji z drugim graczem, posiada wiele wersji cyfrowych. Pewne wersje szachów w wersji online posiada zaimplementowane algorytmy sztucznej inteligencji, jedną z nich jest silnik gry \cite{bib:chess_online}, gdzie znajduje się pełna dokumentacja o zastosowanych algorytmach.
+	\item Szachy - Jedna z najbardziej popularnych strategicznych gier planszowych. Gra, oparta na rywalizacji z drugim graczem, posiada wiele wersji cyfrowych. Pewne wersje szachów w wersji online posiada zaimplementowane algorytmy sztucznej inteligencji, jedną z nich jest silnik gry \texttt{Stockfish - Open Source Chess Engine} \cite{bib:chess_online}, gdzie znajduje się pełna dokumentacja o zastosowanych algorytmach.
 	\item Rummikub - Wydana gra online Rummikub jest nastawiona na grę sieciową do komunikacji innych graczy z całego świata. Gra jest bez algorytmów sztucznej inteligencji, zaimplementowana w grafice 2D, co można zauważyć na zdjęciu \ref{fig:gra_rummikub}. 
 		\begin{figure}[H]
 		\centering
@@ -1034,7 +1034,7 @@
 	\section{Struktura projektu}
 	W aplikacji zostały zaimplementowane obiekty oraz klasy konieczne do obsługi logiki rozgrywki, interakcji z obiektami oraz wyglądu gry. Dzielą się one na główne moduły:
 	\begin{itemize}
-		\item Moduł planszy gry (Board\_Game) - Składa się na obiekt mapy gry, jest ona widoczna dla użytkownika oraz gracze mogą wchodzić z nią w interakcje. W jej skład wchodzą obiekty siatki, do układania płytek na mapę, prefabrykatowy płytek 3D, wizualizacja siatki jako widocznej struktury oraz interakcja przemieszczania czy dodawania płytek. Główne klasy składające się na moduł to: PlacementSystem, IPlacementState, ObjectPlacer.
+		\item Moduł planszy gry - Składa się na obiekt mapy gry, jest ona widoczna dla użytkownika oraz gracze mogą wchodzić z nią w interakcje. W jej skład wchodzą obiekty siatki, do układania płytek na mapę, prefabrykatowy płytek 3D, wizualizacja siatki jako widocznej struktury oraz interakcja przemieszczania czy dodawania płytek. Główne klasy składające się na moduł to: PlacementSystem, IPlacementState, ObjectPlacer.
 		\item Moduł interfejsu użytkownika - interfejs gry, z którym użytkownik może wchodzić w interakcje. W jej skład wchodzą napisy, przyciski oraz prefabrykatowy płytek 2D. Użytkownik widzi w interfejsie płytki na swoim stojaku, ile płytek mają inni gracze, czyja tura jest oraz ile czasu pozostało do zakończenia bieżącej tury. Główne klasy składające się na moduł to: Draggable, GameTurnManager, TakeTile.
 		\item Moduł kontrolera - główny kontroler gry, łączy on całą logikę gry z wizualną częścią aplikacji. Klasa składająca się na moduł: GameController.
 		\item Moduł logiki gry - moduł odpowiadający za kalkulację oraz walidacje gry względem zasad gry planszowej. W jej skład wchodzą funkcjonalności walidacji w trakcie interakcji z płytkami na mapie, sprawdzenie poprawności planszy podczas zakończenia tury. Główne klasy składające się na moduł to: BoardDictionary, Tile, TurnController.
@@ -1043,7 +1043,7 @@
 		\item Moduł uczenia maszynowego - implementuje gracza komputerowego o algorytmach uczenia maszynowego, wdraża jego mechaniki w środowisko gry oraz implementuje kontrolę przypisywania nagród. Głównymi klasami modułu są: PlayerAI, Agent.
 	\end{itemize}
 	\section{Klasa Tile}
-	Klasa Tile jest wykorzystywana do implementacji pojedynczej płytki w grze Rummikub. Każda płytka ma swój numer i kolor, również jokery w tym projekcie mają swoje konkretne kolory i wartości. Klasa zawiera cztery zmienne:
+	Klasa Tile jest wykorzystywana do implementacji pojedynczej płytki w grze Rummikub. Każda płytka ma swój numer i kolor, również jokery w tym projekcie mają swoje konkretne kolory i wartości. Klasa zawiera pięć zmiennych:
 	\begin{lstlisting}
 		 private int number; 
 		 private UnityEngine.Color numberColor; 
@@ -1058,6 +1058,7 @@
 		\item symbol - zmienna do określania płytki, wykorzystywana przy inicjowania obiektu na mapie, aby użytkownik widział, jaką płytkę widzi. Taka zmienna jest konieczna przez istnienie jokerów w grze, którzy na mapie są widoczni jako "\$"
 		\item put - określa, czy dana płytka może zostać usunięta z mapy. Jeśli zmienna jest równa \texttt{False}, wtedy można usunąć, jeśli \texttt{True} co oznacza, że płytka została położona i nie można jej usunąć.
 	\end{itemize}
+	
 	\section{Struktura danych}
 	Aplikacja musi być w środowisku 2.5D, co wymaga zaimplementowania obiektów w przestrzeni 3D. 
 	
@@ -1183,7 +1184,35 @@
 	 Parametry środowiskowe mogą się różnić w zależności od wybranego \texttt{trainer\_type}. Przy grze Rummikub ważne jest, aby dostosować parametry do dużej ilości obserwacji oraz akcji.
 	\section{Klasa PlayerIA}
 	Klasa PlayerIA implementuje metody dla agenta do wykonywania konkretnych funkcjonalności i interakcji w środowisku. Klasa dziedziczy po interfejsie \texttt{Agent}, która jest dostarczana przez bibliotekę ML-Agents.
+	Najważniejsze funkcje, jakie klasa odziedziczyła po interfejsie to :
+	\begin{itemize}
+		\item CollectObservations - funkcja, służąca do zbierania obserwacji przez agenta
+		\item OnActionReceived - funkcja do przechwytywania akcji modelu i implementowania im funkcjonalności. 
+		\item AddReward - przesyła nagrody bądź kary do modelu.
+	\end{itemize}
+	Funkcje są implementowane z kodzie, ustawienia akcji i obserwacji są do wpisania w edytorze unity. Są one statyczne, nie można ich dynamicznie ustawiać w kodzie, więc należy ustawić najwyższą możliwą wartość. W obserwacjach należy również uwzględnić, że obserwowane są pojedyncze zmienne, dlatego aby pod obserwacje dać np. pojedynczą zmienną klasy Tile, to obserwacje trzeba ustawić na 5, gdyż klasa Tile ma pięć zmiennych.
+	W klasie PlayerIA pod obserwacje należało poddać:
+	\begin{itemize}
+		\item Płytki, jakie agent ma w stojaku.
+		\item Czy to jego pierwsza tura.
+		\item Aktualny czas tury.
+		\item Ilość płytek na stojaku.
+		\item Płytki oraz puste miejsca na mapie.
+	\end{itemize}
+	Wszystkie obserwacje mają na celu pokazanie agentowi, jak obiekty się zmieniają gdy dostaje konkretne nagrody.
 	
+	Akcje modelu są liczbami, którym przypisane są konkretne funkcje. Akcje mają swoje przedziały, które są mu przypisane. Agent ma przypisane sześć akcji w różnych rozmiarach:
+	\begin{itemize}
+		\item akcja 0 (0-21) - Wybór wartości x jako pozycji na mapie. 
+		\item akcja 1 (0-8) - Wybór wartości z jako pozycji na mapie.
+		\item akcja 2 (0-5) - Wybór konkretnej akcji jak kładzenie płytek czy usuwanie płytki.
+		\item akcja 3 (0-63) - akcja do wybierania indeksu płytki ze stojaka agenta.
+		\item akcja 4 (0-21) - Wybór wartości x jako pozycji na mapie, wykorzystany przy przesuwaniu płytki. 
+		\item akcja 5 (0-8) - Wybór wartości z jako pozycji na mapie, wykorzystany przy przesuwaniu płytki. 
+	\end{itemize}
+	Akcje są ustawiane statycznie, nie można ich ustawiać dynamicznie. Ilość płytek, na stojaku gracza, jest dynamiczna.
+	Na jedną rozgrywkę z czterema graczami, model w najgorszym przypadku może maksymalnie dobrać 64 płytki, co wymusza takie ustawienie. Właśnie dlatego interfejs Agent daje możliwość zaimplementować funkcję \texttt{WriteDiscreteActionMask}, która pozwala na maskowanie nadmiarowych akcji. Dzięki czemu agent nie podejmie decyzji interakcji z płytką, której nie ma w liście.
+ 	
 	
 	
 	

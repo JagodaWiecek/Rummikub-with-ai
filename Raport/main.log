@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  26 DEC 2024 12:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  27 DEC 2024 11:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1852,7 +1852,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [28]
-Overfull \hbox (3.2112pt too wide) in paragraph at lines 1066--1067
+Overfull \hbox (3.2112pt too wide) in paragraph at lines 1067--1068
 \T1/lmr/m/n/12 pa-mi¦ci sys-temu, mapa jest re-pre-zen-to-wana jako sªow-nik pª
 y-tek \T1/lmtt/m/n/12 Dictionary<Vector3Int,
  []
@@ -1860,7 +1860,7 @@ y-tek \T1/lmtt/m/n/12 Dictionary<Vector3Int,
 <photos/Grid_placement.png, id=180, 1044.90375pt x 623.32875pt>
 File: photos/Grid_placement.png Graphic file (type png)
 <use photos/Grid_placement.png>
-Package pdftex.def Info: photos/Grid_placement.png  used on input line 1089.
+Package pdftex.def Info: photos/Grid_placement.png  used on input line 1090.
 (pdftex.def)             Requested size: 455.24411pt x 271.57382pt.
 
 
@@ -1893,7 +1893,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [31]
-Overfull \hbox (17.97858pt too wide) in paragraph at lines 1173--1174
+Overfull \hbox (17.97858pt too wide) in paragraph at lines 1174--1175
 []\T1/lmr/bx/n/12 reward_signals \T1/lmr/m/n/12 - de-fi-niuje sy-gnaª na-grody 
 dla agenta. Tu-taj jest u»yty typ \T1/lmtt/m/n/12 extrinsic\T1/lmr/m/n/12 ,
  []
@@ -1919,6 +1919,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [33]
+Overfull \hbox (38.49191pt too wide) in paragraph at lines 1213--1215
+\T1/lmr/m/n/12 ±nie dla-tego in-ter-fejs Agent daje mo»-li-wo±¢ za-im-ple-men-t
+o-wa¢ funk-cj¦ \T1/lmtt/m/n/12 WriteDiscreteActionMask\T1/lmr/m/n/12 ,
+ []
+
+
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1928,13 +1934,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[34
-
-]
+[34]
 Rozdzia\l  6.
 
 
-[35]
+[35
+
+]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1963,26 +1969,26 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [38
 
 ]
-Overfull \hbox (21.22215pt too wide) in paragraph at lines 1214--1214
+Overfull \hbox (21.22215pt too wide) in paragraph at lines 1243--1243
 \T1/lmtt/m/n/12 https : / / wiki . python . org / moin / BeginnersGuide / Downl
 oad$ \T1/lmr/m/n/12 (term. wiz. 05. 11. 2024). 
  []
 
 
-Overfull \hbox (5.93211pt too wide) in paragraph at lines 1214--1214
+Overfull \hbox (5.93211pt too wide) in paragraph at lines 1243--1243
 []\T1/lmr/m/n/12 Python So-ftware Fo-un-da-tion. \T1/lmr/m/it/12 The Py-thon Pr
 o-gram-ming Lan-gu-age\T1/lmr/m/n/12 . 2024. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 
 : $\T1/lmtt/m/n/12 https :
  []
 
 
-Overfull \hbox (14.20894pt too wide) in paragraph at lines 1214--1214
+Overfull \hbox (14.20894pt too wide) in paragraph at lines 1243--1243
 \T1/lmtt/m/n/12 github . com / Unity -[] Technologies / ml -[] agents / blob / 
 develop / docs / Installation .
  []
 
 
-Overfull \hbox (7.2131pt too wide) in paragraph at lines 1214--1214
+Overfull \hbox (7.2131pt too wide) in paragraph at lines 1243--1243
 []\T1/lmr/m/n/12 Unity Tech-no-lo-gies. \T1/lmr/m/it/12 Unity Sys-tem Re-qu-ire
 -ments\T1/lmr/m/n/12 . 2023. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 : $\T1/lmtt/m/n/
 12 https : / / docs . unity3d .
@@ -2102,7 +2108,7 @@ b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb>
 <C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pf
 b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pf
 b>
-Output written on main.pdf (57 pages, 1861144 bytes).
+Output written on main.pdf (57 pages, 1864055 bytes).
 PDF statistics:
  296 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

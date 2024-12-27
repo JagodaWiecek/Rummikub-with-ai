@@ -17,9 +17,6 @@
 \endgroup
 
 \datalist[entry]{nty/global//global/global/global}
-  \entry{bib:csharp_doc}{online}{}{}
-  \endentry
-
   \entry{bib:chess_online}{online}{}{}
     \name{author}{1}{}{%
       {{hash=DS}{%
@@ -88,6 +85,29 @@
     \field{title}{The Python Programming Language}
     \verb{url}
     \verb https://www.python.org/doc/essays/blurb/
+    \endverb
+    \field{year}{2024}
+    \field{urlday}{22}
+    \field{urlmonth}{12}
+    \field{urlyear}{2024}
+  \endentry
+
+  \entry{bib:csharp_doc}{online}{}{}
+    \name{author}{1}{}{%
+      {{hash=M}{%
+         family={Microsoft},
+         familyi={M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{M1}
+    \strng{fullhash}{M1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{M}
+    \field{sortinithash}{M}
+    \field{title}{Przewodnik po języku C\#}
+    \verb{url}
+    \verb https://learn.microsoft.com/pl-pl/dotnet/csharp/
     \endverb
     \field{year}{2024}
     \field{urlday}{22}
