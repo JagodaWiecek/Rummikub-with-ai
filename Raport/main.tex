@@ -1028,7 +1028,7 @@
 	 	\label{fig:na_stronie}
 	 \end{figure}
 	% TODO
-	\chapter{Specyfikacja wewnętrzna}% TODO
+	\chapter{Specyfikacja wewnętrzna}% do akceptacji
 	\label{ch:05}
 	Specyfikacja wewnętrzna opisuje szczegóły techniczne implementacji projektu. Projekt został zrealizowany w środowisku Unity, jego kluczowe komponenty zostały zaimplementowane z C\#. To pozwoliło zaimplementować logikę gry, obiekty wykorzystywane w grze oraz gracza komputerowego z algorytmami uczenia maszynowego.
 	\section{Struktura projektu}
@@ -1225,20 +1225,119 @@
 		\item W środowisku Unity.
 		\item Uczenie maszynowe komputerowych graczy.
 	\end{itemize}
-	coś jeszcze o spełnieniu warunków ale ładnie
+	Wszystkie powyższe warunki zostały pomyślnie spełnione w trakcie realizacji projektu.
 	\section{Testowanie}
-	testy manualne:
-	testy interakcji z mapą
-	testowanie zasad gry
-	testowanie działań botów
-	czy sortowanie jest git, abstrakcyjne i wizualne
-	Osobny podrozdział o różnych modelach - techniki uczenia modeli - jakie yaml, zmiany w nagrodach, przerywanie i wznawianie po zmianie nagród
+	Zostały wykonane testy manualne w celu sprawdzania poprawności działania głównych funkcjonalności gry. Testom podlegały również modele uczenia maszynowego, były implementowane różne nagrody oraz zmieniane parametry w pliku \texttt{.yaml}, aby znaleźć najlepszą kombinację, dzięki której model się najlepiej uczy.
+	\subsection{Testy manualne}
+	\begin{enumerate}
+		\item Kładzenie płytek na mapę - celem było sprawdzenie, czy płytki tworzą się poprawnie i dane, takie jak liczba, kolor oraz pozycja, zostaną poprawnie zapisane do słownika. Przebieg:
+		\begin{itemize}
+			\item Rozmieszczenie płytki na mapę.
+			\item Próba położenia płytki na zajętej już pozycji.
+			\item Ocena poprawności wyniku na bazie informacji zwrotnych w grze.
+			
+		\end{itemize}
+		Oczekiwany wynik: wszystkie obiekty tworzone na mapie poprawnie zapisują się słownika. 
+		\item Tworzenie grup i serii - celem była weryfikacja, czy użytkownik i gracze komputerowi potrafią tworzyć sekwencje na mapie zgodnie z zasadami gry. Przebieg:
+			\begin{itemize}
+			\item Ręczne rozmieszczanie płytek na mapę.
+			\item Próba utworzenia sekwencji lub grupy zgodnie z zasadami.
+			\item Próba utworzenia sekwencji bądź grupy wbrew zasadom. 
+			\item Ocena wyników w oparciu o informacje zwrotne.
+			\end{itemize}
+			 Oczekiwany wynik: system poprawnie rozpoznaje prawidłowe i nieprawidłowe serie oraz grupy.
+			
+		\item Obsługa jokerów - Sprawdzenie, czy joker poprawnie zastępuje daną płytkę na mapie. Przebieg:
+			\begin{itemize}
+				\item Dodanie jokera do serii.
+				\item Dołożenie kolejnej płytki do serii obok jokera.
+				\item Ocena wyników.
+				
+			\end{itemize}
+			Oczekiwany wynik: system poprawnie wykrywa jokery jako uniwersalne płytki.
+		\item Pierwsza tura z minimalną sumą punktów 30 - Upewnienie się, że pierwsza tura każdego gracza zakończy się czystymi sekwencjami z minimalnymi sumami wartości płytek wynoszącej 30 punktów. Przebieg:
+			\begin{itemize}
+				\item Wyłożenie sekwencji o sumie punktów mniejszej niż 30
+				\item Próba zakończenia tury.
+				\item Wyłożenie sekwencji o sumie punktów równej bądź większej niż 30.
+				\item Próba zakończenia tury.
+				\item Wyłożenie sekwencji z jokerami o sumie punktów mniejszej niż 30.
+				\item Próba zakończenia tury.
+				\item Wyłożenie sekwencji z jokerami o sumie punktów równej bądź większej niż 30.
+			
+			\end{itemize}	 
+			Oczekiwany wynik: system poprawnie wylicza punkty położone płytki w pierwszej turze
+		\item Interfejs użytkownika - Sprawdzenie intuicyjności, funkcjonalności przycisków oraz sprawdzanie komunikatów wyświetlanych użytkownikowi. Przebieg:
+			\begin{itemize}
+				\item Interakcja z płytkami na stojaku użytkownika.
+				\item Interakcja z przyciskami na ekranie
+				\item Testowanie ruchów na mapie z poprawnym rozpoznawaniem błędnych zagrań przez system.
+				\item Ocena informacji zwrotnych wyświetlanych graczowi (błędy, sukcesy, komunikaty).
+				
+			\end{itemize}
+		Oczekiwany wynik: interfejs jest klarowny dla użytkownika i wszystkie funkcje działają zgodnie z założeniami.
+		\item System tur - sprawdzenie, czy funkcjonalności dotyczące zakończenia tury oraz interakcje poza turą działają poprawnie. Przebieg:
+			\begin{itemize}
+				\item Wyłożenie za krótkiej sekwencji.
+				\item Próba zakończenia tury.
+				\item Wyłożenie poprawnej sekwencji.
+				\item Próba zakończenia tury.
+				\item Próba interakcji z mapą poza turą.
+			\end{itemize}
+			Oczekiwany wynik: System poprawnie zablokuje zakończenie tury, gdy co najmniej jedna sekwencja na mapie jest niepoprawna. Również system blokuje możliwość wykonywania interakcji z mapą, gdy nie ma tury danego użytkownika.
+	\end{enumerate}
+
+	\subsection{Modele}
+	W trakcie trwania projektu, zostały podjęte próby wyuczenia kilku modeli z różnymi parametrami i nagrodami. Wyniki:
+		\begin{itemize}
+			\item Model nr 1 : wyniki modelu, widoczne na rysunku \ref{fig:Model1_nagrody}, wskazują na brak poprawy wyniku przy dłuższym czasie nauki.
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=\textwidth]{photos/model1_nagrody.png}
+				\caption{Wykres przydzielonych nagród modelowi nr 1}
+				\label{fig:Model1_nagrody}
+			\end{figure}
+			\item Model nr 2 : Została podjęta próba zwiększenia nagrody za samo kładzenie płytek. Po pewnym czasie przyznawane nagrody zostały zmienione, aby model nauczył się tworzyć sekwencje. Jednak nie przyniosło to oczekiwanych rezultatów, co widać na rysunku \ref{fig:Model2_nagrody}.
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=\textwidth]{photos/model2_nagrody.png}
+				\caption{Wykres przydzielonych nagród modelowi nr 2}
+				\label{fig:Model2_nagrody}
+			\end{figure}
+			\item Model nr 3 : Zostały zmienione parametry konfiguracyjne modeli, jednak rezultat jest podobny do wyników modelu nr 1, co widać na rysunku \ref{fig:Model3_nagrody}.
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=\textwidth]{photos/model3_nagrody.png}
+				\caption{Wykres przydzielonych nagród modelowi nr 3}
+				\label{fig:Model3_nagrody}
+			\end{figure}
+		\end{itemize}
+		Jak wynika z przedstawionych wykresów na rysunkach \ref{fig:Model1_nagrody}, \ref{fig:Model2_nagrody}, \ref{fig:Model3_nagrody} modele mają trudności z adaptacją do środowiska gry. Gra planszowa Rummikub jest skomplikowaną grą strategiczną, co stanowi wyzwanie dla modeli, aby nauczyć się zasad gry. Proces nauki przebiega w trybie prób i błędów, co powoduje, że zamiast optymalizować swoje działania w kierunku maksymalizacji nagród, modele skupiają się na minimalizowaniu kar. Taka strategia nie pozwala na skuteczne opanowanie zasad gry i osiągnięcie zamierzonych celów treningowych.
+		
 	\section{Wykryte błędy}
-	implementacja zasad gry
-	przy botach - możliwość dodawania jokerów na końcu serii, gdzie juz była wartość 13 więc nie powinno być możliwości dodawania nowych płytek, dodawanie nowych płytek do grup, gdzie grupa już miała 4 płytki, (grypy powinny mieć maksymalnie 4 płytki)
-	maskowanie akcji przy zerowej ilości płytek
-	
-	
+	Podczas implementacji projektu pojawiały się błędy, które wpływały na działanie aplikacji. Poniżej przedstawiono najistotniejsze z nich:
+	\begin{enumerate}
+		\item Błędne zabezpieczenie użyteczności jokerów :
+		
+		Jokery mogą zastępować każdą płytkę, są jednak pewne ograniczenia względem sekwencji i grup. Serie mogą występować w maksymalnie ciągach od 1 do 13. Grupy mogą występować w ilości maksymalnie 4 na ciąg. Jokery były niepoprawnie zaimplementowane, przez co można było dołożyć jokera do już zapełnionej grupy, bądź można było dodać jokera na koniec bądź początek pełnej serii, gdzie joker zastępował wartości 0 bądź 14, czego nie powinno być w grze. 
+		
+		\item Błędnie zainicjowana funkcja tworzenia sekwencji:
+		
+		Gracze komputerowi z predefiniowanymi ruchami mają gotowe funkcje, które wykonują w trakcie swojej tury. Błąd był do zauważenia, gdy gracz miał swoją pierwszą turę. Wtedy należy wyłożyć sumę punktów równą bądź większą od 30 i musi być to wykonane czystymi sekwencjami, może być to kilka sekwencji. Jednak gracze brali pod uwagę tylko jedną sekwencje na ruch,mimo że ogólną sumę by mieli, przez co mogli się nie wyłożyć przez długi czas.
+		
+		\item Przypisanie akcji agentowi:
+		
+		Akcje agenta opierają się na wyborze wartości w zaimplementowanym przedziale, same liczby nie mają znaczenia, dopóki nie zostaną im przypisane funkcje. W kodzie, każdy przedział jest zapisany jako obiekt w tablicy:
+		\begin{lstlisting}
+	int akcjaAgenta = actions.DiscreteActions[2];
+		\end{lstlisting}
+		Pod akcje agenta został podpięty błędny indeks, co doprowadziło do błędnych wyników nauki.
+		
+		\item Niezabezpieczone maskowanie akcji:
+		
+		Jeden przedział ma wartości od 0 do 63, dotyczy on wyboru płytek po indeksach. Jednak agent nie może wybrać liczby indeksu 14, gdy ma przykładowo 10 płytek na stojaku. W tym celu pojawia się maskowanie akcji, ogranicza to możliwość wyboru modelowi na dany moment, względem ilości płytek. Jednak gracz mając akcje, zawsze musi w ramach niej wybrać liczbę, a gdy gracz miał pusty stojak, to funkcja zamaskowała każdą wartość, przez co gracz nie mógł wykonać żadnej akcji, co nie powinno się wydarzyć. Obecnie, gdy agent ma pusty stojak, to funkcja maskująca nie działa, oraz wybrane akcje kładzenia płytek nie działają.
+	\end{enumerate}
+		
 	% TODO
 	\chapter{Podsumowanie i wnioski}% TODO
 	podsumowywanie i wnioskowanie :)

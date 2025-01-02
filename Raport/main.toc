@@ -44,13 +44,15 @@
 \contentsline {section}{\numberline {5.6}Klasa PlayerIA}{33}{}%
 \contentsline {chapter}{\numberline {6}Weryfikacja i walidacja}{35}{}%
 \contentsline {section}{\numberline {6.1}Testowanie}{35}{}%
-\contentsline {section}{\numberline {6.2}Wykryte błędy}{35}{}%
-\contentsline {chapter}{\numberline {7}Podsumowanie i wnioski}{37}{}%
-\contentsline {section}{\numberline {7.1}Napotkane problemy}{37}{}%
-\contentsline {section}{\numberline {7.2}Możliwy rozwój}{37}{}%
-\contentsline {chapter}{Bibliografia}{39}{}%
-\contentsline {chapter}{Spis skrótów i symboli}{43}{}%
-\contentsline {chapter}{Źródła}{45}{}%
-\contentsline {chapter}{Lista dodatkowych plików, uzupełniających tekst pracy}{47}{}%
-\contentsline {chapter}{Spis rysunków}{49}{}%
-\contentsline {chapter}{Spis tabel}{51}{}%
+\contentsline {subsection}{\numberline {6.1.1}Testy manualne}{35}{}%
+\contentsline {subsection}{\numberline {6.1.2}Modele}{37}{}%
+\contentsline {section}{\numberline {6.2}Wykryte błędy}{39}{}%
+\contentsline {chapter}{\numberline {7}Podsumowanie i wnioski}{41}{}%
+\contentsline {section}{\numberline {7.1}Napotkane problemy}{41}{}%
+\contentsline {section}{\numberline {7.2}Możliwy rozwój}{41}{}%
+\contentsline {chapter}{Bibliografia}{43}{}%
+\contentsline {chapter}{Spis skrótów i symboli}{47}{}%
+\contentsline {chapter}{Źródła}{49}{}%
+\contentsline {chapter}{Lista dodatkowych plików, uzupełniających tekst pracy}{51}{}%
+\contentsline {chapter}{Spis rysunków}{54}{}%
+\contentsline {chapter}{Spis tabel}{55}{}%
