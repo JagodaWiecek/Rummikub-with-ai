@@ -575,7 +575,7 @@ public class ComputerPlayer : MonoBehaviour
                 levelX = Random.Range(minX, maxX + 1 - tileAmount);
                 list.Clear();
                 errorAmount++;
-                if (errorAmount >= 5000) Debug.LogError("nie ma miejsca na planszy");
+                if (errorAmount >= 500) Debug.LogError("nie ma miejsca na planszy");
                 i = 0; 
             }
             else
@@ -822,7 +822,7 @@ public class ComputerPlayer : MonoBehaviour
             {
                 // Coœ do zrobienia z ka¿d¹ zduplikowan¹ pozycj¹
                 // Debug.Log("Zduplikowana pozycja: " + duplicate);
-                bool prawoCzyLewo = Random.value > 0.5f;
+                bool prawoCzyLewo = Random.value > 0.001f;
                 if (prawoCzyLewo)
                 {
 

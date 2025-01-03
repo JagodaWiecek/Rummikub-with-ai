@@ -761,6 +761,7 @@ MonoBehaviour:
   undoButton: {fileID: 0}
   endTurn: {fileID: 0}
   takeTileButton: {fileID: 0}
+  napis: {fileID: 0}
 --- !u!1 &907792904
 GameObject:
   m_ObjectHideFlags: 0
@@ -2289,7 +2290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BrainParameters:
     VectorObservationSize: 1350
-    NumStackedVectorObservations: 5
+    NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
       BranchSizes: 160000000900000006000000400000001600000009000000
