@@ -473,8 +473,9 @@
 	\subsubsection*{Tytuł pracy} 
 	\Title
 	
-	\subsubsection*{Streszczenie}  
-	(Streszczenie pracy.)% – odpowiednie pole w systemie APD powinno zawierać kopię tego streszczenia
+	\subsubsection*{Streszczenie} 
+	Praca przedstawia cyfrową implementację gry planszowej Rummikub w środowisku Unity. Stworzona gra w przestrzeni 2.5D, umożliwiająca rywalizację użytkownika z komputerowym graczem uczącym się. Zaimplementowano mechaniki zgodne z zasadami gry, takie jak tworzenie sekwencji, obsługa jokerów i pierwsza tura wymagająca minimum 30 punktów. Do implementacji gracza wykorzystano \texttt{ML-Agents}, stosując algorytm uczenia ze wzmacnianiem, gdzie agent wykonuje akcje, otrzymując nagrody lub kary.
+	% – odpowiednie pole w systemie APD powinno zawierać kopię tego streszczenia
 	
 	\subsubsection*{Słowa kluczowe} 
 	Model, agent, unity, uczenie maszynowe
@@ -486,7 +487,9 @@
 	
 	\subsubsection*{Abstract} 
 	\begin{otherlanguage}{british}
-		(Thesis abstract.)% – to be copied into an appropriate field during an electronic submission – in English
+		The work presents a digital implementation of the board game Rummikub in the Unity environment. The game, created in a 2.5D dimention, allows the user to compete against a computer learning player. Mechanics in line with the rules of the game were implemented, such as sequence creation, joker handling and a first turn requiring a minimum of 30 points. ML-Agents were used to implement the player, using a reinforcement learning algorithm where the agent performs actions and receives rewards or penalties.
+		
+		% – to be copied into an appropriate field during an electronic submission – in English
 	\end{otherlanguage}
 	\subsubsection*{Key words} 
 	\begin{otherlanguage}{british}
@@ -515,9 +518,9 @@
 	%
 	\chapter{Wstęp}% do akceptacji
 	\label{ch:wstep}
-	Gry planszowe są formą rozrywki dla ludzi od wieków jak i formą intelektualnego wyzwania. We współczesnych czasach znaczna część życia podlega cyfryzacji, od komunikacji do płatności bankowych. Z tego powodu również wszelkie gry planszowe są przenoszone do cyfrowego świata. Takie rozwiązanie pozwala na rozpoczęcie rozgrywki ulubionej gry planszowej w świecie online wraz z graczami z całego świata bez żadnych ograniczeń.
+	Gry planszowe są formą rozrywki dla ludzi od wieków jak i formą intelektualnego wyzwania. We współczesnych czasach znaczna część życia podlega cyfryzacji, od komunikacji do płatności bankowych. Z tego powodu również wszelkie gry planszowe są przenoszone do cyfrowego świata. Takie rozwiązanie pozwala na rozpoczęcie rozgrywki ulubionej gry planszowej w świecie online wraz z graczami z całego świata bez żadnych ograniczeń. Nie zawsze istnieje możliwość znalezienia współgraczy, a ograniczenia techniczne mogą dodatkowo to utrudniać. Komputerowi gracze, szczególnie ci oparte na modelach uczących się, mogą stanowić alternatywę, zapewniając większą rozrywkę. 
 	\section{Cel pracy} 
-	Celem pracy jest zaimplementowanie gry planszowej 2.5D w unity. Dodatkowo w ramach gry zostanie zaimplementowany gracz komputerowy z wykorzystaniem uczenia maszynowego. Gra będzie przeznaczona wyłącznie do rozgrywki jednoosobowej, w której gracz zmierzy się z wyuczonym graczem komputerowym. 
+	Celem pracy jest zaimplementowanie gry planszowej 2.5D w unity. Dodatkowo w ramach gry zostanie zaimplementowany gracz komputerowy z wykorzystaniem uczenia maszynowego. Gra będzie przeznaczona wyłącznie do rozgrywki jednoosobowej, w której gracz zmierzy się z zaimplementowanymi graczami komputerowymi. 
 	
 
 
@@ -525,11 +528,9 @@
 	
 	\begin{itemize}
 		\item Przegląd algorytmów uczenia maszynowego dostępnego w unity.
-		\item Zaimplementowanie gry planszowej Rummikub 2.5D w unity.
 		\item Zaprojektowanie mapy do gry.
+		\item Zaimplementowanie gry planszowej Rummikub 2.5D w unity.
 		\item Zaimplementowanie graczy komputerowych z algorytmem uczenia maszynowego oraz graczy komputerowych z predefiniowanymi ruchami.
-		
-		
 	\end{itemize} 
 	
 	\section{Charakterystyka rozdziałów}
@@ -539,8 +540,8 @@
 		\item  \textbf{Wymagania i narzędzia} - Przedstawienie narzędzi, wykorzystanych przy tworzeniu projektu, wymagania funkcjonalne, wymagania niefunkcjonalne oraz diagram UML przedstawiający przypadki użycia. 
 		\item\textbf{Specyfikacja zewnętrzna} - Przestawia minimalne wymagania sprzętowe, jakie użytkownik powinien spełniać, aby korzystać z aplikacji. Zawiera również instrukcje dotyczące instalacji, aktywacji, zasady gry oraz ogólny opis użytkowania aplikacji.
 		\item\textbf{Specyfikacja wewnętrzna} - Przedstawia ogólny opis struktury projektu, najważniejsze klasy w projekcie oraz opis działania i implementacji modelu uczenia maszynowego.
-		\item\textbf{Weryfikacja i walidacja} - 
-		\item\textbf{Podsumowanie i wnioski} - 
+		\item\textbf{Weryfikacja i walidacja} - Rozdział przedstawia proces testowania aplikacji oraz jakie błędy zostały wykryte na przedziale całej implementacji projektu.
+		\item\textbf{Podsumowanie i wnioski} - Przedstawia przemyślenia o projekcie, napotkane błędy oraz możliwy rozwój aplikacji w przyszłości.
 	\end{itemize} 
 	
 	
@@ -1340,15 +1341,39 @@
 		
 	% TODO
 	\chapter{Podsumowanie i wnioski}% TODO
-	podsumowywanie i wnioskowanie :)
+	Wykonanie projektu \texttt{Gra planszowa 2.5D z uczeniem maszynowym  komputerowych graczy} miało na celu zaimplementowanie gry planszowej 2.5D w środowisku Unity z maszynowo uczącymi się komputerowymi graczami. Proces realizacji projektu obejmował implementację mechanizmów gry oraz gracza komputerowego z algorytmami uczenia maszynowego. W trakcie projektu napotkano wiele wyzwań związanych z implementacją zasad gry, poprawnie działających funkcji graczy komputerowych oraz nauką agenta.
+	
+	Efektem końcowym jest prototyp gry, który spełnia założenia funkcjonalne, takie jak możliwość rozgrywki między użytkownikiem a graczami komputerowymi, dynamiczne zarządzanie planszą oraz, zgodne z zasadami gry planszowej, mechaniki jokerów i pierwszej tury. Projekt pozwolił również na przeprowadzenie eksperymentów z uczeniem maszynowym, które ujawniły trudności w nauce zasad Rummikub przez agentów AI, szczególnie w kontekście złożoności strategii wymaganej do optymalnego działania.
 	\section{Napotkane problemy}%TODO
-	Sortowanie płytek przez gracza, tworzenie płytek po posortowaniu stanowiło problem.
-	model sztucznej inteligencji nie umie nauczyć się grać
+	W trakcie implementacji projektu pojawiło się kilka istotnych problemów, które wpłynęły na tempo pracy.
+	\begin{itemize}
+		\item Złożoność zasad gry
+		
+		Zasady gry planszowej Rummikub są bardzo złożone, biorąc pod uwagę jokery, ograniczenia wielkości grup do 4 i serii do 13 płytek oraz zasadę pierwszej tury z punktacją równą minimalnie 30 punktów. Przez to implementacja trwała dłużej niż zakładano.
+		\item Nauka agentów
+		
+		Rummikub przez swoją złożoność, jest bardzo trudną grą do nauki graczy komputerowych z algorytmami uczenia maszynowego. Dotychczasowe wyuczone modele nie zdołały nauczyć się zasady pierwszej tury, przez co zamiast eksplorować różne akcje w celu optymalizacji ruchów i zyskiwaniu największych nagród, dążyły do uzyskania najmniejszej kary. Jest to problematyczne, ponieważ taki gracz nie będzie w stanie optymalnie brać udziału w rozgrywce. 
+	\end{itemize}
 	
 	\section{Możliwy rozwój}%TODO
-	inne algorytmy sztucznej inteligencji
-	inne tryby gry według oficjalnych zasad - np gra w 6 osób
-	dodanie trybu online na granie z innymi użytkownikami.
+	Zaimplementowany projekt jest możliwy do rozwoju w celu dodania nowych funkcjonalności, które mogłyby uatrakcyjnić rozgrywkę. Możliwe kierunki rozwoju:
+	\begin{itemize}
+		\item Udoskonalenie funkcjonalności graczy komputerowych z predefiniowanymi ruchami 
+		
+		Ich obecne funkcje polegają na tworzeniu nowych sekwencji i dokładanie płytek do istniejących. Nowymi potencjalnymi funkcjonalnościami dla graczy to rozkładanie większych sekwencji na mniejsze i dokładanie do nich nowych płytek. Gracz też mógłby zastąpić jokera na mapie, jeśli ma płytkę którą joker zastępuje, a następnie wykorzystać jokera do stworzenia nowej sekwencji.
+		
+		\item Dodanie nowych trybów gry
+		
+		W projekcie gry, został uwzględniony podstawowy tryb gry planszowej Rummikub z 4 osobami oraz 106 płytkami. Warto jednak zaznaczyć, że producent gry opracował także rozszerzoną wersję przeznaczoną dla 5–6 graczy, w której do dyspozycji uczestników pozostaje aż 160 płytek. Można by zaimplementować ją do tego projektu.
+		
+		\item Gra online
+		
+		Projekt uwzględniał implementację graczy komputerowych z algorytmami uczenia maszynowego. Aby skupić się na tym aspekcie, w projekcie została pominięta implementacja trybu online, gdzie kilku użytkowników rywalizowałoby. 
+		\item Nowi inteligentni gracze
+		
+		W projekcie został zaimplementowany gracz komputerowy z algorytmem uczenia maszynowego z wykorzystaniem \texttt{ML-Agents}. W projekcie można by zaimplementować nowych graczy, którzy wykorzystywaliby inne algorytmy sztucznej inteligencji.
+	\end{itemize}
+	
 	
 	
 	\backmatter
@@ -1362,11 +1387,19 @@
 		
 		% TODO
 		\chapter{Spis skrótów i symboli}
-	
+		AI, ai - Artificial Intelligence (Sztuczna Inteligencja)
+		
+		ML – Machine Learning (Uczenie Maszynowe)
+		
+		Unity – silnik do tworzenia gier
+		
+		ML-Agents – Narzędzie w Unity do uczenia maszynowego
+		
+		Joker – specjalna płytka w Rummikub, zastępująca dowolny numer.
 		
 		% TODO
 		\chapter{Źródła}
-		
+		%Podpiąć yaml, 
 		
 		% TODO
 		\chapter{Lista dodatkowych plików, uzupełniających tekst pracy} 

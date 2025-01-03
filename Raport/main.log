@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  2 JAN 2025 21:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  3 JAN 2025 17:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1363,6 +1363,11 @@ l_logo_bw_pion_pl.pdf>]
 
 
 ]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 4
+77.
+ (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
+File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
 
 [3]
 
@@ -1421,7 +1426,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 [6]
 Rozdzia\l  1.
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 5
-27.
+30.
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -1447,15 +1452,10 @@ Rozdzia\l  2.
 [3
 
 ]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 5
-63.
- (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
-File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-<photos/rummikub_game.png, id=43, 593.21625pt x 295.1025pt>
+<photos/rummikub_game.png, id=44, 593.21625pt x 295.1025pt>
 File: photos/rummikub_game.png Graphic file (type png)
 <use photos/rummikub_game.png>
-Package pdftex.def Info: photos/rummikub_game.png  used on input line 570.
+Package pdftex.def Info: photos/rummikub_game.png  used on input line 573.
 (pdftex.def)             Requested size: 455.24411pt x 226.47313pt.
 
 
@@ -1497,7 +1497,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 <photos/use_case.png, id=60, 884.30376pt x 673.51625pt>
 File: photos/use_case.png Graphic file (type png)
 <use photos/use_case.png>
-Package pdftex.def Info: photos/use_case.png  used on input line 654.
+Package pdftex.def Info: photos/use_case.png  used on input line 657.
 (pdftex.def)             Requested size: 455.24411pt x 346.73628pt.
 
 
@@ -1549,7 +1549,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 <photos/Menu_gry.png, id=78, 789.70032pt x 438.13687pt>
 File: photos/Menu_gry.png Graphic file (type png)
 <use photos/Menu_gry.png>
-Package pdftex.def Info: photos/Menu_gry.png  used on input line 787.
+Package pdftex.def Info: photos/Menu_gry.png  used on input line 790.
 (pdftex.def)             Requested size: 455.24411pt x 252.57523pt.
 
 
@@ -1565,17 +1565,17 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 <photos/start_gry.png, id=84, 748.29562pt x 419.31656pt>
 File: photos/start_gry.png Graphic file (type png)
 <use photos/start_gry.png>
-Package pdftex.def Info: photos/start_gry.png  used on input line 802.
+Package pdftex.def Info: photos/start_gry.png  used on input line 805.
 (pdftex.def)             Requested size: 455.24411pt x 255.1045pt.
 <photos/current_player.png, id=85, 241.65282pt x 30.86531pt>
 File: photos/current_player.png Graphic file (type png)
 <use photos/current_player.png>
-Package pdftex.def Info: photos/current_player.png  used on input line 809.
+Package pdftex.def Info: photos/current_player.png  used on input line 812.
 (pdftex.def)             Requested size: 455.24411pt x 58.1525pt.
 <photos/time.png, id=86, 144.54pt x 44.41594pt>
 File: photos/time.png Graphic file (type png)
 <use photos/time.png>
-Package pdftex.def Info: photos/time.png  used on input line 821.
+Package pdftex.def Info: photos/time.png  used on input line 824.
 (pdftex.def)             Requested size: 455.24411pt x 139.90074pt.
 
 
@@ -1591,7 +1591,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 <photos/lista graczy.png, id=92, 488.57532pt x 185.19188pt>
 File: photos/lista graczy.png Graphic file (type png)
 <use photos/lista graczy.png>
-Package pdftex.def Info: photos/lista graczy.png  used on input line 830.
+Package pdftex.def Info: photos/lista graczy.png  used on input line 833.
 (pdftex.def)             Requested size: 455.24411pt x 172.56009pt.
 
 
@@ -1607,12 +1607,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 <photos/dragable.png, id=98, 394.47375pt x 141.52875pt>
 File: photos/dragable.png Graphic file (type png)
 <use photos/dragable.png>
-Package pdftex.def Info: photos/dragable.png  used on input line 844.
+Package pdftex.def Info: photos/dragable.png  used on input line 847.
 (pdftex.def)             Requested size: 455.24411pt x 163.33339pt.
 <photos/out_turn_przyciski.png, id=99, 164.11313pt x 85.06781pt>
 File: photos/out_turn_przyciski.png Graphic file (type png)
 <use photos/out_turn_przyciski.png>
-Package pdftex.def Info: photos/out_turn_przyciski.png  used on input line 852.
+Package pdftex.def Info: photos/out_turn_przyciski.png  used on input line 855.
 
 (pdftex.def)             Requested size: 432.48051pt x 224.20067pt.
 
@@ -1629,14 +1629,14 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 <photos/po_ruchu_przyciski.png, id=105, 124.21407pt x 170.13562pt>
 File: photos/po_ruchu_przyciski.png Graphic file (type png)
 <use photos/po_ruchu_przyciski.png>
-Package pdftex.def Info: photos/po_ruchu_przyciski.png  used on input line 870.
+Package pdftex.def Info: photos/po_ruchu_przyciski.png  used on input line 873.
 
 (pdftex.def)             Requested size: 341.43307pt x 467.75755pt.
 <photos/przed_ruchem_przyciski.png, id=106, 143.03438pt x 127.97812pt>
 File: photos/przed_ruchem_przyciski.png Graphic file (type png)
 <use photos/przed_ruchem_przyciski.png>
 Package pdftex.def Info: photos/przed_ruchem_przyciski.png  used on input line 
-877.
+880.
 (pdftex.def)             Requested size: 341.43307pt x 305.49777pt.
 
 Underfull \vbox (badness 5681) has occurred while \output is active []
@@ -1655,17 +1655,17 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 <photos/zla_mapa.png, id=111, 746.79pt x 83.5622pt>
 File: photos/zla_mapa.png Graphic file (type png)
 <use photos/zla_mapa.png>
-Package pdftex.def Info: photos/zla_mapa.png  used on input line 886.
+Package pdftex.def Info: photos/zla_mapa.png  used on input line 889.
 (pdftex.def)             Requested size: 455.24411pt x 50.9397pt.
 <photos/zla_pierwsza_tura.png, id=112, 746.03719pt x 91.09032pt>
 File: photos/zla_pierwsza_tura.png Graphic file (type png)
 <use photos/zla_pierwsza_tura.png>
-Package pdftex.def Info: photos/zla_pierwsza_tura.png  used on input line 894.
+Package pdftex.def Info: photos/zla_pierwsza_tura.png  used on input line 897.
 (pdftex.def)             Requested size: 455.24411pt x 55.58446pt.
 <photos/co_najmniej.png, id=113, 748.29562pt x 79.04532pt>
 File: photos/co_najmniej.png Graphic file (type png)
 <use photos/co_najmniej.png>
-Package pdftex.def Info: photos/co_najmniej.png  used on input line 901.
+Package pdftex.def Info: photos/co_najmniej.png  used on input line 904.
 (pdftex.def)             Requested size: 455.24411pt x 48.0897pt.
 
 
@@ -1682,17 +1682,17 @@ _pierwsza_tura.png>]
 <photos/juz_polozone.png, id=120, 747.54282pt x 83.5622pt>
 File: photos/juz_polozone.png Graphic file (type png)
 <use photos/juz_polozone.png>
-Package pdftex.def Info: photos/juz_polozone.png  used on input line 909.
+Package pdftex.def Info: photos/juz_polozone.png  used on input line 912.
 (pdftex.def)             Requested size: 455.24411pt x 50.8887pt.
 <photos/endgame_screen.png, id=121, 785.93625pt x 438.13687pt>
 File: photos/endgame_screen.png Graphic file (type png)
 <use photos/endgame_screen.png>
-Package pdftex.def Info: photos/endgame_screen.png  used on input line 916.
+Package pdftex.def Info: photos/endgame_screen.png  used on input line 919.
 (pdftex.def)             Requested size: 455.24411pt x 253.79196pt.
 <photos/endgame_pusty_bank.png, id=122, 748.29562pt x 419.31656pt>
 File: photos/endgame_pusty_bank.png Graphic file (type png)
 <use photos/endgame_pusty_bank.png>
-Package pdftex.def Info: photos/endgame_pusty_bank.png  used on input line 924.
+Package pdftex.def Info: photos/endgame_pusty_bank.png  used on input line 927.
 
 (pdftex.def)             Requested size: 455.24411pt x 255.1045pt.
 
@@ -1710,12 +1710,12 @@ reen.png>]
 <photos/Jokery.png, id=130, 91.09032pt x 93.34875pt>
 File: photos/Jokery.png Graphic file (type png)
 <use photos/Jokery.png>
-Package pdftex.def Info: photos/Jokery.png  used on input line 939.
+Package pdftex.def Info: photos/Jokery.png  used on input line 942.
 (pdftex.def)             Requested size: 204.85846pt x 209.96434pt.
 <photos/stop_game.png, id=131, 746.79pt x 421.575pt>
 File: photos/stop_game.png Graphic file (type png)
 <use photos/stop_game.png>
-Package pdftex.def Info: photos/stop_game.png  used on input line 946.
+Package pdftex.def Info: photos/stop_game.png  used on input line 949.
 (pdftex.def)             Requested size: 455.24411pt x 256.99312pt.
 
 
@@ -1731,7 +1731,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 <photos/w_turze.png, id=137, 785.93625pt x 439.6425pt>
 File: photos/w_turze.png Graphic file (type png)
 <use photos/w_turze.png>
-Package pdftex.def Info: photos/w_turze.png  used on input line 956.
+Package pdftex.def Info: photos/w_turze.png  used on input line 959.
 (pdftex.def)             Requested size: 455.24411pt x 254.66411pt.
 
 Underfull \vbox (badness 1577) has occurred while \output is active []
@@ -1750,12 +1750,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 <photos/zle_polozenie.png, id=142, 746.79pt x 418.56375pt>
 File: photos/zle_polozenie.png Graphic file (type png)
 <use photos/zle_polozenie.png>
-Package pdftex.def Info: photos/zle_polozenie.png  used on input line 963.
+Package pdftex.def Info: photos/zle_polozenie.png  used on input line 966.
 (pdftex.def)             Requested size: 455.24411pt x 255.15744pt.
 <photos/usuwanie.png, id=143, 743.02594pt x 419.31656pt>
 File: photos/usuwanie.png Graphic file (type png)
 <use photos/usuwanie.png>
-Package pdftex.def Info: photos/usuwanie.png  used on input line 970.
+Package pdftex.def Info: photos/usuwanie.png  used on input line 973.
 (pdftex.def)             Requested size: 455.24411pt x 256.9152pt.
 
 
@@ -1781,12 +1781,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 <photos/start.png, id=153, 1428.83812pt x 590.95781pt>
 File: photos/start.png Graphic file (type png)
 <use photos/start.png>
-Package pdftex.def Info: photos/start.png  used on input line 990.
+Package pdftex.def Info: photos/start.png  used on input line 993.
 (pdftex.def)             Requested size: 455.24411pt x 188.28076pt.
 <photos/uruchomione.png, id=154, 707.64375pt x 681.29532pt>
 File: photos/uruchomione.png Graphic file (type png)
 <use photos/uruchomione.png>
-Package pdftex.def Info: photos/uruchomione.png  used on input line 999.
+Package pdftex.def Info: photos/uruchomione.png  used on input line 1002.
 (pdftex.def)             Requested size: 455.24411pt x 438.29378pt.
 
 
@@ -1802,7 +1802,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 <photos/nauka.png, id=159, 819.8128pt x 176.15813pt>
 File: photos/nauka.png Graphic file (type png)
 <use photos/nauka.png>
-Package pdftex.def Info: photos/nauka.png  used on input line 1006.
+Package pdftex.def Info: photos/nauka.png  used on input line 1009.
 (pdftex.def)             Requested size: 455.24411pt x 97.82266pt.
 
 
@@ -1818,12 +1818,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 <photos/strona.png, id=166, 623.32875pt x 83.5622pt>
 File: photos/strona.png Graphic file (type png)
 <use photos/strona.png>
-Package pdftex.def Info: photos/strona.png  used on input line 1018.
+Package pdftex.def Info: photos/strona.png  used on input line 1021.
 (pdftex.def)             Requested size: 455.24411pt x 61.03049pt.
 <photos/strona_localhost.png, id=167, 1577.14218pt x 898.85812pt>
 File: photos/strona_localhost.png Graphic file (type png)
 <use photos/strona_localhost.png>
-Package pdftex.def Info: photos/strona_localhost.png  used on input line 1026.
+Package pdftex.def Info: photos/strona_localhost.png  used on input line 1029.
 (pdftex.def)             Requested size: 455.24411pt x 259.45522pt.
 
 
@@ -1852,7 +1852,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [28]
-Overfull \hbox (3.2112pt too wide) in paragraph at lines 1067--1068
+Overfull \hbox (3.2112pt too wide) in paragraph at lines 1070--1071
 \T1/lmr/m/n/12 pa-mi¦ci sys-temu, mapa jest re-pre-zen-to-wana jako sªow-nik pª
 y-tek \T1/lmtt/m/n/12 Dictionary<Vector3Int,
  []
@@ -1860,7 +1860,7 @@ y-tek \T1/lmtt/m/n/12 Dictionary<Vector3Int,
 <photos/Grid_placement.png, id=180, 1044.90375pt x 623.32875pt>
 File: photos/Grid_placement.png Graphic file (type png)
 <use photos/Grid_placement.png>
-Package pdftex.def Info: photos/Grid_placement.png  used on input line 1090.
+Package pdftex.def Info: photos/Grid_placement.png  used on input line 1093.
 (pdftex.def)             Requested size: 455.24411pt x 271.57382pt.
 
 
@@ -1893,7 +1893,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [31]
-Overfull \hbox (17.97858pt too wide) in paragraph at lines 1174--1175
+Overfull \hbox (17.97858pt too wide) in paragraph at lines 1177--1178
 []\T1/lmr/bx/n/12 reward_signals \T1/lmr/m/n/12 - de-fi-niuje sy-gnaª na-grody 
 dla agenta. Tu-taj jest u»yty typ \T1/lmtt/m/n/12 extrinsic\T1/lmr/m/n/12 ,
  []
@@ -1919,7 +1919,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
 [33]
-Overfull \hbox (38.49191pt too wide) in paragraph at lines 1213--1215
+Overfull \hbox (38.49191pt too wide) in paragraph at lines 1216--1218
 \T1/lmr/m/n/12 ±nie dla-tego in-ter-fejs Agent daje mo»-li-wo±¢ za-im-ple-men-t
 o-wa¢ funk-cj¦ \T1/lmtt/m/n/12 WriteDiscreteActionMask\T1/lmr/m/n/12 ,
  []
@@ -1954,12 +1954,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 <photos/model1_nagrody.png, id=207, 890.5772pt x 350.81062pt>
 File: photos/model1_nagrody.png Graphic file (type png)
 <use photos/model1_nagrody.png>
-Package pdftex.def Info: photos/model1_nagrody.png  used on input line 1296.
+Package pdftex.def Info: photos/model1_nagrody.png  used on input line 1299.
 (pdftex.def)             Requested size: 455.24411pt x 179.32857pt.
 <photos/model2_nagrody.png, id=208, 893.58844pt x 427.5975pt>
 File: photos/model2_nagrody.png Graphic file (type png)
 <use photos/model2_nagrody.png>
-Package pdftex.def Info: photos/model2_nagrody.png  used on input line 1303.
+Package pdftex.def Info: photos/model2_nagrody.png  used on input line 1306.
 (pdftex.def)             Requested size: 455.24411pt x 217.84348pt.
 
 
@@ -1975,7 +1975,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 <photos/model3_nagrody.png, id=214, 895.09406pt x 407.27156pt>
 File: photos/model3_nagrody.png Graphic file (type png)
 <use photos/model3_nagrody.png>
-Package pdftex.def Info: photos/model3_nagrody.png  used on input line 1310.
+Package pdftex.def Info: photos/model3_nagrody.png  used on input line 1313.
 (pdftex.def)             Requested size: 455.24411pt x 207.14023pt.
 
 
@@ -2010,6 +2010,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [40]
 Rozdzia\l  7.
 
+Overfull \hbox (0.98145pt too wide) in paragraph at lines 1346--1347
+[]\T1/lmr/m/n/12 Wykonanie pro-jektu \T1/lmtt/m/n/12 Gra planszowa 2.5D z uczen
+iem maszynowym komputerowych
+ []
+
+
 
 [41
 
@@ -2023,29 +2029,27 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[42
-
-]
-Overfull \hbox (21.22215pt too wide) in paragraph at lines 1359--1359
+[42]
+Overfull \hbox (21.22215pt too wide) in paragraph at lines 1386--1386
 \T1/lmtt/m/n/12 https : / / wiki . python . org / moin / BeginnersGuide / Downl
 oad$ \T1/lmr/m/n/12 (term. wiz. 05. 11. 2024). 
  []
 
 
-Overfull \hbox (5.93211pt too wide) in paragraph at lines 1359--1359
+Overfull \hbox (5.93211pt too wide) in paragraph at lines 1386--1386
 []\T1/lmr/m/n/12 Python So-ftware Fo-un-da-tion. \T1/lmr/m/it/12 The Py-thon Pr
 o-gram-ming Lan-gu-age\T1/lmr/m/n/12 . 2024. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 
 : $\T1/lmtt/m/n/12 https :
  []
 
 
-Overfull \hbox (14.20894pt too wide) in paragraph at lines 1359--1359
+Overfull \hbox (14.20894pt too wide) in paragraph at lines 1386--1386
 \T1/lmtt/m/n/12 github . com / Unity -[] Technologies / ml -[] agents / blob / 
 develop / docs / Installation .
  []
 
 
-Overfull \hbox (7.2131pt too wide) in paragraph at lines 1359--1359
+Overfull \hbox (7.2131pt too wide) in paragraph at lines 1386--1386
 []\T1/lmr/m/n/12 Unity Tech-no-lo-gies. \T1/lmr/m/it/12 Unity Sys-tem Re-qu-ire
 -ments\T1/lmr/m/n/12 . 2023. \T1/lmr/m/sc/12 url\T1/lmr/m/n/12 : $\T1/lmtt/m/n/
 12 https : / / docs . unity3d .
@@ -2054,6 +2058,7 @@ Overfull \hbox (7.2131pt too wide) in paragraph at lines 1359--1359
 
 
 [43
+
 
 ]
 
@@ -2165,7 +2170,7 @@ b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb>
 <C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pf
 b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pf
 b>
-Output written on main.pdf (61 pages, 2000874 bytes).
+Output written on main.pdf (61 pages, 2005357 bytes).
 PDF statistics:
  315 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
