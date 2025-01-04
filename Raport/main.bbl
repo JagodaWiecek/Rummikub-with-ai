@@ -67,7 +67,7 @@
     \field{urlyear}{2024}
   \endentry
 
-  \entry{pythonblurb}{online}{}{}
+  \entry{bib:pythonblurb}{online}{}{}
     \name{author}{1}{}{%
       {{hash=FPS}{%
          family={Foundation},
@@ -115,7 +115,7 @@
     \field{urlyear}{2024}
   \endentry
 
-  \entry{bib:rummikub_rules}{misc}{}{}
+  \entry{bib:rummikub_rules}{online}{}{}
     \name{author}{1}{}{%
       {{hash=R}{%
          family={Rummikub},
@@ -128,10 +128,84 @@
     \field{labeltitlesource}{title}
     \field{sortinit}{R}
     \field{sortinithash}{R}
-    \field{howpublished}{PDF dokument}
-    \field{note}{\url{rummikub_rules.pdf}}
     \field{title}{Zasady gry Rummikub}
+    \verb{url}
+    \verb https://rummikub.com/wp-content/uploads/2019/12/2600-English-1.pdf
+    \endverb
     \field{year}{2019}
+    \field{urlday}{15}
+    \field{urlmonth}{12}
+    \field{urlyear}{2024}
+  \endentry
+
+  \entry{bib:schulman2017proximal}{article}{}{}
+    \name{author}{5}{}{%
+      {{hash=SJ}{%
+         family={Schulman},
+         familyi={S\bibinitperiod},
+         given={John},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=WF}{%
+         family={Wolski},
+         familyi={W\bibinitperiod},
+         given={Filip},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=DP}{%
+         family={Dhariwal},
+         familyi={D\bibinitperiod},
+         given={Prafulla},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=RA}{%
+         family={Radford},
+         familyi={R\bibinitperiod},
+         given={Alec},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=KO}{%
+         family={Klimov},
+         familyi={K\bibinitperiod},
+         given={Oleg},
+         giveni={O\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SJ+1}
+    \strng{fullhash}{SJWFDPRAKO1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{title}{Proximal policy optimization algorithms}
+    \field{journaltitle}{arXiv preprint arXiv:1707.06347}
+    \field{year}{2017}
+  \endentry
+
+  \entry{bib:unity_grid}{online}{}{}
+    \name{author}{1}{}{%
+      {{hash=TU}{%
+         family={Technologies},
+         familyi={T\bibinitperiod},
+         given={Unity},
+         giveni={U\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{TU1}
+    \strng{fullhash}{TU1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{T}
+    \field{sortinithash}{T}
+    \field{title}{Grid - Unity Scripting API}
+    \verb{url}
+    \verb https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Grid.ht
+    \verb ml
+    \endverb
+    \field{year}{2024}
+    \field{urlday}{02}
+    \field{urlmonth}{01}
+    \field{urlyear}{2025}
   \endentry
 
   \entry{bib:Unity_instalacja}{online}{}{}
@@ -160,7 +234,7 @@
     \field{urlyear}{2024}
   \endentry
 
-  \entry{mlagents2024}{online}{}{}
+  \entry{bib:mlagents2024}{online}{}{}
     \name{author}{1}{}{%
       {{hash=TU}{%
          family={Technologies},

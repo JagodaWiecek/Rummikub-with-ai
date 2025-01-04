@@ -561,14 +561,39 @@
 	\section{Znane rozwiązania}
 	Na rynku jest wiele gier planszowych, najpopularniejsze z nich doczekały się swojej cyfrowej wersji. Są nimi między innymi:
 	\begin{itemize}
-	\item Monopoli - Jedna z najpopularniejszych gier planszowych. Gra oparta na finansach i rywalizacji z innymi graczami została wydana w wersji cyfrowej. Gra doczekała się również gier o charakterze monopoly, takich jak \texttt{Business Tour}
-	\item Go - Chińska gra planszowa, popularna również w Korei i Japonii. Celem gry jest zajęcie większej powierzchni planszy od przeciwnika. Gra \texttt{go} ma swoją wersję cyfrową na stronach internetowych.
-	\item Cantan - Strategiczna gra planszowa. Gracze mają za zadanie zyskiwać punkty zwycięstwa poprzez wykonywanie konkretnych ruchów na mapie. W grze stawia się budynki i drogi w miejscach strategicznych, co daje graczowi przewagę nad innymi. Wygrywa gracz, który uzyska ustaloną ilość punktów zwycięstwa. Gra planszowa \texttt{Cantan} ma swoją wersję cyfrową dostępną dla graczy z całego świata.
-	\item Szachy - Jedna z najbardziej popularnych strategicznych gier planszowych. Gra, oparta na rywalizacji z drugim graczem, posiada wiele wersji cyfrowych. Pewne wersje szachów w wersji online posiada zaimplementowane algorytmy sztucznej inteligencji, jedną z nich jest silnik gry \texttt{Stockfish - Open Source Chess Engine} \cite{bib:chess_online}, gdzie znajduje się pełna dokumentacja o zastosowanych algorytmach.
-	\item Rummikub - Wydana gra online Rummikub jest nastawiona na grę sieciową do komunikacji innych graczy z całego świata. Gra jest bez algorytmów sztucznej inteligencji, zaimplementowana w grafice 2D, co można zauważyć na zdjęciu \ref{fig:gra_rummikub}. 
+	\item Monopoly - Jedna z najpopularniejszych gier planszowych. Gra oparta na finansach i rywalizacji z innymi graczami została wydana w wersji cyfrowej, również są dostępne online, jedną z nich można znaleźć na stronie \url{https://www.kurnik.pl/netopol/}. Gra doczekała się również gier o charakterze monopoly, takich jak \texttt{Business Tour}, którą można znaleźć i zainstalować na stronie 
+	\url{https://store.steampowered.com/app/397900/Business_Tour__Board_Game_with_Online_Multiplayer/}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.8\textwidth]{photos/Business_tour.png}
+		\caption{Zrzut ekranu gry Business Tour}
+		\label{fig:business_tour}
+	\end{figure}
+	\item Go - Chińska gra planszowa, popularna również w Korei i Japonii. Celem gry jest zajęcie większej powierzchni planszy od przeciwnika. Gra \texttt{go} ma swoją wersję cyfrową na stronach internetowych, między innymi na stronie \url{https://online-go.com}. Na rysunku \ref{fig:GO_game} jest pokazana przykładowa gra na podanej stronie
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.35\textwidth]{photos/GO.png}
+		\caption{Zrzut ekranu gry Go na stronie online-go.com}
+		\label{fig:GO_game}
+	\end{figure}
+	\item Catan - Strategiczna gra planszowa. Gracze mają za zadanie zyskiwać punkty zwycięstwa poprzez wykonywanie konkretnych ruchów na mapie. W grze stawia się budynki i drogi w miejscach strategicznych, co daje graczowi przewagę nad innymi. Wygrywa gracz, który uzyska ustaloną ilość punktów zwycięstwa. Gra planszowa \texttt{Cantan} ma swoją wersję cyfrową dostępną dla graczy z całego świata, jedną z nich można znaleźć na stronie \url{https://store.steampowered.com/app/544730/Catan_Universe/?l=polish}, na rysunku \ref{fig:Catan} widać, jak wygląda interfejs gry.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\textwidth]{photos/Catan.png}
+		\caption{Zrzut ekranu gry Catan}
+		\label{fig:Catan}
+	\end{figure} 
+	\item Szachy - Jedna z najbardziej popularnych strategicznych gier planszowych. Gra, oparta na rywalizacji z drugim graczem, posiada wiele wersji cyfrowych, jedna wersja jest dostępna na stronie \url{https://www.chess.com}, wygląd gry można zobaczyć na rysunku \ref{fig:Chess}. Pewne wersje szachów w wersji online posiada zaimplementowane algorytmy sztucznej inteligencji, jedną z nich jest silnik gry \texttt{Stockfish - Open Source Chess Engine} \cite{bib:chess_online}, gdzie znajduje się pełna dokumentacja o zastosowanych algorytmach.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\textwidth]{photos/szachy.png}
+		\caption{Zrzut ekranu rozgrywki szachów ze strony chess.com}
+		\label{fig:Chess}
+	\end{figure} 
+	\item Rummikub - Wydana gra online Rummikub jest nastawiona na grę sieciową do komunikacji innych graczy z całego świata, w grę online od oficjalnego producenta można zagrać za darmo na stronie \url{https://rummikub.com/play-online/}. Gra jest bez algorytmów sztucznej inteligencji, zaimplementowana w grafice 2D, co można zauważyć na rysunku \ref{fig:gra_rummikub}. 
 		\begin{figure}[H]
 		\centering
-		\includegraphics[width=\textwidth]{photos/rummikub_game.png}
+		\includegraphics[width=0.8\textwidth]{photos/rummikub_game.png}
 		\caption{Zrzut ekranu gry Rummikub online}
 		\label{fig:gra_rummikub}
 	\end{figure}
@@ -577,8 +602,9 @@
 	% TODO
 	\chapter{Wymagania i narzędzia}% do akceptacji
 	\label{ch:wymagania-i-narzedzia}
-	W tym rozdziale przedstawiono wymagania funkcjonalne i niefunkcjonalne projektu oraz narzędzia technologiczne i programistyczne, które zostały wykorzystane do jego realizacji. Opisane zostały także kluczowe zasoby niezbędne do wdrożenia rozwiązania, takie jak środowiska programistyczne, biblioteki oraz wymagany sprzęt.
+	W tym rozdziale przedstawiono wymagania funkcjonalne i niefunkcjonalne projektu oraz narzędzia technologiczne i programistyczne, które zostały wykorzystane do jego realizacji. Opisane zostały  kluczowe zasoby niezbędne do wdrożenia rozwiązania, takie jak środowiska programistyczne, biblioteki oraz wymagany sprzęt.
 	\section{Wymagania funkcjonalne}
+	Sformułowano następujące wymagania funkcjonalne aplikacji
 	\begin{itemize}
 		\item Wizualizacja rozgrywki.
 		\item Interakcja użytkownika z elementami gry.
@@ -588,6 +614,7 @@
 		\item Implementacja różnych trybów gry.
 		\item Zaimplementowanie gracza komputerowego z algorytmem uczenia maszynowego.
 	\end{itemize}
+	Zdefiniowano następujące wymagania funkcjonalne aplikacji
 	\section{Wymagania niefunkcjonalne}
 	\begin{itemize}
 		\item \textbf{Kompatybilność :}
@@ -609,25 +636,32 @@
 	 Unity jest wszechstronnym silnikiem do tworzenia gier i aplikacji 3D jak i 2D zaimplementowany przez Unity Technologies \cite{bib:unity_opis}. Jest szeroko stosowany nie tylko do gier wideo, ale również do symulatorów, wizualizacji interaktywnych oraz aplikacji mobilnych. 
 	 Unity oferuje dużo możliwości, takie jak:
 	 \begin{itemize}
-	 	\item Tworzenie modeli 2D i 3D
-	 	\item Animacje i symulacja fizyki
-	 	\item Renderowanie grafiki
+	 	\item Tworzenie modeli 2D i 3D.
+	 	\item Animacje i symulacja fizyki.
+	 	\item Renderowanie grafiki.
 	 	\item Wykorzystanie narzędzi, takich jak okulary wirtualnej rzeczywistości oraz rozszerzonej rzeczywistości.
 	 	\item Tworzenie gier z trybem wieloosobowym.
 	 \end{itemize}
-	 
+	Projekt w Unity składa się z:
+	\begin{itemize}
+		\item Scen - to podstawowa jednostka organizacyjna w Unity, reprezentuje oddzielne etapy symulacji. Przykładowo w grze, będą osobne sceny na menu i rozgrywkę.
+		\item Obiektów - są to elementy sceny, są nimi, między innymi,  obiekty 3D, przyciski, światło, kamera.
+		\item Komponentów - to moduły dodawane do obiektów, dzięki nimi można przykładowo zmieniać pozycję czy rotację obiektu.
+		\item Skryptów - to fragmenty kodu, najczęściej pisane w C\#, dzięki nim można implementować unikalne zachowania obiektów.
+		\item Prefabrykatów - to wzorzec obiektu, który można wielokrotnie używać w scenach.
+	\end{itemize}
 	  
 	\subsection{C\#}
 	\textbf{C\#} (C-Sharp) to nowoczesny, obiektowy język programowania opracowany przez firmę Microsoft \cite{bib:csharp_doc}. Łączy zalety języków C++ oraz Java, co czyni go uniwersalnym przy użytkowaniu. Może być wykorzystany do tworzenia gier wideo czy aplikacji mobilnych.
 	\\C\# wyróżnia się następującymi cechami:
 	\begin{itemize}
 		\item Programowanie obiektowe.
-		\item Zarządzanie pamięcią - posiadając funkcję garbage collector, nie trzeba martwić się o wycieki pamięci.
-		 \item Uniwersalność – umożliwia tworzenie aplikacji dla systemów Windows, macOS, Android, iOS oraz gier w środowisku Unity.
+		\item Zarządzanie pamięcią - unkcja garbage collector zapobiega wyciekom pamięci.
+		 \item Uniwersalność – umożliwia tworzenie aplikacji dla systemów Windows, macOS, Android, iOS oraz implementować zachowania obiektów w środowisku Unity.
 	\end{itemize}
 	 C\# w projekcie został wykorzystany do zaimplementowania logiki gry, komunikacji z modelem oraz zarządzania interakcji między graczem a środowiskiem w Unity.
 	\subsection{Python}
-	Python to obiektowy, wysokopoziomowy język programowania, głównie znany z prostoty i przejrzystości kodu. Więcej informacji na temat języka Python znajduje się w dokumentacji Python Software Foundation \cite{pythonblurb}.
+	Python to obiektowy, wysokopoziomowy język programowania, głównie znany z prostoty i przejrzystości kodu. Więcej informacji na temat języka Python znajduje się w dokumentacji Python Software Foundation \cite{bib:pythonblurb}.
 	Najważniejsze cechy języka Python to:
 	\begin{itemize}
 		\item Bogata biblioteka standardowa – zawiera moduły do pracy z danymi, plikami, sieciami, obliczeniami naukowymi i innymi zadaniami.
@@ -637,22 +671,22 @@
 	W niniejszym projekcie Python w wersji 3.9 jest wykorzystany jako środowisko do implementacji modelu uczenia maszynowego, jest to konieczne w przypadku biblioteki ML-Agents.
 	\subsection{ML-Agents Toolkit}
 	ML-Agents (Machine Learning Agents) to ,opracowany przez Unity Technologies, zestaw narzędzi do wykorzystywania technik sztucznej inteligencji i uczenia maszynowego w projektach w środowisku Unity. 
-	Narzędzie pozwala na implementację agentów, którzy mogą podejmować decyzje w zaimplementowanym środowisku. Więcej informacji na temat ML-Agents Toolkit można znaleźć w repozytorium GitHub Unity Technologies \cite{mlagents2024}.
+	Narzędzie pozwala na implementację agentów, którzy mogą podejmować decyzje w zaimplementowanym środowisku. Więcej informacji na temat ML-Agents Toolkit można znaleźć w repozytorium GitHub Unity Technologies \cite{bib:mlagents2024}.
 	\\ Kluczowymi cechami ML-Agents:
 	\begin{itemize}
-		\item Nauczanie wzmacniane - agenci uczą się na bazie dostawanych kar i nagród, jakie otrzymują.
-		\item Narzędzie jest uniwersalne, można je zaimplementować do prostych jak i zaawansowanych gier, w których muszą podejmować decyzje.
+		\item Uczenie ze wzmacnianiem - agenci uczą się na bazie dostawanych kar i nagród, jakie otrzymują.
+		\item Narzędzie jest uniwersalne, można je zaimplementować do prostych jak i zaawansowanych gier, w których zaimplementowani agenci muszą podejmować decyzje.
 		\item Agenta można zaimplementować do różnego rodzaju scenariuszy.
 	
 	\end{itemize}
 	
-	W tym projekcie, narzędzie, do poprawnej nauki wykorzystuje środowisko Python oraz unity. Unity jest miejscem implementacji akcji, obserwacji, nagród i kar dla modelu. Środowisko Python jest wykorzystywane do implementacji modelu oraz rozpoczynania nauki.
-	\newpage
+	W tym projekcie, narzędzie, do poprawnej nauki wykorzystuje środowisko Python oraz Unity. Unity jest miejscem implementacji akcji, obserwacji, nagród i kar dla modelu. Środowisko Python jest wykorzystywane do implementacji modelu oraz rozpoczynania nauki.
+	
 	\section{Przypadki użycia}
-	Rysunek \ref{fig:usecase} przedstawia diagram przypadków użycia pokazuje możliwe funkcje dla gracza w menu oraz w grze.
-	\begin{figure}[ht]
+	Rysunek \ref{fig:usecase} przedstawia diagram przypadków użycia prezentuje możliwe funkcje dla gracza w menu oraz w grze.
+	\begin{figure}[H]
 		\centering
-		\includegraphics[width=\textwidth]{photos/use_case.png}
+		\includegraphics[width=0.9\textwidth]{photos/use_case.png}
 		\caption{Diagram przypadków użycia}
 		\label{fig:usecase}
 	\end{figure}
@@ -676,30 +710,35 @@
 			\item System 64-bitowy Windows 11 
 			\item NVIDIA GeForce RTX 4050
 		\end{itemize}
-	\section{Instalacja}
-	Aby uruchomić grę, należy zainstalować poniższe oprogramowanie i biblioteki.:
-	\subsection{Unity}
+	\section{Uruchomienie}
+	Poniżej zostaną przedstawione biblioteki, których instalacja jest wymagana do uruchomienia aplikacji.
+	\subsection{Tryb nauki gracza AI}
+	
+	\begin{itemize}
+		\item Unity
+	
 	Do uruchomienia projektu wymagana jest instalacja Unity w wersji co najmniej 2022.3 . Więcej informacji, na temat instalacji, znajduje się \cite{bib:Unity_instalacja}. Aby zainstalować Unity, należy:
 	\begin{enumerate}
 		\item Pobrać Unity Hub z oficjalnej strony: \url{https://unity.com/download}.
 		\item Zainstalować Unity Hub i dodaj wersję edytora Unity 2022.3 lub nowszą.
-		\item Pobierz wybrane biblioteki.
 	\end{enumerate}
-	\subsection{Python}
+	
+	\item Python
+	
 	Konieczne jest zainstalowanie Pythona w wersji 3.8 bądź nowsza, więcej informacji można znaleźć w \cite{bib:link_do_instrukcji_python}.
-	\begin{enumerate}
-		\item Należy pobrać instalator z odpowiednią wersją oficjalnej strony 
+	
+	Należy pobrać instalator z odpowiednią wersją oficjalnej strony 
 		\url{https://www.python.org/downloads/}.
-		\item Uruchomić instalacje.
-	\end{enumerate}
-	\subsection{Biblioteka ml-agents}
-	Biblioteka ML-Agents Toolkit jest wymagana do wdrożenia komponentów sztucznej inteligencji w grze. Szczegółowa instrukcja instalacji znajduje się w \cite{bib:link_do_instrukcji_ml-agents}. Konieczne jest zainstalowanie jej w środowisku Python jak i w Unity.
+	
+	\item Biblioteka ml-agents
+	
+	Biblioteka ML-Agents Toolkit jest wymagana do wdrożenia komponentów sztucznej inteligencji w grze. Szczegółowa instrukcja instalacji znajduje się w \cite{bib:link_do_instrukcji_ml-agents}. Konieczne jest zainstalowanie jej w środowisku Python jak i w Unity zgodnie z następującymi krokami:
 	\begin{enumerate}
-	\item Przejdź do zakładki Okno (Window) w Unity 
-	\item Wybierz Menedżer Pakietów (Package Manager)
-	\item W okienko wyszukiwania wpisz \textit{ml-agents}
-	\item Zainstaluj wybraną wersję
-	\item W plikach projektu stwórz środowisko wirtualne Python przy użyciu \textit{Wiersza poleceń}
+	\item Przejdź do zakładki Okno (Window) w Unity.
+	\item Wybierz Menedżer Pakietów (Package Manager).
+	\item W okienko wyszukiwania wpisz \textit{ml-agents}.
+	\item Zainstaluj wybraną wersję.
+	\item W plikach projektu stwórz środowisko wirtualne Python przy użyciu \textit{Wiersza poleceń}.
 	\begin{verbatim}
 		python -m venv nazwa_folderu
 	\end{verbatim}
@@ -708,38 +747,38 @@
 		py -m venv nazwa_folderu
 	\end{verbatim}
 	
-	\item Aktywuj środowisko przy użyciu:
+	\item Aktywuj środowisko przy użyciu.:
 	\begin{verbatim}
 		nazwa_folderu\Scripts\activate
 	\end{verbatim}
 	
-	\item Zainstaluj w środowisku wirtualnym potrzebne biblioteki
+	\item Zainstaluj w środowisku wirtualnym potrzebne biblioteki.
 		\begin{verbatim}
 		py -m pip install --upgrade pip
 		pip install torch
 		\end{verbatim}
-		aby zainstalować konkretną wersję biblioteki pytorch, należy wpisać komendę:
+		aby zainstalować konkretną wersję biblioteki pytorch, należy wpisać komendę.:
 		\begin{verbatim}
 			pip install torch==(wybrana wersja)
 		\end{verbatim}
-		Ostatecznie należy wpisać komendę:
+	\item	Ostatecznie należy wpisać komendę.:
 		\begin{verbatim}
 			pip install mlagents
 		\end{verbatim}
-		Jeśli ta komenda wywoła błąd, należy wpisać:
+		Jeśli ta komenda wywoła błąd, należy wpisać.:
 		\begin{verbatim}
 			pip install mlagents --use-feature=2020-resolver
 		\end{verbatim}
-		Aby zweryfikować, czy biblioteka została poprawnie zainstalowana, należy wpisać:
+	\item	Aby zweryfikować, czy biblioteka została poprawnie zainstalowana, należy wpisać:
 		\begin{verbatim}
 			mlagents-learn --help
 		\end{verbatim}
 		Jeśli biblioteka jest poprawnie zainstalowana, to polecenie wyświetli dostępne komendy w ramach biblioteki ml-agents.
 	\end{enumerate}
 	
-	\section{Aktywacja}
+	\item Aktywacja
 	Aby rozpocząć naukę sztucznej inteligencji (ML-Agents), należy wykonać kolejne polecenia:
-		\begin{enumerate}
+	\begin{enumerate}
 			\item Otwórz Unity Hub i wybierz projekt z listy w odpowiedniej wersji edytora Unity.
 			\item Kliknij przycisk \texttt{Open}, aby załadować projekt.
 			\item W edytorze Unity załaduj scenę \texttt{CP\_AI\_GAME}
@@ -750,8 +789,9 @@
 					mlagents-learn --run-id=nazwa
 				\end{verbatim}
 			\item Naciśnij przycisk \textbf{Play} w Unity.
-		\end{enumerate}
+	\end{enumerate}
 	Po wykonaniu powyższej instrukcji, w środowisku wirtualnym oraz w unity zostanie aktywowana nauka modelu, którą użytkownik będzie mógł obserwować.
+	\end{itemize}
 	\section{Sposób obsługi}
 	Sposób obsługi zawiera szczegółową instrukcję, jak korzystać z aplikacji z perspektywy użytkownika.
 	\subsection{Zasady gry}
@@ -782,7 +822,7 @@
 	
 	
 	\subsection{Ekran aplikacji}
-	Rozgrywka rozpoczyna się widokiem menu głównego gry, co widać na rysunku \ref{fig:menugry}
+	Rozgrywka rozpoczyna się widokiem menu głównego gry, zaprezentowanym na rysunku \ref{fig:menugry}
 		\begin{figure}[H]
 		\centering
 		\includegraphics[width=\textwidth]{photos/Menu_gry.png}
@@ -804,31 +844,26 @@
 			\caption{Przykładowy ekran początku gry}
 			\label{fig:start_ekran_gry}
 		\end{figure}
-		Na obrazku \ref{fig:start_ekran_gry} można zobaczyć przykładowy ekran rozpoczęcia gry. Gra rozpoczyna się z każdym graczem posiadającym po czternaście płytek na swoim stojaku.\\Nad mapą widać napis zaprezentowany na rysunku \ref{fig:napis_gracza}:
+		Na obrazku \ref{fig:start_ekran_gry} można zobaczyć przykładowy ekran rozpoczęcia gry. Gra rozpoczyna się z każdym graczem posiadającym po czternaście płytek na swoim stojaku.\\Nad mapą widać napis zaprezentowany na rysunku \ref{fig:napis_gracza}.
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=\textwidth]{photos/current_player.png}
 			\caption{Aktualna tura: Gracz X}
 			\label{fig:napis_gracza}
 		\end{figure}
-		Napis ten informuje użytkownika, który gracz ma w danej chwili wykonuje turę ruchu. W miejscu \texttt{X} mogą pojawić się różne napisy:
+		Napis ten informuje użytkownika, który gracz w danej chwili wykonuje ruch. W miejscu \texttt{X} mogą pojawić się różne napisy:
 		\begin{itemize}
 			\item Computer, MissComputer, MrComputer - są to wyznaczniki, że daną turę wykonuje gracz komputerowy o predefiniowanych ruchach.
 			\item You - informacja, że to użytkownik może wykonać ruch.
 			\item Agent - oznacza to, że gracz komputerowy z algorytmem uczenia maszynowego ma turę w danym momencie.
 		\end{itemize}
-				\begin{figure}[H]
-			\centering
-			\includegraphics[width=\textwidth]{photos/time.png}
-			\caption{widok czasu gry}
-			\label{fig:czas}
-		\end{figure}
-		W lewym górnym rogu znajduje się informacja o czasie w aplikacji, co można zobaczyć na rysunku \ref{fig:czas}. Każda tura trwa pewną ilość czasu, jeśli dany gracz nie zakończy swojej tury przed czasem, wszystkie jego ruchy zostają cofnięte, oraz dostaje nową płytkę z banku. Jedna tura zazwyczaj trwa 60 sekund.
-		\\Z lewej strony ekranu znajduje się lista graczy komputerowych. Dostarcza ona informacje, ile ma płytek każdy z graczy. Lista graczy różni się w zależności od trybu gry:
+
+		W lewym górnym rogu rysunku \ref{fig:start_ekran_gry} znajduje się informacja o czasie w aplikacji. Każda tura trwa pewną ilość czasu, jeśli dany gracz nie zakończy swojej tury przed czasem, wszystkie jego ruchy zostają cofnięte, oraz dostaje nową płytkę z banku. Jedna tura zazwyczaj trwa 60 sekund.
+		\\Z lewej strony ekranu znajduje się lista graczy komputerowych. Dostarcza ona informacje, ile ma płytek każdy z graczy. Lista graczy różni się w zależności od trybu gry, co można zauważyć na rysunku \ref{fig:lista_graczy}.
 				
 		\begin{figure}[H]
 		\centering
-		\includegraphics[width=\textwidth]{photos/lista graczy.png}
+		\includegraphics[width=0.85\textwidth]{photos/lista graczy.png}
 		\caption{widok listy graczy}
 		\label{fig:lista_graczy}
 		\end{figure}
@@ -842,7 +877,7 @@
 		Użytkownik ma możliwość interakcji z płytkami w stojaku, widocznym na rysunku \ref{fig:przesuwanie}. Przytrzymanie wybranej płytki pozwala na jej przesuwanie w prawo bądź lewo w celu ułożenia jej w konkretnej sekwencji.
 		\begin{figure}[H]
 			\centering
-			\includegraphics[width=\textwidth]{photos/dragable.png}
+			\includegraphics[width=0.75\textwidth]{photos/dragable.png}
 			\caption{widok stojaku z płytkami}
 			\label{fig:przesuwanie}
 		\end{figure}
@@ -850,20 +885,25 @@
 		W prawym górnym rogu ekranu znajdują się przyciski. W zależności od momentu rozgrywki:
 		\begin{figure}[H]
 			\centering
-			\includegraphics[width=0.95\textwidth]{photos/out_turn_przyciski.png}
+			\includegraphics[width=0.8\textwidth]{photos/out_turn_przyciski.png}
 			\caption{przyciski poza turą}
 			\label{fig:przyciski_poza_tura}
 		\end{figure}
 		
-		Nie ma tury użytkownika: 
+		Gdy nie ma tury użytkownika, wygląd przycisków wygląda jak na rysunku \ref{fig:przyciski_poza_tura}: 
 		\begin{itemize}
 			\item pierwszy przycisk służy do sortowania względem serii.
 			\item drugi przycisk służy do sortowania względem grup.
 		\end{itemize}
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=0.75\textwidth]{photos/przed_ruchem_przyciski.png}
+			\caption{przyciski przed wykonaniem ruchu}
+			\label{fig:przyciski_przed_ruchem}
+		\end{figure}
+		Gdy użytkownik ma swoją turę, ale jeszcze nie wykonał ruchu, pojawia się dodatkowy przycisk \texttt{Take a tile (34)}, widoczny na rysunku \ref{fig:przyciski_przed_ruchem}, który pozwala graczowi na pobranie płytki, wraz z czym kończy turę. Liczba w nawiasach w przycisku informuje, ile zostało płytek w głównym banku. Jeśli został użyty po wykonaniu ruchu na mapie, wszystkie manipulacje zostaną cofnięte. 
 		
-		Gdy użytkownik ma swoją turę, ale jeszcze nie wykonał ruchu, pojawia się dodatkowy przycisk \texttt{Take a tile (34)}, widoczny na obrazku \ref{fig:przyciski_przed_ruchem}, który pozwala graczowi na pobranie płytki, wraz z czym kończy turę. Liczba w nawiasach w przycisku informuje, ile zostało płytek w głównym banku. Jeśli został użyty po wykonaniu ruchu na mapie, wszystkie manipulacje zostaną cofnięte. 
-		
-		Przycisk \texttt{End Turn} wykona sprawdzenie, czy wszystkie sekwencje na mapie zawierają co najmniej trzy płytki. Jeśli funkcja wykryje błąd, tura nie zakończy się oraz zostanie pokazany komunikat o niepoprawnym zakończeniu tury.
+		Przycisk \texttt{End Turn}, widoczny na rysunku \ref{fig:przyciski_po_ruchu} wykona sprawdzenie, czy wszystkie sekwencje na mapie zawierają co najmniej trzy płytki. Jeśli funkcja wykryje błąd, tura nie zakończy się oraz zostanie pokazany komunikat o niepoprawnym zakończeniu tury.
 		\\Przycisk \texttt{Undo} cofa wszystkie zmiany i wyłożenia, jakie użytkownik wykonał w trakcie danej tury.
 
 	\begin{figure}[H]
@@ -872,16 +912,8 @@
 		\caption{przyciski po wykonaniu ruchu}
 		\label{fig:przyciski_po_ruchu}
 	\end{figure}
-		
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.75\textwidth]{photos/przed_ruchem_przyciski.png}
-	\caption{przyciski przed wykonaniem ruchu}
-	\label{fig:przyciski_przed_ruchem}
-\end{figure}
-
 	
-	Jeśli gracz spróbuje zakończyć turę przyciskiem \texttt{End Turn}, podczas gdy na mapie co najmniej jedna sekwencja nie zawiera minimalnie trzech płytek, na ekranie użytkownika wyświetli się ten komunikat widoczny na rysunku \ref{fig:komunikat_zla_mapa}:
+	Jeśli gracz spróbuje zakończyć turę przyciskiem \texttt{End Turn}, podczas gdy na mapie co najmniej jedna sekwencja nie zawiera minimalnie trzech płytek, na ekranie użytkownika wyświetli się ten komunikat widoczny na rysunku \ref{fig:komunikat_zla_mapa}.
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=\textwidth]{photos/zla_mapa.png}
@@ -889,14 +921,14 @@
 			\label{fig:komunikat_zla_mapa}
 		\end{figure}
 		
-	Jeśli gracz wykonuje swoją pierwszą turę, ale suma sekwencji, jakie wyłożył, nie jest równa bądź większa trzydzieści, to na ekranie pokaże się komunikat widoczny na rysunku \ref{fig:nie_ma_sumy_30}:
+	Jeśli gracz wykonuje swoją pierwszą turę, ale suma sekwencji, jakie wyłożył, nie jest równa bądź większa trzydzieści, to na ekranie pokaże się komunikat widoczny na rysunku \ref{fig:nie_ma_sumy_30}.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=\textwidth]{photos/zla_pierwsza_tura.png}
 		\caption{komunikat o źle zakończonej pierwszej turze}
 		\label{fig:nie_ma_sumy_30}
 	\end{figure}
-	Gdy gracz już zakończył swoją pierwszą turę i w trakcie kolejnej tury wykona manipulacje sekwencjami na mapie nie wykładając przy tym ani jednej płytki ze swojego stojaka, pokaże się komunikat zaprezentowany na rysunku \ref{fig:nie_wylozona_plytka}:
+	Gdy gracz już zakończył swoją pierwszą turę i w trakcie kolejnej tury wykona manipulacje sekwencjami na mapie nie wykładając przy tym ani jednej płytki ze swojego stojaka, pokaże się komunikat zaprezentowany na rysunku \ref{fig:nie_wylozona_plytka}.
 		\begin{figure}[H]
 		\centering
 		\includegraphics[width=\textwidth]{photos/co_najmniej.png}
@@ -904,14 +936,14 @@
 		\label{fig:nie_wylozona_plytka}
 	\end{figure}
 	Nie dozwolone jest, na daną turę, manipulowanie mapą bez wyłożenia nowej płytki.
-	\\Jeżeli gracz zdecyduje się zabrać z planszy płytkę, która została położona przez niego bądź kogoś innego w innej turze, na ekranie pojawi się komunikat widoczny na rysunku \ref{fig:już_wylozona_plytka}:
+	\\Jeżeli gracz zdecyduje się zabrać z planszy płytkę, która została położona przez niego bądź kogoś innego w innej turze, na ekranie pojawi się komunikat widoczny na rysunku \ref{fig:już_wylozona_plytka}.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=\textwidth]{photos/juz_polozone.png}
 		\caption{komunikat przy niedozwolonym usuwaniu płytki}
 		\label{fig:już_wylozona_plytka}
 	\end{figure}
-	Gdy pierwszy gracz wyłoży wszystkie płytki na mapę, pokaże się ekran zakończenia gry:
+	Gdy pierwszy gracz wyłoży wszystkie płytki na mapę, pokaże się ekran zakończenia gry, przedstawionym na rysunku \ref{fig:endgame_screen}.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=\textwidth]{photos/endgame_screen.png}
@@ -919,7 +951,7 @@
 		\label{fig:endgame_screen}
 	\end{figure}
 	Na rysunku \ref{fig:endgame_screen} widać hierarchię graczy w zależności od ich wyniku. Każdy gracz w hierarchii, pod zwycięzcą, ma w nawiasie zapisany wynik sumy płytek, które miał na swoim stojaku pod koniec gry. W takiej sytuacji wygrywa gracz, który nie ma już żadnych płytek na stojaku.
-	\\Jeśli gra jednak zakończy się brakiem płytek w głównym banku, ekran końca gry będzie wyglądać jak na rysunku \ref{fig:endgame_screen_empty_bank}:
+	\\Jeśli gra jednak zakończy się brakiem płytek w głównym banku, ekran końca gry będzie wyglądać jak na rysunku \ref{fig:endgame_screen_empty_bank}.
 	  	\begin{figure}[H]
 	  	\centering
 	  	\includegraphics[width=\textwidth]{photos/endgame_pusty_bank.png}
@@ -934,41 +966,41 @@
 	  	\item \textbf{Play again} - wykorzystanie tego przycisku pozwoli graczowi wzięcie udziału w nowej rozgrywce w tym samym trybie.
 	  \end{itemize}
 	  
-	  Każda płytka w grze odpowiada obiektom wykorzystywanym w oryginalnej grze planszowej, oprócz płytek jokerów. Rysunek \ref{fig:jokery} prezentuje wygląd jokerów w grze:
+	  Każda płytka w grze odpowiada obiektom wykorzystywanym w oryginalnej grze planszowej, oprócz płytek jokerów. Rysunek \ref{fig:jokery} prezentuje wygląd jokerów w grze.
 	  \begin{figure}[H]
 	  	\centering
-	  	\includegraphics[width=0.45\textwidth]{photos/Jokery.png}
+	  	\includegraphics[width=0.35\textwidth]{photos/Jokery.png}
 	  	\caption{jokery}
 	  	\label{fig:jokery}
 	  \end{figure}
-	  W trakcie gry istnieje możliwość jej zatrzymania, na przykład gdy użytkownik musi na chwilę odejść od urządzenia lub chce zmienić tryb gry bez konieczności czekania na zakończenie rozgrywki. W takim przypadku wystarczy nacisnąć przycisk \texttt{Esc}. Po jego naciśnięciu, pojawi się ekran, który jest widoczny na rysunku \ref{fig:stop_game}:
+	  W trakcie gry istnieje możliwość jej zatrzymania, na przykład gdy użytkownik musi na chwilę odejść od urządzenia lub chce zmienić tryb gry bez konieczności czekania na zakończenie rozgrywki. W takim przypadku wystarczy nacisnąć przycisk \texttt{Esc}. Po jego naciśnięciu, pojawi się ekran, który jest widoczny na rysunku \ref{fig:stop_game}.
 	  \begin{figure}[H]
 	  	\centering
-	  	\includegraphics[width=\textwidth]{photos/stop_game.png}
+	  	\includegraphics[width=0.85\textwidth]{photos/stop_game.png}
 	  	\caption{Ekran zatrzymania gry}
 	  	\label{fig:stop_game}
 	  \end{figure}
 	  W tym momencie gra zostaje wstrzymana, a dalsza rozgrywka nie jest możliwa. Jeśli użytkownik zdecyduje się zakończyć grę, może to zrobić, klikając przycisk \texttt{Return to menu}, co spowoduje powrót do głównego ekranu gry i zakończenie bieżącej sesji. Jeżeli gracz chce wznowić rozgrywkę, wystarczy, że naciśnie ponownie klawisz \texttt{Esc}, co pozwoli na kontynuację gry od miejsca, w którym została przerwana.
 	\subsection{Interakcja z płytkami gry}
 	Po wybraniu trybu gry, użytkownik zostaje przeniesiony do mapy rozgrywki. Jego głównym celem jest jak najszybsze wyłożenie płytek ze swojego stojaka. W trakcie interakcji z mapą pojawia się siatka, która pomaga graczowi zorientować się, gdzie dokładnie można umieścić płytkę. Aby położyć płytkę na mapie, należy najpierw kliknąć lewym przyciskiem myszy na wybraną płytkę, a następnie przesunąć kursor w kierunku miejsca, w którym gracz chce ją umieścić.
-	Na rysunku \ref{fig:w_turze} widać obiekt, podobny do płytki. Gracz dzięki temu widzi, gdzie płytka będzie położona. Aby zakończyć akcję, wystarczy nacisnąć lewym przyciskiem myszy punkt na mapie:
+	Na rysunku \ref{fig:w_turze} widać obiekt, podobny do płytki. Gracz dzięki temu widzi, gdzie płytka będzie położona. Aby zakończyć akcję, wystarczy nacisnąć lewym przyciskiem myszy punkt na mapie.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[width=\textwidth]{photos/w_turze.png}
 		\caption{Kładzenie płytki na mapę}
 		\label{fig:w_turze}
 	\end{figure}
-	Jeśli gracz przeciągnie kursorem myszy na pole, na którym nie może położyć płytki, obiekt zostanie pokazany na czerwono tak jak widać na rysunku \ref{fig:zle_polozenie}:
+	Jeśli gracz przeciągnie kursorem myszy na pole, na którym nie może położyć płytki, obiekt zostanie pokazany na czerwono tak jak widać na rysunku \ref{fig:zle_polozenie}.
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=\textwidth]{photos/zle_polozenie.png}
+		\includegraphics[width=0.8\textwidth]{photos/zle_polozenie.png}
 		\caption{Złe położenie płytki}
 		\label{fig:zle_polozenie}
 	\end{figure}
 	Aby usunąć płytkę z mapy, należy wcisnąć klawisz \texttt{D}, a następnie kliknąć lewym przyciskiem myszy na płytkę, którą chce się usunąć. Ta akcja usuwa płytkę z mapy i przywraca ją do stojaka gracza. Użytkownik może usunąć jedynie płytki wyłożone w trakcie trwającej tury. Gracz, chcąc usunąć płytkę z mapy zobaczy czerwony obiekt jako kursor, jak na rysunku \ref{fig:usuwanie}. Oznacza on, że nie można usunąć obiekt z miejsca, w którym obiektu nie ma. Obiekt zmienia kolor na biały, gdy zostanie umiejscowiony na pozycji, gdzie znajduje się płytka 
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=\textwidth]{photos/usuwanie.png}
+		\includegraphics[width=0.8\textwidth]{photos/usuwanie.png}
 		\caption{wygląd usuwania płytki}
 		\label{fig:usuwanie}
 	\end{figure}
@@ -976,35 +1008,35 @@
 	\\Jeśli gracz zdecyduje się zaprzestać wykonywania którejś akcji jak wykładania czy przesuwania, musi nacisnąć klawisz \texttt{Q}
 	
 	\subsection{Predefiniowani gracze komputerowi}
-	Gracze komputerowi z predefiniowanymi zachowaniami jaką zaimplementowane funkcje zachowań. Funkcjonalność gracza przebiega w następującym schemacie:
+	Gracze komputerowi z predefiniowanymi zachowaniami posiadają zaimplementowane funkcje obsługujące ich zachowaniań. Funkcjonalność gracza przebiega w następującym schemacie:
 	\begin{enumerate}
 		\item Analizuje płytki na swoim stojaku i poszukuje możliwych serii do położenia. Jeżeli to jest pierwsza tura gracza, to sprawdzi czy suma punktów wszystkich serii wynosi co najmniej 30. Jeśli warunki zostaną spełnione, kładzie serie w losowym miejscu na mapie.
 		\item Analizuje płytki na swoim stojaku w poszukiwaniu wszystkich możliwych grup do położenia. Jeżeli jest to pierwsza tura gracza, to sprawdzi czy suma punktów wszystkich wytypowanych grup wynosi co najmniej 30. Jeśli warunek zostanie spełniony, płytki zostaną położone na mapie.
 		\item Jeżeli gracz zakończył już pierwszą turę, to po wyłożeniu wszystkich możliwych serii i grup ze stojaka, może dokładać płytki na mapę do istniejących ciągów. Gracz sprawdza wszystkie wolne pozycje obok położonych sekwencji. Jeżeli wybrana płytka może zostać dołożona do ciągu, gracz położy płytkę.
 		\item Gracz może zakończyć turę. Najpierw jednak sprawdzi czy ilość płytek w jego stojaku jest taka sama jak na końcu tury. Jeżeli tak, to gracz komputerowy dobierze kolejną płytkę, jeśli nie to tura zakończy się. 
 	\end{enumerate}
-	\subsection{Nauka od strony użytkownika}
+	\subsection{Nauka gracza komputerowego}
 	Użytkownik po wykonaniu akcji podanych w rozdziale \texttt{Aktywacja} może zaobserwować uruchomienie się środowiska nauki modelu. 
 	%Zdjęcie od razu po uruchomieniu nauki
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=\textwidth]{photos/start.png}
+		\includegraphics[width=0.8\textwidth]{photos/start.png}
 		\caption{Włączanie nauczania w wierszu poleceń}
 		\label{fig:wlaczone_srodowisko}
 	\end{figure}
 	Na rysunku \ref{fig:wlaczone_srodowisko} widać uruchomione środowisko, które wyczekuje uruchomienia symulacji w unity na konkretnym porcie przesyłowym. Pokazują się również parametry modelu. 
-	Bez pośrednio po uruchomieniu symulacji w Unity, wierszu poleceń wyświetli się lista pokazana na rysunku \ref{fig:uruchomione_srodowisko}. Jest to spis parametrów, jakie model ma ustawione przy nauce. Po uruchomieniu nauki, użytkownik może zauważyć, że w unity uruchomiła się symulacja. Gracz komputerowy z uczeniem maszynowym zacznie wykonywać losowe ruchy, które mu zostały przypisane, po pewnym czasie jednak będą już oparte o decyzyjność agenta. Podejmowane decyzje modelu są oparta na karach i nagrodach jakie otrzymuje w trakcie rozgrywki. Każdy model ma określoną ilość trwania ruchów, zanim zostaną zaktualizowane wagi modelu, co za tym idzie, podejmowanie już bardziej przemyślanych decyzji. Użytkownik ma możliwość widzieć w trakcie nauki, jakie model dostaje nagrody i postęp z każdą aktualizacją, co widać na rysunku \ref{fig:w_nauce}.
+	Bezpośrednio po uruchomieniu symulacji w Unity, w wierszu poleceń wyświetli się lista pokazana na rysunku \ref{fig:uruchomione_srodowisko}. Jest to spis parametrów, jakie model ma ustawione przy nauce. Po uruchomieniu nauki, użytkownik może zauważyć, że w unity uruchomiła się symulacja. Gracz komputerowy z uczeniem maszynowym zacznie wykonywać losowe ruchy, które mu zostały przypisane, po pewnym czasie jednak będą już oparte o decyzyjność agenta. Podejmowane decyzje modelu są oparta na karach i nagrodach jakie otrzymuje w trakcie rozgrywki. Każdy model ma określoną ilość trwania ruchów, zanim zostaną zaktualizowane wagi modelu, co za tym idzie, podejmowanie już bardziej przemyślanych decyzji. Użytkownik ma możliwość widzieć w trakcie nauki, jakie model dostaje nagrody i postęp z każdą aktualizacją, co widać na rysunku \ref{fig:w_nauce}.
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=\textwidth]{photos/uruchomione.png}
+		\includegraphics[width=0.8\textwidth]{photos/uruchomione.png}
 		\caption{Parametry modelu w wierszu poleceń}
 		\label{fig:uruchomione_srodowisko}
 	\end{figure}
-	
+	Parametry modelu, widoczne w wierszu poleceń, mogą być modyfikowane przez użytkownika. W tym celu należy stworzyć plik \texttt{.yaml}, schemat pliku został opisany w rozdziale \textbf{Specyfikacja wewnętrzna}. Nauka modelu polega na włączaniu symulacji gry w pętli, co daje graczowi czas na analizę.
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=\textwidth]{photos/nauka.png}
+		\includegraphics[width=0.8\textwidth]{photos/nauka.png}
 		\caption{Aktualizacje modelu w wierszu poleceń}
 		\label{fig:w_nauce}
 	\end{figure}
@@ -1016,7 +1048,7 @@
 	 Konsola wtedy wyświetli adres strony zaznaczony na rysunku \ref{fig:w_konsoli}, na którym zostaną wygenerowane wykresy. 
 	 \begin{figure}[H]
 	 	\centering
-	 	\includegraphics[width=\textwidth]{photos/strona.png}
+	 	\includegraphics[width=0.8\textwidth]{photos/strona.png}
 	 	\caption{Uruchomienie strony z wynikami}
 	 	\label{fig:w_konsoli}
 	 \end{figure}
@@ -1024,15 +1056,16 @@
 	 Wpisanie podanego adresu, wyświetli użytkownikowi stronę pokazaną na rysunku \ref{fig:na_stronie}. Można tam wyświetlić wykresy wszystkich wyuczonych modeli, które są dostępne dla środowiska Python.
 	 \begin{figure}[H]
 	 	\centering
-	 	\includegraphics[width=\textwidth]{photos/strona_localhost.png}
+	 	\includegraphics[width=0.8\textwidth]{photos/strona_localhost.png}
 	 	\caption{Strona z wynikami}
 	 	\label{fig:na_stronie}
 	 \end{figure}
 	% TODO
 	\chapter{Specyfikacja wewnętrzna}% do akceptacji
 	\label{ch:05}
-	Specyfikacja wewnętrzna opisuje szczegóły techniczne implementacji projektu. Projekt został zrealizowany w środowisku Unity, jego kluczowe komponenty zostały zaimplementowane z C\#. To pozwoliło zaimplementować logikę gry, obiekty wykorzystywane w grze oraz gracza komputerowego z algorytmami uczenia maszynowego.
+	Specyfikacja wewnętrzna opisuje szczegóły techniczne implementacji projektu. Projekt został zrealizowany w środowisku Unity, jego kluczowe komponenty zostały zaimplementowane w C\#. To pozwoliło zaimplementować logikę gry, obiekty wykorzystywane w grze oraz gracza komputerowego z algorytmami uczenia maszynowego.
 	\section{Struktura projektu}
+	
 	W aplikacji zostały zaimplementowane obiekty oraz klasy konieczne do obsługi logiki rozgrywki, interakcji z obiektami oraz wyglądu gry. Dzielą się one na główne moduły:
 	\begin{itemize}
 		\item Moduł planszy gry - Składa się na obiekt mapy gry, jest ona widoczna dla użytkownika oraz gracze mogą wchodzić z nią w interakcje. W jej skład wchodzą obiekty siatki, do układania płytek na mapę, prefabrykatowy płytek 3D, wizualizacja siatki jako widocznej struktury oraz interakcja przemieszczania czy dodawania płytek. Główne klasy składające się na moduł to: PlacementSystem, IPlacementState, ObjectPlacer.
@@ -1043,40 +1076,22 @@
 		\item Moduł gracza komputerowego - implementuje mechanizmy działania takie jak funkcjonalność predefiniowanych ruchów oraz zarządzanie stojakiem. Główną klasą modułu jest: ComputerPlayer.
 		\item Moduł uczenia maszynowego - implementuje gracza komputerowego o algorytmach uczenia maszynowego, wdraża jego mechaniki w środowisko gry oraz implementuje kontrolę przypisywania nagród. Głównymi klasami modułu są: PlayerAI, Agent.
 	\end{itemize}
-	\section{Klasa Tile}
-	Klasa Tile jest wykorzystywana do implementacji pojedynczej płytki w grze Rummikub. Każda płytka ma swój numer i kolor, również jokery w tym projekcie mają swoje konkretne kolory i wartości. Klasa zawiera pięć zmiennych:
-	\begin{lstlisting}
-		 private int number; 
-		 private UnityEngine.Color numberColor; 
-		 private string tilename; 
-		 private string symbol;
-		 private bool put; 
-	\end{lstlisting}
-	\begin{itemize}
-		\item number - określa wartość danej płytki, joker ma wartość 30.
-		\item numberColor - klasa środowiska UnityEngine, określa kolor dla płytki w systemie RGB.
-		\item tilename - nazwa płytki wykorzystywana do nazywania obiektów tworzonych na mapie.
-		\item symbol - zmienna do określania płytki, wykorzystywana przy inicjowania obiektu na mapie, aby użytkownik widział, jaką płytkę widzi. Taka zmienna jest konieczna przez istnienie jokerów w grze, którzy na mapie są widoczni jako "\$"
-		\item put - określa, czy dana płytka może zostać usunięta z mapy. Jeśli zmienna jest równa \texttt{False}, wtedy można usunąć, jeśli \texttt{True} co oznacza, że płytka została położona i nie można jej usunąć.
-	\end{itemize}
-	
-	\section{Struktura danych}
+
+	\section{Moduły}
+	%TODO
+	\section{Struktury danych}
 	Aplikacja musi być w środowisku 2.5D, co wymaga zaimplementowania obiektów w przestrzeni 3D. 
 	
 	Stojak gracza jest obiektem 2D, każda płytka, jaką gracz posiada, jest obiektem typy \texttt{photo} z dynamicznie zmiennym tekstem. W pamięci, stojak jest przechowywany jako lista obiektów klasy Tile.
 	
-	Jednak sama mapa, jak i obiekty na mapie, są zaimplementowane w przestrzeni 3D. W pamięci systemu, mapa jest reprezentowana jako słownik płytek \texttt{Dictionary<Vector3Int, Tile>}, gdzie każda lokalna pozycja na mapie jest zapisana jako klucz. Mapa, widziana przez użytkownika, opiera się na funkcjach siatki, jest to wbudowana funkcjonalność środowiska Unity. Siatka składa się z wierszy i kolumn, która pozwala na jednoznaczne określenie pozycji obiektów na mapie. Najważniejsze funkcjonalności wykorzystane w projekcie:
-	\begin{lstlisting}
-		CellToWorld(Vector3Int) 
-		WorldToCell(Vector3)
-	\end{lstlisting}
+	Jednak sama mapa, jak i obiekty na mapie, są zaimplementowane w przestrzeni 3D. W pamięci systemu, mapa jest reprezentowana jako słownik płytek \texttt{Dictionary<Vector3Int, Tile>}, gdzie każda lokalna pozycja na mapie jest zapisana jako klucz. Mapa, widziana przez użytkownika, opiera się na funkcjach siatki, jest to wbudowana funkcjonalność środowiska Unity. Siatka składa się z wierszy i kolumn, które pozwalają na jednoznaczne określenie pozycji obiektów na mapie. System siatki posiada wiele różnych zaimplementowanych funkcji dostępne na stronie \cite{bib:unity_grid}, najważniejsze metody wykorzystane w projekcie:
 	\begin{itemize}
-		\item CellToWorld - Wartością wejściową funkcji jest Wektor 3D z wartościami całkowitymi, zwraca natomiast Wektor 3D wartości zmiennoprzecinkowych. Pozwala na wyciągnięcie pozycji obiektu w przestrzeni globalnej w czasie interakcji z nimi.
-		\item WorldToCell - funkcja interpretująca pozycje świata obiektu do pozycji lokalnej siatki. Zmienną wejściową do funkcji jest Wektor 3D z wartościami zmiennoprzecinkowymi. Funkcja zwraca Wektor 3D liczb całkowitych
+		\item CellToWorld(Vector3Int) - Wartością wejściową funkcji jest Wektor 3D z wartościami całkowitymi, zwraca natomiast Wektor 3D wartości zmiennoprzecinkowych. Pozwala na wyciągnięcie pozycji obiektu w przestrzeni globalnej w czasie interakcji z nimi.
+		\item WorldToCell(Vector3) - funkcja interpretująca pozycje świata obiektu do pozycji lokalnej siatki. Zmienną wejściową do funkcji jest Wektor 3D z wartościami zmiennoprzecinkowymi. Funkcja zwraca Wektor 3D liczb całkowitych
 	\end{itemize}
 	Wykorzystanie tych funkcji pozwala na łatwiejsze przechowywanie danych i pozycji na planszy.
 	\section{System przemieszczania}
-	System przemieszczania w aplikacji opiera się na interfejsie IPlacementState, który definiuje wspólny zestaw funkcji umożliwiających zarządzanie obiektami na mapie siatki (grid). Interfejs został zaimplementowany przez trzy klasy: PlacementState, RemovingState oraz MovingState, które różnią się sposobem inicjowania i realizacji funkcji.
+	System przemieszczania w aplikacji opiera się na własnym interfejsie IPlacementState, który definiuje wspólny zestaw funkcji umożliwiających zarządzanie obiektami na mapie siatki (grid). Interfejs został zaimplementowany przez trzy klasy: PlacementState, RemovingState oraz MovingState, które różnią się sposobem inicjowania i realizacji funkcji.
 	\begin{lstlisting}
 		public interface IPlacementState
 		{
@@ -1104,21 +1119,21 @@
 	
 	Kluczowymi komponentami ML-Agents są obserwacje, akcje oraz nagrody. 
 	\begin{enumerate}
-		\item Obserwacje dają agentowi potrzebne informacje, aby zaplanować swoje kolejne ruchy. Ilość obserwacji jest ustalana przy implementacji statycznie, nie ma możliwości zmieniać ilości obserwacji w trakcie rozgrywki.
-		\item Akcje są funkcjami, jakie podejmuje na bazie obserwacji oraz nagród, jakie otrzymuje. Agent podejmuje akcje, dzielą się one na dwa typy
+		\item Obserwacje dają agentowi potrzebne informacje, aby zaplanować swoje kolejne ruchy. Ilość obserwacji jest ustalana przy implementacji statycznie, nie ma możliwości zmieniać ilości obserwacji w trakcie rozgrywki. Ich ilość jest podawana w obiekcie agenta w środowisku Unity.
+		\item Akcje są funkcjami, jakie podejmuje na bazie obserwacji oraz nagród, jakie otrzymuje. Agent podejmuje akcje, dzielą się one na dwa typy:
 		\begin{itemize}
 			\item akcje ciągłe - model wyznacza akcje z podanego przedziału liczbowego w wartościach zmiennoprzecinkowych, zazwyczaj od -1 do 1. Takie akcje są najlepsze przy funkcjach ruchu czy rotacji.
 			\item akcje dyskretne - akcje modelu z podanego przedziału liczbowego w wartościach całkowitych. Najlepsze do konkretnych decyzji, jak wybieranie indeksów płytek w liście.
 		\end{itemize}
 		\item Otrzymywanie nagród i kar za konkretne działania dają agentowi informacje, jakie ruchy powinien wykonywać a jakie nie.
 	\end{enumerate}
-	Decyzje agenta są interpretowane jako wartości liczbowe, przy implementacji należy przypisać konkretnych wartościom funkcje. W zależności od decyzji agenta, należy mu przypisać nagrodę bądź karę. Z czasem agent uczy się, jakie decyzje są najbardziej opłacalne i częściej je wykonuje.
+	Decyzje agenta są interpretowane jako wartości liczbowe, przy implementacji należy przypisać konkretne wartości funkcji. W zależności od decyzji agenta, należy mu przypisać nagrodę bądź karę. Z czasem agent uczy się, jakie decyzje są najbardziej opłacalne i częściej je wykonuje.
 	
 	Zmienne modelu mogą być modyfikowane w plikach typu \texttt{.yaml}. Na stronie \cite{bib:parametry_yaml} jest to dokładniej opisane.
 %	\begin{figure}[H]
 %		\centering
 		
-	\begin{lstlisting}[caption={Domyślne środowisko .yaml .}, label={fig:Domyślne_środowisko}]
+	\begin{lstlisting}[caption={Domyślny format pliku .yaml .}, label={fig:Domyślne_środowisko}]
 	behaviors:
 		behaviors_name: 
 			trainer_type: ppo
@@ -1148,27 +1163,27 @@
 	\end{lstlisting}
 %	\label{fig:model_ml-agents:listings}
 %	\end{figure}
-	Na podanym kodzie widać domyślną konfigurację. Modyfikacja parametrów środowiska pozwala na dostosowanie modelu do aplikacji, w której jest implementowane.
+	Kod Listing 5.1 prezentuje domyślną konfigurację. Modyfikacja środowiska pozwala na dostosowanie modelu do aplikacji, w której jest implementowane.
 	
 	Każdy parametr odpowiada innej funkcjonalności modelu:
 	\begin{itemize}
 		\item \textbf{behaviors} - jest główną sekcją definiującą zachowanie agenta. Zawiera wszystkie szczegóły dotyczące jego treningu.
-		\item \textbf{behaviors\_name} - nazwa konkretnego zachowania, musi być identyczna do zaimplementowanej nazwy w Unity.
-		\item \textbf{trainer\_type} - Typ algorytmu używanego do treningu. W przykładzie zawarty jest algorytm ppo (Proximal Policy Optimization).
+		\item \textbf{behaviors\_name} - nazwa konkretnego zachowania, musi być identyczna do zaimplementowanej nazwy skryptu agenta podpiętego do obiektu w Unity.
+		\item \textbf{trainer\_type} - Typ algorytmu używanego do treningu. W przykładzie zawarty jest algorytm ppo (Proximal Policy Optimization)\cite{bib:schulman2017proximal} , który korzysta z warstw sieci neuronowej. Dzięki zastosowaniu sieci neuronowych algorytm jest w stanie skutecznie działać w środowiskach o dużej złożoności i wysokiej wymiarowości danych.
 		\item \textbf{hyperparameters} - przedział zmiennych algorytmu:
 		\begin{enumerate}
-			\item batch\_size - liczba próbek przetwarzanych w jednej iteracji.
-			\item buffer\_size - liczba przechowywanych danych w pamięci bufora przez aktualizacją sieci.
+			\item batch\_size - liczba danych przetwarzanych w jednej iteracji.
+			\item buffer\_size - liczba przechowywanych danych w pamięci bufora przed aktualizacją sieci.
 			\item learning\_rate - określone tempo aktualizacji wag modelu podczas każdej iteracji.
 			\item beta - współczynnik entropii, im wyższa wartość, tym model jest bardziej skłonny do eksploracji nowych strategii podczas nauki.
 			\item epsilon - wyznacza maksymalną wartość, z jaką może zmieniać się polityka (policy) w jednej aktualizacji.
 			\item lambd - współczynnik wygaśnięcia, do balansowania między dokładnością a stabilnością wyceny nagrody.
-			\item num\_epoch - liczna iteracji gradientowych dla każdej próbki.
+			\item num\_epoch - liczna iteracji treningowych, podczas których model aktualizuje swoje wagi dla każdej partii danych.
 			\item learning\_rate\_schedule, beta\_schedule, epsilon\_schedule - określają jak wartości zmiennych \texttt{learning\_rate}, \texttt{beta} oraz \texttt{epsilon} zmieniają się w czasie treningu.
 		\end{enumerate}
 		\item \textbf{network\_settings} - definiuje strukturę sieci neuronalnej, której używa agent:
 			\begin{enumerate}
-				\item normalize - definiuje, czy dane wejściowe mają zostać zoptymalizowane czy nie.
+				\item normalize - definiuje, czy dane wejściowe mają zostać znormalizowane czy nie.
 				\item hidden\_units - liczba jednostek w każdej warstwie ukrytej sieci neuronalnej.
 				\item num\_layers - ilość warstw sieci neuronalnej.
 			\end{enumerate}
@@ -1177,8 +1192,8 @@
 				\item gamma - współczynnik wygaśnięcia, który określa w jakim stopniu agent bierze pod uwagę przyszłe nagrody.
 				\item strength - skala wpływu sygnału na trening.
 			\end{enumerate}
-		\item \textbf{max\_steps} - Maksymalna liczba kroków treningowych, jakie może wykonać agent. Po osiągnięciu tej wartości, model nie może być dalej uczony.
-		\item \textbf{time\_horizon} - maksymalny czas, po jakim agent kończy zbieranie danych do bufora.
+		\item \textbf{max\_steps} - Maksymalna liczba kroków treningowych, definiowanych przy implementacji, jakie może wykonać agent. W tym projekcie, jest to pojedyncza gra. Po osiągnięciu tej wartości, model nie może być dalej uczony.
+		\item \textbf{time\_horizon} - maksymalny czas, po jakim agent kończy zbieranie danych z obserwacji do bufora.
 		\item \textbf{summary\_freq} - określa, co ile zostają wygenerowane dane podsumowania treningu.
 	\end{itemize}
 
@@ -1191,25 +1206,26 @@
 		\item OnActionReceived - funkcja do przechwytywania akcji modelu i implementowania im funkcjonalności. 
 		\item AddReward - przesyła nagrody bądź kary do modelu.
 	\end{itemize}
-	Funkcje są implementowane z kodzie, ustawienia akcji i obserwacji są do wpisania w edytorze unity. Są one statyczne, nie można ich dynamicznie ustawiać w kodzie, więc należy ustawić najwyższą możliwą wartość. W obserwacjach należy również uwzględnić, że obserwowane są pojedyncze zmienne, dlatego aby pod obserwacje dać np. pojedynczą zmienną klasy Tile, to obserwacje trzeba ustawić na 5, gdyż klasa Tile ma pięć zmiennych.
+	Akcje oraz obserwacje w systemie ML-Agents są definiowane w edytorze Unity, a nie bezpośrednio w kodzie. Oznacza to, że ich liczba i zakres muszą być statycznie ustalone przed rozpoczęciem treningu. Nie można ich dynamicznie zmieniać w czasie działania gry. Aby uniknąć problemów z ograniczeniami, należy ustawić maksymalne możliwe wartości dla liczby akcji i obserwacji.
+	Każda obserwacja w ML-Agents dotyczy pojedynczych zmiennych. Jeśli chcemy, aby agent mógł obserwować obiekt, który ma wiele właściwości (np. klasę \texttt{Tile}), liczba obserwacji musi odpowiadać liczbie wszystkich zmiennych w tej klasie.
 	W klasie PlayerIA pod obserwacje należało poddać:
 	\begin{itemize}
+		\item Ilość płytek na stojaku.
 		\item Płytki, jakie agent ma w stojaku.
 		\item Czy to jego pierwsza tura.
 		\item Aktualny czas tury.
-		\item Ilość płytek na stojaku.
 		\item Płytki oraz puste miejsca na mapie.
 	\end{itemize}
 	Wszystkie obserwacje mają na celu pokazanie agentowi, jak obiekty się zmieniają gdy dostaje konkretne nagrody.
 	
 	Akcje modelu są liczbami, którym przypisane są konkretne funkcje. Akcje mają swoje przedziały, które są mu przypisane. Agent ma przypisane sześć akcji w różnych rozmiarach:
 	\begin{itemize}
-		\item akcja 0 (0-21) - Wybór wartości x jako pozycji na mapie. 
-		\item akcja 1 (0-8) - Wybór wartości z jako pozycji na mapie.
-		\item akcja 2 (0-5) - Wybór konkretnej akcji jak kładzenie płytek czy usuwanie płytki.
-		\item akcja 3 (0-63) - akcja do wybierania indeksu płytki ze stojaka agenta.
-		\item akcja 4 (0-21) - Wybór wartości x jako pozycji na mapie, wykorzystany przy przesuwaniu płytki. 
-		\item akcja 5 (0-8) - Wybór wartości z jako pozycji na mapie, wykorzystany przy przesuwaniu płytki. 
+		\item akcja 0 - Wybór wartości jako pozycji x na mapie. 
+		\item akcja 1 - Wybór wartości jako pozycji z na mapie.
+		\item akcja 2 - Wybór konkretnej akcji jak kładzenie płytek czy usuwanie płytki.
+		\item akcja 3 - akcja do wybierania indeksu płytek ze stojaka agenta w celu położenia płytki.
+		\item akcja 4 - Wybór wartości x jako pozycji na mapie, wykorzystany przy przesuwaniu płytki. 
+		\item akcja 5 - Wybór wartości z jako pozycji na mapie, wykorzystany przy przesuwaniu płytki. 
 	\end{itemize}
 	Akcje są ustawiane statycznie, nie można ich ustawiać dynamicznie. Ilość płytek, na stojaku gracza, jest dynamiczna.
 	Na jedną rozgrywkę z czterema graczami, model w najgorszym przypadku może maksymalnie dobrać 64 płytki, co wymusza takie ustawienie. Właśnie dlatego interfejs Agent daje możliwość zaimplementować funkcję \texttt{WriteDiscreteActionMask}, która pozwala na maskowanie nadmiarowych akcji. Dzięki czemu agent nie podejmie decyzji interakcji z płytką, której nie ma w liście.

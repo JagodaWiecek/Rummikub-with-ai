@@ -7,41 +7,44 @@
 \babel@toc {polish}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Zrzut ekranu gry Rummikub online}}{4}{}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Zrzut ekranu gry Business Tour}}{4}{}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Zrzut ekranu gry Go na stronie online-go.com}}{4}{}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Zrzut ekranu gry Catan}}{5}{}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Zrzut ekranu rozgrywki szachów ze strony chess.com}}{5}{}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Zrzut ekranu gry Rummikub online}}{6}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Diagram przypadków użycia}}{8}{}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Diagram przypadków użycia}}{10}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Menu gry}}{13}{}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Przykładowy ekran początku gry}}{14}{}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Aktualna tura: Gracz X}}{14}{}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces widok czasu gry}}{15}{}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces widok listy graczy}}{15}{}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces widok stojaku z płytkami}}{16}{}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces przyciski poza turą}}{16}{}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces przyciski po wykonaniu ruchu}}{17}{}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces przyciski przed wykonaniem ruchu}}{18}{}%
-\contentsline {figure}{\numberline {4.10}{\ignorespaces komunikat o źle zakończonej mapie}}{18}{}%
-\contentsline {figure}{\numberline {4.11}{\ignorespaces komunikat o źle zakończonej pierwszej turze}}{18}{}%
-\contentsline {figure}{\numberline {4.12}{\ignorespaces komunikat braku wyłożonej płytki}}{19}{}%
-\contentsline {figure}{\numberline {4.13}{\ignorespaces komunikat przy niedozwolonym usuwaniu płytki}}{19}{}%
-\contentsline {figure}{\numberline {4.14}{\ignorespaces ekran końca gry}}{19}{}%
-\contentsline {figure}{\numberline {4.15}{\ignorespaces ekran końca gry przy pustym banku}}{20}{}%
-\contentsline {figure}{\numberline {4.16}{\ignorespaces jokery}}{20}{}%
-\contentsline {figure}{\numberline {4.17}{\ignorespaces Ekran zatrzymania gry}}{21}{}%
-\contentsline {figure}{\numberline {4.18}{\ignorespaces Kładzenie płytki na mapę}}{22}{}%
-\contentsline {figure}{\numberline {4.19}{\ignorespaces Złe położenie płytki}}{22}{}%
-\contentsline {figure}{\numberline {4.20}{\ignorespaces wygląd usuwania płytki}}{23}{}%
-\contentsline {figure}{\numberline {4.21}{\ignorespaces Włączanie nauczania w wierszu poleceń}}{24}{}%
-\contentsline {figure}{\numberline {4.22}{\ignorespaces Parametry modelu w wierszu poleceń}}{25}{}%
-\contentsline {figure}{\numberline {4.23}{\ignorespaces Aktualizacje modelu w wierszu poleceń}}{25}{}%
-\contentsline {figure}{\numberline {4.24}{\ignorespaces Uruchomienie strony z wynikami}}{26}{}%
-\contentsline {figure}{\numberline {4.25}{\ignorespaces Strona z wynikami}}{26}{}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Menu gry}}{15}{}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Przykładowy ekran początku gry}}{16}{}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Aktualna tura: Gracz X}}{16}{}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces widok listy graczy}}{17}{}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces widok stojaku z płytkami}}{17}{}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces przyciski poza turą}}{18}{}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces przyciski przed wykonaniem ruchu}}{18}{}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces przyciski po wykonaniu ruchu}}{19}{}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces komunikat o źle zakończonej mapie}}{20}{}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces komunikat o źle zakończonej pierwszej turze}}{20}{}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces komunikat braku wyłożonej płytki}}{20}{}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces komunikat przy niedozwolonym usuwaniu płytki}}{20}{}%
+\contentsline {figure}{\numberline {4.13}{\ignorespaces ekran końca gry}}{21}{}%
+\contentsline {figure}{\numberline {4.14}{\ignorespaces ekran końca gry przy pustym banku}}{21}{}%
+\contentsline {figure}{\numberline {4.15}{\ignorespaces jokery}}{22}{}%
+\contentsline {figure}{\numberline {4.16}{\ignorespaces Ekran zatrzymania gry}}{22}{}%
+\contentsline {figure}{\numberline {4.17}{\ignorespaces Kładzenie płytki na mapę}}{23}{}%
+\contentsline {figure}{\numberline {4.18}{\ignorespaces Złe położenie płytki}}{24}{}%
+\contentsline {figure}{\numberline {4.19}{\ignorespaces wygląd usuwania płytki}}{24}{}%
+\contentsline {figure}{\numberline {4.20}{\ignorespaces Włączanie nauczania w wierszu poleceń}}{25}{}%
+\contentsline {figure}{\numberline {4.21}{\ignorespaces Parametry modelu w wierszu poleceń}}{26}{}%
+\contentsline {figure}{\numberline {4.22}{\ignorespaces Aktualizacje modelu w wierszu poleceń}}{27}{}%
+\contentsline {figure}{\numberline {4.23}{\ignorespaces Uruchomienie strony z wynikami}}{27}{}%
+\contentsline {figure}{\numberline {4.24}{\ignorespaces Strona z wynikami}}{27}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Uproszczony diagram IPlacement}}{30}{}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Uproszczony diagram IPlacement}}{31}{}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Wykres przydzielonych nagród modelowi nr 1}}{37}{}%
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Wykres przydzielonych nagród modelowi nr 2}}{38}{}%
-\contentsline {figure}{\numberline {6.3}{\ignorespaces Wykres przydzielonych nagród modelowi nr 3}}{38}{}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Wykres przydzielonych nagród modelowi nr 1}}{39}{}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Wykres przydzielonych nagród modelowi nr 2}}{40}{}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Wykres przydzielonych nagród modelowi nr 3}}{40}{}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
