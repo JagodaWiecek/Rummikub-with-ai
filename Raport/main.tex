@@ -1068,16 +1068,215 @@
 	
 	W aplikacji zostały zaimplementowane obiekty oraz klasy konieczne do obsługi logiki rozgrywki, interakcji z obiektami oraz wyglądu gry. Dzielą się one na główne moduły:
 	\begin{itemize}
-		\item Moduł planszy gry - Składa się na obiekt mapy gry, jest ona widoczna dla użytkownika oraz gracze mogą wchodzić z nią w interakcje. W jej skład wchodzą obiekty siatki, do układania płytek na mapę, prefabrykatowy płytek 3D, wizualizacja siatki jako widocznej struktury oraz interakcja przemieszczania czy dodawania płytek. Główne klasy składające się na moduł to: PlacementSystem, IPlacementState, ObjectPlacer.
+		\item Moduł planszy gry - Składa się na obiekt mapy gry, jest ona widoczna dla użytkownika oraz gracze mogą wchodzić z nią w interakcje. W jej skład wchodzą obiekty siatki, do układania płytek na mapę, prefabrykatowy płytek 3D, wizualizacja siatki jako widocznej struktury oraz interakcja przemieszczania czy dodawania płytek. Główne klasy składające się na moduł to: IPlacementState, ObjectPlacer.
 		\item Moduł interfejsu użytkownika - interfejs gry, z którym użytkownik może wchodzić w interakcje. W jej skład wchodzą napisy, przyciski oraz prefabrykatowy płytek 2D. Użytkownik widzi w interfejsie płytki na swoim stojaku, ile płytek mają inni gracze, czyja tura jest oraz ile czasu pozostało do zakończenia bieżącej tury. Główne klasy składające się na moduł to: Draggable, GameTurnManager, TakeTile.
-		\item Moduł kontrolera - główny kontroler gry, łączy on całą logikę gry z wizualną częścią aplikacji. Klasa składająca się na moduł: GameController.
-		\item Moduł logiki gry - moduł odpowiadający za kalkulację oraz walidacje gry względem zasad gry planszowej. W jej skład wchodzą funkcjonalności walidacji w trakcie interakcji z płytkami na mapie, sprawdzenie poprawności planszy podczas zakończenia tury. Główne klasy składające się na moduł to: BoardDictionary, Tile, TurnController.
+		\item Moduł kontrolera - główny kontroler gry, łączy on całą logikę gry z wizualną częścią aplikacji. Klasy składające się na moduł: GameController, TurnController.
+		\item Moduł logiki gry - moduł odpowiadający za kalkulację oraz walidacje gry względem zasad gry planszowej. W jej skład wchodzą funkcjonalności walidacji w trakcie interakcji z płytkami na mapie, sprawdzenie poprawności planszy podczas zakończenia tury. Główne klasy składające się na moduł to: BoardDictionary, Tile.
 		\item Moduł użytkownika - odpowiada za przechowywanie danych o płytkach, jakie gracz posiada na stojaku. Klasa wchodząca w skład modułu: Player.
 		\item Moduł gracza komputerowego - implementuje mechanizmy działania takie jak funkcjonalność predefiniowanych ruchów oraz zarządzanie stojakiem. Główną klasą modułu jest: ComputerPlayer.
 		\item Moduł uczenia maszynowego - implementuje gracza komputerowego o algorytmach uczenia maszynowego, wdraża jego mechaniki w środowisko gry oraz implementuje kontrolę przypisywania nagród. Głównymi klasami modułu są: PlayerAI, Agent.
 	\end{itemize}
 
-	\section{Moduły}
+	\section{Moduł planszy gry}
+	\begin{enumerate}
+		\item IPlacementState - własny interfejs do wykonywania interakcji użytkownika z mapą gry. Metodami zaimplementowanymi w interfejsie są:
+		\begin{itemize}
+			\item void OnAction(Vector3Int gridPosition) - Metoda, wykonująca się po kliknięciu prawym przyciskiem myszy.
+			\item void UpdateState(Vector3Int gridPosition) - funkcja zmieniająca pozycję obiektu grid na bierząco w zależności od pozycji kursowa myszy
+			\item void EndState() - Metoda kończąca daną akcje.
+		\end{itemize}
+		\item PlacementState - dziedziczy metody po IPlacementState, służy do kładzenia nowej płytki na mapę. 
+		\begin{itemize}
+			\item public void OnAction(Vector3Int gridPosition) - Metoda, po kliknięciu prawego przycisku myszy na wybranej pozycji, tworzy obiekt na mapie.
+			\item public void UpdateState(Vector3Int gridPosition) - funkcja zmieniająca pozycję obiektu na bierząco w zależności od pozycji kursowa myszy.
+			\item public void EndState() - Metoda kończąca dodawanie obiektu na mapę, usuwa się obiekt wizualny.
+			\item private bool IsPositionInRange(Vector3 position, Vector3 minRange, Vector3 maxRange) - Metoda zabezpieczająca, aby gracz nie mógł postawić płytki poza mapą rozgrywki.
+			\item private bool CheckPlacementValidity(Vector3Int gridPosition) - Funkcja sprawdza, czy wybrana pozycja jest pusta bądź położenie na niej płytki jest zgodne z zasadami.
+		\end{itemize}
+		\item RemovingState - dziedziczy metody po IPlacementState, służy do usuwania płytek z mapy.
+		\begin{itemize}
+			\item public void OnAction(Vector3Int gridPosition) - Metoda, po kliknięciu prawego przycisku myszy na wybranej pozycji, usuwa wybrany obiekt na mapie.
+			\item public void UpdateState(Vector3Int gridPosition) - funkcja zmieniająca pozycję obiektu grid na bierząco w zależności od pozycji kursowa myszy.
+			\item public void EndState() - Metoda kończąca usuwanie obiektu z mapy, usuwa się obiekt wizualny.
+			\item private bool CheckIfSelectionIsValid(Vector3Int gridPosition) - Funkcja sprawdza, czy wybrana pozycja zawiera płytkę, którą można usunąć.
+		\end{itemize}
+		\item MovingState - dziedziczy metody po IPlacementState, służy do przesuwania płytek na mapie.
+		\begin{itemize}
+			\item public void OnAction(Vector3Int gridPosition) - Metoda, po kliknięciu prawego przycisku myszy na wybranej pozycji, przesuwa wybrany obiekt na mapie.
+			\item public void UpdateState(Vector3Int gridPosition) - funkcja zmieniająca pozycję obiektu grid na bierząco w zależności od pozycji kursowa myszy.
+			\item public void EndState() - Metoda kończąca przesuwanie obiektu po mapie, usuwa się obiekt wizualny.
+			\item private bool CheckIfSelectionIsValid(Vector3Int gridPosition) - Funkcja sprawdza, czy wybrana pozycja zawiera płytkę, którą można przesunąć.
+			\item private bool IsPositionInRange(Vector3 position, Vector3 minRange, Vector3 maxRange) - Metoda zabezpieczająca, aby gracz nie mógł przestawić płytkę poza mapę rozgrywki.
+		\end{itemize}
+		\item PreviewSystem - Tworzy obiekt wizualny dla gracza, przemieszcza się po mapie wraz z kursorem użytkownika. Tworzony obiekt zmienia kolor w zależności, czy interakcje można wykonać czy nie.
+		\begin{itemize}
+			\item internal void StartShowingRemovePreview() - tworzenie obiektu dla akcji usuwania płytki z mapy.
+			\item internal void StartShowingPlacementPreview(GameObject prefabe, Vector2Int size) - funkcja tworząca obiekt wizualny na mapie dla funkcji dodawania i przesuwania obiektu.
+			\item private void PrepareCursor(Vector2Int size) - ustala wielkość tworzonego obiektu wizualnego.
+			\item private void PreparePreview(GameObject previewObject) - funkcja przygotowująca obiekt na scenie.
+			\item public void StopShowingPreview() - Funkcja do usunięcia obiektu wizualnego z mapy.
+			\item public void UpdatePosition(Vector3 position, bool validity) - metoda służąca aktualizacji pozycji obiektu wizualnego.
+			\item private void ApplyFeedbackToPreview(bool validity) - funkcja nakładająca kolor obiektowi, w zależności zmiennej validity. Wykorzystywana w akcjach dodawania i przesuwania płytek.
+			\item private void ApplyFeedbackToCursor(bool validity) - funkcja nakładająca kolor obiektowi, w zależności zmiennej validity. Wykorzystywana w akcji usuwania płytek z mapy.
+			\item private void MoveCursor(Vector3 position) - zmiana pozycji kursora przy usuwaniu płytek.
+			\item private void MovePreview(Vector3 position) - zmiana pozycji obiektu przy dodawaniu i przesuwaniu obiektów.
+		\end{itemize}
+		
+		\item InputManager - klasa do wykrywania pozycji myszy na mapie.
+		\begin{itemize}
+			\item public bool isPointerOverUI() - funkcja służąca sprawdzeniu czy kursor wykonujący akcje znajduje się nad ui czy też nie.
+			\item public Vector3 GetSelectedMapPosition() - Przekazanie pozycji myszki w zależności od tego, czy kursor myszy znajduje się nad mapą czy poza nią.
+		\end{itemize} 
+		
+		\item ObjectPlacer - Klasa, która tworzy obiekty na mapie.
+		\begin{itemize}
+			\item public void ClearplacedGameObjects() - metoda usuwająca wszystkie obiekty na planszy.
+			\item public void SetPlacedGameObjectsCopy() - nadpisuje kopie obiektów na mapie.
+			\item public void RemoveObjectsNotInCopy() - metoda usuwa obiekty na mapie, których nie ma w liście kopii, używana przy cofaniu akcji.
+			\item public bool ListAreEqual() - metoda porównuje dwie listy obiektów, listę podstawową i kopię.
+			\item  public int PlacedObject(GameObject prefab, Vector3 position, ref Tile tile, Grid grid) - metoda do tworzenia płytki na mapie.
+			\item internal void RemoveObjectAt(int gameObjectIndex) - Metoda usuwająca obiekt z mapy.
+			\item internal void MoveObjectTo(int gameObjectIndex, Vector3 newPosition) - metoda przesuwająca obiekt na mapie.
+			
+		\end{itemize}
+	\end{enumerate}
+	\section{Moduł interfejsu użytkownika}
+	\begin{enumerate}
+		\item Draggable - Klasa dziedziczy po interfejsach  IBeginDragHandler, IDragHandler,IEndDragHandler dostarczanych przez środowisko Unity. Służy do interakcji przesuwania płytek 2D w stojaku przez użytkownika. 
+		\begin{itemize}
+			\item public void OnBeginDrag(PointerEventData eventData) - funkcja rozpoczynająca przesuwanie obiektu, odziedziczona od IBeginDragHandler.
+			\item public void OnDrag(PointerEventData eventData) - funkcja aktualizująca, odziedziczona od IDragHandler.
+			\item public void OnEndDrag(PointerEventData eventData) - funkcja kończąca interakcje z obiektem, odziedziczona od IEndDragHandler.
+		\end{itemize}
+		\item GameTurnManager - klasa do aktualizowania wyglądu interfejsu gry.
+		\begin{itemize}
+			\item public void SetUIText() - ustawianie napisu gracza, który ma turę.
+			\item public void SetPlayersTileCountUI() - aktualizowanie ilości płytek każdego gracza.
+			\item public void ChangeTurn() - informacja o zakończeniu tury.
+			\item public void SetTimeUI() - aktualizacja czasu na ekranie.
+			
+		\end{itemize}
+		\item TakeTile - Klasa, tworząca płytki na stojaku gracza oraz przechwytująca interakcje użytkownika z interfejsem.
+		\begin{itemize}
+			\item public void SetStartTile() - metoda tworząca obiekty płytek na początku gry.
+			\item public void OnButtonClick(Tile tile,ref int idx) - metoda przekazująca informacje, jaka płytka została wybrana do położenia.
+			\item public void takeNewTile() - obsługuje przycisk dodania nowej płytki do stojaka użytkownika.
+			\item public void DisableAllButtons() - funkcja do anulowania możliwości interakcji z płytkami, gdy gracz jest poza swoją turą.
+			\item public void EnableAllButtons() - przywrócenie użytkowania płytek w stojaku.
+		\end{itemize}
+		\item MainMenu - klasa do interakcji gracza z menu gry.
+		\begin{itemize}
+			\item public void PlayWithCP() - uruchamia tryb "gra użytkownika z trzema graczami komputerowymi z predefiniowanymi zachowaniami".
+			\item public void AIvsCP() - uruchamia tryb do nauki agenta.
+			\item public void PlayervsAIvsCP() - uruchamia tryb gry "użytkownik przeciwko agentowi i 2 graczom komputerowym z predefiniowanymi funkcjami.
+			\item public void PlayWithAI() - uruchamia tryb "użytkownik przeciwko agent"
+			\item public void ReturnToMenu() - metoda powrotu do menu głównego gry.
+			\item public void QuitGame() - metoda do opuszczenia gry.
+		\end{itemize}
+	\end{enumerate}
+	\section{Moduł kontrolera}
+		\begin{enumerate}
+			\item TurnController - Kontroler tur gry, sprawdza czy wielkości sekwencji na mapie są poprawne, przekazuje informacje o błędach do interfejsu.
+			\begin{itemize}
+				\item public void NewTurn() - funkcja sprawdzająca warunki poprawnego zakończenia tury. Jeśli nie wykryje błędu, to aktualizuje status płytek i kończy turę. 
+				\item public bool CheckMap() - metoda, która sprawdza długości sekwencji na mapie.
+				
+				\item public void Restore3DMap() - po wykonaniu akcji "undo", metoda przywraca mapę sprzed aktualizacji.
+				\item public void CancelMove() - metoda anulowania wszystkich manipulacji wykonanych na mapie.
+				\item public bool MapContents() - metoda sprawdzająca, czy na daną turę mapa została zmodyfikowana.
+				
+			\end{itemize}
+			\item GameController - Główna klasa kontrolera, zarządza danymi z głównego banku gry.
+			\begin{itemize}
+				\item void CreateMainBank(ref List<Tile> tiles) - metoda tworząca i dodająca obiekty typu \texttt{Tile} do głównego banku gry. Metoda jest zawsze wywoływana na początku gry.
+				\item public void NewTurn() - metoda aktualizująca obiekt BoardGameDictionary po zakończeniu tury.
+				\item public void StopGame() - metoda zatrzymująca grę i otwierająca okno zatrzymania gry
+				\item public void EndGame() - metoda przekazująca dane graczy, jak ich wyniki, do ekranu zakończenia gry.
+			\end{itemize}
+			\item PlacementSystem - klasa kontrolująca akcje wykonywane na mapie przez użytkownika. 
+			\begin{itemize}
+				\item public void StartPlacement(int ID, ref Tile tile, ref int index) - metoda tworząca obiekt PlacementState w celu tworzenia nowej płytki na mapie.
+				\item public void StartRemoving() - metoda tworząca obiekt RemovingState w celu usunięcia istniejącej płytki z mapy.
+				\item public void StartMowing() - metoda tworząca obiekt MovingState w celu przesunięcia pojedynczej płytki na mapie.
+				\item private void PlaceStructure() - metoda pobierająca informacje pozycje kursora na mapie.
+				\item public void StopPlacement() - metoda usuwająca jeden z obiektów, kończąc akcję.
+			\end{itemize}
+	\end{enumerate}
+	\section{Moduł logiki gry}
+		\begin{enumerate}
+			\item GridData - klasa do przechowywania danych dla klasy ObjectPlacer takie jak pozycja względem siatki oraz indeks w liście obiektu ObjectPlacer.
+			\begin{itemize}
+				\item internal int getRepresentationIndex(Vector3Int gridPosition) - pobranie indeksu obiektu na bazie podanej pozycji w celu interakcji z konkretnym obiektem na mapie.
+				\item public void AddObjectAt(Vector3Int gridPosition, int placedObjectIndex) - dodawanie nowego obiektu do słownika
+				\item internal void RemoveObjectAt(Vector3Int gridPosition) - usunięcie obiektu z słownika.
+				\item internal void MoveObjectAt(Vector3Int newPosition, Vector3Int oldPosition) - aktualizacja pozycji obiektu na mapie.
+				\item public bool CanPlaceObjectAt(Vector3Int gridPosition) - metoda sprawdzająca, czy pozycja na mapie nie jest zajęta przez inną płytkę. 
+			\end{itemize}
+			\item Tile - Klasa reprezentująca pojedynczą płytkę w grze. 
+			\begin{itemize}
+				\item public bool CheckTileValidity(Vector3Int gridPosition) - metoda do sprawdzenia, czy daną płytkę można postawić zgodnie z zasadami gry Rummikub.
+			\end{itemize}
+			\item BoardDictionary - Klasa do przechowywania informacji o pozycjach płytek na mapie. Głównie służy do walidowania zasad gry planszowej w TurnController.
+			\item FirstTurnController - Klasa, która waliduję zasadę pierwszej tury w grze Rummikub dla użytkownika i agenta. 
+			\begin{itemize}
+				\item public bool FirstJokerNull(), public bool SecondJokerNull() - metody do sprawdzania, czy w pierwszej turze został wykorzystany joker.
+				\item public void Increment(int number, Vector3Int gridPosition) - metoda do dodawania wartości liczbowej do sumy punktów przy dodawaniu płytki na mapę.
+				\item public void Decrease(int number, Vector3Int gridPosition) - metoda odejmująca od sumy w przypadku usuwania płytki z mapy w pierwszej turze.
+				\item public void ChangePosition(Vector3Int gridPosition, Vector3Int previousPosition) - metoda zapisująca zmianę pozycji jokerów wykorzystanych w pierwszej turze.
+				\item public bool CheckSequences() - sprawdza czy położone płytki w pierwszej turze są czystymi sekwencjami.
+				\item public void AddPosition(Vector3Int position) - metoda dodaje do listy dane \texttt{Tile}.
+				\item public void RemovePosition(Vector3Int position) - metoda usuwająca dane z listy.
+				\item public void MovePosition(Vector3Int newPosition, Vector3Int previousPosition) - metoda aktualizująca pozycję płytki.
+				\item public int GetJokerAmount(Vector3Int jokerPosition, Dictionary<Vector3Int, Tile> board) - metoda licząca, jaką liczbę joker zastępuje w celu wyliczenia sumy pod koniec tury.
+				\item  public bool CheckFirstTurnValidity(Dictionary<Vector3Int, Tile> board) - Metoda licząca sumę punktów w pierwszej turze gry.
+			\end{itemize}
+		
+		\end{enumerate}
+	\section{Moduł użytkownika}
+		Player - Klasa użytkownika, odpowiada za przechowywanie informacji o płytkach na stojaku gracza. 
+		\begin{itemize}
+			\item public void AddTileToList(Tile tile) - Dodanie nowej płytki do stojaka gracza.
+			\item  public void SortByNumbers() - metoda do sortowania płytek w liście po numerach.
+			\item public void SortByColors() - metoda sortowania płytek w liście gracza po kolorach.
+			\item public int FinalScore() - metoda wyliczająca punktację użytkownika pod koniec gry.
+		\end{itemize}
+	\section{Moduł gracza komputerowego}
+		ComputerPlayer - Klasa gracza komputerowego z predefiniowanymi funkcjami. 
+		\begin{itemize}
+			\item public void SortByNumbers(),public void SortByColors() - metody do sortowania płytek na stojaku.
+			\item private int CountJoker(List<Tile> playerHand) - metoda do wyliczenia, ile gracz ma jokerów na stojaku.
+			\item  public List<List<Tile>> FindSequentialColorSets(ref List<Tile> tiles) - metoda do analizy płytek i tworzenia serii, które można postawić na mapie.
+			\item public List<List<Tile>> FindSameNumberDifferentColorSets( ref List<Tile> tiles) - metoda do analizy płytek i tworzenia grup, które można postawić na mapie.
+			\item private bool IsSequenceValid(List<Tile> sequence) - sprawdza, czy utworzone sekwencje mają co najmniej płytki w pojedynczej sekwencji.
+			\item private bool IsTotalSumValid(List<List<Tile>> sequences) - sprawdza, czy znalezione sekwencje w pierwszej turze mają łączną wartość 30 punktów.
+			\item private bool IsTotalSumValid(List<List<Tile>> sequences) - sprawdzenie czy dodanie jokera do sekwencji jest zgodne z zasadami. Dodanie jokera na końcu serii, która kończy się numerem 13 jest wbrew zasadom.
+			\item private List<Vector3Int> FreeSpaceToPut(int tileAmount) - metoda, która analizuje, gdzie na mapie znajduje się wolna pozycja do położenia płytek. 
+			\item private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex) - metoda do analizy, czy położenie płytki na danym polu jest zgodne z zasadami gry.
+			\item void PutTile(Vector3Int gridPosition,Tile tile) - metoda do położenia pojedynczej płytki na mapie.
+			\item void ExtendSequence(ref Dictionary<Vector3Int, Tile> board,ref List<Tile> handTiles) - metoda do położenia całej sekwencji płytek.
+			\item List<Vector3Int> FindSequencesNeighbours(Dictionary<Vector3Int, Tile> board) - metoda znajduje pozycje na mapie, do których można dołożyć płytki.
+			\item List<Vector3Int> MoveSequence(ref Dictionary<Vector3Int, Tile> board, List<Vector3Int> freePositions) - metoda do przesuwania całej sekwencji na mapie.
+			\item public int FinalScore() - metoda do wyliczenia ostatecznego wyniku gracza pod koniec gry.
+		\end{itemize}
+	\section{Moduł uczenia maszynowego}
+		PlayerAI - Klasa dziedzicząca metody po interfejsie Agent, dostarczonej przez bibliotekę ML-Agents. Implementuje akcje gracza.
+		\begin{itemize}
+			\item public override void CollectObservations(VectorSensor sensor) - metoda odziedziczona od interfejsu, służy do wykonywania obserwacji zmiennych gry.
+			\item public override void OnActionReceived(ActionBuffers actions) - metoda odziedziczona od interfejsu, implementuje funkcje akcjom wykonywanym przez agenta.
+			\item public override void WriteDiscreteActionMask(IDiscreteActionMask actionMask) -  metoda odziedziczona od interfejsu, ogranicza wybrane akcje agentowi, w celu uniknięcia błędów.
+			\item void PutTile(Vector3Int gridPosition, Tile tile) - metoda do położenia płytki przez gracza
+			\item void PutTileAction(int x, int z, int indeks) - metoda do walidacji akcji położenia płytki. Metoda daje nagrody w zależności od poprawności akcji agenta.  
+			\item private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex, int index) - metoda sprawdzająca, czy można na daną pozycję postawić płytkę.
+			\item void moveTile(Vector3Int newGridPosition, Vector3Int oldGridPosition) - funkcja do przesunięcia płytki na inną pozycję.
+			\item void MoveTileAction(int oldX, int oldZ, int newX, int newZ) - funkcja walidująca poprawność wybranej akcji agenta. Nadaje nagrody bądź kary w zależności od poprawności wykonanej akcji.
+			\item void removeTile(Vector3Int gridPosition) - funkcja do położenia płytki na mapie
+			\item void RemoveTileAction(int x, int z) - Funkcja walidująca akcje usunięcia płytki z mapy. Metoda nadaje karę bądź nagrodę w zależności od poprawności wykonanego ruchu.
+			\item void EndOfTime() - metoda cofająca modyfikacje, jakie wykonał agent, pod koniec czasu. Daje również agentowi karę za to.
+			\item public int FinalScore()
+			\item  void TakeTileAction() - akcja pobrania płytki do stojaku.
+			\item void UndoAction() - akcja anulowania wszystkich modyfikacji wykonanych na mapie.
+			\item void TakeTileAction() - akcja zakończenia tury przez agenta.
+		\end{itemize}
 	%TODO
 	\section{Struktury danych}
 	Aplikacja musi być w środowisku 2.5D, co wymaga zaimplementowania obiektów w przestrzeni 3D. 

@@ -34,22 +34,28 @@
 \contentsline {subsection}{\numberline {4.3.5}Nauka gracza komputerowego}{25}{}%
 \contentsline {chapter}{\numberline {5}Specyfikacja wewnętrzna}{29}{}%
 \contentsline {section}{\numberline {5.1}Struktura projektu}{29}{}%
-\contentsline {section}{\numberline {5.2}Moduły}{30}{}%
-\contentsline {section}{\numberline {5.3}Struktury danych}{30}{}%
-\contentsline {section}{\numberline {5.4}System przemieszczania}{31}{}%
-\contentsline {section}{\numberline {5.5}Biblioteka ML-Agents}{32}{}%
-\contentsline {section}{\numberline {5.6}Klasa PlayerIA}{35}{}%
-\contentsline {chapter}{\numberline {6}Weryfikacja i walidacja}{37}{}%
-\contentsline {section}{\numberline {6.1}Testowanie}{37}{}%
-\contentsline {subsection}{\numberline {6.1.1}Testy manualne}{37}{}%
-\contentsline {subsection}{\numberline {6.1.2}Modele}{39}{}%
-\contentsline {section}{\numberline {6.2}Wykryte błędy}{41}{}%
-\contentsline {chapter}{\numberline {7}Podsumowanie i wnioski}{43}{}%
-\contentsline {section}{\numberline {7.1}Napotkane problemy}{43}{}%
-\contentsline {section}{\numberline {7.2}Możliwy rozwój}{44}{}%
-\contentsline {chapter}{Bibliografia}{46}{}%
-\contentsline {chapter}{Spis skrótów i symboli}{49}{}%
-\contentsline {chapter}{Źródła}{51}{}%
-\contentsline {chapter}{Lista dodatkowych plików, uzupełniających tekst pracy}{53}{}%
-\contentsline {chapter}{Spis rysunków}{56}{}%
-\contentsline {chapter}{Spis tabel}{57}{}%
+\contentsline {section}{\numberline {5.2}Moduł planszy gry}{30}{}%
+\contentsline {section}{\numberline {5.3}Moduł interfejsu użytkownika}{33}{}%
+\contentsline {section}{\numberline {5.4}Moduł kontrolera}{34}{}%
+\contentsline {section}{\numberline {5.5}Moduł logiki gry}{35}{}%
+\contentsline {section}{\numberline {5.6}Moduł użytkownika}{36}{}%
+\contentsline {section}{\numberline {5.7}Moduł gracza komputerowego}{36}{}%
+\contentsline {section}{\numberline {5.8}Moduł uczenia maszynowego}{37}{}%
+\contentsline {section}{\numberline {5.9}Struktury danych}{39}{}%
+\contentsline {section}{\numberline {5.10}System przemieszczania}{39}{}%
+\contentsline {section}{\numberline {5.11}Biblioteka ML-Agents}{40}{}%
+\contentsline {section}{\numberline {5.12}Klasa PlayerIA}{43}{}%
+\contentsline {chapter}{\numberline {6}Weryfikacja i walidacja}{45}{}%
+\contentsline {section}{\numberline {6.1}Testowanie}{45}{}%
+\contentsline {subsection}{\numberline {6.1.1}Testy manualne}{45}{}%
+\contentsline {subsection}{\numberline {6.1.2}Modele}{47}{}%
+\contentsline {section}{\numberline {6.2}Wykryte błędy}{49}{}%
+\contentsline {chapter}{\numberline {7}Podsumowanie i wnioski}{51}{}%
+\contentsline {section}{\numberline {7.1}Napotkane problemy}{51}{}%
+\contentsline {section}{\numberline {7.2}Możliwy rozwój}{52}{}%
+\contentsline {chapter}{Bibliografia}{54}{}%
+\contentsline {chapter}{Spis skrótów i symboli}{57}{}%
+\contentsline {chapter}{Źródła}{59}{}%
+\contentsline {chapter}{Lista dodatkowych plików, uzupełniających tekst pracy}{61}{}%
+\contentsline {chapter}{Spis rysunków}{64}{}%
+\contentsline {chapter}{Spis tabel}{65}{}%
