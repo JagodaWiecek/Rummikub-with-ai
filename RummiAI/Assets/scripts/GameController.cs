@@ -110,7 +110,7 @@ public class GameController : MonoBehaviour
         if (endGameObject != null) endGameObject.SetActive(false);
         if (stopScreen != null) stopScreen.SetActive(false);
         else Debug.Log("stopScreen is null");
-        SetTiles(ref this.mainBank);
+        CreateMainBank(ref this.mainBank);
 
         boardList = new();
         boardDictionary = new();
@@ -257,7 +257,7 @@ public class GameController : MonoBehaviour
     /// Dodanie wszystkich p³ytek wed³ug zasad planszówki
     /// </summary>
     /// <param name="tiles">pusta lista do wype³nienia</param>
-    void SetTiles(ref List<Tile> tiles)
+    void CreateMainBank(ref List<Tile> tiles)
     {
         tiles = new();
         int temp;
@@ -383,7 +383,7 @@ public class GameController : MonoBehaviour
             ComputerPlayer.Reset();
             objectPlacer.Reset();
             gameTurnManager.turnController.Reset();
-            SetTiles(ref this.mainBank);
+            CreateMainBank(ref this.mainBank);
             boardList = new();
             boardDictionary = new();
 

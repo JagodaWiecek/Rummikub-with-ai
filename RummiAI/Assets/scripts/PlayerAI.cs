@@ -121,10 +121,6 @@ public class PlayerAI : Agent
         if (GameController.Instance.gameTurnManager.currentPlayerId == myIndex)
         {
 
-            
-            
-                
-            
             int xAction = actions.DiscreteActions[0];
             int zAction = actions.DiscreteActions[1];
             int chosenTileIndex = actions.DiscreteActions[3];
@@ -232,7 +228,7 @@ public class PlayerAI : Agent
             AIPlayerHand.Add(tiles[TileIndex]);
             tiles.RemoveAt(TileIndex);
             SaveListToCopy();
-            AddReward(-1f);//TODO
+            AddReward(-3f);//TODO
             //countJoker = CountJoker(AIPlayerHand);
         }
         else GameController.Instance.EndGame();
@@ -261,7 +257,7 @@ public class PlayerAI : Agent
         {
             AIPlayerHand.Add(tile);
         }
-        float reward = amount *(-1f);
+        float reward = amount *(-2f);
         AddReward(reward);//TODO
 
     }
@@ -308,13 +304,13 @@ public class PlayerAI : Agent
                 Vector3Int positionplusjeden = new Vector3Int(x+1, 0, z);
                 Vector3Int positionminusjeden = new Vector3Int(x-1, 0, z);
                 if (board.ContainsKey(positionplusjeden) || board.ContainsKey(positionminusjeden))
-                    AddReward(8f);
+                    AddReward(10f);
                 else 
-                    AddReward(4f);//TODO
+                    AddReward(5f);//TODO
             }
-            else AddReward(-4f);//TODO
+            else AddReward(-5f);//TODO
         }
-        else AddReward(-4f);//TODO
+        else AddReward(-5f);//TODO
     }
 
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex, int index)
@@ -434,7 +430,7 @@ public class PlayerAI : Agent
             }
             if(firstTurn) GameController.Instance.firstTurnController.Reset();
 
-            AddReward(-2f);//TODO
+            AddReward(-5f);//TODO
         }
         else AddReward(-5f);//TODO
     }
@@ -452,7 +448,7 @@ public class PlayerAI : Agent
                 if (GameController.Instance.firstTurnController.CheckFirstTurnValidity(GameController.Instance.GetBoardDictionary().board))
                 {
                     EndFirstTour();
-                    AddReward(3f);//TODO
+                    AddReward(5f);//TODO
                     SaveListToCopy();
                     GameController.Instance.firstTurnController.Reset();
                     GameController.Instance.gameTurnManager.ChangeTurn();
@@ -476,13 +472,13 @@ public class PlayerAI : Agent
                 if (AIPlayerHand.Count == AIPlayerHandCopy.Count)
                 {
                     //TakeTileAction();
-                    AddReward(-3f);//TODO
+                    AddReward(-5f);//TODO
                     //Debug.Log("Agent nic nie wy³o¿y³");
                 }
                 else
                 {
                     SaveListToCopy();
-                    AddReward(3f);//TODO
+                    AddReward(5f);//TODO
                     GameController.Instance.gameTurnManager.ChangeTurn();
                     objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
                     placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
@@ -509,7 +505,7 @@ public class PlayerAI : Agent
         UndoAction();
         List<Tile> tiles = GameController.Instance.GetGameBank();
         AddNewTile(ref tiles);
-        AddReward(-0.5f);//TODO
+        AddReward(-1f);//TODO
         if (firstTurn) GameController.Instance.firstTurnController.Reset();
 
         GameController.Instance.gameTurnManager.ChangeTurn();
@@ -522,7 +518,7 @@ public class PlayerAI : Agent
     {
         if(AIPlayerHand.Count == 0)
         {
-            AddReward(10f);//TODO
+            AddReward(20f);//TODO
         }
         else
         {
@@ -541,7 +537,7 @@ public class PlayerAI : Agent
         UndoAction();
         List<Tile> tiles = GameController.Instance.GetGameBank();
         AddNewTile(ref tiles);
-        AddReward(-5f);//TODO
+        AddReward(-10f);//TODO
         if (firstTurn) GameController.Instance.firstTurnController.Reset();
            //AddReward(-1f);//TODO
         //dodanie p³ytki
@@ -557,7 +553,7 @@ public class PlayerAI : Agent
     void PutTile(Vector3Int gridPosition, Tile tile)
     {//jeszcze sprawdzenia poprawnoœci
 
-        if(firstTurn) GameController.Instance.firstTurnController.Increment(tile.GetNumber(), grid.WorldToCell(gridPosition));
+        if(firstTurn) GameController.Instance.firstTurnController.Increment(tile.GetNumber(),gridPosition);
         int index = objectPlacer.PlacedObject(database.objectsData[0].Prefab, grid.CellToWorld(gridPosition), ref tile, grid);
 
         placementSystem.GetGridData().AddObjectAt(gridPosition,

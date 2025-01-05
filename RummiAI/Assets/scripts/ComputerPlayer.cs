@@ -549,7 +549,7 @@ public class ComputerPlayer : MonoBehaviour
     /// </summary>
     /// <param name="tileAmount">iloœæ p³ytek, jak¹ gracz chce postawiæ</param>
     /// <returns>listê pozycji, które zostan¹ zajête w wersji integer</returns>
-    public List<Vector3Int> FreeSpaceToPut(int tileAmount)
+    private List<Vector3Int> FreeSpaceToPut(int tileAmount)
     {
         var board = GameController.Instance.GetBoardDictionary().board;
         //int maxX = 8;
@@ -627,7 +627,7 @@ public class ComputerPlayer : MonoBehaviour
     void ExtendSequence(ref Dictionary<Vector3Int, Tile> board,ref List<Tile> handTiles)
     {
         List<Vector3Int> freePositions =  FindSequencesNeighbours(board);
-        freePositions= MoveBugableSequence(ref board, freePositions);
+        freePositions= MoveSequence(ref board, freePositions);
         bool ifBreak = false;
         for(int i = 0;i< handTiles.Count;i++)
         {
@@ -803,7 +803,7 @@ public class ComputerPlayer : MonoBehaviour
     /// <param name="board">referencja na g³ówn¹ mapê</param>
     /// <param name="freePositions">lista pozycji obok sekwencji</param>
     /// <returns>listê wolnych pozycji</returns>
-    List<Vector3Int> MoveBugableSequence(ref Dictionary<Vector3Int, Tile> board, List<Vector3Int> freePositions)
+    List<Vector3Int> MoveSequence(ref Dictionary<Vector3Int, Tile> board, List<Vector3Int> freePositions)
     {
         HashSet<Vector3Int> uniquePositions = new HashSet<Vector3Int>();
         List<Vector3Int> duplicatePositions = new List<Vector3Int>();
@@ -822,7 +822,7 @@ public class ComputerPlayer : MonoBehaviour
             {
                 // Coœ do zrobienia z ka¿d¹ zduplikowan¹ pozycj¹
                 // Debug.Log("Zduplikowana pozycja: " + duplicate);
-                bool prawoCzyLewo = Random.value > 0.001f;
+                bool prawoCzyLewo = true; //Random.value > 0.001f
                 if (prawoCzyLewo)
                 {
 
@@ -842,7 +842,7 @@ public class ComputerPlayer : MonoBehaviour
                     moveTile(newPositions, oldPositions);
                 }
                 else
-                {
+                { //Do naprawy TODO
                     List<Vector3Int> oldPositions = new();
                     //oldPositions.Add(position);
                     int x = (position.x - 1);

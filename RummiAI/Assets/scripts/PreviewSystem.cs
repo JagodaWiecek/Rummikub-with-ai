@@ -29,7 +29,7 @@ public class PreviewSystem : MonoBehaviour
     /// </summary>
     /// <param name="prefabe">otworzony obiekt</param>
     /// <param name="size">rozmiar obiektu</param>
-    public void StartShowingPlacementPreview(GameObject prefabe, Vector2Int size)
+    internal void StartShowingPlacementPreview(GameObject prefabe, Vector2Int size)
     {
         previewObject = Instantiate(prefabe);
         PreparePreview(previewObject);
