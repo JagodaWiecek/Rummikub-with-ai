@@ -1,0 +1,22 @@
+\babel@toc {british}{}\relax 
+\babel@toc {polish}{}\relax 
+\babel@toc {british}{}\relax 
+\babel@toc {polish}{}\relax 
+\babel@toc {british}{}\relax 
+\babel@toc {polish}{}\relax 
+\babel@toc {british}{}\relax 
+\thispagestyle {empty}
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}introduction into the problem domain}{1}{section.1.1}%
+\contentsline {chapter}{\numberline {2}Analysis of the problem}{3}{chapter.2}%
+\contentsline {chapter}{\numberline {3}Subject of the thesis}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}[Section title]}{5}{section.3.1}%
+\contentsline {section}{\numberline {3.2}[Subsection title]}{5}{section.3.2}%
+\contentsline {chapter}{\numberline {4}Experiments}{7}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Summary}{9}{chapter.5}%
+\contentsline {chapter}{Bibliography}{11}{chapter*.10}%
+\contentsline {chapter}{Technical documentation}{15}{appendix*.11}%
+\contentsline {chapter}{List of abbreviations and symbols}{17}{appendix*.12}%
+\contentsline {chapter}{List of additional files in~electronic submission (if applicable)}{19}{appendix*.13}%
+\contentsline {chapter}{List of figures}{21}{appendix*.14}%
+\contentsline {chapter}{List of tables}{23}{appendix*.15}%

@@ -1,0 +1,151 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\datalist[entry]{nty/global//global/global/global}
+  \entry{bib:book}{book}{}{}
+    \name{author}{2}{}{%
+      {{hash=SN}{%
+         family={Surname},
+         familyi={S\bibinitperiod},
+         given={Name},
+         giveni={N\bibinitperiod},
+      }}%
+      {{hash=SN}{%
+         family={Surname},
+         familyi={S\bibinitperiod},
+         given={Name},
+         giveni={N\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Publisher}%
+    }
+    \strng{namehash}{SNSN1}
+    \strng{fullhash}{SNSN1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{isbn}{83-204-3229-9-434}
+    \field{title}{Title of a book}
+    \list{location}{1}{%
+      {Hong Kong}%
+    }
+    \field{year}{2017}
+  \endentry
+
+  \entry{bib:article}{article}{}{}
+    \name{author}{2}{}{%
+      {{hash=SN}{%
+         family={Surname},
+         familyi={S\bibinitperiod},
+         given={Name},
+         giveni={N\bibinitperiod},
+      }}%
+      {{hash=SN}{%
+         family={Surname},
+         familyi={S\bibinitperiod},
+         given={Name},
+         giveni={N\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SNSN1}
+    \strng{fullhash}{SNSN1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{number}{8}
+    \field{pages}{1092\bibrangedash 1113}
+    \field{title}{Title of an article in a journal}
+    \field{volume}{157}
+    \field{journaltitle}{Journal Title}
+    \field{year}{2016}
+  \endentry
+
+  \entry{bib:conference}{inproceedings}{}{}
+    \name{author}{3}{}{%
+      {{hash=SN}{%
+         family={Surname},
+         familyi={S\bibinitperiod},
+         given={Name},
+         giveni={N\bibinitperiod},
+      }}%
+      {{hash=SN}{%
+         family={Surname},
+         familyi={S\bibinitperiod},
+         given={Name},
+         giveni={N\bibinitperiod},
+      }}%
+      {{hash=SN}{%
+         family={Surname},
+         familyi={S\bibinitperiod},
+         given={N.},
+         giveni={N\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SNSNSN1}
+    \strng{fullhash}{SNSNSN1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{booktitle}{Conference title}
+    \field{pages}{5346\bibrangedash 5349}
+    \field{title}{Title of a conference article}
+    \field{year}{2006}
+  \endentry
+
+  \entry{bib:internet}{online}{}{}
+    \name{author}{3}{}{%
+      {{hash=SN}{%
+         family={Surname},
+         familyi={S\bibinitperiod},
+         given={Name},
+         giveni={N\bibinitperiod},
+      }}%
+      {{hash=SN}{%
+         family={Surname},
+         familyi={S\bibinitperiod},
+         given={Name},
+         giveni={N\bibinitperiod},
+      }}%
+      {{hash=SN}{%
+         family={Surname},
+         familyi={S\bibinitperiod},
+         given={N.},
+         giveni={N\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SNSNSN1}
+    \strng{fullhash}{SNSNSN1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{title}{Title of a web page}
+    \verb{url}
+    \verb http://somewhere/on/the/internet.html
+    \endverb
+    \field{year}{2021}
+    \field{urlday}{30}
+    \field{urlmonth}{09}
+    \field{urlyear}{2021}
+  \endentry
+\enddatalist
+\endinput
