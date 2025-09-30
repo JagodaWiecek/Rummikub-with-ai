@@ -17,6 +17,101 @@
 \endgroup
 
 \datalist[entry]{nty/global//global/global/global}
+  \entry{cdi_proquest_journals_2781731625}{article}{}{}
+    \list{language}{1}{%
+      {eng}%
+    }
+    \list{publisher}{1}{%
+      {Biblical Archaeology Society}%
+    }
+    \keyw{Ancient civilizations ; Bible ; Games ; History ; Rites & ceremonies}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{B}
+    \field{sortinithash}{B}
+    \field{abstract}{%
+    The history of board games is discussed. Playing board games has been a
+  popular pastime for millennia. One of the oldest board games in the
+  world--the Royal Game of Ur--was first played in ancient Mesopotamia more
+  than 4,500 years ago. Examples of other ancient board games have been found
+  across the world--Wari in West Africa, Sugoroku in Japan and China, and
+  Pachisi in India, to name a few. Board games were shared and enjoyed across
+  regions and cultures. Backgammon, for example, was played in Mesopotamia,
+  Persia, and the Byzantine Empire. In the biblical world, board games were
+  part of routine domestic life, but were also used in religious rituals and
+  divination.%
+    }
+    \field{issn}{0098-9444}
+    \field{number}{1}
+    \field{pages}{26\bibrangedash }
+    \field{title}{Board Games}
+    \field{volume}{49}
+    \list{location}{1}{%
+      {Washington}%
+    }
+    \field{journaltitle}{The Biblical archaeology review}
+    \field{year}{2023}
+  \endentry
+
+  \entry{JipaClaudia2023TIOU}{article}{}{}
+    \name{author}{3}{}{%
+      {{hash=JC}{%
+         family={Jipa},
+         familyi={J\bibinitperiod},
+         given={Claudia},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=BCA}{%
+         family={Berce},
+         familyi={B\bibinitperiod},
+         given={Carmen\bibnamedelima Alina},
+         giveni={C\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=CM}{%
+         family={Cosma},
+         familyi={C\bibinitperiod},
+         given={Mirela},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {eng}%
+    }
+    \strng{namehash}{JCBCACM1}
+    \strng{fullhash}{JCBCACM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{J}
+    \field{sortinithash}{J}
+    \field{abstract}{%
+    The study highlighted the impact of an activity program in which board
+  games were used to develop situational motivation in first-grade school
+  children. The participants (ages 6-8 years) were primary school students from
+  rural areas randomly assigned to the experimental group (EG; n= 13) and
+  control group (CG; n= 13). The level of situational motivation was measured
+  with the Situational Motivation Scale (SIMS) developed by F. Guay, R. J.
+  Vallerand, and C. Blanchard (2000). After initial testing, for eight weeks,
+  ten board games (Dixit, Domino in syllables, my first 5-second game, Tetris,
+  Vocalopoly, etc.) were introduced twice a week for the development of
+  mathematical and linguistic skills. The results of the comparison t-test on
+  paired samples, as well as on independent samples of the Situational
+  Motivation Scale (SIMS), show that there are statistically significant
+  differences regarding the level of situational motivation in the two moments
+  of the application of the scale, pretest, and posttest in the experimental
+  group (t =-15.503, p<0.001), but also between the two groups (experimental
+  and control) in the post test phase (t=10.539, p<0.001). In conclusion, the
+  research results highlight that using board games in the activities carried
+  out with first-grade students improves the motivation of school children.%
+    }
+    \field{issn}{1842-077X}
+    \field{number}{Special Issue}
+    \field{pages}{10\bibrangedash 27}
+    \field{title}{THE IMPACT OF USING BOARD GAMES ON THE DEVELOPMENT OF
+  SITUATIONAL MOTIVATION IN PRIMARY SCHOOL CHILDREN}
+    \field{volume}{33}
+    \field{journaltitle}{Educația-plus}
+    \field{year}{2023}
+  \endentry
+
   \entry{bib:book}{book}{}{}
     \name{author}{2}{}{%
       {{hash=SN}{%
