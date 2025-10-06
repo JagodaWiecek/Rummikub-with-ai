@@ -52,6 +52,31 @@
     \field{year}{2023}
   \endentry
 
+  \entry{bib:chess_online}{online}{}{}
+    \name{author}{1}{}{%
+      {{hash=DS}{%
+         family={Developers},
+         familyi={D\bibinitperiod},
+         given={Stockfish},
+         giveni={S\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{DS1}
+    \strng{fullhash}{DS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{D}
+    \field{sortinithash}{D}
+    \field{title}{Stockfish - Open Source Chess Engine}
+    \verb{url}
+    \verb https://github.com/official-stockfish/Stockfish
+    \endverb
+    \field{year}{2024}
+    \field{urlday}{22}
+    \field{urlmonth}{12}
+    \field{urlyear}{2024}
+  \endentry
+
   \entry{JipaClaudia2023TIOU}{article}{}{}
     \name{author}{3}{}{%
       {{hash=JC}{%

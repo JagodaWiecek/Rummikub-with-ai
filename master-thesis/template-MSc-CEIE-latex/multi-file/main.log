@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  30 SEP 2025 16:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  6 OCT 2025 17:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1545,7 +1545,12 @@ Chapter 1.
 [1
 
 
-]) (chapters/02.tex
+]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
+3.
+ (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
+File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1555,14 +1560,17 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[2]
-Chapter 2.
-) (chapters/03.tex
+[2]) (chapters/02.tex
 
-[3
 
-{C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}
-{C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}]
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[3]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1575,10 +1583,27 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [4
 
 ]
+Chapter 2.
+) (chapters/03.tex
+
+[5{C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.en
+c}{C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[6
+
+]
 Chapter 3.
 ) (chapters/04.tex
 
-[5]
+[7]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1588,34 +1613,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[6]
+[8]
 Chapter 4.
 ) (chapters/05.tex
 
-[7
+[9
 
 ]
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[8
-
-]
-Chapter 5.
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
-1.
-(C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
-File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-))
-
-[9{C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}]
-
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1628,14 +1632,14 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [10
 
 ]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
-71.
- (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
-File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
+Chapter 5.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
+1.
+(C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
+File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+))
 
-[11
-
+[11{C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}
 ]
 
 
@@ -1650,11 +1654,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 ]
 
-[13]
-
-[14] (chapters/06.tex) (chapters/07.tex
-
-[15
+[13
 
 ]
 
@@ -1666,11 +1666,17 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[16
+[14
 
-]) (chapters/08.tex
+]
 
-[17]
+[15]
+
+[16] (chapters/06.tex) (chapters/07.tex
+
+[17
+
+]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1682,7 +1688,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [18
 
-])
+]) (chapters/08.tex
 
 [19]
 
@@ -1696,11 +1702,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [20
 
-] (main.lof)
-\tf@lof=\write7
-\openout7 = `main.lof'.
-
-
+])
 
 [21]
 
@@ -1714,13 +1716,31 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [22
 
+] (main.lof)
+\tf@lof=\write7
+\openout7 = `main.lof'.
+
+
+
+[23]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[24
+
 ] (main.lot)
 \tf@lot=\write8
 \openout8 = `main.lot'.
 
 
 
-[23] (main.aux)
+[25] (main.aux)
  ***********
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
@@ -1732,10 +1752,10 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 45263 strings out of 473682
- 1008826 string characters out of 5719215
+ 45272 strings out of 473682
+ 1009094 string characters out of 5719215
  1799486 words of memory out of 5000000
- 67540 multiletter control sequences out of 15000+600000
+ 67546 multiletter control sequences out of 15000+600000
  630142 words of font info for 86 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  89i,11n,96p,1925b,2367s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1751,9 +1771,9 @@ fb><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.p
 fb><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.p
 fb><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/sy
 mbols/msbm10.pfb>
-Output written on main.pdf (29 pages, 272280 bytes).
+Output written on main.pdf (31 pages, 279426 bytes).
 PDF statistics:
- 337 PDF objects out of 1000 (max. 8388607)
- 65 named destinations out of 1000 (max. 500000)
+ 351 PDF objects out of 1000 (max. 8388607)
+ 68 named destinations out of 1000 (max. 500000)
  170 words of extra memory for PDF output out of 10000 (max. 10000000)
 

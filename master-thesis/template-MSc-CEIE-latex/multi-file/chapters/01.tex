@@ -20,6 +20,15 @@ Board games have long been used as a way to test logical thinking and strategy. 
 The dual role of board games as both an entertainment medium and an educational tool renders them an ideal domain for exploring artificial intelligence. These games combine structured rule systems with varying levels of complexity, randomness, and strategic depth. Consequently, the training of a computer player for such games contributes not only to the field of game AI but also offers broader insights into decision-making processes, learning under constraints, and adaptive strategies in uncertain environments.
 
 \section{Settling of the problem in the domain}
+Many popular board games that use artificial intelligence algorithms only required learning the rules and adapting tactics to the opponent. One such game is chess, which has many artificial intelligence algorithms implemented, one of which is \texttt{Stockfish - Open Source Chess Engine} \cite{bib:chess_online}. 
+However, in numerous games, players are required to adjust their tactics not only to their opponents' actions, but also to environmental and situational randomness.
+Rummikub exemplifies this, requiring players to adapt their strategy to other players, the random draw of tiles, and the specific rules for laying down sets.
+
+In Rummikub, players create and rearrange sets and sequences of numbered tiles in different colors. The objective of the game is to place all tiles from one's hand onto the shared board by forming valid combinations according to the game's rules. However, in contrast to purely deterministic games, Rummikub introduces stochastic elements, such as random tile draws or randomly generated tiles at the beginning of the game. These elements have been shown to significantly affect the course of the game. This randomness forces both human and artificial players to adapt their tactics dynamically to ever-changing conditions on the board.
+
+From an AI perspective, this environment poses several challenges. As the board evolves, the number of potential moves increases exponentially, rendering an exhaustive search impractical. The uncertainty of future tile draws and opponent actions introduces an additional layer of complexity that requires probabilistic reasoning or learning-based adaptation rather than deterministic planning alone.
+
+Positioning this problem within the broader field of game AI highlights its research value. Developing an effective computer player for Rummikub requires combining strategic evaluation, pattern recognition, and adaptive learning. It also provides an opportunity to investigate how modern AI algorithms, such as reinforcement learning and simulation-based decision-making, can operate effectively in environments that are logical in structure but influenced by randomness.
 
 \section{Objective of the thesis }
 \section{Scope of the thesis}
