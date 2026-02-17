@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  6 OCT 2025 17:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  17 FEB 2026 13:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1560,7 +1560,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[2]) (chapters/02.tex
+[2]
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 4
+4.
+ (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
+File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1570,7 +1575,8 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[3]
+[3{C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}]
+) (chapters/02.tex
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1580,14 +1586,14 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[4
-
-]
+[4]
 Chapter 2.
 ) (chapters/03.tex
 
-[5{C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.en
-c}{C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}]
+[5
+
+{C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}
+{C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1633,14 +1639,9 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 ]
 Chapter 5.
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
-1.
-(C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
-File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-))
+)
 
-[11{C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}
-]
+[11]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1771,7 +1772,7 @@ fb><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.p
 fb><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.p
 fb><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/sy
 mbols/msbm10.pfb>
-Output written on main.pdf (31 pages, 279426 bytes).
+Output written on main.pdf (31 pages, 282606 bytes).
 PDF statistics:
  351 PDF objects out of 1000 (max. 8388607)
  68 named destinations out of 1000 (max. 500000)

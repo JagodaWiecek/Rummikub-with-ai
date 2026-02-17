@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.SearchService;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+/// <summary>
+/// klasa do interakcji gracza z menu gry.
+/// </summary>
 public class MainMenu : MonoBehaviour
 {
 
@@ -54,6 +54,11 @@ public class MainMenu : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void Learning()
+    {
+        return ;
     }
 
 }

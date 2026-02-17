@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+//klasa do wykrywania pozycji myszy na mapie.
 public class InputManager : MonoBehaviour
 {
     [SerializeField]

@@ -7,7 +7,9 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 using UnityEngine.XR;
-
+/// <summary>
+/// Klasa gracza komputerowego z predefiniowanymi zachowaniami
+/// </summary>
 public class ComputerPlayer : MonoBehaviour
 {
     [SerializeField]
@@ -34,9 +36,9 @@ public class ComputerPlayer : MonoBehaviour
     [SerializeField]
     PlacementSystem placementSystem;
 
-    int maxX = 10;
-    int minX = -11;
-    int maxZ = 4;
+    int maxX = 11;
+    int minX = -12;
+    int maxZ = 5;
     int minZ = -4;
 
     // Start is called before the first frame update
@@ -820,12 +822,7 @@ public class ComputerPlayer : MonoBehaviour
         {
             foreach (var position in duplicatePositions)
             {
-                // Coœ do zrobienia z ka¿d¹ zduplikowan¹ pozycj¹
-                // Debug.Log("Zduplikowana pozycja: " + duplicate);
-                bool prawoCzyLewo = true; //Random.value > 0.001f
-                if (prawoCzyLewo)
-                {
-
+                
                     List<Vector3Int> oldPositions = new();
                     //oldPositions.Add(position);
                     int x = (position.x + 1);
@@ -840,24 +837,7 @@ public class ComputerPlayer : MonoBehaviour
                     //stare pozycje ju¿ s¹, albo powinny byæ
                     List<Vector3Int> newPositions = FreeSpaceToPut(oldPositions.Count);
                     moveTile(newPositions, oldPositions);
-                }
-                else
-                { //Do naprawy TODO
-                    List<Vector3Int> oldPositions = new();
-                    //oldPositions.Add(position);
-                    int x = (position.x - 1);
-                    int z = position.z;
-                    Vector3Int iteratePosition = new(x, 0, z);
-                    while (board.ContainsKey(iteratePosition))
-                    {
-                        oldPositions.Add(iteratePosition);
-                        x--;
-                        iteratePosition = new(x, 0, z);
-                    }
-                    oldPositions.Sort((a, b) => a.x.CompareTo(b.x));
-                    List<Vector3Int> newPositions = FreeSpaceToPut(oldPositions.Count);
-                    moveTile(newPositions, oldPositions);
-                }
+              
             }
             return FindSequencesNeighbours(board);
         }

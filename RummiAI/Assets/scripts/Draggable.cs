@@ -5,9 +5,9 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 /// <summary>
-/// Klasa do przesuwania i uk³adania 2d p³ytek
-/// Dla lepszego korzystania przez u¿ytkownika
-/// By gracz móg³ u³o¿yæ p³ytki by by³o mu lepiej graæ
+///Klasa dziedziczy po interfejsach IBeginDragHandler, IDragHandler, IEndDragHandler
+/// implementowanych przez œrodowisko Unity. S³u¿y do interakcji przesuwania
+///p³ytek 2D, w stojaku, przez u¿ytkownika
 /// </summary>
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler,IEndDragHandler
 {

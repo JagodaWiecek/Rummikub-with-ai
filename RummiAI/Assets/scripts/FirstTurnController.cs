@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+/// <summary>
+/// Klasa do przechowywania informacji o pozycjach p³ytek na mapie.
+///G³ównie s³u¿y do walidowania zasad gry planszowej w TurnController
+/// </summary>
 public class FirstTurnController : MonoBehaviour
 {
     [SerializeField]

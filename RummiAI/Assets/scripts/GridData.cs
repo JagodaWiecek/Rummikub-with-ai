@@ -5,7 +5,11 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using static Unity.VisualScripting.Member;
 using static UnityEngine.GraphicsBuffer;
-
+/// <summary>
+/// klasa do przechowywania danych dla klasy ObjectPlacer takie jak pozycja
+///wzglêdem siatki oraz indeks w liœcie obiektu ObjectPlacer, która przechowuje obiekty
+///p³ytek na mapie.
+/// </summary>
 public class GridData
 {
 
@@ -48,7 +52,7 @@ public class GridData
                 returnVal.Add(gridPosition + new Vector3Int(x, 0, y));
             }
         }
-        //Debug.Log(returnVal[0].x +" "+ returnVal[0].y + " " + returnVal[0].z);
+        Debug.Log(returnVal[0].x +" "+ returnVal[0].y + " " + returnVal[0].z);
         return returnVal;
     }
 
@@ -75,7 +79,7 @@ public class GridData
 
     internal void RemoveObjectAt(Vector3Int gridPosition)
     {
-        //Debug.Log("Geid Position: " + gridPosition);
+        Debug.Log("Geid Position: " + gridPosition);
         foreach (var pos in placedObjects[gridPosition].occupiecPositons) { 
             placedObjects.Remove(pos);
         }
@@ -122,6 +126,9 @@ public class GridData
         }
     }
 }
+/// <summary>
+/// Klasa do przechowywania informacji o obiekcie
+/// </summary>
 public class PlacementData
 {
     public List<Vector3Int> occupiecPositons = new();

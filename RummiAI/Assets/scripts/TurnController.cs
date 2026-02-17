@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
-
+/// <summary>
+/// Kontroler tur gry, sprawdza czy wielkoœci sekwencji na mapie s¹
+///poprawne, przekazuje informacje o b³êdach do interfejsu
+/// </summary>
 public class TurnController : MonoBehaviour
 {
     [SerializeField]
@@ -43,7 +46,7 @@ public class TurnController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (GameController.Instance.gameIndex != 1)
+        if (GameController.Instance.gameIndex != 1 || GameController.Instance.gameIndex != 4)
         {
             undoButton.gameObject.SetActive(false);
             endTurn.gameObject.SetActive(false);
@@ -57,7 +60,7 @@ public class TurnController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {//gameTurnManager
-        if (GameController.Instance.gameIndex != 1)
+        if (GameController.Instance.gameIndex != 1 || GameController.Instance.gameIndex != 4)
         {
             if (GameController.Instance.gameTurnManager.currentPlayerId == 0)
             {
@@ -151,8 +154,11 @@ public class TurnController : MonoBehaviour
                                 placementSystem.StopPlacement();
                                 GameController.Instance.gameTurnManager.ChangeTurn();
                             }
-                            else Debug.Log("Nale¿y wy³o¿yæ conajmniej jedn¹ p³ytkê");
-                            ShowNapis("Nale¿y wy³o¿yæ co najmniej jedn¹ p³ytkê");
+                            else
+                            {
+                                Debug.Log("Nale¿y wy³o¿yæ conajmniej jedn¹ p³ytkê");
+                                ShowNapis("Nale¿y wy³o¿yæ co najmniej jedn¹ p³ytkê");
+                            }
                         }
                     }
                     else GameController.Instance.EndGame();

@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 [System.Serializable]
 
-///Klasa do reprezentacji p³ytek w grze
+///Klasa reprezentuj¹ca pojedyncz¹ p³ytkê w grze.
 public class Tile : MonoBehaviour
 {
     // 4 colors, numers from 1 to 13

@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR;
 
-
+//Klasa, która tworzy obiekty p³ytek na mapie
 public class ObjectPlacer : MonoBehaviour
 {
     [SerializeField]

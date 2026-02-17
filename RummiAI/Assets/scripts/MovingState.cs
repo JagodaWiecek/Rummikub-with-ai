@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static PlacementSystem;
-
+// s³u¿y do przesuwania p³ytek na mapie
 public class MovingState : IPlacementState
 {
     private int selectedObjectIndex = -1;
@@ -15,6 +15,11 @@ public class MovingState : IPlacementState
     Tile tile;
     Vector3Int previousPosition;
     private InputManager inputManager;
+
+    int maxX = 11;
+    int minX = -12;
+    int maxZ = 5;
+    int minZ = -4;
     /// <summary>
     /// Konstruktor klasy MovingState, 
     /// klasa s³ó¿y do przesuwania istniej¹cych p³ytek 3d na mapie
@@ -71,8 +76,8 @@ public class MovingState : IPlacementState
          {
              selectedData = this.tileData;
          }
-        Vector3 minRange = new Vector3Int(-11, 0, -4);
-        Vector3 maxRange = new Vector3Int(10, 0, 4);
+        Vector3 minRange = new Vector3Int(minX, 0, minZ);
+        Vector3 maxRange = new Vector3Int(maxX, 0, maxZ);
         bool onMap = IsPositionInRange(gridPosition, minRange, maxRange);
 
         if (tileData != null)
@@ -119,7 +124,7 @@ public class MovingState : IPlacementState
     {
         bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
 
-        if (gridPosition.x > -12 && gridPosition.x < 11 && gridPosition.z > -5 && gridPosition.z < 5)
+        if (gridPosition.x > minX - 1 && gridPosition.x < maxX +1 && gridPosition.z > minZ - 1 && gridPosition.z < maxZ + 1)
         {
             previewSystem.UpdatePosition(grid.CellToWorld(gridPosition), placementValidity);
         }

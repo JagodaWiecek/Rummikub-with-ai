@@ -8,7 +8,7 @@ using UnityEngine.SocialPlatforms.Impl;
 using Unity.VisualScripting;
 using System;
 /// <summary>
-/// G³ówna klasa gry
+///G³ówna klasa kontrolera, zarz¹dza danymi z g³ównego banku gry.
 /// </summary>
 public class GameController : MonoBehaviour
 {
@@ -38,6 +38,11 @@ public class GameController : MonoBehaviour
     ComputerPlayer ComputerPlayer;
     [SerializeField]
     PlayerAI AI;
+    [SerializeField]
+    PlayerAI AI_1;
+    [SerializeField]
+    PlayerAI A_2;
+    [SerializeField] PlayerAI A_3;
 
 
     [SerializeField]
@@ -123,7 +128,7 @@ public class GameController : MonoBehaviour
             missComputerPlayer.SetPlayersHand(ref this.mainBank, 2);
             ComputerPlayer.SetPlayersHand(ref this.mainBank, 3);
         }
-        else if (gameIndex == 1)
+        else if (gameIndex == 1) //DO OBSERWACJI
         {
             AI.SetPlayersHand(ref this.mainBank, 0);
             mrComputerPlayer.SetPlayersHand(ref this.mainBank, 1);
@@ -144,6 +149,14 @@ public class GameController : MonoBehaviour
             player.SetPlayersHand(ref this.mainBank);
             AI.SetPlayersHand(ref this.mainBank, 1);
             //ai z indeksem 1
+        }
+        else if (gameIndex == 4) //NAUKA ETAP 1
+        {
+            AI.SetPlayersHand(ref this.mainBank, 0);
+            mrComputerPlayer.SetPlayersHand(ref this.mainBank, 1);
+            missComputerPlayer.SetPlayersHand(ref this.mainBank, 2);
+            ComputerPlayer.SetPlayersHand(ref this.mainBank, 3);
+            //ai z indeksem 0
         }
         else
         {
@@ -166,12 +179,12 @@ public class GameController : MonoBehaviour
             if (Input.GetMouseButtonDown(1) && !placementSystem.GetInputManager().isPointerOverUI())
                 placementSystem.StartMowing();
         }
-        if(gameIndex == 1)
-            if (Input.GetKeyDown(KeyCode.A)) gameTurnManager.ChangeTurn();
+        //if(gameIndex == 1)
+         //   if (Input.GetKeyDown(KeyCode.A)) gameTurnManager.ChangeTurn();
 
         if (Input.GetKeyDown(KeyCode.Escape)) StopGame();
         //Time.timeScale = 0f;
-        if(Input.GetKeyDown(KeyCode.S))
+       /* if(Input.GetKeyDown(KeyCode.S))
         {
             if (Time.timeScale == 0f)
                 Time.timeScale = 1f;
@@ -184,7 +197,7 @@ public class GameController : MonoBehaviour
                 Time.timeScale = 3f;
             else if (Time.timeScale == 3f)
                 Time.timeScale = 1f;
-        }
+        }*/
     }
     public void StopGame()
     { 
@@ -399,8 +412,8 @@ public class GameController : MonoBehaviour
             (string Name, int Score)[] playersScore = {
                 (Name: "You", player.FinalScore()),
                 (Name: missComputerPlayer.name,Score: missComputerPlayer.FinalScore()),
-                (Name: mrComputerPlayer.name,Score: mrComputerPlayer.FinalScore())
-                //(Name: AI.name, AI.FinalScore()),
+                (Name: mrComputerPlayer.name,Score: mrComputerPlayer.FinalScore()),
+                (Name: AI.name, AI.FinalScore())
             };
             Array.Sort(playersScore, (a, b) => a.Score.CompareTo(b.Score));
 
@@ -413,6 +426,7 @@ public class GameController : MonoBehaviour
             fourthPlace.GetComponent<Text>().text = "4. " + playersScore[3].Name + " (" + playersScore[3].Score.ToString() + ") ";
 
             Time.timeScale = 0f;
+
         }
         else if (gameIndex == 3)
         { //gracz i ai

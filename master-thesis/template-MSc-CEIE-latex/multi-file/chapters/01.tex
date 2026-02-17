@@ -26,15 +26,37 @@ Rummikub exemplifies this, requiring players to adapt their strategy to other pl
 
 In Rummikub, players create and rearrange sets and sequences of numbered tiles in different colors. The objective of the game is to place all tiles from one's hand onto the shared board by forming valid combinations according to the game's rules. However, in contrast to purely deterministic games, Rummikub introduces stochastic elements, such as random tile draws or randomly generated tiles at the beginning of the game. These elements have been shown to significantly affect the course of the game. This randomness forces both human and artificial players to adapt their tactics dynamically to ever-changing conditions on the board.
 
-From an AI perspective, this environment poses several challenges. As the board evolves, the number of potential moves increases exponentially, rendering an exhaustive search impractical. The uncertainty of future tile draws and opponent actions introduces an additional layer of complexity that requires probabilistic reasoning or learning-based adaptation rather than deterministic planning alone.
+From an AI perspective, this environment poses several challenges. As the board evolves, the number of potential moves increases, rendering an exhaustive search impractical. The uncertainty of future tile draws and opponent actions introduce an additional layer of complexity that requires probabilistic reasoning or learning-based adaptation rather than deterministic planning alone.
 
 Positioning this problem within the broader field of game AI highlights its research value. Developing an effective computer player for Rummikub requires combining strategic evaluation, pattern recognition, and adaptive learning. It also provides an opportunity to investigate how modern AI algorithms, such as reinforcement learning and simulation-based decision-making, can operate effectively in environments that are logical in structure but influenced by randomness.
 
 \section{Objective of the thesis }
-\section{Scope of the thesis}
+The main objective of this thesis is to design, implement, and train an artificial intelligence agent capable of autonomously playing the board game Rummikub in an effective and strategic way. The developed AI system should be able to analyze the current game state, evaluate available legal moves, and select actions that maximize its probability of success in a random environment.
+
+Due to the stochastic nature of Rummikub, particularly the randomness associated with tile distribution and draws, the agent must be able to operate in a dynamic and partially unpredictable environment. Therefore, a key objective of this work is to develop an AI that can adapt its strategy to changing board configurations, varying hand compositions and evolving tactical opportunities throughout the game.
+
+\section{Scope of the thesis} %zakres pracy
+This thesis focuses on the application of Reinforced Learning algorithms to train a computer player for the board game Rummikub within a custom-developed digital environment. The scope of the work includes the design and implementation of the game logic, the integration of AI decision-making mechanisms, and the experimental evaluation of the trained agent.
+The project is limited to a single board game, Rummikub, and does not attempt to generalise the developed solution to other game genres. The research excludes online multiplayer deployment and human-subject studies. The implementation is carried out using the Unity engine, where the game environment and AI agent are developed and tested. 
+
+The thesis maintains focus on the core research problem: the practical application of AI algorithms to enable intelligent decision-making in a tactical board game environment characterised by combinatorial complexity and stochastic elements. The development of the project include:
+\begin{itemize}
+	\item Implement game environment for the player - development of a digital representation of the Rummikub board game using the Unity engine, including tile management, valid set detection, and interaction rules.
+	\item Integrating artificial intelligence - implementation of the different reinforcement learning algorithms available from Unity ML-Agents Toolkit.
+	\item Developing a system of rewards and penalties - implementation of properly working points system for better training the model.
+	\item Training the agent - training of the computer player based on simulated games, allowing it to improve its tactics through experience and feedback.
+	\item Evaluating the model - conduction of the experiments to evaluate the efficiency, adaptability and success rate of the trained AI.
+\end{itemize}
 \section{Short description of chapters}
 TODO at the end of whole thesis
 \section{Clear description of contribution of the thesis's author}
+The essential elements of the project, that include the author contributions, are:
+ \begin{itemize}
+ 	\item Development of experiments environment - the design and implementation of a fully functional digital Rummikub environment, including game logic, rule validation, and agent interaction mechanisms.
+ 	\item Supervision and configuration of the learning process – the definition of the state and action spaces, design of the reward structure, configuration of training parameters, and monitoring of the agent’s learning progress.
+ 	\item Evaluation of the agent’s performance – the design and execution of simulation-based experiments to assess the effectiveness, adaptability, and decision-making quality of the trained AI model.
+ 	\item Analysis and interpretation of results – the examination of experimental outcomes and formulation of conclusions regarding the applicability of artificial intelligence methods to tactical board games with stochastic elements.
+ \end{itemize}
 %ai w grach
 %\begin{itemize}
 %\item introduction into the problem domain

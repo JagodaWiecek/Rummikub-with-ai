@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-
+//s³u¿y do usuwania p³ytek z mapy
 public class RemovingState : IPlacementState
 {
     private int gameObjectIndex = -1;
@@ -12,6 +12,11 @@ public class RemovingState : IPlacementState
     GridData tileData;
     ObjectPlacer objectPlacer;
     Tile tile;
+
+    int maxX = 11;
+    int minX = -12;
+    int maxZ = 5;
+    int minZ = -4;
     /// <summary>
     /// kontrolelr klasy
     /// klasa odpowiada za usuwanie p³ytek 3d z mapy
@@ -111,7 +116,7 @@ public class RemovingState : IPlacementState
     public void UpdateState(Vector3Int gridPosition)
     {
         bool validity = CheckIfSelectionIsValid(gridPosition);
-        if (gridPosition.x > -12 && gridPosition.x < 11 && gridPosition.z > -5 && gridPosition.z < 5) 
+        if (gridPosition.x > minX - 1 && gridPosition.x < maxX + 1 && gridPosition.z > minZ - 1 && gridPosition.z < maxZ + 1)
             previewSystem.UpdatePosition(grid.CellToWorld(gridPosition), validity);
     }
 

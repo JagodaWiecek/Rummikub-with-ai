@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 /// <summary>
-/// Interfejs do poruszania, usuwania i tworzenia 3d obiektów na mapie
+/// Interfejs do poruszania, usuwania i tworzenia 3d płytek na mapie
 /// </summary>
 public interface IPlacementState
 {

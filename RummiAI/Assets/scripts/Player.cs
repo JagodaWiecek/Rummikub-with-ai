@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Klasa u¿ytkownika, odpowiada za przechowywanie informacji o p³ytkach na stojaku gracza.
+/// </summary>
 public class Player : MonoBehaviour
 {
     [SerializeField]

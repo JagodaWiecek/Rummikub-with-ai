@@ -4,11 +4,11 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
-using UnityEngine.UIElements;
-using Palmmedia.ReportGenerator.Core.Parser.Analysis;
-using UnityEngine.Tilemaps;
-using TreeEditor;
-//using System;
+/// <summary>
+/// Klasa PlayerIA implementuje metody dla agenta do wykonywania konkretnych funkcjonalnoœci
+///i interakcji w œrodowisku. Klasa dziedziczy po interfejsie Agent, która jest
+///dostarczana przez bibliotekê ML-Agents
+/// </summary>
 
 public class PlayerAI : Agent
 {//MonoBehaviour
@@ -35,13 +35,16 @@ public class PlayerAI : Agent
     [SerializeField]
     PlacementSystem placementSystem;
 
-    int maxX = 10;
-    int minX = -11;
-    int maxZ = 4;
+    int maxX = 11;
+    int minX = -12;
+    int maxZ = 5;
     int minZ = -4;
 
     float time;
     float currnetTime;
+
+    //Flags for learning
+    int learningStep = 1;
 
     void Start()
     {
@@ -154,6 +157,7 @@ public class PlayerAI : Agent
                         {
                             PutTileAction(xCoord, zCoord, chosenTileIndex);
                         }
+                        else AddReward(-10f); //TODO
                         Debug.Log("Akcja k³adzenia p³ytki");
                         break; 
                     case 1:
@@ -209,6 +213,7 @@ public class PlayerAI : Agent
                 actionMask.SetActionEnabled(branchIndex, i, false); // Wy³¹czanie akcji
             }
         }
+
     }
 
     public List<Tile> GetList() { return this.AIPlayerHand; }

@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+/// <summary>
+/// klasa kontroluj¹ca akcje wykonywane na mapie przez u¿ytkownika.
+/// </summary>
 public class PlacementSystem : MonoBehaviour
 {
 

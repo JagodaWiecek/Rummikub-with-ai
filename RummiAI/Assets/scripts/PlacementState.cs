@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//s³u¿y do k³adzenia nowej p³ytki na mapê
 public class PlacementState : IPlacementState
 {
     private int selectedObjectIndex = -1;
@@ -14,6 +14,10 @@ public class PlacementState : IPlacementState
     Tile tile;
     int index;
 
+    int maxX = 11;
+    int minX = -12;
+    int maxZ = 5;
+    int minZ = -4;
     public PlacementState(int ID,
                           Grid grid,
                           PreviewSystem previewSystem,
@@ -57,8 +61,8 @@ public class PlacementState : IPlacementState
     {
        // Debug.Log("OnAction w PlacementState"+gridPosition);
         bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
-        Vector3Int minRange = new Vector3Int(-11,0,-4);
-        Vector3Int maxRange = new Vector3Int(10,0,4);
+        Vector3Int minRange = new Vector3Int(minX, 0, minZ);
+        Vector3Int maxRange = new Vector3Int(maxX, 0, maxZ);
         bool onMap = IsPositionInRange(gridPosition,minRange, maxRange);
         if (placementValidity == false || onMap == false)
         {
@@ -99,7 +103,7 @@ public class PlacementState : IPlacementState
     {
         bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
 
-        if (gridPosition.x > -12 && gridPosition.x < 11 && gridPosition.z > -5 && gridPosition.z < 5)// cellIndicator.transform.position.z = 19.15;
+        if (gridPosition.x > minX - 1 && gridPosition.x < maxX + 1 && gridPosition.z > minZ - 1 && gridPosition.z < maxZ+1)// cellIndicator.transform.position.z = 19.15;
         {
             // cellIndicator.transform.position = grid.CellToWorld(gridPosition);
             previewSystem.UpdatePosition(grid.CellToWorld(gridPosition), placementValidity);

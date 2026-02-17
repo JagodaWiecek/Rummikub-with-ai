@@ -1,5 +1,7 @@
 using UnityEngine;
-
+//Klasa odpowiedzialna za utworzenie obiektu wizualnego dla gracza.
+//Stworzony obiekt przemieszcza siê po mapie wraz z kursorem u¿ytkownika, zmienia on
+//kolor w zale¿noœci, czy interakcje mo¿na wykonaæ czy nie.
 public class PreviewSystem : MonoBehaviour
 {
     [SerializeField]

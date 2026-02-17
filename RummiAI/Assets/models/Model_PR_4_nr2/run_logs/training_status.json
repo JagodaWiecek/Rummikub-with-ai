@@ -1,0 +1,65 @@
+{
+    "PlayRummikub": {
+        "checkpoints": [
+            {
+                "steps": 513563,
+                "file_path": "results\\Model_PR_4_nr2\\PlayRummikub\\PlayRummikub-513563.onnx",
+                "reward": -284.5,
+                "creation_time": 1735985940.2824628,
+                "auxillary_file_paths": [
+                    "results\\Model_PR_4_nr2\\PlayRummikub\\PlayRummikub-513563.pt"
+                ]
+            },
+            {
+                "steps": 816086,
+                "file_path": "results\\Model_PR_4_nr2\\PlayRummikub\\PlayRummikub-816086.onnx",
+                "reward": null,
+                "creation_time": 1735989941.2633975,
+                "auxillary_file_paths": [
+                    "results\\Model_PR_4_nr2\\PlayRummikub\\PlayRummikub-816086.pt"
+                ]
+            },
+            {
+                "steps": 820182,
+                "file_path": "results\\Model_PR_4_nr2\\PlayRummikub\\PlayRummikub-820182.onnx",
+                "reward": null,
+                "creation_time": 1735993866.082721,
+                "auxillary_file_paths": [
+                    "results\\Model_PR_4_nr2\\PlayRummikub\\PlayRummikub-820182.pt"
+                ]
+            },
+            {
+                "steps": 999529,
+                "file_path": "results\\Model_PR_4_nr2\\PlayRummikub\\PlayRummikub-999529.onnx",
+                "reward": null,
+                "creation_time": 1735996488.4397326,
+                "auxillary_file_paths": [
+                    "results\\Model_PR_4_nr2\\PlayRummikub\\PlayRummikub-999529.pt"
+                ]
+            },
+            {
+                "steps": 1428610,
+                "file_path": "results\\Model_PR_4_nr2\\PlayRummikub\\PlayRummikub-1428610.onnx",
+                "reward": -142.0,
+                "creation_time": 1736001862.248248,
+                "auxillary_file_paths": [
+                    "results\\Model_PR_4_nr2\\PlayRummikub\\PlayRummikub-1428610.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1428610,
+            "file_path": "results\\Model_PR_4_nr2\\PlayRummikub.onnx",
+            "reward": -142.0,
+            "creation_time": 1736001862.248248,
+            "auxillary_file_paths": [
+                "results\\Model_PR_4_nr2\\PlayRummikub\\PlayRummikub-1428610.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "2.1.1+cpu"
+    }
+}

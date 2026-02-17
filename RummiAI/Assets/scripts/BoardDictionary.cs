@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Klasa do przechowywania informacji o pozycjach p³ytek na mapie.
+///G³ównie s³u¿y do walidowania zasad gry planszowej w TurnController
+/// </summary>
 public class BoardDictionary : MonoBehaviour
 {
     [SerializeField]
@@ -9,7 +12,7 @@ public class BoardDictionary : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //board = new Dictionary<Vector3Int, Tile>();
+        
     }
 
     // Update is called once per frame
