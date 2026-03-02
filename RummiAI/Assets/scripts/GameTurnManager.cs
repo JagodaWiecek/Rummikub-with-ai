@@ -298,7 +298,7 @@ public class GameTurnManager : MonoBehaviour
         
         if (currentPlayerId == 4) currentPlayerId = 0;
 
-        if (GameController.Instance.gameIndex != 1 || GameController.Instance.gameIndex != 4) { takeTile.SetButtonNumber(); }
+        if (GameController.Instance.gameIndex != 1 && GameController.Instance.gameIndex != 4) { takeTile.SetButtonNumber(); }
         EndTurn();
         SetUIText();
     }

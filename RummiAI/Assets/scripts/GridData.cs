@@ -52,7 +52,7 @@ public class GridData
                 returnVal.Add(gridPosition + new Vector3Int(x, 0, y));
             }
         }
-        Debug.Log(returnVal[0].x +" "+ returnVal[0].y + " " + returnVal[0].z);
+        //Debug.Log(returnVal[0].x +" "+ returnVal[0].y + " " + returnVal[0].z);
         return returnVal;
     }
 
@@ -79,7 +79,7 @@ public class GridData
 
     internal void RemoveObjectAt(Vector3Int gridPosition)
     {
-        Debug.Log("Geid Position: " + gridPosition);
+        //Debug.Log("Geid Position: " + gridPosition);
         foreach (var pos in placedObjects[gridPosition].occupiecPositons) { 
             placedObjects.Remove(pos);
         }

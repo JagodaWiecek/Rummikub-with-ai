@@ -44,7 +44,19 @@ public class ComputerPlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        firstTurn = true;
+        switch (GameController.Instance.learningStep)
+        {
+            case 0:
+                firstTurn = true;
+                break;
+            case 1:
+                firstTurn = false;
+                break;
+            default:
+                firstTurn = true;
+                break;
+
+        }
     }
 
     // Update is called once per frame
