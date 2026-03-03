@@ -75,6 +75,7 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     GameObject stopScreen;
+
     /// <summary>
     /// zmienna do oznaczania epatu nauki, 0 dla ostatecznej gry, 1 dla nauki bez pierwszej tury
     /// </summary>
@@ -107,6 +108,7 @@ public class GameController : MonoBehaviour
         {
             Debug.LogWarning("Instance GameController already set.");
         }
+
         
     }
 
@@ -115,7 +117,7 @@ public class GameController : MonoBehaviour
     /// </summary>
     void Start()
     {
-        learningStep = 1;
+        
         if (endGameObject != null) endGameObject.SetActive(false);
         if (stopScreen != null) stopScreen.SetActive(false);
         else Debug.Log("stopScreen is null");
@@ -167,7 +169,7 @@ public class GameController : MonoBehaviour
             player.SetPlayersHand(ref this.mainBank);
         }
 
-
+        learningStep = 0;
     }
 
 

@@ -72,8 +72,21 @@ public class PlayerAI : Agent
     }
     public override void OnEpisodeBegin()
     {
+        switch (GameController.Instance.learningStep)
+        {
+            case 0:
+                firstTurn = true;
+                break;
+            case 1:
+                firstTurn = false;
+                break;
+            default:
+                firstTurn = true;
+                break;
+
+        }
         //base.OnEpisodeBegin();
-        
+
 
         //Time.timeScale = 0.2f;
 
@@ -117,11 +130,11 @@ public class PlayerAI : Agent
                 else
                 {
                     //puste pole
-                    sensor.AddObservation(0);
                     sensor.AddObservation(0f);
                     sensor.AddObservation(0f);
                     sensor.AddObservation(0f);
-                    sensor.AddObservation(0);
+                    sensor.AddObservation(0f);
+                    sensor.AddObservation(-1f);
                 }
                 sensor.AddObservation(x); // Pozycja x
                 sensor.AddObservation(z); // Pozycja z
@@ -241,7 +254,7 @@ public class PlayerAI : Agent
     /// <param name="tiles"></param>
     public void AddNewTile(ref List<Tile> tiles)
     {
-        Debug.Log("Nowa p³ytka dla agenta");
+        //Debug.Log("Nowa p³ytka dla agenta");
         if (tiles.Count != 0)
         {
             int TileIndex = Random.Range(0, (tiles.Count));
@@ -489,7 +502,8 @@ public class PlayerAI : Agent
                 }
                 else
                 {
-                    AddReward(rewards.IFTIMW);//TODO If first turn is made wrongly
+                    int value = GameController.Instance.firstTurnController.CheckFirstTurnValidityValue(GameController.Instance.GetBoardDictionary().board);
+                    AddReward(rewards.IFTIMW * (1.0f - (value / 30.0f)));//TODO If first turn is made wrongly
                                    // Debug.Log("Agent Ÿle wy³o¿y³ siê w pierwszej turze");
                 }
             }

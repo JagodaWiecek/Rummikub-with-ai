@@ -876,6 +876,18 @@ public class ComputerPlayer : MonoBehaviour
     {
         computerPlayerHand.Clear();
         computerPlayerHandCopy.Clear();
-        firstTurn = true;
+        switch (GameController.Instance.learningStep)
+        {
+            case 0:
+                firstTurn = true;
+                break;
+            case 1:
+                firstTurn = false;
+                break;
+            default:
+                firstTurn = true;
+                break;
+
+        }
     }
 }

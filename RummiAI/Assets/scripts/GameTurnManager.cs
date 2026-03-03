@@ -253,6 +253,9 @@ public class GameTurnManager : MonoBehaviour
                 //takeTile.DisableAllButtons();
                 //SetPlayersTileCountUI();
             }
+            SetPlayersTileCountUI();
+            ResetTime();
+            SetTimeUI();
         }
         }
 
