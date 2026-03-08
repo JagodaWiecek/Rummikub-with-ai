@@ -17,6 +17,70 @@
 \endgroup
 
 \datalist[entry]{nty/global//global/global/global}
+  \entry{Monte_Carlo_Tree_Search_Optimization_for_Go_Game_AI}{inproceedings}{}{}
+    \name{author}{7}{}{%
+      {{hash=BT}{%
+         family={Babu},
+         familyi={B\bibinitperiod},
+         given={Tina},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=ST}{%
+         family={S},
+         familyi={S},
+         given={Tejaswi},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=BAS}{%
+         family={B},
+         familyi={B},
+         given={Anup\bibnamedelima S},
+         giveni={A\bibinitperiod\bibinitdelim S\bibinitperiod},
+      }}%
+      {{hash=S}{%
+         family={Srinivas},
+         familyi={S\bibinitperiod},
+      }}%
+      {{hash=KRNR}{%
+         family={Krishna\bibnamedelima Reddy},
+         familyi={K\bibinitperiod\bibinitdelim R\bibinitperiod},
+         given={Narla\bibnamedelima Rama},
+         giveni={N\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+      {{hash=SM}{%
+         family={S},
+         familyi={S},
+         given={Manasvi},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=SD}{%
+         family={Singh},
+         familyi={S\bibinitperiod},
+         given={Dhiraj},
+         giveni={D\bibinitperiod},
+      }}%
+    }
+    \keyw{Backpropagation;Monte Carlo methods;Simulation;Neural
+  networks;Decision making;Games;Real-time systems;Iterative methods;Artificial
+  intelligence;Optimization;Monte Carlo Tree Search (MCTS);Exploration vs
+  Exploitation;UCT (Upper Confidence Bound for Trees);Simulation
+  strategy;Neural network integration}
+    \strng{namehash}{BT+1}
+    \strng{fullhash}{BTSTBASSKRNRSMSD1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{B}
+    \field{sortinithash}{B}
+    \field{booktitle}{2025 International Conference on Emerging Technologies in
+  Computing and Communication (ETCC)}
+    \verb{doi}
+    \verb 10.1109/ETCC65847.2025.11108437
+    \endverb
+    \field{pages}{1\bibrangedash 6}
+    \field{title}{Monte Carlo Tree Search Optimization for Go Game AI}
+    \field{year}{2025}
+  \endentry
+
   \entry{cdi_proquest_journals_2781731625}{article}{}{}
     \list{language}{1}{%
       {eng}%
@@ -77,6 +141,101 @@
     \field{urlyear}{2024}
   \endentry
 
+  \entry{Deep-Learning-book}{book}{}{}
+    \name{author}{3}{}{%
+      {{hash=GI}{%
+         family={Goodfellow},
+         familyi={G\bibinitperiod},
+         given={Ian},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=BY}{%
+         family={Bengio},
+         familyi={B\bibinitperiod},
+         given={Yoshua},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=CA}{%
+         family={Courville},
+         familyi={C\bibinitperiod},
+         given={Aaron},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {MIT Press}%
+    }
+    \strng{namehash}{GIBYCA1}
+    \strng{fullhash}{GIBYCA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{G}
+    \field{sortinithash}{G}
+    \field{note}{\url{http://www.deeplearningbook.org}}
+    \field{title}{Deep Learning}
+    \field{year}{2016}
+  \endentry
+
+  \entry{ishihara2016applying}{inproceedings}{}{}
+    \name{author}{5}{}{%
+      {{hash=IM}{%
+         family={Ishihara},
+         familyi={I\bibinitperiod},
+         given={Makoto},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=MT}{%
+         family={Miyazaki},
+         familyi={M\bibinitperiod},
+         given={Taichi},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=CCY}{%
+         family={Chu},
+         familyi={C\bibinitperiod},
+         given={Chun\bibnamedelima Yin},
+         giveni={C\bibinitperiod\bibinitdelim Y\bibinitperiod},
+      }}%
+      {{hash=HT}{%
+         family={Harada},
+         familyi={H\bibinitperiod},
+         given={Tomohiro},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=TR}{%
+         family={Thawonmas},
+         familyi={T\bibinitperiod},
+         given={Ruck},
+         giveni={R\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Association for Computing Machinery}%
+    }
+    \strng{namehash}{IM+1}
+    \strng{fullhash}{IMMTCCYHTTR1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{I}
+    \field{sortinithash}{I}
+    \field{booktitle}{Proceedings of the 13th International Conference on
+  Advances in Computer Entertainment Technology}
+    \verb{doi}
+    \verb 10.1145/3001773.3001797
+    \endverb
+    \field{pages}{1\bibrangedash 6}
+    \field{series}{ACE '16}
+    \field{title}{Applying and Improving Monte-Carlo Tree Search in a Fighting
+  Game AI}
+    \verb{url}
+    \verb https://doi.org/10.1145/3001773.3001797
+    \endverb
+    \list{location}{1}{%
+      {New York, NY, USA}%
+    }
+    \field{year}{2016}
+  \endentry
+
   \entry{JipaClaudia2023TIOU}{article}{}{}
     \name{author}{3}{}{%
       {{hash=JC}{%
@@ -130,142 +289,295 @@
     \field{issn}{1842-077X}
     \field{number}{Special Issue}
     \field{pages}{10\bibrangedash 27}
-    \field{title}{THE IMPACT OF USING BOARD GAMES ON THE DEVELOPMENT OF
-  SITUATIONAL MOTIVATION IN PRIMARY SCHOOL CHILDREN}
+    \field{title}{The impact of using board games on the development of
+  situational motivation in primary school children}
     \field{volume}{33}
     \field{journaltitle}{Educația-plus}
     \field{year}{2023}
   \endentry
 
-  \entry{bib:book}{book}{}{}
+  \entry{kopel2019applying}{inproceedings}{}{}
     \name{author}{2}{}{%
-      {{hash=SN}{%
-         family={Surname},
-         familyi={S\bibinitperiod},
-         given={Name},
-         giveni={N\bibinitperiod},
+      {{hash=KM}{%
+         family={Kopel},
+         familyi={K\bibinitperiod},
+         given={Marek},
+         giveni={M\bibinitperiod},
       }}%
-      {{hash=SN}{%
-         family={Surname},
-         familyi={S\bibinitperiod},
-         given={Name},
-         giveni={N\bibinitperiod},
+      {{hash=PA}{%
+         family={Pociejowski},
+         familyi={P\bibinitperiod},
+         given={Adam},
+         giveni={A\bibinitperiod},
       }}%
     }
     \list{publisher}{1}{%
-      {Publisher}%
+      {Springer Nature Switzerland AG}%
     }
-    \strng{namehash}{SNSN1}
-    \strng{fullhash}{SNSN1}
+    \strng{namehash}{KMPA1}
+    \strng{fullhash}{KMPA1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{S}
-    \field{sortinithash}{S}
-    \field{isbn}{83-204-3229-9-434}
-    \field{title}{Title of a book}
-    \list{location}{1}{%
-      {Hong Kong}%
-    }
-    \field{year}{2017}
-  \endentry
-
-  \entry{bib:article}{article}{}{}
-    \name{author}{2}{}{%
-      {{hash=SN}{%
-         family={Surname},
-         familyi={S\bibinitperiod},
-         given={Name},
-         giveni={N\bibinitperiod},
-      }}%
-      {{hash=SN}{%
-         family={Surname},
-         familyi={S\bibinitperiod},
-         given={Name},
-         giveni={N\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{SNSN1}
-    \strng{fullhash}{SNSN1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{S}
-    \field{sortinithash}{S}
-    \field{number}{8}
-    \field{pages}{1092\bibrangedash 1113}
-    \field{title}{Title of an article in a journal}
-    \field{volume}{157}
-    \field{journaltitle}{Journal Title}
-    \field{year}{2016}
-  \endentry
-
-  \entry{bib:conference}{inproceedings}{}{}
-    \name{author}{3}{}{%
-      {{hash=SN}{%
-         family={Surname},
-         familyi={S\bibinitperiod},
-         given={Name},
-         giveni={N\bibinitperiod},
-      }}%
-      {{hash=SN}{%
-         family={Surname},
-         familyi={S\bibinitperiod},
-         given={Name},
-         giveni={N\bibinitperiod},
-      }}%
-      {{hash=SN}{%
-         family={Surname},
-         familyi={S\bibinitperiod},
-         given={N.},
-         giveni={N\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{SNSNSN1}
-    \strng{fullhash}{SNSNSN1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{S}
-    \field{sortinithash}{S}
-    \field{booktitle}{Conference title}
-    \field{pages}{5346\bibrangedash 5349}
-    \field{title}{Title of a conference article}
-    \field{year}{2006}
-  \endentry
-
-  \entry{bib:internet}{online}{}{}
-    \name{author}{3}{}{%
-      {{hash=SN}{%
-         family={Surname},
-         familyi={S\bibinitperiod},
-         given={Name},
-         giveni={N\bibinitperiod},
-      }}%
-      {{hash=SN}{%
-         family={Surname},
-         familyi={S\bibinitperiod},
-         given={Name},
-         giveni={N\bibinitperiod},
-      }}%
-      {{hash=SN}{%
-         family={Surname},
-         familyi={S\bibinitperiod},
-         given={N.},
-         giveni={N\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{SNSNSN1}
-    \strng{fullhash}{SNSNSN1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{S}
-    \field{sortinithash}{S}
-    \field{title}{Title of a web page}
-    \verb{url}
-    \verb http://somewhere/on/the/internet.html
+    \field{sortinit}{K}
+    \field{sortinithash}{K}
+    \field{booktitle}{Intelligent Information and Database Systems}
+    \verb{doi}
+    \verb 10.1007/978-3-030-28377-3_29
     \endverb
+    \field{pages}{353\bibrangedash 362}
+    \field{series}{Lecture Notes in Artificial Intelligence}
+    \field{title}{Applying ML Algorithms to Video Game AI}
+    \verb{url}
+    \verb https://doi.org/10.1007/978-3-030-28377-3_29
+    \endverb
+    \field{volume}{11683}
+    \field{year}{2019}
+  \endentry
+
+  \entry{NaeemMuddasar2020AGIt}{article}{}{}
+    \name{author}{3}{}{%
+      {{hash=NM}{%
+         family={Naeem},
+         familyi={N\bibinitperiod},
+         given={Muddasar},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=RSTH}{%
+         family={Rizvi},
+         familyi={R\bibinitperiod},
+         given={Syed Tahir\bibnamedelima Hussain},
+         giveni={S\bibinitperiod\bibinitdelim T\bibinitperiod\bibinitdelim
+  H\bibinitperiod},
+      }}%
+      {{hash=CA}{%
+         family={Coronato},
+         familyi={C\bibinitperiod},
+         given={Antonio},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {eng}%
+    }
+    \list{publisher}{1}{%
+      {IEEE}%
+    }
+    \keyw{Reinforcement learning ; Algorithms ; applications ; Artificial
+  intelligence ; Artificial neural networks ; communication ; Computer Science
+  ; Computer Science Information Systems ; Computer vision ; Configuration
+  management ; Engineering ; Engineering Electrical & Electronic ; healthcare ;
+  Heuristic algorithms ; IoT ; Literature reviews ; Machine learning ; Markov
+  processes ; Mathematical model ; Natural language processing ; Prediction
+  algorithms ; Resource management ; Robot kinematics ; Robotics ; Science &
+  Technology ; Software agents ; Task analysis ; Technology ;
+  Telecommunications ; Unknown environments}
+    \strng{namehash}{NMRSTHCA1}
+    \strng{fullhash}{NMRSTHCA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{N}
+    \field{sortinithash}{N}
+    \field{abstract}{%
+    Due to the recent progress in Deep Neural Networks, Reinforcement Learning
+  (RL) has become one of the most important and useful technology. It is a
+  learning method where a software agent interacts with an unknown environment,
+  selects actions, and progressively discovers the environment dynamics. RL has
+  been effectively applied in many important areas of real life. This article
+  intends to provide an in-depth introduction of the Markov Decision Process,
+  RL and its algorithms. Moreover, we present a literature review of the
+  application of RL to a variety of fields, including robotics and autonomous
+  control, communication and networking, natural language processing, games and
+  self-organized system, scheduling management and configuration of resources,
+  and computer vision.%
+    }
+    \field{issn}{2169-3536}
+    \field{pages}{209320\bibrangedash 209344}
+    \field{title}{A Gentle Introduction to Reinforcement Learning and its
+  Application in Different Fields}
+    \field{volume}{8}
+    \list{location}{1}{%
+      {PISCATAWAY}%
+    }
+    \field{journaltitle}{IEEE access}
+    \field{year}{2020}
+  \endentry
+
+  \entry{perez2019general}{article}{}{}
+    \name{author}{6}{}{%
+      {{hash=PLD}{%
+         family={Perez-Liebana},
+         familyi={P\bibinithyphendelim L\bibinitperiod},
+         given={Diego},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=LJ}{%
+         family={Liu},
+         familyi={L\bibinitperiod},
+         given={Jialin},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=KA}{%
+         family={Khalifa},
+         familyi={K\bibinitperiod},
+         given={Ahmed},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=GRD}{%
+         family={Gaina},
+         familyi={G\bibinitperiod},
+         given={Raluca\bibnamedelima D.},
+         giveni={R\bibinitperiod\bibinitdelim D\bibinitperiod},
+      }}%
+      {{hash=TJ}{%
+         family={Togelius},
+         familyi={T\bibinitperiod},
+         given={Julian},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=LSM}{%
+         family={Lucas},
+         familyi={L\bibinitperiod},
+         given={Simon\bibnamedelima M.},
+         giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {IEEE}%
+    }
+    \strng{namehash}{PLD+1}
+    \strng{fullhash}{PLDLJKAGRDTJLSM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{P}
+    \field{sortinithash}{P}
+    \verb{doi}
+    \verb 10.1109/TG.2019.2901021
+    \endverb
+    \field{number}{3}
+    \field{pages}{195\bibrangedash 214}
+    \field{title}{General Video Game AI: A Multitrack Framework for Evaluating
+  Agents, Games, and Content Generation Algorithms}
+    \verb{url}
+    \verb https://doi.org/10.1109/TG.2019.2901021
+    \endverb
+    \field{volume}{11}
+    \field{journaltitle}{IEEE Transactions on Games}
+    \field{year}{2019}
+  \endentry
+
+  \entry{9533206}{inproceedings}{}{}
+    \name{author}{5}{}{%
+      {{hash=RRH}{%
+         family={Rachmadi},
+         familyi={R\bibinitperiod},
+         given={Radisa\bibnamedelima H.},
+         giveni={R\bibinitperiod\bibinitdelim H\bibinitperiod},
+      }}%
+      {{hash=AR}{%
+         family={Azzahra},
+         familyi={A\bibinitperiod},
+         given={Rainamira},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=DRA}{%
+         family={Darmawan},
+         familyi={D\bibinitperiod},
+         given={Rayhan\bibnamedelima A.},
+         giveni={R\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=NPA}{%
+         family={Nigo},
+         familyi={N\bibinitperiod},
+         given={Patrick\bibnamedelima A.},
+         giveni={P\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=QNN}{%
+         family={Qomariyah},
+         familyi={Q\bibinitperiod},
+         given={Nunung\bibnamedelima N.},
+         giveni={N\bibinitperiod\bibinitdelim N\bibinitperiod},
+      }}%
+    }
+    \keyw{Decision making;Games;Artificial intelligence;surakarta board
+  game;minimax algorithm;game AI player}
+    \strng{namehash}{RRH+1}
+    \strng{fullhash}{RRHARDRANPAQNN1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{R}
+    \field{sortinithash}{R}
+    \field{booktitle}{2021 International Conference on ICT for Smart Society
+  (ICISS)}
+    \verb{doi}
+    \verb 10.1109/ICISS53185.2021.9533206
+    \endverb
+    \field{pages}{1\bibrangedash 6}
+    \field{title}{Developing AI Bots with Minimax Algorithm for Surakarta Board
+  Game}
     \field{year}{2021}
-    \field{urlday}{30}
-    \field{urlmonth}{09}
-    \field{urlyear}{2021}
+  \endentry
+
+  \entry{Turing1950}{article}{}{}
+    \name{author}{1}{}{%
+      {{hash=TAM}{%
+         family={Turing},
+         familyi={T\bibinitperiod},
+         given={Alan\bibnamedelima M.},
+         giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Oxford University Press}%
+    }
+    \strng{namehash}{TAM1}
+    \strng{fullhash}{TAM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{T}
+    \field{sortinithash}{T}
+    \field{number}{236}
+    \field{pages}{433\bibrangedash 460}
+    \field{title}{Computing Machinery and Intelligence}
+    \field{volume}{59}
+    \field{journaltitle}{Mind}
+    \field{year}{1950}
+  \endentry
+
+  \entry{uludagli2023non}{article}{}{}
+    \name{author}{2}{}{%
+      {{hash=UMC}{%
+         family={Uluda{\u{g}}l{\i}},
+         familyi={U\bibinitperiod},
+         given={Muhtar\bibnamedelima {\c{C}}a{\u{g}}kan},
+         giveni={M\bibinitperiod\bibinitdelim {\c{C}}\bibinitperiod},
+      }}%
+      {{hash=OK}{%
+         family={O{\u{g}}uz},
+         familyi={O\bibinitperiod},
+         given={Kaya},
+         giveni={K\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Springer}%
+    }
+    \strng{namehash}{UMCOK1}
+    \strng{fullhash}{UMCOK1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{U}
+    \field{sortinithash}{U}
+    \verb{doi}
+    \verb 10.1007/s10462-023-10491-7
+    \endverb
+    \field{pages}{14159\bibrangedash 14191}
+    \field{title}{Non-player character decision-making in computer games}
+    \verb{url}
+    \verb https://doi.org/10.1007/s10462-023-10491-7
+    \endverb
+    \field{volume}{56}
+    \field{journaltitle}{Artificial Intelligence Review}
+    \field{year}{2023}
   \endentry
 \enddatalist
 \endinput

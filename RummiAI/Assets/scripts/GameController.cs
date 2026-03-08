@@ -169,7 +169,20 @@ public class GameController : MonoBehaviour
             player.SetPlayersHand(ref this.mainBank);
         }
 
-        learningStep = 0;
+        //learningStep = 0;
+        switch (gameIndex)
+        {
+            case 1:
+                learningStep = 0;
+                break;
+            case 4:
+                learningStep = 1;
+                break;
+            default:
+                learningStep = 0;
+                break;
+        }
+
     }
 
 
@@ -391,7 +404,7 @@ public class GameController : MonoBehaviour
 
             Time.timeScale = 0f;
         }
-        else if (gameIndex == 1)
+        else if (gameIndex == 1 || gameIndex == 4)
         { //ai i boty
 
 

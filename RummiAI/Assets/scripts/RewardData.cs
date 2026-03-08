@@ -30,11 +30,11 @@ public class RewardData : ScriptableObject
     public float PTW = -0.05f; //puting tile wrongly
     public float MDDE = -0.03f; //Moving destination doesn't exist
     public float MDIW = -0.03f; //Moving destination is wrong
-    public float TRTTCNBR = -0.05f; //trying removing tile that can't be removed, it is permanently put
-    public float DBET = -0.03f; //deleting not existing tile
-    public float DT = -0.04f; //deleting tile
-    public float UA = -0.02f; //undo actions
-    public float UAWNCWM = -0.02f; //undo actions when no changes were made
+    public float TRTTCNBR = -0.075f; //trying removing tile that can't be removed, it is permanently put
+    public float DBET = -0.05f; //deleting not existing tile
+    public float DT = -0.1f; //deleting tile
+    public float UA = -0.1f; //undo actions
+    public float UAWNCWM = -0.05f; //undo actions when no changes were made
     public float IFTIMW = -0.1f; //If first turn is made wrongly
     public float WEOTTSAOT = -0.05f; //When at the end of turn, the agent has the same amount of tile like at the beginning
     public float MILWAT = -0.1f; //the map is left wrongly after turn

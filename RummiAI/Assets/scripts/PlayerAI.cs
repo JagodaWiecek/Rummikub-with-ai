@@ -190,7 +190,7 @@ public class PlayerAI : Agent
                         break; 
                     case 1:
                         RemoveTileAction(xCoord, zCoord);
-                        Debug.Log("Akcja usiniêcia p³ytki");
+                        Debug.Log("Akcja usuniêcia p³ytki");
                         break;
                     case 2:
                         MoveTileAction(xCoord, zCoord, xNewCoord, zNewCoord);
@@ -503,7 +503,10 @@ public class PlayerAI : Agent
                 else
                 {
                     int value = GameController.Instance.firstTurnController.CheckFirstTurnValidityValue(GameController.Instance.GetBoardDictionary().board);
-                    AddReward(rewards.IFTIMW * (1.0f - (value / 30.0f)));//TODO If first turn is made wrongly
+                    float progress = Mathf.Clamp01(value / 30.0f);
+                    float basePenalty = rewards.IFTIMW * 0.5f;
+                    float varPenalty = rewards.IFTIMW * (1.0f - (progress));
+                    AddReward(basePenalty + 0.5f* varPenalty);//TODO If first turn is made wrongly
                                    // Debug.Log("Agent Ÿle wy³o¿y³ siê w pierwszej turze");
                 }
             }

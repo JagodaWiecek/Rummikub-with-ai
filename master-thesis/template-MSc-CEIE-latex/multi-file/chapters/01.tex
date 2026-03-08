@@ -2,7 +2,7 @@
 %Applying AI Algorithms to Train a Computer Player in a Logic Board Game
 Board games have entertained people since ancient times, from teaching techniques for the youngest, to providing entertainment for entire families, to competitions for the best players. Nowadays, many popular board games have been introduced into the digital world to bring people together from different corners of the globe. The digital board game environment has also made it possible to play games without the participation of physical people on the other side of the screen. The implemented players were tasked with behaving like human participants.
 \\
-This thesis focuses on applying AI algorithms to train a computer player for a logic-based board game. Unlike traditional games such as chess, the selected game introduces distinct challenges, including combinatorial complexity, dynamic board states, randomness and the necessity for both tactical and strategic reasoning. Designing an AI capable of playing effectively in such an environment requires balancing rule-based knowledge with adaptive learning techniques
+This thesis focuses on applying AI algorithms to train a computer player for a logic-based board game. The selected game introduces distinct challenges, including combinatorial complexity, dynamic board states, randomness and the necessity for both tactical and strategic reasoning. Designing an AI capable of playing effectively in such an environment requires balancing rule-based knowledge with adaptive learning techniques
 \section{Introduction into the problem domain}
 %Explain board games as a domain: long tradition, clear rules, logical structures, opportunities for AI research.
 
@@ -15,9 +15,9 @@ The history of board games spans thousands of years, reflecting their enduring r
 
 Beyond recreation, board games have also been recognised for their pedagogical value. Recent studies highlight their efficacy as educational tools, showing that board games can enhance motivation, engagement, and learning outcomes in classroom settings \cite{JipaClaudia2023TIOU}. By providing structured environments that require logical thinking, planning, and decision-making, board games naturally support the development of cognitive and social skills.
 
-Board games have long been used as a way to test logical thinking and strategy. Unlike purely abstract games such as Chess, many modern tactical board games introduce an element of randomness, such as shuffled decks, dice rolls, or random tile draws.  This combination of determinism and uncertainty contributes to a more complex decision-making process. Players are required to plan tactics based on the current position, whilst also having the capacity to adapt to unpredictable events.
+Board games have long been used as a way to test logical thinking and strategy. Unlike purely abstract games such as chess, many modern tactical board games introduce an element of randomness, such as shuffled decks, dice rolls, or random tile draws.  This combination of determinism and uncertainty contributes to a more complex decision-making process. Players are required to plan tactics based on the current position, whilst also having the capacity to adapt to unpredictable events.
 
-The dual role of board games as both an entertainment medium and an educational tool renders them an ideal domain for exploring artificial intelligence. These games combine structured rule systems with varying levels of complexity, randomness, and strategic depth. Consequently, the training of a computer player for such games contributes not only to the field of game AI but also offers broader insights into decision-making processes, learning under constraints, and adaptive strategies in uncertain environments.
+The dual role of board games as both an entertainment medium and an educational tool renders them an ideal domain for exploring artificial intelligence algorithms. These games combine structured rule systems with varying levels of complexity, randomness, and strategic depth. Consequently, the training of a computer player for such games contributes not only to the field of game AI but also offers broader insights into decision-making processes, learning under constraints, and adaptive strategies in uncertain environments.
 
 \section{Settling of the problem in the domain}
 Many popular board games that use artificial intelligence algorithms only required learning the rules and adapting tactics to the opponent. One such game is chess, which has many artificial intelligence algorithms implemented, one of which is \texttt{Stockfish - Open Source Chess Engine} \cite{bib:chess_online}. 
@@ -31,30 +31,30 @@ From an AI perspective, this environment poses several challenges. As the board 
 Positioning this problem within the broader field of game AI highlights its research value. Developing an effective computer player for Rummikub requires combining strategic evaluation, pattern recognition, and adaptive learning. It also provides an opportunity to investigate how modern AI algorithms, such as reinforcement learning and simulation-based decision-making, can operate effectively in environments that are logical in structure but influenced by randomness.
 
 \section{Objective of the thesis }
-The main objective of this thesis is to design, implement, and train an artificial intelligence agent capable of autonomously playing the board game Rummikub in an effective and strategic way. The developed AI system should be able to analyze the current game state, evaluate available legal moves, and select actions that maximize its probability of success in a random environment.
+The main objective of this thesis is to analyse, evaluate, and test a computer player with artificial intelligence algorithms capable of autonomously playing the board game Rummikub in an effective and strategic way. The developed AI system should be able to analyze the current game state, evaluate available legal moves, and select actions that maximize its probability of success in a random environment.
 
 Due to the stochastic nature of Rummikub, particularly the randomness associated with tile distribution and draws, the agent must be able to operate in a dynamic and partially unpredictable environment. Therefore, a key objective of this work is to develop an AI that can adapt its strategy to changing board configurations, varying hand compositions and evolving tactical opportunities throughout the game.
 
 \section{Scope of the thesis} %zakres pracy
-This thesis focuses on the application of Reinforced Learning algorithms to train a computer player for the board game Rummikub within a custom-developed digital environment. The scope of the work includes the design and implementation of the game logic, the integration of AI decision-making mechanisms, and the experimental evaluation of the trained agent.
-The project is limited to a single board game, Rummikub, and does not attempt to generalise the developed solution to other game genres. The research excludes online multiplayer deployment and human-subject studies. The implementation is carried out using the Unity engine, where the game environment and AI agent are developed and tested. 
+This thesis focuses on the application of Reinforced Learning algorithms to train a computer player for the board game Rummikub within a custom-developed digital environment. The scope of the work includes the design and implementation of the game logic, the integration of Non-Player Character (NPC), and the experimental evaluation of the trained computer player.
+The project is limited to a single board game, Rummikub, and does not attempt to generalise the developed solution to other game genres. The research excludes online multiplayer deployment and human-subject studies. The implementation is carried out using the Unity engine, where the game environment and computer players are developed and tested. 
 
 The thesis maintains focus on the core research problem: the practical application of AI algorithms to enable intelligent decision-making in a tactical board game environment characterised by combinatorial complexity and stochastic elements. The development of the project include:
 \begin{itemize}
-	\item Implement game environment for the player - development of a digital representation of the Rummikub board game using the Unity engine, including tile management, valid set detection, and interaction rules.
-	\item Integrating artificial intelligence - implementation of the different reinforcement learning algorithms available from Unity ML-Agents Toolkit.
+	\item Implementation of game environment for the player - development of a digital representation of the Rummikub board game using the Unity engine, including tile management, valid set detection, and interaction rules.
+	\item Integrating artificial intelligence algorithm - implementation of the different reinforcement learning algorithms available from Unity ML-Agents Toolkit.
 	\item Developing a system of rewards and penalties - implementation of properly working points system for better training the model.
-	\item Training the agent - training of the computer player based on simulated games, allowing it to improve its tactics through experience and feedback.
-	\item Evaluating the model - conduction of the experiments to evaluate the efficiency, adaptability and success rate of the trained AI.
+	\item Training the NPC - training of the computer player based on simulated games, allowing it to improve its tactics through experience and feedback.
+	\item Evaluating the model - conduction of the experiments to evaluate the efficiency, adaptability and success rate of the trained computer player.
 \end{itemize}
 \section{Short description of chapters}
 TODO at the end of whole thesis
-\section{Clear description of contribution of the thesis's author}
+\section{Description of contribution of the thesis's author}
 The essential elements of the project, that include the author contributions, are:
  \begin{itemize}
  	\item Development of experiments environment - the design and implementation of a fully functional digital Rummikub environment, including game logic, rule validation, and agent interaction mechanisms.
- 	\item Supervision and configuration of the learning process – the definition of the state and action spaces, design of the reward structure, configuration of training parameters, and monitoring of the agent’s learning progress.
- 	\item Evaluation of the agent’s performance – the design and execution of simulation-based experiments to assess the effectiveness, adaptability, and decision-making quality of the trained AI model.
+ 	\item Supervision and configuration of the learning process – the definition of the state and action spaces, design of the reward structure, configuration of training parameters, and monitoring of the computer player's learning progress.
+ 	\item Evaluation of the computer player's performance – the design and execution of simulation-based experiments to assess the effectiveness, adaptability, and decision-making quality of the trained AI model.
  	\item Analysis and interpretation of results – the examination of experimental outcomes and formulation of conclusions regarding the applicability of artificial intelligence methods to tactical board games with stochastic elements.
  \end{itemize}
 %ai w grach
