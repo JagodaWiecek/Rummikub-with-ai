@@ -42,6 +42,10 @@ public class TurnController : MonoBehaviour
     float setNapisTime = 1f;
     float napisTime;
 
+    int maxX = 11;
+    int minX = -12;
+    int maxZ = 5;
+    int minZ = -4;
 
     // Start is called before the first frame update
     void Start()
@@ -192,9 +196,9 @@ public class TurnController : MonoBehaviour
             /// x miêdzy -9 a 8
             /// z miêdzy 2 a -4
             Vector3Int sprawdzanaLokalizacja = new();
-            for(int z = -4;z <= 4;z++)
+            for(int z = minZ;z <= maxZ;z++)
             {
-                for(int x = -11; x <=10; x++)
+                for(int x = minX; x <= maxX; x++)
                 {
                     sprawdzanaLokalizacja = new(x, 0, z);
                     if (board.ContainsKey(sprawdzanaLokalizacja))
