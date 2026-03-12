@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
@@ -72,9 +73,10 @@ public class ComputerPlayer : MonoBehaviour
             //StartCoroutine(ShowTilesInDeck());
             //SortByColors();
             //ShowTilesInDeck();
+            //var board = GameController.Instance.GetBoardDictionary().board;
+           // TakeTileBetween(ref GameController.Instance.GetBoardDictionary().board, ref this.computerPlayerHand);
 
-
-            if(elapsedTime >= 2f && elapsedTime < 4f)
+            if (elapsedTime >= 2f && elapsedTime < 4f)
             {
                 List<List<Tile>> sequencesbyColors = FindSequentialColorSets(ref computerPlayerHand);
                 if (sequencesbyColors.Count > 0)
@@ -126,8 +128,9 @@ public class ComputerPlayer : MonoBehaviour
                 if (!GetFirstTour()) //can't be the first turn
                 {
                     var board = GameController.Instance.GetBoardDictionary().board;
+                    TakeTileBetween(ref board, ref this.computerPlayerHand);
                     MoveToExtendRUN(ref board , ref this.computerPlayerHand);
-                    ExtendSequence(ref board, ref this.computerPlayerHand);
+                    //ExtendSequence(ref board, ref this.computerPlayerHand);
                 }
             }
             if (elapsedTime >= 10f)
@@ -896,7 +899,18 @@ public class ComputerPlayer : MonoBehaviour
                     if (board.ContainsKey(tempPosition))
                     {
                         //sprawdziæ czy jest +1 lub -1 oraz kolor
-                        FindSeqToSeparate(ref board, ref tile, ref tempPosition);
+                        List<Vector3Int> tilesToMove = FindSeqToSeparate(ref board, ref tile, ref tempPosition);
+                        if (tilesToMove.Count > 0)
+                        {
+                            List<Vector3Int> newPositions = FreeSpaceToPut(tilesToMove.Count);
+                            moveTile(newPositions, tilesToMove);
+                            ExtendSequence(ref board, ref handTiles);
+                            //PutTile(new Vector3Int(x + i, y, z), handTiles[i]);
+                            //handTiles.RemoveAt(i);
+                            //newPositions
+                            //Debug.Log("przeniesione p³ytki");
+                        }
+                        else continue;
                         //przesuwamy
 
                     }
@@ -921,7 +935,58 @@ public class ComputerPlayer : MonoBehaviour
     /// <param name="handTiles"></param>
     void TakeTileBetween(ref Dictionary<Vector3Int, Tile> board, ref List<Tile> handTiles)
     {
+        //jokera pomiêdzy reusage
+        //u¿ycie p³ytki wewn¹trz gdy mamy p³ytki
+        //np 3 i 5 red to joker albo 4 red które nie zepsuje ¿adnej sekwencji
 
+        //branie pojedyñczej p³yki z setu mo¿e tutaj jeœli jest 4
+        //ale te¿ trzeba naprawiæ pozycje tego setu
+        SortByColors();
+        for (int i = 0; i < handTiles.Count - 1; i++)
+        {
+
+            Tile tile = handTiles[i];
+            Vector3Int tempPosition = new Vector3Int();
+            //Tile tile1 = handTiles[i+1];
+            //Debug.Log(handTiles[i].GetTilename());
+            int indexSetOf4 = 0;
+            if (handTiles[i].GetNumber() == handTiles[i + 1].GetNumber() - 2 && handTiles[i].GetColor() == handTiles[i + 1].GetColor())
+            {
+                Debug.Log("Mam " + handTiles[i].GetTilename() + " i " + handTiles[i + 1].GetTilename());
+                //Debug.Log("Szukam " + handTiles[i].GetNumber() + 1 + " i " + handTiles[i].GetColor());
+                UnityEngine.Color color = handTiles[i].GetColor();
+                int number = handTiles[i].GetNumber() + 1;
+
+                for (int z = minZ; z <= maxZ; z++)
+                {
+                    for (int x = minX; x <= maxX; x++)
+                    {
+                        tempPosition = new(x, 0, z);
+                        if (board.ContainsKey(tempPosition) //gdy p³ytka jest w serii
+                            && board[tempPosition].GetNumber()== number && board[tempPosition].GetColor() == color
+                            && Function_3Left3Right(ref board, ref tempPosition))
+                        {
+                            Debug.Log("Znaleziono i mo¿na wzi¹æ " + board[tempPosition].GetNumber() + " w kolorze " + board[tempPosition].GetColor()+" na pozycji "+ tempPosition);
+
+                        }
+                        else if(board.ContainsKey(tempPosition) && board[tempPosition].GetNumber() == 30) //gdy joker jest w serii
+                        {
+                            Debug.Log("Znaleziono i mo¿na wzi¹æ jokera na pozycji " + tempPosition);
+                        }
+                        else if (board.ContainsKey(tempPosition) && SetOf4(ref indexSetOf4,ref board,ref tempPosition)) //rozdzielenie grupy 4
+                        {
+
+                        }
+                        else if (board.ContainsKey(tempPosition) && SetOf4Joker(ref indexSetOf4, ref board, ref tempPosition)
+                            ) //zabranie jokera z grupy 4
+                           {
+
+                        }
+                    }
+                }
+
+            }
+        }
     }
     /// <summary>
     /// funkcja do sprawdzenia czy znajduje siê kontynuacja dla p³ytki
@@ -929,14 +994,14 @@ public class ComputerPlayer : MonoBehaviour
     /// </summary>
     /// <param name="board"></param>
     /// <param name="handTiles"></param>
-    void FindSeqToSeparate(ref Dictionary<Vector3Int, Tile> board, ref Tile tile, ref Vector3Int tempPosition)
+    List<Vector3Int> FindSeqToSeparate(ref Dictionary<Vector3Int, Tile> board, ref Tile tile, ref Vector3Int tempPosition)
     {
         Vector3Int plusjeden = new((tempPosition.x + 1), 0, tempPosition.z);
         Vector3Int plusdwa = new((tempPosition.x + 2), 0, tempPosition.z);
         Vector3Int minusjeden = new((tempPosition.x - 1), 0, tempPosition.z);
         Vector3Int minusdwa = new((tempPosition.x - 2), 0, tempPosition.z);
         int v = board[tempPosition].GetNumber();
-
+        List<Vector3Int> tilesToMove = new List<Vector3Int>();
         if ( ( 
             (board[tempPosition].GetNumber() == tile.GetNumber() + 1 && board[tempPosition].GetColor() == tile.GetColor()) //warunek dla normalnej sytuacji//
             || (board.ContainsKey(plusjeden) && (board[tempPosition].GetNumber() == 30 && board[plusjeden].GetNumber() == tile.GetNumber() + 2 && board[plusjeden].GetColor() == tile.GetColor()) ) ) //gdy potrzebna pozycja to joker
@@ -944,36 +1009,28 @@ public class ComputerPlayer : MonoBehaviour
             && Function_3Left2Right(ref board, ref tile, ref tempPosition) )
         {
             //³¹cznie z board[tempPosition] po lewej musz¹ byæ 3 p³ytki, po prawej musz¹ byæ 2 conajmniej, prawa czêœæ zmienia pozycjê
-
             //mo¿na przesun¹æ, prawa czêœæ zmienia pozycjê
-            List<Vector3Int> tilesToMove = new List<Vector3Int>();
+            
             int x = tempPosition.x; int y = tempPosition.y; int z = tempPosition.z;
             int i = 0;
+            //tilesToMove.Add(new Vector3Int(x - 1, y, z));
+
             while (board.ContainsKey(new Vector3Int(x+i, y, z)))
             {
                 tilesToMove.Add(new Vector3Int(x + i, y, z));
                 i++;
 
             }
-            tilesToMove.Sort((a, b) => a.x.CompareTo(b.x));
-            string pozycje = "";
-            foreach(var Position in tilesToMove)
-            {   
-                int x1 = Position.x; int y1 = Position.y; int z1 = Position.z;
-                string temp = " ( "+ board[new Vector3Int(x1, y1, z1)].GetNumber()+", "+ board[new Vector3Int(x1, y1, z1)].GetColor()+" ) ";
-                pozycje += temp;
-            }
-            Debug.Log("gracz ma " + tile.GetNumber());
-            Debug.Log("mo¿na przesuj¹æ " + pozycje);
+            return tilesToMove;
+
 
         }
         if (( (board[tempPosition].GetNumber() == tile.GetNumber() - 1 && board[tempPosition].GetColor() == tile.GetColor())
             || ( board.ContainsKey(minusjeden) && (board[tempPosition].GetNumber() == 30 && board[minusjeden].GetNumber() == tile.GetNumber() - 2 && board[minusjeden].GetColor() == tile.GetColor()) )) &&
             Function_2Left3Right(ref board, ref tile, ref tempPosition) )
         {
-           // int v = board[tempPosition].GetNumber();
-            //mo¿na przesun¹æ, lewa czêœæ zmienia pozycjê
-            List<Vector3Int> tilesToMove = new List<Vector3Int>();
+           
+           
             int x = tempPosition.x; int y = tempPosition.y; int z = tempPosition.z;
             int i = 0;
             while (board.ContainsKey(new Vector3Int(x - i, y, z)))
@@ -982,16 +1039,10 @@ public class ComputerPlayer : MonoBehaviour
                 i++;
             }
             tilesToMove.Sort((a, b) => a.x.CompareTo(b.x));
-            string pozycje = "";
-            foreach (var Position in tilesToMove)
-            {
-                int x1 = Position.x;int y1 = Position.y;int z1 = Position.z;
-                string temp = " ( " + board[new Vector3Int(x1, y1, z1)].GetNumber() + ", " + board[new Vector3Int(x1, y1, z1)].GetColor() + " ) ";
-                pozycje += temp;
-            }
-            Debug.Log("gracz ma " + tile.GetNumber());
-            Debug.Log("mo¿na przesuj¹æ "+ pozycje);
+            return tilesToMove;
+
         }
+        return tilesToMove;
     }
     /// <summary>
     /// Funkcja czy mamy jedn¹ p³ytkê od lewej i 3 od prawej, do przesuniêcia lewej czêœci sekwencji
@@ -1004,7 +1055,7 @@ public class ComputerPlayer : MonoBehaviour
     {
         int x = tempPosition.x; int y = tempPosition.y; int z = tempPosition.z;
         if (board.ContainsKey(new Vector3Int(x - 1, y, z)) && board.ContainsKey(new Vector3Int(x - 2, y, z)) && board.ContainsKey(new Vector3Int(x - 3, y, z)) &&
-                board.ContainsKey(new Vector3Int(x + 1, y, z))) //&& board.ContainsKey(new Vector3Int(x + 2, y, z))
+                board.ContainsKey(new Vector3Int(x + 1, y, z)) && board.ContainsKey(new Vector3Int(x + 2, y, z)))
             return true;
         return false; 
     }
@@ -1018,8 +1069,8 @@ public class ComputerPlayer : MonoBehaviour
     bool Function_2Left3Right(ref Dictionary<Vector3Int, Tile> board, ref Tile tile, ref Vector3Int tempPosition)
     {
         int x = tempPosition.x; int y = tempPosition.y; int z = tempPosition.z;
-        if(board.ContainsKey(new Vector3Int(x + 1, y, z)) && board.ContainsKey(new Vector3Int(x + 2, y, z)) && board.ContainsKey(new Vector3Int(x + 3, y, z)) &&
-            board.ContainsKey(new Vector3Int(x - 1, y, z))) //&& board.ContainsKey(new Vector3Int(x - 2, y, z))
+        if (board.ContainsKey(new Vector3Int(x + 1, y, z)) && board.ContainsKey(new Vector3Int(x + 2, y, z)) && board.ContainsKey(new Vector3Int(x + 3, y, z)) &&
+            board.ContainsKey(new Vector3Int(x - 1, y, z)) && board.ContainsKey(new Vector3Int(x - 2, y, z)))
             return true;
         return false;
     }
@@ -1027,10 +1078,9 @@ public class ComputerPlayer : MonoBehaviour
     /// czy mamy p³ytki po obu stronach po 3 aby bezpiecznie zabraæ jedn¹ pomiêdzy
     /// </summary>
     /// <param name="board"></param>
-    /// <param name="tile"></param>
     /// <param name="tempPosition"></param>
     /// <returns></returns>
-    bool Function_3Left3Right(ref Dictionary<Vector3Int, Tile> board, ref Tile tile, ref Vector3Int tempPosition)
+    bool Function_3Left3Right(ref Dictionary<Vector3Int, Tile> board, ref Vector3Int tempPosition)
     {
         int x = tempPosition.x; int y = tempPosition.y; int z = tempPosition.z;
         if(board.ContainsKey(new Vector3Int(x + 1, y, z)) && board.ContainsKey(new Vector3Int(x + 2, y, z)) && board.ContainsKey(new Vector3Int(x + 3, y, z)) &&
@@ -1038,7 +1088,66 @@ public class ComputerPlayer : MonoBehaviour
             return true;
         return false; 
     }
+    /// <summary>
+    /// Funkcja do wykrycia czy znaleŸliœmy grupê tych ró¿nych kolorów o tych samych cyfrach
+    /// </summary>
+    /// <returns></returns>
+    bool SetOf4(ref int index, ref Dictionary<Vector3Int, Tile> board, ref Vector3Int tempPosition)
+    {
+        Vector3Int plusjeden = new((tempPosition.x + 1), 0, tempPosition.z);
+        Vector3Int plusdwa = new((tempPosition.x + 2), 0, tempPosition.z);
+        Vector3Int plustrzy= new((tempPosition.x + 3), 0, tempPosition.z);
+        Vector3Int minusjeden = new((tempPosition.x - 1), 0, tempPosition.z);
+        Vector3Int minusdwa = new((tempPosition.x - 2), 0, tempPosition.z);
+        Vector3Int minustrzy = new((tempPosition.x - 3), 0, tempPosition.z);
+        if(IsItSeqOf4(ref board, ref tempPosition))
+        {
 
+        }
+        return false; 
+    }
+    /// <summary>
+    /// funkcja do znalezienia jokera w grupie 4 
+    /// </summary>
+    /// <param name="index">do podpiêcia indeksu jokera w grupie 4</param>
+    /// <param name="board"></param>
+    /// <param name="tempPosition"></param>
+    /// <returns></returns>
+    bool SetOf4Joker(ref int index, ref Dictionary<Vector3Int, Tile> board, ref Vector3Int tempPosition)
+    {
+
+        return false;
+    }
+    /// <summary>
+    /// Sprawdzenie czy w pobli¿u podanej pozycji jest sekwencja 4 p³ytek, powinny to byæ ró¿ne kolory i ta sama cyfra, ale tu to nie jest sprawdzane
+    /// </summary>
+    /// <param name="board"></param>
+    /// <param name="tempPosition"></param>
+    /// <returns></returns>
+    bool IsItSeqOf4(ref Dictionary<Vector3Int, Tile> board, ref Vector3Int tempPosition)
+    {
+        int x = tempPosition.x;
+        int y = tempPosition.y;
+        int z = tempPosition.z;
+        List<Vector3Int> lengthOfSeq = new List<Vector3Int>();
+        int i = 1;
+        int j = 1;
+        lengthOfSeq.Add(tempPosition);
+        while (board.ContainsKey(new Vector3Int(x - i, y, z)))
+        {
+            lengthOfSeq.Add(new Vector3Int(x - i, y, z));
+            i++;
+        }
+        while (board.ContainsKey(new Vector3Int(x + i, y, z)))
+        {
+            lengthOfSeq.Add(new Vector3Int(x + i, y, z));
+            j++;
+        }
+        if (lengthOfSeq.Count() == 4)
+            return true;
+        //tilesToMove.Sort((a, b) => a.x.CompareTo(b.x));
+        return false; 
+    }
 
     /// <summary>
     /// funkcja do uzyskania ostatecznego wyniku gry
