@@ -32,8 +32,8 @@ public class GameTurnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (GameController.Instance.gameIndex == 0) currentPlayerId = 0; //TO REMOVE !!
-        else if(GameController.Instance.gameIndex != 3) currentPlayerId = Random.Range(0,4);
+        //if else (GameController.Instance.gameIndex == 0) currentPlayerId = 0; //TO REMOVE !!
+        if(GameController.Instance.gameIndex != 3) currentPlayerId = Random.Range(0,4);
         else currentPlayerId = Random.Range(0, 2);
         turnTime = 60;
         currentTurnTime = turnTime;

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
@@ -8,6 +10,8 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 using UnityEngine.XR;
+using static UnityEditor.PlayerSettings;
+using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 /// <summary>
 /// Klasa gracza komputerowego z predefiniowanymi zachowaniami
 /// </summary>
@@ -229,7 +233,7 @@ public class ComputerPlayer : MonoBehaviour
     /// <param name="color1">kolor pierwszy do porównania</param>
     /// <param name="color2">kolor drugi do porównania</param>
     /// <returns></returns>
-    private static int CompareColors(Color color1, Color color2)
+    private static int CompareColors(UnityEngine.Color color1, UnityEngine.Color color2)
     {
         // Konwertowanie koloru na intensywnoœæ w skali szaroœci jako uproszczone porównanie
         float intensity1 = color1.r * 0.3f + color1.g * 0.59f + color1.b * 0.11f;
@@ -259,7 +263,7 @@ public class ComputerPlayer : MonoBehaviour
         int TileIndex;
         for (int i = 0; i < 14; i++)
         {
-            TileIndex = Random.Range(0, (tiles.Count));
+            TileIndex = UnityEngine.Random.Range(0, (tiles.Count));
             computerPlayerHand.Add(tiles[TileIndex]);
             tiles.RemoveAt(TileIndex);
         }
@@ -487,7 +491,7 @@ public class ComputerPlayer : MonoBehaviour
     {
         if (sequence.Count < 3 || sequence.Count > 4) return false;
 
-        HashSet<Color> uniqueColors = new HashSet<Color>();
+        HashSet<UnityEngine.Color> uniqueColors = new HashSet<UnityEngine.Color>();
 
         foreach (Tile tile in sequence)
         {
@@ -542,7 +546,7 @@ public class ComputerPlayer : MonoBehaviour
     {
         if (tiles.Count != 0)
         {
-            int TileIndex = Random.Range(0, (tiles.Count));
+            int TileIndex = UnityEngine.Random.Range(0, (tiles.Count));
             computerPlayerHand.Add(tiles[TileIndex]);
             tiles.RemoveAt(TileIndex);
             SaveListToCopy();
@@ -584,8 +588,8 @@ public class ComputerPlayer : MonoBehaviour
         //int minZ = -4;
         List < Vector3Int > list = new List < Vector3Int >();
 
-        int levelZ = Random.Range(minZ, (maxZ + 1));
-        int levelX = Random.Range(minX, ((maxX+1) - tileAmount));
+        int levelZ = UnityEngine.Random.Range(minZ, (maxZ + 1));
+        int levelX = UnityEngine.Random.Range(minX, ((maxX+1) - tileAmount));
         //int levelZ = -4;
         //int levelX = -9;
         int amountToOccupy = tileAmount+ 2;
@@ -597,8 +601,8 @@ public class ComputerPlayer : MonoBehaviour
             position = new Vector3Int(levelX, 0, levelZ);
             if (board.ContainsKey(position) || !CheckPlacementValidity(position,0))
             {
-                levelZ = Random.Range(minZ, maxZ + 1);
-                levelX = Random.Range(minX, maxX + 1 - tileAmount);
+                levelZ = UnityEngine.Random.Range(minZ, maxZ + 1);
+                levelX = UnityEngine.Random.Range(minX, maxX + 1 - tileAmount);
                 list.Clear();
                 errorAmount++;
                 if (errorAmount >= 500) Debug.LogError("nie ma miejsca na planszy");
@@ -615,6 +619,55 @@ public class ComputerPlayer : MonoBehaviour
 
 
 
+        return list;
+    }
+
+    /// <summary>
+    /// funkcja do wylosowania pozycji do po³o¿enia p³ytki dla gracza komputerowego
+    /// oraz sprawdzenie czy pozycje s¹ poprawne dla niego ale po dwóch stronach musz¹ byæ conajmnniej 2 puste pola
+    /// </summary>
+    /// <param name="tileAmount">iloœæ p³ytek, jak¹ gracz chce postawiæ</param>
+    /// <returns>listê pozycji, które zostan¹ zajête w wersji integer</returns>
+    private List<Vector3Int> FreeSpaceToPutForManipulation(int tileAmount)
+    {
+        var board = GameController.Instance.GetBoardDictionary().board;
+        //int maxX = 8;
+        //int minX = -9;
+        //int maxZ = 2;
+        //int minZ = -4;
+        List<Vector3Int> list = new List<Vector3Int>();
+
+        int levelZ = UnityEngine.Random.Range(minZ, (maxZ + 1));
+        int levelX = UnityEngine.Random.Range(minX, ((maxX + 1) - tileAmount-1));
+        //int levelZ = -4;
+        //int levelX = -9;
+        int amountToOccupy = tileAmount + 4;
+        Vector3Int position;
+        int errorAmount = 0;
+        int i = 0;
+        while (i < amountToOccupy)
+        {
+            position = new Vector3Int(levelX, 0, levelZ);
+            if (board.ContainsKey(position) || !CheckPlacementValidity(position, 0))
+            {
+                levelZ = UnityEngine.Random.Range(minZ, maxZ + 1);
+                levelX = UnityEngine.Random.Range(minX, maxX + 1 - tileAmount-1);
+                list.Clear();
+                errorAmount++;
+                if (errorAmount >= 500) Debug.LogError("nie ma miejsca na planszy");
+                i = 0;
+            }
+            else
+            {
+                list.Add(position);
+                levelX++;
+                i++;
+                errorAmount = 0;
+            }
+        }
+
+
+        list.RemoveAt(0);
         return list;
     }
 
@@ -825,6 +878,20 @@ public class ComputerPlayer : MonoBehaviour
         //void MoveObjectTo(int gameObjectIndex, Vector3 newPosition)//indeks z listy i pozycja ostateczna
     }
     /// <summary>
+    /// Funkcja do przesuniêcia jednej p³ytki w wybrane miejsce
+    /// </summary>
+    /// <param name="newGridPosition"></param>
+    /// <param name="oldGridPosition"></param>
+    void moveOneTile(Vector3Int newGridPosition, Vector3Int oldGridPosition)
+    {
+        Dictionary<Vector3Int, Tile> board = GameController.Instance.GetBoardDictionary().board;
+
+        int selectedObjectIndex = placementSystem.GetGridData().getRepresentationIndex(oldGridPosition);
+        placementSystem.GetGridData().MoveObjectAt(newGridPosition, oldGridPosition, database.objectsData[0].Size);
+        objectPlacer.MoveObjectTo(selectedObjectIndex, grid.CellToWorld(newGridPosition));
+        GameController.Instance.GetBoardDictionary().MoveObjectAt(newGridPosition, oldGridPosition);
+    }
+    /// <summary>
     /// Przesuniêcie losowej sekwencji jeœli znajduj¹ siê bezpoœrednio obok siebie
     /// </summary>
     /// <param name="board">referencja na g³ówn¹ mapê</param>
@@ -928,6 +995,70 @@ public class ComputerPlayer : MonoBehaviour
         //SortByColors() //cyfry po kolei per kolor
         //SortByNumbers //najpierw cyfry potem kolory
     }
+    bool FindTileBetween(ref int number, ref UnityEngine.Color color, ref List<Tile> handTiles, ref int index, ref int pos)
+    {
+        if(handTiles[index].GetNumber() == handTiles[index + 1].GetNumber() - 2 && handTiles[index].GetColor() == handTiles[index + 1].GetColor())
+        {
+            //Debug.Log("Mam " + handTiles[index].GetTilename() + " i " + handTiles[index + 1].GetTilename());
+            color = handTiles[index].GetColor();
+            number = handTiles[index].GetNumber() + 1;
+            pos = 2;
+            return true;
+        }
+        return false;
+    }
+    /// <summary>
+    /// Funkcja do znalezienia czy potrzebna 3 p³ytka by coœ wy³o¿yæ, na trzeciej pozycji
+    /// </summary>
+    /// <param name="number"></param>
+    /// <param name="color"></param>
+    /// <param name="handTiles"></param>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    bool FindThirdTile(ref int number, ref UnityEngine.Color color, ref List<Tile> handTiles, ref int index, ref int pos)
+    {
+        if ((handTiles[index].GetNumber()!= 12 || handTiles[index].GetNumber() != 13) && handTiles[index].GetNumber() == handTiles[index + 1].GetNumber() - 1 && handTiles[index].GetColor() == handTiles[index + 1].GetColor())
+        {
+            //Debug.Log("Mam " + handTiles[index].GetTilename() + " i " + handTiles[index + 1].GetTilename());
+            color = handTiles[index].GetColor();
+            number = handTiles[index].GetNumber() + 2;
+            pos = 3;
+            return true;
+        }
+        return false;
+    }
+    /// <summary>
+    /// Funkcja do znalezienia czy potrzebna 3 p³ytka by coœ wy³o¿yæ, na pierwszej pozycji
+    /// </summary>
+    /// <param name="number"></param>
+    /// <param name="color"></param>
+    /// <param name="handTiles"></param>
+    /// <param name="index"></param>
+    /// <returns></returns>
+    bool FindFirstTile(ref int number, ref UnityEngine.Color color, ref List<Tile> handTiles, ref int index, ref int pos)
+    {
+        if (index > 0 && handTiles[index].GetNumber() != 1 && (handTiles[index].GetNumber() == handTiles[index - 1].GetNumber() + 1 && handTiles[index].GetColor() == handTiles[index - 1].GetColor()))
+        {
+            
+            color = handTiles[index].GetColor();
+            number = handTiles[index].GetNumber() - 2;
+            pos = 1;
+            return true;
+        }
+        return false;
+    }
+    bool FindTheSameNumbers(ref int number, ref HashSet<UnityEngine.Color> uniqueColors, ref List<Tile> handTiles, ref int index)
+    {
+        if(handTiles[index].GetNumber() == handTiles[index+1].GetNumber() && handTiles[index].GetColor() != handTiles[index + 1].GetColor())
+        {
+            number = handTiles[index].GetNumber();
+            uniqueColors.Remove(handTiles[index].GetColor());
+            uniqueColors.Remove(handTiles[index + 1].GetColor());
+            Debug.Log("Mam " + handTiles[index].GetTilename() +" i "+ handTiles[index + 1].GetTilename());
+            return true;
+        }
+        return false;
+    }
     /// <summary>
     /// Funkcja do zabrania p³ytki pomiêdzy jakimiœ p³ytkami aby wykonaæ dodakow¹ sekwencjê
     /// </summary>
@@ -942,20 +1073,24 @@ public class ComputerPlayer : MonoBehaviour
         //branie pojedyñczej p³yki z setu mo¿e tutaj jeœli jest 4
         //ale te¿ trzeba naprawiæ pozycje tego setu
         SortByColors();
+        Vector3Int tempPosition = new Vector3Int();
+        
+        int number = new int();
+        int indexSetOf4 = 0;
+        
         for (int i = 0; i < handTiles.Count - 1; i++)
         {
 
             Tile tile = handTiles[i];
-            Vector3Int tempPosition = new Vector3Int();
+
             //Tile tile1 = handTiles[i+1];
             //Debug.Log(handTiles[i].GetTilename());
-            int indexSetOf4 = 0;
-            if (handTiles[i].GetNumber() == handTiles[i + 1].GetNumber() - 2 && handTiles[i].GetColor() == handTiles[i + 1].GetColor())
+            int pos = 0;
+            UnityEngine.Color color = new UnityEngine.Color();
+            if (FindTileBetween(ref number, ref color, ref handTiles, ref i,ref pos) ||
+                FindThirdTile(ref number, ref color, ref handTiles, ref i, ref pos) ||
+                FindFirstTile(ref number, ref color, ref handTiles, ref i, ref pos))
             {
-                Debug.Log("Mam " + handTiles[i].GetTilename() + " i " + handTiles[i + 1].GetTilename());
-                //Debug.Log("Szukam " + handTiles[i].GetNumber() + 1 + " i " + handTiles[i].GetColor());
-                UnityEngine.Color color = handTiles[i].GetColor();
-                int number = handTiles[i].GetNumber() + 1;
 
                 for (int z = minZ; z <= maxZ; z++)
                 {
@@ -967,19 +1102,366 @@ public class ComputerPlayer : MonoBehaviour
                             && Function_3Left3Right(ref board, ref tempPosition))
                         {
                             Debug.Log("Znaleziono i mo¿na wzi¹æ " + board[tempPosition].GetNumber() + " w kolorze " + board[tempPosition].GetColor()+" na pozycji "+ tempPosition);
+                            List<Vector3Int> tileToMove = new List<Vector3Int>();
+                            tileToMove.Add(tempPosition);
+                            List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                            moveTile(newPositions, tileToMove);
+                            switch (pos)
+                            {
+                                case 1:
+                                    {
+                                        PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                        PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
+                                       
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                        PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
+                                        PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                        
+                                        break;
+                                    }
+                            }
+                            fixOutOfMap(ref board, newPositions[1]);
+                            ExtendSequence(ref board, ref handTiles);
 
                         }
-                        else if(board.ContainsKey(tempPosition) && board[tempPosition].GetNumber() == 30) //gdy joker jest w serii
+                        else if(board.ContainsKey(tempPosition) && board[tempPosition].GetNumber() == 30
+                            && Function_3Left3Right(ref board, ref tempPosition)) //gdy joker jest w serii pomiêdzy trzema p³ytkami z obu stron
                         {
                             Debug.Log("Znaleziono i mo¿na wzi¹æ jokera na pozycji " + tempPosition);
+                            List<Vector3Int> tileToMove = new List<Vector3Int>();
+                            tileToMove.Add(tempPosition);
+                            List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                            moveTile(newPositions, tileToMove);
+                            switch (pos)
+                            {
+                                case 1:
+                                    {
+                                        PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                        PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
+                                        
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                        PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
+                                        PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                        
+                                        break;
+                                    }
+                            }
+                            fixOutOfMap(ref board, newPositions[1]);
+                            ExtendSequence(ref board, ref handTiles);
                         }
-                        else if (board.ContainsKey(tempPosition) && SetOf4(ref indexSetOf4,ref board,ref tempPosition)) //rozdzielenie grupy 4
+                        else if (board.ContainsKey(tempPosition) &&
+                            board[tempPosition].GetNumber() == number && board[tempPosition].GetColor() == color &&
+                            SetOf4(ref indexSetOf4,ref board,ref tempPosition) ) //rozdzielenie grupy 4
                         {
+                            //potencjalnie by rozebraæ grupê, zabraæ potrzebn¹ p³ytkê i naprawiæ grupê
+                            Debug.Log("grupa 4 na pozycji "+ indexSetOf4 + " z potrzebn¹ p³ytk¹ "+ board[tempPosition].GetTilename());
+                            if (indexSetOf4 == 2)
+                            {
+                                //poprawki
+                                List<Vector3Int> tileToMove = new List<Vector3Int>();
+                                tileToMove.Add(tempPosition);
+                                List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                                moveTile(newPositions, tileToMove);
+
+                                moveOneTile(tempPosition, new Vector3Int(tempPosition.x + 2, tempPosition.y, tempPosition.z));
+
+                                switch (pos)
+                                {
+                                    case 1:
+                                        {
+                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
+                                            
+                                            break;
+                                        }
+                                    case 2:
+                                        {
+                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            
+                                            break;
+                                        }
+                                    case 3:
+                                        {
+                                            PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
+                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            
+                                            break;
+                                        }
+                                }
+                                fixOutOfMap(ref board, newPositions[1]);
+                                ExtendSequence(ref board, ref handTiles);
+
+                            }
+                            else if (indexSetOf4 == 3)
+                            {
+                                List<Vector3Int> tileToMove = new List<Vector3Int>();
+                                tileToMove.Add(tempPosition);
+                                List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                                moveTile(newPositions, tileToMove);
+
+                                moveOneTile(tempPosition, new Vector3Int(tempPosition.x - 2, tempPosition.y, tempPosition.z));
+
+                                switch (pos)
+                                {
+                                    case 1:
+                                        {
+                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
+                                            
+                                            break;
+                                        }
+                                    case 2:
+                                        {
+                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            break;
+                                        }
+                                    case 3:
+                                        {
+                                            PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
+                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            
+                                            break;
+                                        }
+                                }
+                                fixOutOfMap(ref board, newPositions[1]);
+                                ExtendSequence(ref board, ref handTiles);
+                            }
+                            else if (indexSetOf4 == 1 || indexSetOf4 == 4)
+                            {
+                                //po prostu przesuwany i dodajemy p³ytki
+                                List<Vector3Int> tileToMove = new List<Vector3Int>();
+                                tileToMove.Add(tempPosition);
+                                List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                                moveTile(newPositions, tileToMove);
+                                switch (pos)
+                                {
+                                    case 1:
+                                        {
+                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
+                                            
+                                            break;
+                                        }
+                                    case 2:
+                                        {
+                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            break;
+                                        }
+                                    case 3:
+                                        {
+                                            PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
+                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            
+                                            break;
+                                        }
+                                }
+                                fixOutOfMap(ref board, newPositions[1]);
+                                ExtendSequence(ref board, ref handTiles);
+                            }
+                        }
+                        else if (board.ContainsKey(tempPosition) &&
+                            board[tempPosition].GetNumber() == 30 &&
+                            SetOf4Joker(ref indexSetOf4, ref board, ref tempPosition)) //zabranie jokera z grupy 4
+                        {
+                            //i naprawienie grupy spowrotem do 3 
+                            Debug.Log("grupa 4 z jokerem na pozycji " + indexSetOf4);
+                            if (indexSetOf4 == 2)
+                            {
+                                //poprawki
+                                List<Vector3Int> tileToMove = new List<Vector3Int>();
+                                tileToMove.Add(tempPosition);
+                                List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                                moveTile(newPositions, tileToMove);
+
+                                moveOneTile(tempPosition, new Vector3Int(tempPosition.x + 2, tempPosition.y, tempPosition.z));
+
+                                switch (pos)
+                                {
+                                    case 1:
+                                        {
+                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
+                                            
+                                            break;
+                                        }
+                                    case 2:
+                                        {
+                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            break;
+                                        }
+                                    case 3:
+                                        {
+                                            PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
+                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            
+                                            break;
+                                        }
+                                }
+                                fixOutOfMap(ref board, newPositions[1]);
+                                ExtendSequence(ref board, ref handTiles);
+
+                            }
+                            else if (indexSetOf4 == 3)
+                            {
+                                List<Vector3Int> tileToMove = new List<Vector3Int>();
+                                tileToMove.Add(tempPosition);
+                                List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                                moveTile(newPositions, tileToMove);
+
+                                moveOneTile(tempPosition, new Vector3Int(tempPosition.x - 2, tempPosition.y, tempPosition.z));
+
+                                switch (pos)
+                                {
+                                    case 1:
+                                        {
+                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
+                                            
+                                            break;
+                                        }
+                                    case 2:
+                                        {
+                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            break;
+                                        }
+                                    case 3:
+                                        {
+                                            PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
+                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            
+                                            break;
+                                        }
+                                }
+                                fixOutOfMap(ref board, newPositions[1]);
+                                ExtendSequence(ref board, ref handTiles);
+                            }
+                            else if (indexSetOf4 == 1 || indexSetOf4 == 4)
+                            {
+                                //po prostu przesuwany i dodajemy p³ytki
+                                List<Vector3Int> tileToMove = new List<Vector3Int>();
+                                tileToMove.Add(tempPosition);
+                                List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                                moveTile(newPositions, tileToMove);
+                                switch (pos)
+                                {
+                                    case 1:
+                                        {
+                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
+                                            
+                                            break;
+                                        }
+                                    case 2:
+                                        {
+                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            break;
+                                        }
+                                    case 3:
+                                        {
+                                            PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
+                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                            
+                                            break;
+                                        }
+                                }
+                                fixOutOfMap(ref board, newPositions[1]);
+                                ExtendSequence(ref board, ref handTiles);
+                            }
 
                         }
-                        else if (board.ContainsKey(tempPosition) && SetOf4Joker(ref indexSetOf4, ref board, ref tempPosition)
-                            ) //zabranie jokera z grupy 4
-                           {
+                        else if (board.ContainsKey(tempPosition) //gdy p³ytka jest w serii
+                            && board[tempPosition].GetNumber() == number && board[tempPosition].GetColor() == color
+                            && Function_ZeroOnOneSide(ref board, ref tempPosition))
+                        {
+                            List<Vector3Int> tileToMove = new List<Vector3Int>();
+                            tileToMove.Add(tempPosition);
+                            List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                            moveTile(newPositions, tileToMove);
+                            switch (pos)
+                            {
+                                case 1:
+                                    {
+                                        PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                        PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
+                                        
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                        PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
+                                        PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                        
+                                        break;
+                                    }
+                            }
+                            fixOutOfMap(ref board, newPositions[1]);
+                            ExtendSequence(ref board, ref handTiles);
+
+                        }
+                        else if (board.ContainsKey(tempPosition) && board[tempPosition].GetNumber() == 30
+                            && Function_ZeroOnOneSide(ref board, ref tempPosition))
+                        {
+                            List<Vector3Int> tileToMove = new List<Vector3Int>();
+                            tileToMove.Add(tempPosition);
+                            List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                            moveTile(newPositions, tileToMove);
+                            switch (pos)
+                            { 
+                                case 1:
+                                {
+                                    PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                    PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
+                                        
+                                        break;
+                                }
+                                case 2:
+                                {
+                                        PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                        PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                        break;
+                                }
+                                case 3:
+                                {
+                                   PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
+                                   PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
+                                        
+                                        break;
+                                }
+                                    
+                            }
+                            fixOutOfMap(ref board, newPositions[1]);
+
+                            ExtendSequence(ref board, ref handTiles);
 
                         }
                     }
@@ -987,6 +1469,274 @@ public class ComputerPlayer : MonoBehaviour
 
             }
         }
+        
+        SortByNumbers();
+        for (int j = 0; j < handTiles.Count - 1; j++)
+        {
+            Tile tile = handTiles[j];
+            // UnityEngine.Color.red UnityEngine.Color.black UnityEngine.Color.blue  UnityEngine.Color(1f, 0.50f, 0f)
+            HashSet<UnityEngine.Color> uniqueColors = new HashSet<UnityEngine.Color>()
+            {
+                UnityEngine.Color.red,
+                UnityEngine.Color.black,
+                UnityEngine.Color.blue,
+                new UnityEngine.Color(1f, 0.50f, 0f)
+            };
+            if (FindTheSameNumbers(ref number,ref uniqueColors, ref handTiles, ref j))
+            {
+                for (int z = minZ; z <= maxZ; z++)
+                {
+                    for (int x = minX; x <= maxX; x++)
+                    {
+                        tempPosition = new(x, 0, z);
+                        if(board.ContainsKey(tempPosition) //gdy p³ytka jest w serii
+                            && board[tempPosition].GetNumber() == number && uniqueColors.Contains(board[tempPosition].GetColor())
+                            && Function_3Left3Right(ref board, ref tempPosition))
+                        {
+                            Debug.Log("znaleziono na pozycji " + tempPosition + " z potrzebn¹ p³ytk¹ " + board[tempPosition].GetTilename());
+                            List<Vector3Int> tileToMove = new List<Vector3Int>();
+                            tileToMove.Add(tempPosition);
+                            List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                            moveTile(newPositions, tileToMove);
+
+                            PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                            PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                            fixOutOfMap(ref board, newPositions[1]);
+                            ExtendSequence(ref board, ref handTiles);
+                        }
+                        else if (board.ContainsKey(tempPosition) && board[tempPosition].GetNumber() == 30
+                            && Function_3Left3Right(ref board, ref tempPosition)) //gdy joker jest w serii pomiêdzy trzema p³ytkami z obu stron
+                        {
+                            Debug.Log("Znaleziono i mo¿na wzi¹æ jokera na pozycji " + tempPosition);
+                            List<Vector3Int> tileToMove = new List<Vector3Int>();
+                            tileToMove.Add(tempPosition);
+                            List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                            moveTile(newPositions, tileToMove);
+                            PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                            PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                            fixOutOfMap(ref board, newPositions[1]);
+                            ExtendSequence(ref board, ref handTiles);
+                        }
+                        else if (board.ContainsKey(tempPosition) &&
+                            board[tempPosition].GetNumber() == number && uniqueColors.Contains(board[tempPosition].GetColor()) &&
+                            SetOf4(ref indexSetOf4, ref board, ref tempPosition)) //rozdzielenie grupy 4
+                        {
+                            //potencjalnie by rozebraæ grupê, zabraæ potrzebn¹ p³ytkê i naprawiæ grupê
+                            Debug.Log("grupa 4 na pozycji " + indexSetOf4 + " z potrzebn¹ p³ytk¹ " + board[tempPosition].GetTilename());
+                            if (indexSetOf4 == 2)
+                            {
+                                //poprawki
+                                List<Vector3Int> tileToMove = new List<Vector3Int>();
+                                tileToMove.Add(tempPosition);
+                                List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                                moveTile(newPositions, tileToMove);
+
+                                moveOneTile(tempPosition, new Vector3Int(tempPosition.x + 2, tempPosition.y, tempPosition.z));
+
+                                PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                                PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                                fixOutOfMap(ref board, newPositions[1]);
+                                ExtendSequence(ref board, ref handTiles);
+
+                            }
+                            else if (indexSetOf4 == 3)
+                            {
+                                List<Vector3Int> tileToMove = new List<Vector3Int>();
+                                tileToMove.Add(tempPosition);
+                                List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                                moveTile(newPositions, tileToMove);
+
+                                moveOneTile(tempPosition, new Vector3Int(tempPosition.x - 2, tempPosition.y, tempPosition.z));
+
+                                PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                                PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                                fixOutOfMap(ref board, newPositions[1]);
+                                ExtendSequence(ref board, ref handTiles);
+                            }
+                            else if (indexSetOf4 == 1 || indexSetOf4 == 4)
+                            {
+                                //po prostu przesuwany i dodajemy p³ytki
+                                List<Vector3Int> tileToMove = new List<Vector3Int>();
+                                tileToMove.Add(tempPosition);
+                                List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                                moveTile(newPositions, tileToMove);
+                                PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                                PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                                fixOutOfMap(ref board, newPositions[1]);
+                                ExtendSequence(ref board, ref handTiles);
+                            }
+                        }
+                        else if (board.ContainsKey(tempPosition) &&
+                            board[tempPosition].GetNumber() == 30 &&
+                            SetOf4Joker(ref indexSetOf4, ref board, ref tempPosition)) //zabranie jokera z grupy 4
+                        {
+                            //i naprawienie grupy spowrotem do 3 
+                            Debug.Log("grupa 4 z jokerem na pozycji " + indexSetOf4);
+                            if (indexSetOf4 == 2)
+                            {
+                                //poprawki
+                                List<Vector3Int> tileToMove = new List<Vector3Int>();
+                                tileToMove.Add(tempPosition);
+                                List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                                moveTile(newPositions, tileToMove);
+
+                                moveOneTile(tempPosition, new Vector3Int(tempPosition.x + 2, tempPosition.y, tempPosition.z));
+                                PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                                PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                                fixOutOfMap(ref board, newPositions[1]);
+                                ExtendSequence(ref board, ref handTiles);
+
+                            }
+                            else if (indexSetOf4 == 3)
+                            {
+                                List<Vector3Int> tileToMove = new List<Vector3Int>();
+                                tileToMove.Add(tempPosition);
+                                List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                                moveTile(newPositions, tileToMove);
+
+                                moveOneTile(tempPosition, new Vector3Int(tempPosition.x - 2, tempPosition.y, tempPosition.z));
+                                PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                                PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                                fixOutOfMap(ref board, newPositions[1]);
+                                ExtendSequence(ref board, ref handTiles);
+                            }
+                            else if (indexSetOf4 == 1 || indexSetOf4 == 4)
+                            {
+                                //po prostu przesuwany i dodajemy p³ytki
+                                List<Vector3Int> tileToMove = new List<Vector3Int>();
+                                tileToMove.Add(tempPosition);
+                                List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                                moveTile(newPositions, tileToMove);
+                                PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                                PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                                fixOutOfMap(ref board, newPositions[1]);
+                                ExtendSequence(ref board, ref handTiles);
+                            }
+
+                        }
+                        else if (board.ContainsKey(tempPosition) //gdy p³ytka jest w serii
+                                &&( board[tempPosition].GetNumber() == number && uniqueColors.Contains(board[tempPosition].GetColor()))
+                                && Function_ZeroOnOneSide(ref board, ref tempPosition))
+                        {
+                            Debug.Log("znaleziono na pozycji " + tempPosition + " z potrzebn¹ p³ytk¹ " + board[tempPosition].GetTilename());
+                            List<Vector3Int> tileToMove = new List<Vector3Int>();
+                            tileToMove.Add(tempPosition);
+                            List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                            moveTile(newPositions, tileToMove);
+
+
+                            PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                            PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                            fixOutOfMap(ref board, newPositions[1]);
+                            ExtendSequence(ref board, ref handTiles);
+
+                        }
+                        else if (board.ContainsKey(tempPosition) && board[tempPosition].GetNumber() == 30
+                            && Function_ZeroOnOneSide(ref board, ref tempPosition))
+                        {
+                                Debug.Log("znaleziono na pozycji " + tempPosition + " z potrzebn¹ p³ytk¹ " + board[tempPosition].GetTilename());
+                                List<Vector3Int> tileToMove = new List<Vector3Int>();
+                                tileToMove.Add(tempPosition);
+                                List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
+                                
+                                moveTile(newPositions, tileToMove);
+                            PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                            PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
+                            fixOutOfMap(ref board, newPositions[1]);
+                            ExtendSequence(ref board, ref handTiles);
+
+                        }
+                    }
+                }
+
+            }
+
+        }
+        
+    }
+
+    void PutOnRight(ref Dictionary<Vector3Int, Tile> board, Tile handTile, int index, Vector3Int tempPosition, ref List<Tile> handTiles)
+    {
+        int x = tempPosition.x; int y = tempPosition.y; int z = tempPosition.z;
+
+        if(handTile.CheckTileValidity(new Vector3Int(x + 1, y, z)) && !board.ContainsKey(new Vector3Int(x + 1, y, z)))
+        {
+            PutTile(new Vector3Int(x + 1, y, z), handTiles[index]);
+            handTiles.RemoveAt(index);
+        }
+        else if (board.ContainsKey(new Vector3Int(x - 1, y, z)))
+            Debug.Log("Po prawej jest p³ytka");
+        else Debug.Log("B³¹d przy prze³o¿eniu na prawo");
+
+        //postawiæ p³ytkê 
+        //PutTile(position, handTiles[i]);
+        // handTiles.RemoveAt(i);
+        //freePositions.Remove(position);
+    }
+    void PutOnLeft(ref Dictionary<Vector3Int, Tile> board, Tile handTile, int index, Vector3Int tempPosition, ref List<Tile> handTiles)
+    {
+        int x = tempPosition.x; int y = tempPosition.y; int z = tempPosition.z;
+        if (handTile.CheckTileValidity(new Vector3Int(x - 1, y, z)) && !board.ContainsKey(new Vector3Int(x - 1, y, z)))
+        {
+            PutTile(new Vector3Int(x - 1, y, z), handTiles[index]);
+            handTiles.RemoveAt(index);
+        }
+        else if(board.ContainsKey(new Vector3Int(x + 1, y, z)))
+            Debug.Log("Po lewej jest p³ytka");
+        else Debug.Log("B³¹d przy prze³o¿eniu na lewo");
+    }
+
+    void fixOutOfMap(ref Dictionary<Vector3Int, Tile> board, Vector3Int tempPosition)
+    {
+        if (tempPosition.x - 1 < this.minX || tempPosition.x - 2 < this.minX)
+        {
+            Debug.Log("Poza map¹ z lewej");
+            List<Vector3Int> oldPositions = new();
+            oldPositions.Add(tempPosition);
+            int x_lewo = tempPosition.x -1;
+            int x_prawo = tempPosition.x +1;
+
+            while (board.ContainsKey(new Vector3Int(x_prawo, tempPosition.y, tempPosition.z)))
+            {
+                oldPositions.Add(new Vector3Int(x_prawo, tempPosition.y, tempPosition.z));
+                x_prawo++;
+                //iteratePosition = new(x1, 0, z);
+            }
+            while (board.ContainsKey(new Vector3Int(x_lewo, tempPosition.y, tempPosition.z)))
+            {
+                oldPositions.Add(new Vector3Int(x_lewo, tempPosition.y, tempPosition.z));
+                x_lewo--;
+               
+            }
+            oldPositions.Sort((a, b) => a.x.CompareTo(b.x));
+            List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(oldPositions.Count);
+            moveTile(newPositions, oldPositions);
+        }
+        else if (tempPosition.x + 1 > this.maxX || tempPosition.x + 2 > this.maxX)
+        {
+            Debug.Log("Poza map¹ z prawej");
+            List<Vector3Int> oldPositions = new();
+            oldPositions.Add(tempPosition);
+            int x_lewo = tempPosition.x - 1;
+            int x_prawo = tempPosition.x + 1;
+            int z = tempPosition.z;
+            while (board.ContainsKey(new Vector3Int(x_prawo, tempPosition.y, tempPosition.z)))
+            {
+                oldPositions.Add(new Vector3Int(x_prawo, tempPosition.y, tempPosition.z));
+                x_prawo++;
+                //iteratePosition = new(x1, 0, z);
+            }
+            while (board.ContainsKey(new Vector3Int(x_lewo, tempPosition.y, tempPosition.z)))
+            {
+                oldPositions.Add(new Vector3Int(x_lewo, tempPosition.y, tempPosition.z));
+                x_lewo--;
+
+            }
+            oldPositions.Sort((a, b) => a.x.CompareTo(b.x));
+            List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(oldPositions.Count);
+            moveTile(newPositions, oldPositions);
+        }
+   
     }
     /// <summary>
     /// funkcja do sprawdzenia czy znajduje siê kontynuacja dla p³ytki
@@ -1089,7 +1839,21 @@ public class ComputerPlayer : MonoBehaviour
         return false; 
     }
     /// <summary>
-    /// Funkcja do wykrycia czy znaleŸliœmy grupê tych ró¿nych kolorów o tych samych cyfrach
+    /// Funkcja do znalezienia potrzbnej p³ytki na brzegu
+    /// </summary>
+    /// <param name="board"></param>
+    /// <param name="tempPosition"></param>
+    /// <returns></returns>
+    bool Function_ZeroOnOneSide(ref Dictionary<Vector3Int, Tile> board, ref Vector3Int tempPosition)
+    {
+        int x = tempPosition.x; int y = tempPosition.y; int z = tempPosition.z;
+        if (board.ContainsKey(new Vector3Int(x + 1, y, z)) && board.ContainsKey(new Vector3Int(x + 2, y, z)) && board.ContainsKey(new Vector3Int(x + 3, y, z)) && !board.ContainsKey(new Vector3Int(x - 1, y, z)) ||
+            board.ContainsKey(new Vector3Int(x - 1, y, z)) && board.ContainsKey(new Vector3Int(x - 2, y, z)) && board.ContainsKey(new Vector3Int(x - 3, y, z)) && !board.ContainsKey(new Vector3Int(x + 1, y, z)) )
+            return true;
+        return false; 
+    }
+    /// <summary>
+    /// Funkcja do wykrycia czy znaleŸliœmy grupê tych ró¿nych kolorów o tych samych cyfrach, mo¿e byæ z jokerem
     /// </summary>
     /// <returns></returns>
     bool SetOf4(ref int index, ref Dictionary<Vector3Int, Tile> board, ref Vector3Int tempPosition)
@@ -1100,9 +1864,35 @@ public class ComputerPlayer : MonoBehaviour
         Vector3Int minusjeden = new((tempPosition.x - 1), 0, tempPosition.z);
         Vector3Int minusdwa = new((tempPosition.x - 2), 0, tempPosition.z);
         Vector3Int minustrzy = new((tempPosition.x - 3), 0, tempPosition.z);
-        if(IsItSeqOf4(ref board, ref tempPosition))
+        if(IsItSeqOf4DiffColors(ref board, ref tempPosition))
         {
+            // return true;
+            if (!board.ContainsKey(plusjeden))
+            {
+                //po porostu mo¿na wzi¹c bo z skraju
+                //if (board[tempPosition].GetColor() != board[plusjeden].GetColor())
+                index = 4;
 
+                return true;
+            }
+            else if (!board.ContainsKey(minusjeden))
+            {
+                //po porostu mo¿na wzi¹c bo z skraju
+                index = 1;
+                return true;
+            }
+            else if (!board.ContainsKey(plusdwa)) 
+            {
+                //trzeba naprawiaæ grupê
+                index = 3;
+                return true;
+            }
+            else
+            {
+                //trzeba naprawiaæ grupê
+                index = 2;
+                return true;
+            }
         }
         return false; 
     }
@@ -1115,7 +1905,37 @@ public class ComputerPlayer : MonoBehaviour
     /// <returns></returns>
     bool SetOf4Joker(ref int index, ref Dictionary<Vector3Int, Tile> board, ref Vector3Int tempPosition)
     {
+        Vector3Int plusjeden = new((tempPosition.x + 1), 0, tempPosition.z);
+        Vector3Int plusdwa = new((tempPosition.x + 2), 0, tempPosition.z);
+        Vector3Int minusjeden = new((tempPosition.x - 1), 0, tempPosition.z);
 
+        if (IsItSeqOf4DiffColors(ref board, ref tempPosition))
+        {
+            if (!board.ContainsKey(plusjeden))
+            {
+                //po porostu mo¿na wzi¹c bo z skraju
+                index = 4;
+                return true;
+            }
+            else if (!board.ContainsKey(minusjeden))
+            {
+                //po porostu mo¿na wzi¹c bo z skraju
+                index = 1;
+                return true;
+            }
+            else if (!board.ContainsKey(plusdwa))
+            {
+                //trzeba naprawiaæ grupê
+                index = 3;
+                return true;
+            }
+            else
+            {
+                //trzeba naprawiaæ grupê
+                index = 2;
+                return true;
+            }
+        }
         return false;
     }
     /// <summary>
@@ -1124,31 +1944,40 @@ public class ComputerPlayer : MonoBehaviour
     /// <param name="board"></param>
     /// <param name="tempPosition"></param>
     /// <returns></returns>
-    bool IsItSeqOf4(ref Dictionary<Vector3Int, Tile> board, ref Vector3Int tempPosition)
+    bool IsItSeqOf4DiffColors(ref Dictionary<Vector3Int, Tile> board, ref Vector3Int tempPosition)
     {
         int x = tempPosition.x;
         int y = tempPosition.y;
         int z = tempPosition.z;
         List<Vector3Int> lengthOfSeq = new List<Vector3Int>();
+        HashSet<UnityEngine.Color> uniqueColors = new HashSet<UnityEngine.Color>();
         int i = 1;
         int j = 1;
         lengthOfSeq.Add(tempPosition);
+        uniqueColors.Add(board[tempPosition].GetColor());
         while (board.ContainsKey(new Vector3Int(x - i, y, z)))
         {
             lengthOfSeq.Add(new Vector3Int(x - i, y, z));
+            uniqueColors.Add(board[new Vector3Int(x - i, y, z)].GetColor());
             i++;
         }
-        while (board.ContainsKey(new Vector3Int(x + i, y, z)))
+        while (board.ContainsKey(new Vector3Int(x + j, y, z)))
         {
-            lengthOfSeq.Add(new Vector3Int(x + i, y, z));
+            lengthOfSeq.Add(new Vector3Int(x + j, y, z));
+            uniqueColors.Add(board[new Vector3Int(x + j, y, z)].GetColor());
             j++;
+            
         }
-        if (lengthOfSeq.Count() == 4)
+        if (lengthOfSeq.Count() == 4 && uniqueColors.Count() == 4)
             return true;
-        //tilesToMove.Sort((a, b) => a.x.CompareTo(b.x));
+        
         return false; 
     }
 
+    bool differentColors(ref Dictionary<Vector3Int, Tile> board, ref Vector3Int tempPosition)
+    {
+        return false;
+    }
     /// <summary>
     /// funkcja do uzyskania ostatecznego wyniku gry
     /// </summary>
