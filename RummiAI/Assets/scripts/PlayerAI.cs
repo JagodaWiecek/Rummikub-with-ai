@@ -5,6 +5,8 @@ using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using System.Drawing;
+using Unity.VisualScripting;
+using System.Linq;
 /// <summary>
 /// Klasa PlayerIA implementuje metody dla agenta do wykonywania konkretnych funkcjonalnoœci
 ///i interakcji w œrodowisku. Klasa dziedziczy po interfejsie Agent, która jest
@@ -64,9 +66,6 @@ public class PlayerAI : Agent
 
         }
 
-        //int beginTileNumber = 14;
-        // var actionSpec = ActionSpec.MakeDiscrete(beginTileNumber);
-        // SetActionSpec(actionSpec);
         time = 1f;
         currnetTime = time;
     }
@@ -85,59 +84,72 @@ public class PlayerAI : Agent
                 break;
 
         }
-        //base.OnEpisodeBegin();
-
-
-        //Time.timeScale = 0.2f;
+  
 
     }
 
-    //// Update is called once per frame
-    //void Update()
-    //{
-
-    //}
-    public override void CollectObservations(VectorSensor sensor)
+    public override void CollectObservations(VectorSensor sensor)//, GridSensor)
     {
         var board = GameController.Instance.GetBoardDictionary().board;
-        sensor.AddObservation(AIPlayerHand.Count); //ile p³ytek ma ai
-        sensor.AddObservation(GameController.Instance.gameTurnManager.currentTurnTime);//obserwacja czasu tury
+        sensor.AddObservation(AIPlayerHand.Count/64); //ile p³ytek ma ai
+        sensor.AddObservation(GameController.Instance.gameTurnManager.currentTurnTime/ GameController.Instance.gameTurnManager.turnTime);//obserwacja czasu tury
         sensor.AddObservation(firstTurn ? 1 : 0);//jeœli true to trzeba mieæ conajmniej 30 na start
 
-
-        //obserwacje kolorów, numerów i indeksu p³ytki
-        for (int i = 0; i < AIPlayerHand.Count; i++)
+        var allPlayers = GameController.Instance.GetAllPlayers();
+        foreach (var player in allPlayers) 
         {
-            sensor.AddObservation(AIPlayerHand[i].GetNumber());
-            sensor.AddObservation(AIPlayerHand[i].GetColor().r);
-            sensor.AddObservation(AIPlayerHand[i].GetColor().g);
-            sensor.AddObservation(AIPlayerHand[i].GetColor().b);
-            sensor.AddObservation(i);
+            sensor.AddObservation(player.tileAmount/64);
+            sensor.AddObservation(player.firstTurn ? 1f : 0f);
+        }
+        float totalPlayers = GameController.Instance.GetAllPlayers().Count;
+        sensor.AddObservation(GameController.Instance.gameTurnManager.currentPlayerId/(GameController.Instance.gameTurnManager.currentPlayerId/(GameController.Instance.GetAllPlayers().Count+1)));
+        //obserwacje kolorów, numerów i indeksu p³ytki
+        for (int i = 0; i < 64; i++)
+        {
+            //AIPlayerHand.Count
+            if (i < AIPlayerHand.Count)
+            {
+                sensor.AddObservation(GetNormalizedNumber(AIPlayerHand[i].GetNumber()));
+                sensor.AddObservation(GetNormalizedColor(AIPlayerHand[i].GetColor()));
+                sensor.AddObservation(i);
+            }
+            else sensor.AddObservation(0f);
+            //sensor.AddObservation(AIPlayerHand[i].GetColor().r);
+            //sensor.AddObservation(AIPlayerHand[i].GetColor().g);
+            //sensor.AddObservation(AIPlayerHand[i].GetColor().b);
+
         }
         //obserwacja mapy, ka¿dego koloru i numeru p³ytki, i zaznaczenie jej jako pustej jeœli nie ma p³ytki
+        //float width = maxX - minX;
+        //float height = maxZ - minZ;
         for (int z = minZ; z <= maxZ; z++)
         {
             for (int x = minX; x <= maxX; x++)
             {
+                //sensor.AddObservation((x - minX) / width); // Pozycja x
+                //sensor.AddObservation((z - minZ) / height); // Pozycja z
+                //sensor.AddObservation(x); // Pozycja x
+                //sensor.AddObservation(z);
+
                 if (board.ContainsKey(new(x, 0, z)))
                 {
-                    sensor.AddObservation(board[new(x, 0, z)].GetNumber());
-                    sensor.AddObservation(board[new(x, 0, z)].GetColor().r);
-                    sensor.AddObservation(board[new(x, 0, z)].GetColor().g);
-                    sensor.AddObservation(board[new(x, 0, z)].GetColor().b);
+                    sensor.AddObservation(GetNormalizedNumber(board[new(x, 0, z)].GetNumber()));
+                    sensor.AddObservation(GetNormalizedColor(board[new(x, 0, z)].GetColor()));
                     sensor.AddObservation(board[new(x, 0, z)].GetPut() ? 1 : 0);
+                    //sensor.AddObservation(board[new(x, 0, z)].GetColor().r);
+                    //sensor.AddObservation(board[new(x, 0, z)].GetColor().g);
+                    //sensor.AddObservation(board[new(x, 0, z)].GetColor().b);
                 }
                 else
                 {
                     //puste pole
                     sensor.AddObservation(0f);
-                    sensor.AddObservation(0f);
-                    sensor.AddObservation(0f);
-                    sensor.AddObservation(0f);
-                    sensor.AddObservation(-1f);
+                    //sensor.AddObservation(0f);
+                    //sensor.AddObservation(0f);
+                    //sensor.AddObservation(0f);
+                    //sensor.AddObservation(-1f);
                 }
-                sensor.AddObservation(x); // Pozycja x
-                sensor.AddObservation(z); // Pozycja z
+                
             }
         }
         //do obserwacji
@@ -148,22 +160,8 @@ public class PlayerAI : Agent
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
-        if (GameController.Instance.gameTurnManager.currentPlayerId == myIndex)
-        {
-
-            int xAction = actions.DiscreteActions[0];
-            int zAction = actions.DiscreteActions[1];
-            int chosenTileIndex = actions.DiscreteActions[3];
-
-            int xCoord = xAction + minX; //przekszta³cenie na koordynaty x
-            int zCoord = zAction + minZ; // przekszta³cenie na koordynaty z
-            //base.OnActionReceived(actions);
-           // Debug.Log("wybrana akcja: "+ actions.DiscreteActions[2]);
-            //Debug.Log("id karty: "+ actions.DiscreteActions[3]);
-            int xNewAction = actions.DiscreteActions[4];
-            int zNewAction = actions.DiscreteActions[5];
-            int xNewCoord = xAction + minX; //przekszta³cenie na koordynaty x
-            int zNewCoord = zAction + minZ; // przekszta³cenie na koordynaty z
+        if (GameController.Instance.gameTurnManager.currentPlayerId != myIndex) return;
+        
             //wybór akcji 
             //0. k³adzenie
             //1. usuwanie
@@ -172,15 +170,29 @@ public class PlayerAI : Agent
             //4. anulowanie ruchu 
             //5. zakoñczenie tury (wzi¹æ pod uwagê koniec tury przy zakoñczeniu czasu)
 
-            currnetTime -= Time.deltaTime;
+            int xAction = actions.DiscreteActions[0];
+            int zAction = actions.DiscreteActions[1];
             int akcjaAgenta = actions.DiscreteActions[2];
-            if (currnetTime<=0)
-            {
-                currnetTime = this.time;
+            int chosenTileIndex = actions.DiscreteActions[3];
+            int xNewAction = actions.DiscreteActions[4];
+            int zNewAction = actions.DiscreteActions[5];
+
+            int xCoord = xAction + minX; //przekszta³cenie na koordynaty x
+            int zCoord = zAction + minZ; // przekszta³cenie na koordynaty z
+            //base.OnActionReceived(actions);
+           // Debug.Log("wybrana akcja: "+ actions.DiscreteActions[2]);
+            //Debug.Log("id karty: "+ actions.DiscreteActions[3]);
+            
+            int xNewCoord = xNewAction + minX; //przekszta³cenie na koordynaty x
+            int zNewCoord = zNewAction + minZ; // przekszta³cenie na koordynaty z
+    
+
+            //currnetTime -= Time.deltaTime;
+                //currnetTime = this.time;
                 switch (akcjaAgenta)
                 {
                     case 0:
-                        if (AIPlayerHand.Count != 0)
+                        if (chosenTileIndex < AIPlayerHand.Count)
                         {
                             PutTileAction(xCoord, zCoord, chosenTileIndex);
                         }
@@ -211,7 +223,7 @@ public class PlayerAI : Agent
                     default:
                         break;
                 }
-            }
+            
 
             //dodawanie punktów:
             //dodanie p³ytki na mapê w dostêpnym miejscu
@@ -219,7 +231,7 @@ public class PlayerAI : Agent
             //pierwsza tura tylko ci¹g³e p³ytki 
 
             //DiscreteActions[4] DiscreteActions[5] dla nowych pozycji na mapie, w innych momentach nieu¿ywane
-        }
+        
 
     }
     /// <summary>
@@ -229,19 +241,71 @@ public class PlayerAI : Agent
     /// <param name="actionMask"></param>
     public override void WriteDiscreteActionMask(IDiscreteActionMask actionMask)
     {
-        int branchIndex = 3; // indeks branch do ograniczeñ
+        // Ga³êzie: 0:X, 1:Z, 2:TypAkcji, 3:P³ytka, 4:NewX, 5:NewZ
+        //typ akcji:
+        //0: k³adzenie p³ytki
+        //1.usuwanie p³ytki
+        //2. przesuniêcie p³ytki
+        //3. pobranie p³ytki
+        //4. anulowanie akcji
+        //5. zakoñczenie tury
+        
         int maxTiles = 64;   // Maksymalna liczba akcji w tej ga³êzi
         int availableTiles = AIPlayerHand.Count; // Liczba dostêpnych p³ytek w rêce agenta
+        var board = GameController.Instance.GetBoardDictionary().board;
+
+        bool isMyTurn = GameController.Instance.gameTurnManager.currentPlayerId == myIndex;
+        if (!isMyTurn)
+        {
+            // Blokujemy wszystkie akcje w ga³êzi nr 2 (Typ Akcji)
+            // Zak³adaj¹c, ¿e masz 6 typów akcji (0-5)
+            for (int i = 0; i < 5; i++)
+            {
+                actionMask.SetActionEnabled(2, i, false);
+            }
+            // W tym momencie model nie mo¿e "wybraæ" niczego, 
+            // co mog³oby wywo³aæ logikê w OnActionReceived.
+            return;
+        }
 
         // Wy³¹czanie akcji powy¿ej dostêpnych p³ytek
         if (AIPlayerHand.Count > 0)
         {
             for (int i = availableTiles; i < maxTiles; i++)
             {
-                actionMask.SetActionEnabled(branchIndex, i, false); // Wy³¹czanie akcji
+                actionMask.SetActionEnabled(3, i, false); // Wy³¹czanie akcji
             }
         }
+        if (AIPlayerHand.Count == 0) actionMask.SetActionEnabled(2, 0, false); //wy³¹czenie k³adzenia p³ytek gdy nie ma p³ytek w rêku
+        
+        //nie mo¿na usuwaæ 
+        if (AIPlayerHand.Count == AIPlayerHandCopy.Count)
+            actionMask.SetActionEnabled(2, 1, false);
+            actionMask.SetActionEnabled(2, 5, false);
+        if (board.Count == 0)
+        {
+            actionMask.SetActionEnabled(2, 1, false);
+            actionMask.SetActionEnabled(2, 2, false);
+        }
+        if(firstTurn) actionMask.SetActionEnabled(2, 4, false);
 
+        if (firstTurn && AIPlayerHand.Count == AIPlayerHandCopy.Count) //nie mo¿na przesuwaæ
+        {
+            actionMask.SetActionEnabled(2, 2, false);
+        }
+    }
+
+    private float GetNormalizedColor(UnityEngine.Color c)
+    {
+        if (c == UnityEngine.Color.red) return 0.25f;
+        if (c == UnityEngine.Color.blue) return 0.5f;
+        if (c == new UnityEngine.Color(1f, 0.50f, 0f)) return 0.75f;
+        if (c == UnityEngine.Color.black) return 1f;
+        return 0f; //jokery
+    }
+    private float GetNormalizedNumber(int number)
+    {
+        return number / 30f;
     }
 
     public List<Tile> GetList() { return this.AIPlayerHand; }

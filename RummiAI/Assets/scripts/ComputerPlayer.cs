@@ -1106,31 +1106,7 @@ public class ComputerPlayer : MonoBehaviour
                             tileToMove.Add(tempPosition);
                             List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
                             moveTile(newPositions, tileToMove);
-                            switch (pos)
-                            {
-                                case 1:
-                                    {
-                                        PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                        PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
-                                       
-                                        break;
-                                    }
-                                case 2:
-                                    {
-                                        PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                        PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                        break;
-                                    }
-                                case 3:
-                                    {
-                                        PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
-                                        PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                        
-                                        break;
-                                    }
-                            }
-                            fixOutOfMap(ref board, newPositions[1]);
-                            ExtendSequence(ref board, ref handTiles);
+                            Function_modyfications(ref board, newPositions, handTiles[i], i, ref handTiles, ref pos);
 
                         }
                         else if(board.ContainsKey(tempPosition) && board[tempPosition].GetNumber() == 30
@@ -1141,31 +1117,7 @@ public class ComputerPlayer : MonoBehaviour
                             tileToMove.Add(tempPosition);
                             List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
                             moveTile(newPositions, tileToMove);
-                            switch (pos)
-                            {
-                                case 1:
-                                    {
-                                        PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                        PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
-                                        
-                                        break;
-                                    }
-                                case 2:
-                                    {
-                                        PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                        PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                        break;
-                                    }
-                                case 3:
-                                    {
-                                        PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
-                                        PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                        
-                                        break;
-                                    }
-                            }
-                            fixOutOfMap(ref board, newPositions[1]);
-                            ExtendSequence(ref board, ref handTiles);
+                            Function_modyfications(ref board, newPositions, handTiles[i], i, ref handTiles, ref pos);
                         }
                         else if (board.ContainsKey(tempPosition) &&
                             board[tempPosition].GetNumber() == number && board[tempPosition].GetColor() == color &&
@@ -1183,32 +1135,7 @@ public class ComputerPlayer : MonoBehaviour
 
                                 moveOneTile(tempPosition, new Vector3Int(tempPosition.x + 2, tempPosition.y, tempPosition.z));
 
-                                switch (pos)
-                                {
-                                    case 1:
-                                        {
-                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
-                                            
-                                            break;
-                                        }
-                                    case 2:
-                                        {
-                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            
-                                            break;
-                                        }
-                                    case 3:
-                                        {
-                                            PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
-                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            
-                                            break;
-                                        }
-                                }
-                                fixOutOfMap(ref board, newPositions[1]);
-                                ExtendSequence(ref board, ref handTiles);
+                                Function_modyfications(ref board, newPositions, handTiles[i], i, ref handTiles, ref pos);
 
                             }
                             else if (indexSetOf4 == 3)
@@ -1220,31 +1147,7 @@ public class ComputerPlayer : MonoBehaviour
 
                                 moveOneTile(tempPosition, new Vector3Int(tempPosition.x - 2, tempPosition.y, tempPosition.z));
 
-                                switch (pos)
-                                {
-                                    case 1:
-                                        {
-                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
-                                            
-                                            break;
-                                        }
-                                    case 2:
-                                        {
-                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            break;
-                                        }
-                                    case 3:
-                                        {
-                                            PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
-                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            
-                                            break;
-                                        }
-                                }
-                                fixOutOfMap(ref board, newPositions[1]);
-                                ExtendSequence(ref board, ref handTiles);
+                                Function_modyfications(ref board, newPositions, handTiles[i], i, ref handTiles, ref pos);
                             }
                             else if (indexSetOf4 == 1 || indexSetOf4 == 4)
                             {
@@ -1253,31 +1156,7 @@ public class ComputerPlayer : MonoBehaviour
                                 tileToMove.Add(tempPosition);
                                 List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
                                 moveTile(newPositions, tileToMove);
-                                switch (pos)
-                                {
-                                    case 1:
-                                        {
-                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
-                                            
-                                            break;
-                                        }
-                                    case 2:
-                                        {
-                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            break;
-                                        }
-                                    case 3:
-                                        {
-                                            PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
-                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            
-                                            break;
-                                        }
-                                }
-                                fixOutOfMap(ref board, newPositions[1]);
-                                ExtendSequence(ref board, ref handTiles);
+                                Function_modyfications(ref board, newPositions, handTiles[i], i, ref handTiles, ref pos);
                             }
                         }
                         else if (board.ContainsKey(tempPosition) &&
@@ -1296,31 +1175,7 @@ public class ComputerPlayer : MonoBehaviour
 
                                 moveOneTile(tempPosition, new Vector3Int(tempPosition.x + 2, tempPosition.y, tempPosition.z));
 
-                                switch (pos)
-                                {
-                                    case 1:
-                                        {
-                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
-                                            
-                                            break;
-                                        }
-                                    case 2:
-                                        {
-                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            break;
-                                        }
-                                    case 3:
-                                        {
-                                            PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
-                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            
-                                            break;
-                                        }
-                                }
-                                fixOutOfMap(ref board, newPositions[1]);
-                                ExtendSequence(ref board, ref handTiles);
+                                Function_modyfications(ref board, newPositions, handTiles[i], i, ref handTiles, ref pos);
 
                             }
                             else if (indexSetOf4 == 3)
@@ -1332,31 +1187,7 @@ public class ComputerPlayer : MonoBehaviour
 
                                 moveOneTile(tempPosition, new Vector3Int(tempPosition.x - 2, tempPosition.y, tempPosition.z));
 
-                                switch (pos)
-                                {
-                                    case 1:
-                                        {
-                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
-                                            
-                                            break;
-                                        }
-                                    case 2:
-                                        {
-                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            break;
-                                        }
-                                    case 3:
-                                        {
-                                            PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
-                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            
-                                            break;
-                                        }
-                                }
-                                fixOutOfMap(ref board, newPositions[1]);
-                                ExtendSequence(ref board, ref handTiles);
+                                Function_modyfications(ref board, newPositions, handTiles[i], i, ref handTiles, ref pos);
                             }
                             else if (indexSetOf4 == 1 || indexSetOf4 == 4)
                             {
@@ -1365,31 +1196,7 @@ public class ComputerPlayer : MonoBehaviour
                                 tileToMove.Add(tempPosition);
                                 List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
                                 moveTile(newPositions, tileToMove);
-                                switch (pos)
-                                {
-                                    case 1:
-                                        {
-                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
-                                            
-                                            break;
-                                        }
-                                    case 2:
-                                        {
-                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            break;
-                                        }
-                                    case 3:
-                                        {
-                                            PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
-                                            PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                            
-                                            break;
-                                        }
-                                }
-                                fixOutOfMap(ref board, newPositions[1]);
-                                ExtendSequence(ref board, ref handTiles);
+                                Function_modyfications(ref board, newPositions, handTiles[i], i, ref handTiles, ref pos);
                             }
 
                         }
@@ -1401,31 +1208,7 @@ public class ComputerPlayer : MonoBehaviour
                             tileToMove.Add(tempPosition);
                             List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
                             moveTile(newPositions, tileToMove);
-                            switch (pos)
-                            {
-                                case 1:
-                                    {
-                                        PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                        PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
-                                        
-                                        break;
-                                    }
-                                case 2:
-                                    {
-                                        PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                        PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                        break;
-                                    }
-                                case 3:
-                                    {
-                                        PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
-                                        PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                        
-                                        break;
-                                    }
-                            }
-                            fixOutOfMap(ref board, newPositions[1]);
-                            ExtendSequence(ref board, ref handTiles);
+                            Function_modyfications(ref board, newPositions, handTiles[i], i, ref handTiles, ref pos);
 
                         }
                         else if (board.ContainsKey(tempPosition) && board[tempPosition].GetNumber() == 30
@@ -1435,33 +1218,8 @@ public class ComputerPlayer : MonoBehaviour
                             tileToMove.Add(tempPosition);
                             List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
                             moveTile(newPositions, tileToMove);
-                            switch (pos)
-                            { 
-                                case 1:
-                                {
-                                    PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                    PutOnRight(ref board, handTiles[i], i, newPositions[2], ref handTiles);
-                                        
-                                        break;
-                                }
-                                case 2:
-                                {
-                                        PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                        PutOnRight(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                        break;
-                                }
-                                case 3:
-                                {
-                                   PutOnLeft(ref board, handTiles[i], i, newPositions[0], ref handTiles);
-                                   PutOnLeft(ref board, handTiles[i], i, newPositions[1], ref handTiles);
-                                        
-                                        break;
-                                }
-                                    
-                            }
-                            fixOutOfMap(ref board, newPositions[1]);
+                            Function_modyfications(ref board, newPositions, handTiles[i], i,ref handTiles,ref pos);
 
-                            ExtendSequence(ref board, ref handTiles);
 
                         }
                     }
@@ -1685,7 +1443,11 @@ public class ComputerPlayer : MonoBehaviour
             Debug.Log("Po lewej jest p³ytka");
         else Debug.Log("B³¹d przy prze³o¿eniu na lewo");
     }
-
+    /// <summary>
+    /// Funkcja do naprawienia pozycji p³ytke jeœli po modyfikacji mapy, sekwencja wyjdzie poza mapê
+    /// </summary>
+    /// <param name="board"></param>
+    /// <param name="tempPosition"></param>
     void fixOutOfMap(ref Dictionary<Vector3Int, Tile> board, Vector3Int tempPosition)
     {
         if (tempPosition.x - 1 < this.minX || tempPosition.x - 2 < this.minX)
@@ -1738,6 +1500,46 @@ public class ComputerPlayer : MonoBehaviour
         }
    
     }
+    /// <summary>
+    /// Funkcja do modyfikowania mapy, skrócenie funkcji
+    /// </summary>
+    /// <param name="board"></param>
+    /// <param name="newPositions"></param>
+    /// <param name="handTile"></param>
+    /// <param name="index"></param>
+    /// <param name="handTiles"></param>
+    /// <param name="pos"></param>
+    void Function_modyfications(ref Dictionary<Vector3Int, Tile> board,List <Vector3Int> newPositions, Tile handTile, int index, ref List<Tile> handTiles, ref int pos)
+    {
+        switch (pos)
+        {
+            case 1:
+                {
+                    PutOnRight(ref board, handTiles[index], index, newPositions[1], ref handTiles);
+                    PutOnRight(ref board, handTiles[index], index, newPositions[2], ref handTiles);
+
+                    break;
+                }
+            case 2:
+                {
+                    PutOnLeft(ref board, handTiles[index], index, newPositions[1], ref handTiles);
+                    PutOnRight(ref board, handTiles[index], index, newPositions[1], ref handTiles);
+                    break;
+                }
+            case 3:
+                {
+                    PutOnLeft(ref board, handTiles[index], index, newPositions[0], ref handTiles);
+                    PutOnLeft(ref board, handTiles[index], index, newPositions[1], ref handTiles);
+
+                    break;
+                }
+            default:
+                break;
+        }
+        fixOutOfMap(ref board, newPositions[1]);
+        ExtendSequence(ref board, ref handTiles);
+    }
+
     /// <summary>
     /// funkcja do sprawdzenia czy znajduje siê kontynuacja dla p³ytki
     /// i czy mo¿na j¹ rozdzieliæ

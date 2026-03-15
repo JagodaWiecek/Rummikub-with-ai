@@ -472,7 +472,20 @@ public class GameController : MonoBehaviour
 
     }
 
-
+    public List<(int tileAmount, bool firstTurn)> GetAllPlayers()
+    {
+        List<(int tileAmount, bool firstTurn)> players = new List<(int, bool)>();
+        if (gameIndex == 1 || gameIndex == 4)
+        {
+            players.Add((mrComputerPlayer.GetList().Count, mrComputerPlayer.GetFirstTour()));
+            players.Add((missComputerPlayer.GetList().Count, mrComputerPlayer.GetFirstTour()));
+            players.Add((ComputerPlayer.GetList().Count, mrComputerPlayer.GetFirstTour()));
+        }
+        //mrComputerPlayer;
+        //missComputerPlayer;
+         //ComputerPlayer;
+        return players;
+    }
 }
 
 
