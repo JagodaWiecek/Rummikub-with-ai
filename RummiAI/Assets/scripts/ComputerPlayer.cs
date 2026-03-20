@@ -134,6 +134,7 @@ public class ComputerPlayer : MonoBehaviour
                     var board = GameController.Instance.GetBoardDictionary().board;
                     TakeTileBetween(ref board, ref this.computerPlayerHand);
                     MoveToExtendRUN(ref board , ref this.computerPlayerHand);
+                    ExtendSequence(ref board, ref this.computerPlayerHand);
                     //ExtendSequence(ref board, ref this.computerPlayerHand);
                 }
             }
@@ -185,11 +186,11 @@ public class ComputerPlayer : MonoBehaviour
         foreach (Tile tile in computerPlayerHand) 
         {
             
-            Debug.Log("numer:"+tile.GetNumber() +", kolor: "+ GameController.Instance.SetNameForTile(tile.GetColor()));
+            //Debug.Log("numer:"+tile.GetNumber() +", kolor: "+ GameController.Instance.SetNameForTile(tile.GetColor()));
             //wait(1f);
            // yield return new WaitForSeconds(1.5f);
         }
-        Debug.Log("end for " + this.transform.name);
+       // Debug.Log("end for " + this.transform.name);
 
 
     }
@@ -641,7 +642,7 @@ public class ComputerPlayer : MonoBehaviour
         int levelX = UnityEngine.Random.Range(minX, ((maxX + 1) - tileAmount-1));
         //int levelZ = -4;
         //int levelX = -9;
-        int amountToOccupy = tileAmount + 4;
+        int amountToOccupy = tileAmount + 6;
         Vector3Int position;
         int errorAmount = 0;
         int i = 0;
@@ -666,7 +667,8 @@ public class ComputerPlayer : MonoBehaviour
             }
         }
 
-
+        //Debug.Log("zaalokowane miejsce: "+ list.Count);
+        list.RemoveAt(0);
         list.RemoveAt(0);
         return list;
     }
@@ -875,6 +877,7 @@ public class ComputerPlayer : MonoBehaviour
             else break;
 
         }
+        //Debug.Log("k³adzenie na pozycji "+ newGridPositions[1] + " p³ytkê " + board[newGridPositions[1]].GetTilename());
         //void MoveObjectTo(int gameObjectIndex, Vector3 newPosition)//indeks z listy i pozycja ostateczna
     }
     /// <summary>
@@ -1017,7 +1020,7 @@ public class ComputerPlayer : MonoBehaviour
     /// <returns></returns>
     bool FindThirdTile(ref int number, ref UnityEngine.Color color, ref List<Tile> handTiles, ref int index, ref int pos)
     {
-        if ((handTiles[index].GetNumber()!= 12 || handTiles[index].GetNumber() != 13) && handTiles[index].GetNumber() == handTiles[index + 1].GetNumber() - 1 && handTiles[index].GetColor() == handTiles[index + 1].GetColor())
+        if ((handTiles[index].GetNumber()<= 11 && handTiles[index].GetNumber() == handTiles[index + 1].GetNumber() - 1 && handTiles[index].GetColor() == handTiles[index + 1].GetColor()))
         {
             //Debug.Log("Mam " + handTiles[index].GetTilename() + " i " + handTiles[index + 1].GetTilename());
             color = handTiles[index].GetColor();
@@ -1037,9 +1040,9 @@ public class ComputerPlayer : MonoBehaviour
     /// <returns></returns>
     bool FindFirstTile(ref int number, ref UnityEngine.Color color, ref List<Tile> handTiles, ref int index, ref int pos)
     {
-        if (index > 0 && handTiles[index].GetNumber() != 1 && (handTiles[index].GetNumber() == handTiles[index - 1].GetNumber() + 1 && handTiles[index].GetColor() == handTiles[index - 1].GetColor()))
+        if (index > 0 && handTiles[index].GetNumber() >=3 && (handTiles[index].GetNumber() == handTiles[index - 1].GetNumber() + 1 && handTiles[index].GetColor() == handTiles[index - 1].GetColor()))
         {
-            
+            //Debug.Log("Mam " + handTiles[index].GetTilename() + " i " + handTiles[index - 1].GetTilename());
             color = handTiles[index].GetColor();
             number = handTiles[index].GetNumber() - 2;
             pos = 1;
@@ -1049,12 +1052,13 @@ public class ComputerPlayer : MonoBehaviour
     }
     bool FindTheSameNumbers(ref int number, ref HashSet<UnityEngine.Color> uniqueColors, ref List<Tile> handTiles, ref int index)
     {
-        if(handTiles[index].GetNumber() == handTiles[index+1].GetNumber() && handTiles[index].GetColor() != handTiles[index + 1].GetColor())
+        if(handTiles[index].GetNumber() == handTiles[index+1].GetNumber() && handTiles[index].GetColor() != handTiles[index + 1].GetColor() && handTiles.Count >=2)
         {
+            //Debug.Log("Mam " + handTiles[index].GetTilename() + " i " + handTiles[index + 1].GetTilename());
             number = handTiles[index].GetNumber();
             uniqueColors.Remove(handTiles[index].GetColor());
             uniqueColors.Remove(handTiles[index + 1].GetColor());
-            Debug.Log("Mam " + handTiles[index].GetTilename() +" i "+ handTiles[index + 1].GetTilename());
+            //Debug.Log("Mam " + handTiles[index].GetTilename() +" i "+ handTiles[index + 1].GetTilename());
             return true;
         }
         return false;
@@ -1081,7 +1085,7 @@ public class ComputerPlayer : MonoBehaviour
         for (int i = 0; i < handTiles.Count - 1; i++)
         {
 
-            Tile tile = handTiles[i];
+            //Tile tile = handTiles[i];
 
             //Tile tile1 = handTiles[i+1];
             //Debug.Log(handTiles[i].GetTilename());
@@ -1098,33 +1102,35 @@ public class ComputerPlayer : MonoBehaviour
                     {
                         tempPosition = new(x, 0, z);
                         if (board.ContainsKey(tempPosition) //gdy p³ytka jest w serii
-                            && board[tempPosition].GetNumber()== number && board[tempPosition].GetColor() == color
+                            && board[tempPosition].GetNumber() == number && board[tempPosition].GetColor() == color
                             && Function_3Left3Right(ref board, ref tempPosition))
                         {
-                            Debug.Log("Znaleziono i mo¿na wzi¹æ " + board[tempPosition].GetNumber() + " w kolorze " + board[tempPosition].GetColor()+" na pozycji "+ tempPosition);
+                            //Debug.Log("Znaleziono i mo¿na wzi¹æ " + board[tempPosition].GetNumber() + " w kolorze " + board[tempPosition].GetColor()+" na pozycji "+ tempPosition);
                             List<Vector3Int> tileToMove = new List<Vector3Int>();
                             tileToMove.Add(tempPosition);
                             List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
                             moveTile(newPositions, tileToMove);
-                            Function_modyfications(ref board, newPositions, handTiles[i], i, ref handTiles, ref pos);
+                            Function_modyfications(ref board, newPositions, handTiles[i], ref i, ref handTiles, ref pos);
+                            return;
 
                         }
                         else if(board.ContainsKey(tempPosition) && board[tempPosition].GetNumber() == 30
                             && Function_3Left3Right(ref board, ref tempPosition)) //gdy joker jest w serii pomiêdzy trzema p³ytkami z obu stron
                         {
-                            Debug.Log("Znaleziono i mo¿na wzi¹æ jokera na pozycji " + tempPosition);
+                           // Debug.Log("Znaleziono i mo¿na wzi¹æ jokera na pozycji " + tempPosition);
                             List<Vector3Int> tileToMove = new List<Vector3Int>();
                             tileToMove.Add(tempPosition);
                             List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
                             moveTile(newPositions, tileToMove);
-                            Function_modyfications(ref board, newPositions, handTiles[i], i, ref handTiles, ref pos);
+                            Function_modyfications(ref board, newPositions, handTiles[i], ref i, ref handTiles, ref pos);
+                            return;
                         }
                         else if (board.ContainsKey(tempPosition) &&
                             board[tempPosition].GetNumber() == number && board[tempPosition].GetColor() == color &&
                             SetOf4(ref indexSetOf4,ref board,ref tempPosition) ) //rozdzielenie grupy 4
                         {
                             //potencjalnie by rozebraæ grupê, zabraæ potrzebn¹ p³ytkê i naprawiæ grupê
-                            Debug.Log("grupa 4 na pozycji "+ indexSetOf4 + " z potrzebn¹ p³ytk¹ "+ board[tempPosition].GetTilename());
+                            //Debug.Log("grupa 4 na pozycji "+ indexSetOf4 + " z potrzebn¹ p³ytk¹ "+ board[tempPosition].GetTilename());
                             if (indexSetOf4 == 2)
                             {
                                 //poprawki
@@ -1135,7 +1141,8 @@ public class ComputerPlayer : MonoBehaviour
 
                                 moveOneTile(tempPosition, new Vector3Int(tempPosition.x + 2, tempPosition.y, tempPosition.z));
 
-                                Function_modyfications(ref board, newPositions, handTiles[i], i, ref handTiles, ref pos);
+                                Function_modyfications(ref board, newPositions, handTiles[i], ref i, ref handTiles, ref pos);
+                                return;
 
                             }
                             else if (indexSetOf4 == 3)
@@ -1147,7 +1154,8 @@ public class ComputerPlayer : MonoBehaviour
 
                                 moveOneTile(tempPosition, new Vector3Int(tempPosition.x - 2, tempPosition.y, tempPosition.z));
 
-                                Function_modyfications(ref board, newPositions, handTiles[i], i, ref handTiles, ref pos);
+                                Function_modyfications(ref board, newPositions, handTiles[i], ref i, ref handTiles, ref pos);
+                                return;
                             }
                             else if (indexSetOf4 == 1 || indexSetOf4 == 4)
                             {
@@ -1156,7 +1164,8 @@ public class ComputerPlayer : MonoBehaviour
                                 tileToMove.Add(tempPosition);
                                 List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
                                 moveTile(newPositions, tileToMove);
-                                Function_modyfications(ref board, newPositions, handTiles[i], i, ref handTiles, ref pos);
+                                Function_modyfications(ref board, newPositions, handTiles[i], ref i, ref handTiles, ref pos);
+                                return;
                             }
                         }
                         else if (board.ContainsKey(tempPosition) &&
@@ -1164,7 +1173,7 @@ public class ComputerPlayer : MonoBehaviour
                             SetOf4Joker(ref indexSetOf4, ref board, ref tempPosition)) //zabranie jokera z grupy 4
                         {
                             //i naprawienie grupy spowrotem do 3 
-                            Debug.Log("grupa 4 z jokerem na pozycji " + indexSetOf4);
+                            //Debug.Log("grupa 4 z jokerem na pozycji " + indexSetOf4);
                             if (indexSetOf4 == 2)
                             {
                                 //poprawki
@@ -1175,7 +1184,8 @@ public class ComputerPlayer : MonoBehaviour
 
                                 moveOneTile(tempPosition, new Vector3Int(tempPosition.x + 2, tempPosition.y, tempPosition.z));
 
-                                Function_modyfications(ref board, newPositions, handTiles[i], i, ref handTiles, ref pos);
+                                Function_modyfications(ref board, newPositions, handTiles[i], ref i, ref handTiles, ref pos);
+                                return;
 
                             }
                             else if (indexSetOf4 == 3)
@@ -1187,7 +1197,8 @@ public class ComputerPlayer : MonoBehaviour
 
                                 moveOneTile(tempPosition, new Vector3Int(tempPosition.x - 2, tempPosition.y, tempPosition.z));
 
-                                Function_modyfications(ref board, newPositions, handTiles[i], i, ref handTiles, ref pos);
+                                Function_modyfications(ref board, newPositions, handTiles[i], ref i, ref handTiles, ref pos);
+                                return;
                             }
                             else if (indexSetOf4 == 1 || indexSetOf4 == 4)
                             {
@@ -1196,7 +1207,8 @@ public class ComputerPlayer : MonoBehaviour
                                 tileToMove.Add(tempPosition);
                                 List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
                                 moveTile(newPositions, tileToMove);
-                                Function_modyfications(ref board, newPositions, handTiles[i], i, ref handTiles, ref pos);
+                                Function_modyfications(ref board, newPositions, handTiles[i], ref i, ref handTiles, ref pos);
+                                return;
                             }
 
                         }
@@ -1204,21 +1216,26 @@ public class ComputerPlayer : MonoBehaviour
                             && board[tempPosition].GetNumber() == number && board[tempPosition].GetColor() == color
                             && Function_ZeroOnOneSide(ref board, ref tempPosition))
                         {
+                            //Debug.Log("Znaleziono i mo¿na wzi¹æ " + board[tempPosition].GetTilename() + " na pozycji " + tempPosition);
                             List<Vector3Int> tileToMove = new List<Vector3Int>();
                             tileToMove.Add(tempPosition);
                             List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
                             moveTile(newPositions, tileToMove);
-                            Function_modyfications(ref board, newPositions, handTiles[i], i, ref handTiles, ref pos);
+                            Function_modyfications(ref board, newPositions, handTiles[i], ref i, ref handTiles, ref pos);
+                            return;
 
                         }
                         else if (board.ContainsKey(tempPosition) && board[tempPosition].GetNumber() == 30
                             && Function_ZeroOnOneSide(ref board, ref tempPosition))
                         {
+                           // Debug.Log("Znaleziono i mo¿na wzi¹æ " + board[tempPosition].GetTilename() + " na pozycji " + tempPosition);
                             List<Vector3Int> tileToMove = new List<Vector3Int>();
                             tileToMove.Add(tempPosition);
                             List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
                             moveTile(newPositions, tileToMove);
-                            Function_modyfications(ref board, newPositions, handTiles[i], i,ref handTiles,ref pos);
+
+                            Function_modyfications(ref board, newPositions, handTiles[i], ref i,ref handTiles,ref pos);
+                            return;
 
 
                         }
@@ -1240,6 +1257,7 @@ public class ComputerPlayer : MonoBehaviour
                 UnityEngine.Color.blue,
                 new UnityEngine.Color(1f, 0.50f, 0f)
             };
+            //bool tileWasPlaced = false;
             if (FindTheSameNumbers(ref number,ref uniqueColors, ref handTiles, ref j))
             {
                 for (int z = minZ; z <= maxZ; z++)
@@ -1251,36 +1269,32 @@ public class ComputerPlayer : MonoBehaviour
                             && board[tempPosition].GetNumber() == number && uniqueColors.Contains(board[tempPosition].GetColor())
                             && Function_3Left3Right(ref board, ref tempPosition))
                         {
-                            Debug.Log("znaleziono na pozycji " + tempPosition + " z potrzebn¹ p³ytk¹ " + board[tempPosition].GetTilename());
+                           // Debug.Log("znaleziono na pozycji " + tempPosition + " z potrzebn¹ p³ytk¹ " + board[tempPosition].GetTilename());
                             List<Vector3Int> tileToMove = new List<Vector3Int>();
                             tileToMove.Add(tempPosition);
                             List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
                             moveTile(newPositions, tileToMove);
 
-                            PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                            PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                            fixOutOfMap(ref board, newPositions[1]);
-                            ExtendSequence(ref board, ref handTiles);
+                            Function_modyfications_v2(ref board, newPositions, ref j, ref handTiles);
+                            return;
                         }
                         else if (board.ContainsKey(tempPosition) && board[tempPosition].GetNumber() == 30
                             && Function_3Left3Right(ref board, ref tempPosition)) //gdy joker jest w serii pomiêdzy trzema p³ytkami z obu stron
                         {
-                            Debug.Log("Znaleziono i mo¿na wzi¹æ jokera na pozycji " + tempPosition);
+                           // Debug.Log("Znaleziono i mo¿na wzi¹æ jokera na pozycji " + tempPosition);
                             List<Vector3Int> tileToMove = new List<Vector3Int>();
                             tileToMove.Add(tempPosition);
                             List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
                             moveTile(newPositions, tileToMove);
-                            PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                            PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                            fixOutOfMap(ref board, newPositions[1]);
-                            ExtendSequence(ref board, ref handTiles);
+                            Function_modyfications_v2(ref board, newPositions, ref j, ref handTiles);
+                            return;
                         }
                         else if (board.ContainsKey(tempPosition) &&
                             board[tempPosition].GetNumber() == number && uniqueColors.Contains(board[tempPosition].GetColor()) &&
                             SetOf4(ref indexSetOf4, ref board, ref tempPosition)) //rozdzielenie grupy 4
                         {
                             //potencjalnie by rozebraæ grupê, zabraæ potrzebn¹ p³ytkê i naprawiæ grupê
-                            Debug.Log("grupa 4 na pozycji " + indexSetOf4 + " z potrzebn¹ p³ytk¹ " + board[tempPosition].GetTilename());
+                           // Debug.Log("grupa 4 na pozycji " + indexSetOf4 + " z potrzebn¹ p³ytk¹ " + board[tempPosition].GetTilename());
                             if (indexSetOf4 == 2)
                             {
                                 //poprawki
@@ -1291,11 +1305,8 @@ public class ComputerPlayer : MonoBehaviour
 
                                 moveOneTile(tempPosition, new Vector3Int(tempPosition.x + 2, tempPosition.y, tempPosition.z));
 
-                                PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                                PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                                fixOutOfMap(ref board, newPositions[1]);
-                                ExtendSequence(ref board, ref handTiles);
-
+                                Function_modyfications_v2(ref board, newPositions, ref j, ref handTiles);
+                                return;
                             }
                             else if (indexSetOf4 == 3)
                             {
@@ -1306,10 +1317,8 @@ public class ComputerPlayer : MonoBehaviour
 
                                 moveOneTile(tempPosition, new Vector3Int(tempPosition.x - 2, tempPosition.y, tempPosition.z));
 
-                                PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                                PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                                fixOutOfMap(ref board, newPositions[1]);
-                                ExtendSequence(ref board, ref handTiles);
+                                Function_modyfications_v2(ref board, newPositions, ref j, ref handTiles);
+                                return;
                             }
                             else if (indexSetOf4 == 1 || indexSetOf4 == 4)
                             {
@@ -1318,10 +1327,8 @@ public class ComputerPlayer : MonoBehaviour
                                 tileToMove.Add(tempPosition);
                                 List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
                                 moveTile(newPositions, tileToMove);
-                                PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                                PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                                fixOutOfMap(ref board, newPositions[1]);
-                                ExtendSequence(ref board, ref handTiles);
+                                Function_modyfications_v2(ref board, newPositions, ref j, ref handTiles);
+                                return;
                             }
                         }
                         else if (board.ContainsKey(tempPosition) &&
@@ -1329,7 +1336,7 @@ public class ComputerPlayer : MonoBehaviour
                             SetOf4Joker(ref indexSetOf4, ref board, ref tempPosition)) //zabranie jokera z grupy 4
                         {
                             //i naprawienie grupy spowrotem do 3 
-                            Debug.Log("grupa 4 z jokerem na pozycji " + indexSetOf4);
+                           // Debug.Log("grupa 4 z jokerem na pozycji " + indexSetOf4);
                             if (indexSetOf4 == 2)
                             {
                                 //poprawki
@@ -1339,10 +1346,8 @@ public class ComputerPlayer : MonoBehaviour
                                 moveTile(newPositions, tileToMove);
 
                                 moveOneTile(tempPosition, new Vector3Int(tempPosition.x + 2, tempPosition.y, tempPosition.z));
-                                PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                                PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                                fixOutOfMap(ref board, newPositions[1]);
-                                ExtendSequence(ref board, ref handTiles);
+                                Function_modyfications_v2(ref board, newPositions, ref j, ref handTiles);
+                                return;
 
                             }
                             else if (indexSetOf4 == 3)
@@ -1353,10 +1358,8 @@ public class ComputerPlayer : MonoBehaviour
                                 moveTile(newPositions, tileToMove);
 
                                 moveOneTile(tempPosition, new Vector3Int(tempPosition.x - 2, tempPosition.y, tempPosition.z));
-                                PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                                PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                                fixOutOfMap(ref board, newPositions[1]);
-                                ExtendSequence(ref board, ref handTiles);
+                                Function_modyfications_v2(ref board, newPositions, ref j, ref handTiles);
+                                return;
                             }
                             else if (indexSetOf4 == 1 || indexSetOf4 == 4)
                             {
@@ -1365,10 +1368,8 @@ public class ComputerPlayer : MonoBehaviour
                                 tileToMove.Add(tempPosition);
                                 List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
                                 moveTile(newPositions, tileToMove);
-                                PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                                PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                                fixOutOfMap(ref board, newPositions[1]);
-                                ExtendSequence(ref board, ref handTiles);
+                                Function_modyfications_v2(ref board, newPositions, ref j, ref handTiles);
+                                return;
                             }
 
                         }
@@ -1376,32 +1377,28 @@ public class ComputerPlayer : MonoBehaviour
                                 &&( board[tempPosition].GetNumber() == number && uniqueColors.Contains(board[tempPosition].GetColor()))
                                 && Function_ZeroOnOneSide(ref board, ref tempPosition))
                         {
-                            Debug.Log("znaleziono na pozycji " + tempPosition + " z potrzebn¹ p³ytk¹ " + board[tempPosition].GetTilename());
+                            //Debug.Log("znaleziono na pozycji " + tempPosition + " z potrzebn¹ p³ytk¹ " + board[tempPosition].GetTilename());
                             List<Vector3Int> tileToMove = new List<Vector3Int>();
                             tileToMove.Add(tempPosition);
                             List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
                             moveTile(newPositions, tileToMove);
 
 
-                            PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                            PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                            fixOutOfMap(ref board, newPositions[1]);
-                            ExtendSequence(ref board, ref handTiles);
+                            Function_modyfications_v2(ref board, newPositions, ref j, ref handTiles);
+                            return;
 
                         }
                         else if (board.ContainsKey(tempPosition) && board[tempPosition].GetNumber() == 30
                             && Function_ZeroOnOneSide(ref board, ref tempPosition))
                         {
-                                Debug.Log("znaleziono na pozycji " + tempPosition + " z potrzebn¹ p³ytk¹ " + board[tempPosition].GetTilename());
+                                //Debug.Log("znaleziono na pozycji " + tempPosition + " z potrzebn¹ p³ytk¹ " + board[tempPosition].GetTilename());
                                 List<Vector3Int> tileToMove = new List<Vector3Int>();
                                 tileToMove.Add(tempPosition);
                                 List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(tileToMove.Count);
                                 
                                 moveTile(newPositions, tileToMove);
-                            PutOnRight(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                            PutOnLeft(ref board, handTiles[j], j, newPositions[1], ref handTiles);
-                            fixOutOfMap(ref board, newPositions[1]);
-                            ExtendSequence(ref board, ref handTiles);
+                            Function_modyfications_v2(ref board, newPositions,ref j,ref handTiles);
+                            return;
 
                         }
                     }
@@ -1422,9 +1419,22 @@ public class ComputerPlayer : MonoBehaviour
             PutTile(new Vector3Int(x + 1, y, z), handTiles[index]);
             handTiles.RemoveAt(index);
         }
-        else if (board.ContainsKey(new Vector3Int(x - 1, y, z)))
-            Debug.Log("Po prawej jest p³ytka");
-        else Debug.Log("B³¹d przy prze³o¿eniu na prawo");
+        else if (board.ContainsKey(new Vector3Int(x + 1, y, z)))
+        {
+           // Debug.LogError("B³¹d, Po prawej jest p³ytka");
+            Debug.LogError("próba k³adzenia na pozycji " + new Vector3Int(x + 1, y, z) + " p³ytkê " + handTiles[index].GetTilename() + " a jest" + board[new Vector3Int(x + 1, y, z)].GetTilename());
+            //PutTile(new Vector3Int(x + 1, y, z), handTiles[index]);
+            //handTiles.RemoveAt(index);
+        }
+        else if (!handTile.CheckTileValidity(new Vector3Int(x + 1, y, z))) 
+        {
+            Debug.LogError("próba k³adzenia na pozycji " + new Vector3Int(x + 1, y, z) + " p³ytkê " + handTiles[index].GetTilename() + " a obok jest " + board[new Vector3Int(x, y, z)].GetTilename());
+            //Debug.LogError("B³¹d, próba po³o¿enia z³ej p³ytki po prawej");
+            //PutTile(new Vector3Int(x + 1, y, z), handTiles[index]);
+            //handTiles.RemoveAt(index);
+        }
+        else 
+            Debug.LogError("B³¹d przy prze³o¿eniu na prawo");
 
         //postawiæ p³ytkê 
         //PutTile(position, handTiles[i]);
@@ -1439,9 +1449,22 @@ public class ComputerPlayer : MonoBehaviour
             PutTile(new Vector3Int(x - 1, y, z), handTiles[index]);
             handTiles.RemoveAt(index);
         }
-        else if(board.ContainsKey(new Vector3Int(x + 1, y, z)))
-            Debug.Log("Po lewej jest p³ytka");
-        else Debug.Log("B³¹d przy prze³o¿eniu na lewo");
+        else if (board.ContainsKey(new Vector3Int(x - 1, y, z)))
+        {
+            //Debug.LogError("B³¹d,Po lewej jest p³ytka");
+            Debug.LogError("próba k³adzenia na pozycji " + new Vector3Int(x - 1, y, z) + " p³ytkê " + handTiles[index].GetTilename()+" a jest" + board[new Vector3Int(x - 1, y, z)].GetTilename());
+            // PutTile(new Vector3Int(x - 1, y, z), handTiles[index]);
+            // handTiles.RemoveAt(index);
+        }
+        else if (!handTile.CheckTileValidity(new Vector3Int(x - 1, y, z))) 
+        {
+           // Debug.LogError("B³¹d, próba po³o¿enia z³ej p³ytki po lewej");
+            Debug.LogError("próba k³adzenia na pozycji " + new Vector3Int(x - 1, y, z) + " p³ytkê " + handTiles[index].GetTilename() + " a obok jest " + board[new Vector3Int(x , y, z)].GetTilename());
+            // PutTile(new Vector3Int(x - 1, y, z), handTiles[index]);
+            // handTiles.RemoveAt(index);
+        }
+        else 
+            Debug.LogError("B³¹d przy prze³o¿eniu na lewo");
     }
     /// <summary>
     /// Funkcja do naprawienia pozycji p³ytke jeœli po modyfikacji mapy, sekwencja wyjdzie poza mapê
@@ -1452,7 +1475,7 @@ public class ComputerPlayer : MonoBehaviour
     {
         if (tempPosition.x - 1 < this.minX || tempPosition.x - 2 < this.minX)
         {
-            Debug.Log("Poza map¹ z lewej");
+            //Debug.Log("Poza map¹ z lewej");
             List<Vector3Int> oldPositions = new();
             oldPositions.Add(tempPosition);
             int x_lewo = tempPosition.x -1;
@@ -1476,7 +1499,7 @@ public class ComputerPlayer : MonoBehaviour
         }
         else if (tempPosition.x + 1 > this.maxX || tempPosition.x + 2 > this.maxX)
         {
-            Debug.Log("Poza map¹ z prawej");
+           // Debug.Log("Poza map¹ z prawej");
             List<Vector3Int> oldPositions = new();
             oldPositions.Add(tempPosition);
             int x_lewo = tempPosition.x - 1;
@@ -1500,6 +1523,8 @@ public class ComputerPlayer : MonoBehaviour
         }
    
     }
+
+
     /// <summary>
     /// Funkcja do modyfikowania mapy, skrócenie funkcji
     /// </summary>
@@ -1509,15 +1534,18 @@ public class ComputerPlayer : MonoBehaviour
     /// <param name="index"></param>
     /// <param name="handTiles"></param>
     /// <param name="pos"></param>
-    void Function_modyfications(ref Dictionary<Vector3Int, Tile> board,List <Vector3Int> newPositions, Tile handTile, int index, ref List<Tile> handTiles, ref int pos)
+    void Function_modyfications(ref Dictionary<Vector3Int, Tile> board,List <Vector3Int> newPositions, Tile handTile,ref int index, ref List<Tile> handTiles, ref int pos)
     {
+        if (handTiles.Count < index + 2) return;
         switch (pos)
         {
             case 1:
                 {
-                    PutOnRight(ref board, handTiles[index], index, newPositions[1], ref handTiles);
-                    PutOnRight(ref board, handTiles[index], index, newPositions[2], ref handTiles);
-
+                   // PutOnRight(ref board, handTiles[index], index, newPositions[1], ref handTiles);
+                   // PutOnRight(ref board, handTiles[index], index, newPositions[2], ref handTiles);
+                    //odwrócenie
+                    PutOnRight(ref board, handTiles[index-1], index-1, newPositions[1], ref handTiles);
+                    PutOnRight(ref board, handTiles[index-1], index-1, newPositions[2], ref handTiles);
                     break;
                 }
             case 2:
@@ -1528,16 +1556,45 @@ public class ComputerPlayer : MonoBehaviour
                 }
             case 3:
                 {
+                    PutOnLeft(ref board, handTiles[index+1], index+1, newPositions[1], ref handTiles);
                     PutOnLeft(ref board, handTiles[index], index, newPositions[0], ref handTiles);
-                    PutOnLeft(ref board, handTiles[index], index, newPositions[1], ref handTiles);
 
                     break;
                 }
             default:
                 break;
         }
+        index-=2;
         fixOutOfMap(ref board, newPositions[1]);
-        ExtendSequence(ref board, ref handTiles);
+        //ExtendSequence(ref board, ref handTiles);
+    }
+
+    //void Function_modyfications_v2(ref Dictionary<Vector3Int, Tile> board, List<Vector3Int> newPositions, Tile handTile, ref int index, ref List<Tile> handTiles)
+   // {
+
+   //     PutOnRight(ref board, handTiles[index], index, newPositions[1], ref handTiles);
+   //     PutOnLeft(ref board, handTiles[index], index, newPositions[1], ref handTiles);
+   //     index--;
+   //     fixOutOfMap(ref board, newPositions[1]);
+   //     ExtendSequence(ref board, ref handTiles);
+  //  }
+
+    void Function_modyfications_v2(ref Dictionary<Vector3Int, Tile> board, List<Vector3Int> newPositions, ref int index, ref List<Tile> handTiles)
+    {
+        // Sprawdzamy, czy mamy co najmniej dwie p³ytki, bo manipulacja v2 tego wymaga
+        if (handTiles.Count < index + 2) return;
+
+        // K³adziemy pierwsz¹ p³ytkê
+        PutOnRight(ref board, handTiles[index], index, newPositions[1], ref handTiles);
+
+        // Po RemoveAt(index) w PutOnRight, druga p³ytka jest TERAZ pod tym samym indeksem!
+        if (index < handTiles.Count)
+        {
+            PutOnLeft(ref board, handTiles[index], index, newPositions[1], ref handTiles);
+        }
+
+        index-=2; // Cofamy, aby pêtla for po j++ sprawdzi³a now¹ p³ytkê na tej pozycji
+        fixOutOfMap(ref board, newPositions[1]);
     }
 
     /// <summary>

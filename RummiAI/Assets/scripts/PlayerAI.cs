@@ -98,13 +98,13 @@ public class PlayerAI : Agent
         var allPlayers = GameController.Instance.GetAllPlayers();
         foreach (var player in allPlayers) 
         {
-            sensor.AddObservation(player.tileAmount/64);
+            sensor.AddObservation(player.tileAmount/64f);
             sensor.AddObservation(player.firstTurn ? 1f : 0f);
         }
-        float totalPlayers = GameController.Instance.GetAllPlayers().Count;
-        sensor.AddObservation(GameController.Instance.gameTurnManager.currentPlayerId/(GameController.Instance.gameTurnManager.currentPlayerId/(GameController.Instance.GetAllPlayers().Count+1)));
+        float totalPlayers = GameController.Instance.GetAllPlayers().Count + 1;
+        sensor.AddObservation((float)GameController.Instance.gameTurnManager.currentPlayerId/totalPlayers);
         //obserwacje kolorów, numerów i indeksu p³ytki
-        for (int i = 0; i < 64; i++)
+        /*for (int i = 0; i < 64; i++)
         {
             //AIPlayerHand.Count
             if (i < AIPlayerHand.Count)
@@ -118,10 +118,23 @@ public class PlayerAI : Agent
             //sensor.AddObservation(AIPlayerHand[i].GetColor().g);
             //sensor.AddObservation(AIPlayerHand[i].GetColor().b);
 
+        }*/
+        
+        BufferSensorComponent bufferSensor = GetComponent<BufferSensorComponent>();
+        foreach (var tile in AIPlayerHand)
+        {
+            float[] tileData = new float[2];
+            tileData[0] = GetNormalizedNumber(tile.GetNumber());
+            tileData[1] = GetNormalizedColor(tile.GetColor());
+
+            bufferSensor.AppendObservation(tileData);
+            // Dodaj to na chwilê, ¿eby sprawdziæ:
+            // Debug.Log($"Buffer wysy³a p³ytkê: {tile.GetNumber()} {tile.GetColor()}");
         }
         //obserwacja mapy, ka¿dego koloru i numeru p³ytki, i zaznaczenie jej jako pustej jeœli nie ma p³ytki
         //float width = maxX - minX;
         //float height = maxZ - minZ;
+        
         for (int z = minZ; z <= maxZ; z++)
         {
             for (int x = minX; x <= maxX; x++)
@@ -135,18 +148,14 @@ public class PlayerAI : Agent
                 {
                     sensor.AddObservation(GetNormalizedNumber(board[new(x, 0, z)].GetNumber()));
                     sensor.AddObservation(GetNormalizedColor(board[new(x, 0, z)].GetColor()));
-                    sensor.AddObservation(board[new(x, 0, z)].GetPut() ? 1 : 0);
-                    //sensor.AddObservation(board[new(x, 0, z)].GetColor().r);
-                    //sensor.AddObservation(board[new(x, 0, z)].GetColor().g);
-                    //sensor.AddObservation(board[new(x, 0, z)].GetColor().b);
+                    sensor.AddObservation(board[new(x, 0, z)].GetPut() ? 1f : 0f);
                 }
                 else
                 {
                     //puste pole
                     sensor.AddObservation(0f);
-                    //sensor.AddObservation(0f);
-                    //sensor.AddObservation(0f);
-                    //sensor.AddObservation(0f);
+                    sensor.AddObservation(0f);
+                    sensor.AddObservation(0f);
                     //sensor.AddObservation(-1f);
                 }
                 
@@ -278,21 +287,40 @@ public class PlayerAI : Agent
         }
         if (AIPlayerHand.Count == 0) actionMask.SetActionEnabled(2, 0, false); //wy³¹czenie k³adzenia p³ytek gdy nie ma p³ytek w rêku
         
-        //nie mo¿na usuwaæ 
+        //gdy mamy tyle samo p³ytek co na pocz¹tku tury
         if (AIPlayerHand.Count == AIPlayerHandCopy.Count)
-            actionMask.SetActionEnabled(2, 1, false);
-            actionMask.SetActionEnabled(2, 5, false);
+        {
+            actionMask.SetActionEnabled(2, 1, false);//nie mo¿na usun¹æ
+            actionMask.SetActionEnabled(2, 4, false);//nie mo¿na undo zrobiæ
+            actionMask.SetActionEnabled(2, 5, false);//nie mo¿na zakoñczyæ tury
+        }
+        //gdy mapa jest pusta
         if (board.Count == 0)
         {
-            actionMask.SetActionEnabled(2, 1, false);
-            actionMask.SetActionEnabled(2, 2, false);
+            actionMask.SetActionEnabled(2, 1, false); //nie mo¿na usuwaæ
+            actionMask.SetActionEnabled(2, 2, false);//nie mo¿na przestawiaæ
         }
-        if(firstTurn) actionMask.SetActionEnabled(2, 4, false);
+        //if(firstTurn) actionMask.SetActionEnabled(2, 4, false);
 
-        if (firstTurn && AIPlayerHand.Count == AIPlayerHandCopy.Count) //nie mo¿na przesuwaæ
+        if (firstTurn && AIPlayerHand.Count == AIPlayerHandCopy.Count) //jeœli mamy pierwsz¹ turê i agent nic nie wy³o¿y³
         {
-            actionMask.SetActionEnabled(2, 2, false);
+            actionMask.SetActionEnabled(2, 2, false); //nie mo¿na przesuwaæ
         }
+
+        if (!GameController.Instance.gameTurnManager.turnController.CheckMap()) //jeœli mapa jest zakoñczona niepoprawnie
+        {
+            actionMask.SetActionEnabled(2, 5, false); //zablokowane koñczenie tury
+        }
+
+        //for (int z = minZ; z <= maxZ; z++)
+        //{
+        //    for (int x = minX; x <= maxX; x++)
+        //    {
+        //        if (board.ContainsKey(new Vector3Int(x, 0, z)))
+        //            actionMask.SetActionEnabled();
+        //    }
+        //}
+
     }
 
     private float GetNormalizedColor(UnityEngine.Color c)
@@ -698,7 +726,7 @@ public class PlayerAI : Agent
         int gameObjectIndex = placementSystem.GetGridData().getRepresentationIndex(gridPosition);
         placementSystem.GetGridData().RemoveObjectAt(gridPosition);
         objectPlacer.RemoveObjectAt(gameObjectIndex);
-        if (GameController.Instance.GetPlayer().GetFirstTour())
+        if (firstTurn)
         {
             GameController.Instance.firstTurnController.Decrease(GameController.Instance.GetBoardDictionary().board[gridPosition].GetNumber(), gridPosition);
 

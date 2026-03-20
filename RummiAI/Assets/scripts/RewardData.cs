@@ -13,32 +13,34 @@ public class RewardData : ScriptableObject
     public float WAWFMDT = -0.2f; //when the agent won't finish moves during turn
 
     [Header("Intermediate rewards")]
-    public float PTPBOT = 0.1f; //puting tile properly between other tiles
-    public float PTPCTOT = 0.06f; //puting tile properly close to other tile
-    public float PTPOLOROTT= 0.08f; //puting tile properly on left or right of two tiles
-    public float PTPOB = 0.05f; //puting tile properly on board
-    public float MTP = 0.03f; //moving tile properly
-    public float MTPTDP = 0.02f; //moving tile to different position that is not its previous position and it is not first turn
-    public float IFTFP = 0.2f; //If first turn is finished properly
-    public float ATAHFT = 0.05f; //after the turn the agent has fewer tiles
+
+    public float PTPBOT = 0.3f; //puting tile properly between other tiles
+    public float PTPCTOT = 0.2f; //puting tile properly close to other tile
+    public float PTPOLOROTT= 0.25f; //puting tile properly on left or right of two tiles
+
+    public float PTPOB = 0.08f; //puting tile properly on board
+    public float MTP = 0.02f; //moving tile properly
+    public float MTPTDP = 0.01f; //moving tile to different position that is not its previous position and it is not first turn
+    public float IFTFP = 0.5f; //If first turn is finished properly
+    public float ATAHFT = 0.2f; //after the turn the agent has fewer tiles
 
     [Header("Intermediate penalties")]
     public float PNTNT = -0.03f; //Puting new tile when there are no tiles in hand
-    public float TNT = -0.02f; //Taking new tile
-    public float TNTPT = -0.02f; //taking back tile, per tile
+    public float TNT = -0.3f; //Taking new tile
+    public float TNTPT = -0.2f; //taking back tile, per tile
     //public float PRTBOT = -0.01f; //puting wrong tile between other tiles
-    public float PTW = -0.08f; //puting tile wrongly
+    public float PTW = -0.09f; //puting tile wrongly
     public float MDDE = -0.04f; //Moving destination doesn't exist
     public float MDIW = -0.05f; //Moving destination is wrong
     public float TRTTCNBR = -0.075f; //trying removing tile that can't be removed, it is permanently put
     public float DBET = -0.15f; //deleting not existing tile
     public float DT = -0.1f; //deleting tile
-    public float UA = -0.1f; //undo actions
+    public float UA = -0.09f; //undo actions
     public float UAWNCWM = -0.05f; //undo actions when no changes were made
     public float IFTIMW = -0.1f; //If first turn is made wrongly
-    public float WEOTTSAOT = -0.05f; //When at the end of turn, the agent has the same amount of tile like at the beginning
+    public float WEOTTSAOT = -0.2f; //When at the end of turn, the agent has the same amount of tile like at the beginning
     public float MILWAT = -0.1f; //the map is left wrongly after turn
-    public float PFETIH = -0.02f; //penalty for each tile in hand
+    public float PFETIH = -0.1f; //penalty for each tile in hand
     
    
 

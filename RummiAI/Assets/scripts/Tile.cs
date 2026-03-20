@@ -523,11 +523,11 @@ public class Tile : MonoBehaviour
                     }
                     else
                     {
-                        if ((((this.GetNumber() + 1) == board[plusjeden].GetNumber() &&
-                            this.GetColor() == board[plusjeden].GetColor()) ||
+                        if ((( ((this.GetNumber() + 1) == board[plusjeden].GetNumber() &&
+                            this.GetColor() == board[plusjeden].GetColor())) ||
                             board[plusjeden].GetNumber() == 30) ||
-                            (this.GetNumber() == board[plusjeden].GetNumber() &&
-                            this.GetColor() != board[plusjeden].GetColor()) ||
+                            ((this.GetNumber() == board[plusjeden].GetNumber() &&
+                            this.GetColor() != board[plusjeden].GetColor()) )||
                             board[plusjeden].GetNumber() == 30)
                         {
                             return true;
@@ -1157,5 +1157,16 @@ public class Tile : MonoBehaviour
         else return false;
     }
 
-    
+    public int GetColorID()
+    {
+        //UnityEngine.Color color = new UnityEngine.Color();
+
+        if (this.GetColor() == UnityEngine.Color.red) return 0;
+        else if (this.GetColor() == UnityEngine.Color.blue) return 1;
+        else if (this.GetColor() == new UnityEngine.Color(1f, 0.50f, 0f)) return 2;
+        else if (this.GetColor() == UnityEngine.Color.black) return 3;
+        else return 4;
+
+    }
+
 }
