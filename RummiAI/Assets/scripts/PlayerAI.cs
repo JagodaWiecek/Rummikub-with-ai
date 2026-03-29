@@ -42,6 +42,8 @@ public class PlayerAI : Agent
     int minX = -12;
     int maxZ = 5;
     int minZ = -4;
+    int xSize = 24;
+    int zSize = 10;
 
     float time;
     float currnetTime;
@@ -143,7 +145,7 @@ public class PlayerAI : Agent
                 //sensor.AddObservation((z - minZ) / height); // Pozycja z
                 //sensor.AddObservation(x); // Pozycja x
                 //sensor.AddObservation(z);
-
+                sensor.AddObservation(From2Dto1D(x, z)/(zSize*xSize));
                 if (board.ContainsKey(new(x, 0, z)))
                 {
                     sensor.AddObservation(GetNormalizedNumber(board[new(x, 0, z)].GetNumber()));
@@ -170,30 +172,32 @@ public class PlayerAI : Agent
     public override void OnActionReceived(ActionBuffers actions)
     {
         if (GameController.Instance.gameTurnManager.currentPlayerId != myIndex) return;
-        
-            //wybór akcji 
-            //0. k³adzenie
-            //1. usuwanie
-            //2. przesuwanie
-            //3. pobranie nowej karty
-            //4. anulowanie ruchu 
-            //5. zakoñczenie tury (wzi¹æ pod uwagê koniec tury przy zakoñczeniu czasu)
 
-            int xAction = actions.DiscreteActions[0];
-            int zAction = actions.DiscreteActions[1];
-            int akcjaAgenta = actions.DiscreteActions[2];
-            int chosenTileIndex = actions.DiscreteActions[3];
-            int xNewAction = actions.DiscreteActions[4];
-            int zNewAction = actions.DiscreteActions[5];
+        //wybór akcji 
+        //0. k³adzenie
+        //1. usuwanie
+        //2. przesuwanie
+        //3. pobranie nowej karty
+        //4. anulowanie ruchu 
+        //5. zakoñczenie tury (wzi¹æ pod uwagê koniec tury przy zakoñczeniu czasu)
+            //int positionXZ = actions.DiscreteActions[0];
+            var (x,z) = From1Dto2D(actions.DiscreteActions[0]);
+            //int  = actions.DiscreteActions[1];
 
-            int xCoord = xAction + minX; //przekszta³cenie na koordynaty x
-            int zCoord = zAction + minZ; // przekszta³cenie na koordynaty z
+            int akcjaAgenta = actions.DiscreteActions[1];
+            int chosenTileIndex = actions.DiscreteActions[2];
+
+            var (xNew, zNew) = From1Dto2D(actions.DiscreteActions[3]);
+            //int zNewAction = actions.DiscreteActions[5];
+
+            //int xCoord = xAction + minX; //przekszta³cenie na koordynaty x
+            //int zCoord = zAction + minZ; // przekszta³cenie na koordynaty z
             //base.OnActionReceived(actions);
            // Debug.Log("wybrana akcja: "+ actions.DiscreteActions[2]);
             //Debug.Log("id karty: "+ actions.DiscreteActions[3]);
             
-            int xNewCoord = xNewAction + minX; //przekszta³cenie na koordynaty x
-            int zNewCoord = zNewAction + minZ; // przekszta³cenie na koordynaty z
+            //int xNewCoord = xNew + minX; //przekszta³cenie na koordynaty x
+            //int zNewCoord = zNewAction + minZ; // przekszta³cenie na koordynaty z
     
 
             //currnetTime -= Time.deltaTime;
@@ -203,18 +207,18 @@ public class PlayerAI : Agent
                     case 0:
                         if (chosenTileIndex < AIPlayerHand.Count)
                         {
-                            PutTileAction(xCoord, zCoord, chosenTileIndex);
+                            PutTileAction(x, z, chosenTileIndex);
                         }
                         //Próba po³o¿enia nowej p³ytki gdy ai nie ma ju¿ p³ytek, kara
                         else AddReward(rewards.PNTNT); //TODO
                         Debug.Log("Akcja k³adzenia p³ytki");
                         break; 
                     case 1:
-                        RemoveTileAction(xCoord, zCoord);
+                        RemoveTileAction(x, z);
                         Debug.Log("Akcja usuniêcia p³ytki");
                         break;
                     case 2:
-                        MoveTileAction(xCoord, zCoord, xNewCoord, zNewCoord);
+                        MoveTileAction(x, z, xNew, zNew);
                         Debug.Log("Akcja przesuniêcia p³ytki");
                         break;
                     case 3:
@@ -250,7 +254,8 @@ public class PlayerAI : Agent
     /// <param name="actionMask"></param>
     public override void WriteDiscreteActionMask(IDiscreteActionMask actionMask)
     {
-        // Ga³êzie: 0:X, 1:Z, 2:TypAkcji, 3:P³ytka, 4:NewX, 5:NewZ
+        // Ga³êzie: 0:XZ, 1:TypAkcji, 2:P³ytka, 3:NewXZ
+        // old: 0:XZ, 1:z, 2:TypAkcji, 3:P³ytka, 4:NewX, 5:NewZ
         //typ akcji:
         //0: k³adzenie p³ytki
         //1.usuwanie p³ytki
@@ -258,7 +263,7 @@ public class PlayerAI : Agent
         //3. pobranie p³ytki
         //4. anulowanie akcji
         //5. zakoñczenie tury
-        
+
         int maxTiles = 64;   // Maksymalna liczba akcji w tej ga³êzi
         int availableTiles = AIPlayerHand.Count; // Liczba dostêpnych p³ytek w rêce agenta
         var board = GameController.Instance.GetBoardDictionary().board;
@@ -270,7 +275,7 @@ public class PlayerAI : Agent
             // Zak³adaj¹c, ¿e masz 6 typów akcji (0-5)
             for (int i = 0; i < 5; i++)
             {
-                actionMask.SetActionEnabled(2, i, false);
+                actionMask.SetActionEnabled(1, i, false);
             }
             // W tym momencie model nie mo¿e "wybraæ" niczego, 
             // co mog³oby wywo³aæ logikê w OnActionReceived.
@@ -282,34 +287,34 @@ public class PlayerAI : Agent
         {
             for (int i = availableTiles; i < maxTiles; i++)
             {
-                actionMask.SetActionEnabled(3, i, false); // Wy³¹czanie akcji
+                actionMask.SetActionEnabled(2, i, false); // Wy³¹czanie akcji
             }
         }
-        if (AIPlayerHand.Count == 0) actionMask.SetActionEnabled(2, 0, false); //wy³¹czenie k³adzenia p³ytek gdy nie ma p³ytek w rêku
+        if (AIPlayerHand.Count == 0) actionMask.SetActionEnabled(1, 0, false); //wy³¹czenie k³adzenia p³ytek gdy nie ma p³ytek w rêku
         
         //gdy mamy tyle samo p³ytek co na pocz¹tku tury
         if (AIPlayerHand.Count == AIPlayerHandCopy.Count)
         {
-            actionMask.SetActionEnabled(2, 1, false);//nie mo¿na usun¹æ
-            actionMask.SetActionEnabled(2, 4, false);//nie mo¿na undo zrobiæ
-            actionMask.SetActionEnabled(2, 5, false);//nie mo¿na zakoñczyæ tury
+            actionMask.SetActionEnabled(1, 1, false);//nie mo¿na usun¹æ
+            actionMask.SetActionEnabled(1, 4, false);//nie mo¿na undo zrobiæ
+            actionMask.SetActionEnabled(1, 5, false);//nie mo¿na zakoñczyæ tury
         }
         //gdy mapa jest pusta
         if (board.Count == 0)
         {
-            actionMask.SetActionEnabled(2, 1, false); //nie mo¿na usuwaæ
-            actionMask.SetActionEnabled(2, 2, false);//nie mo¿na przestawiaæ
+            actionMask.SetActionEnabled(1, 1, false); //nie mo¿na usuwaæ
+            actionMask.SetActionEnabled(1, 2, false);//nie mo¿na przestawiaæ
         }
         //if(firstTurn) actionMask.SetActionEnabled(2, 4, false);
 
         if (firstTurn && AIPlayerHand.Count == AIPlayerHandCopy.Count) //jeœli mamy pierwsz¹ turê i agent nic nie wy³o¿y³
         {
-            actionMask.SetActionEnabled(2, 2, false); //nie mo¿na przesuwaæ
+            actionMask.SetActionEnabled(1, 2, false); //nie mo¿na przesuwaæ
         }
 
         if (!GameController.Instance.gameTurnManager.turnController.CheckMap()) //jeœli mapa jest zakoñczona niepoprawnie
         {
-            actionMask.SetActionEnabled(2, 5, false); //zablokowane koñczenie tury
+            actionMask.SetActionEnabled(1, 5, false); //zablokowane koñczenie tury
         }
 
         //for (int z = minZ; z <= maxZ; z++)
@@ -317,7 +322,15 @@ public class PlayerAI : Agent
         //    for (int x = minX; x <= maxX; x++)
         //    {
         //        if (board.ContainsKey(new Vector3Int(x, 0, z)))
-        //            actionMask.SetActionEnabled();
+        //        {
+        //            int index = From2Dto1D(x, z);
+        //            actionMask.SetActionEnabled(0, index, false);
+        //            actionMask.SetActionEnabled(3, index, false);
+        //        }
+        //        else
+        //        {
+
+        //        }
         //    }
         //}
 
@@ -334,6 +347,23 @@ public class PlayerAI : Agent
     private float GetNormalizedNumber(int number)
     {
         return number / 30f;
+    }
+
+    private int From2Dto1D(int x, int z)
+    {
+        int xNorm = x - minX;
+        int zNorm = z - minZ;
+        int index = (xNorm * zSize) + zNorm;
+        return index;
+    }
+    private (int x, int z) From1Dto2D(int xz)
+    {
+        int x = xz/zSize;
+        int z = xz%zSize;
+        x = x + minX;
+        z = z+ minZ;
+
+        return (x,z);
     }
 
     public List<Tile> GetList() { return this.AIPlayerHand; }

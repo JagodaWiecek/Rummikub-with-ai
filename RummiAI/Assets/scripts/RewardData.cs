@@ -14,11 +14,11 @@ public class RewardData : ScriptableObject
 
     [Header("Intermediate rewards")]
 
-    public float PTPBOT = 0.3f; //puting tile properly between other tiles
-    public float PTPCTOT = 0.2f; //puting tile properly close to other tile
-    public float PTPOLOROTT= 0.25f; //puting tile properly on left or right of two tiles
+    public float PTPBOT = 0.5f; //puting tile properly between other tiles
+    public float PTPCTOT = 0.4f; //puting tile properly close to other tile
+    public float PTPOLOROTT= 0.3f; //puting tile properly on left or right of two tiles
 
-    public float PTPOB = 0.08f; //puting tile properly on board
+    public float PTPOB = 0.2f; //puting tile properly on board
     public float MTP = 0.02f; //moving tile properly
     public float MTPTDP = 0.01f; //moving tile to different position that is not its previous position and it is not first turn
     public float IFTFP = 0.5f; //If first turn is finished properly
