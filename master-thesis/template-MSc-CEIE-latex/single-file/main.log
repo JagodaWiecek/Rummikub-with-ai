@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  29 MAR 2026 19:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.11.25)  29 MAR 2026 14:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -6,7 +6,6 @@ entering extended mode
 (main.tex
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
-(config/settings.tex
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/base\book.cls
 Document Class: book 2024/06/29 v1.4n Standard LaTeX document class
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/base\bk12.clo
@@ -1240,7 +1239,7 @@ Package: fancyhdr 2024/11/20 v4.4 Extensive control of page headers and footers
 \f@nch@O@orf=\skip92
 )
 \c@pagesWithoutNumbers=\count478
-) (config/my-settings.tex
+
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.sty
 \lst@mode=\count479
 \lst@gtempboxa=\box68
@@ -1276,37 +1275,37 @@ File: lstlang1.sty 2024/09/23 1.10c listings language file
 )
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty
 File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
-))
+)
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'british'.
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 11
-8.
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 38
+3.
 
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) (main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 383.
+LaTeX Font Info:    ... okay on input line 383.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 383.
+LaTeX Font Info:    ... okay on input line 383.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 383.
+LaTeX Font Info:    ... okay on input line 383.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 383.
+LaTeX Font Info:    ... okay on input line 383.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 383.
+LaTeX Font Info:    ... okay on input line 383.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 383.
+LaTeX Font Info:    ... okay on input line 383.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 383.
+LaTeX Font Info:    ... okay on input line 383.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 383.
+LaTeX Font Info:    ... okay on input line 383.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 383.
+LaTeX Font Info:    ... okay on input line 383.
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -1367,7 +1366,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 fg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring OFF on input line 118.
+Package hyperref Info: Link coloring OFF on input line 383.
  (main.out) (main.out)
 \@outlinefile=\write5
 \openout5 = `main.out'.
@@ -1377,7 +1376,7 @@ Package hyperref Info: Link coloring OFF on input line 118.
 Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
 ick labels; missing features). Consider writing \pgfplotsset{compat=1.18} into 
 your preamble.
- on input line 118.
+ on input line 383.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: listings package is loaded.
@@ -1410,12 +1409,12 @@ Package biblatex Info: Data encoding 'utf8' specified.
 \openout4 = `main-blx.bib'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'main.bbl' found.
- (main.bbl)
-Package biblatex Info: Reference section=0 on input line 118.
-Package biblatex Info: Reference segment=0 on input line 118.
+Package biblatex Info: ... file 'main.bbl' not found.
+
+No file main.bbl.
+Package biblatex Info: Reference section=0 on input line 383.
+Package biblatex Info: Reference segment=0 on input line 383.
 \c@lstlisting=\count493
- (config/titlepage.tex
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: pdftex
 * paper: a4paper
@@ -1448,66 +1447,65 @@ Package biblatex Info: Reference segment=0 on input line 118.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Trying to load font information for T1+lmss on input line 2
-2.
-
+LaTeX Font Info:    Trying to load font information for T1+lmss on input line 4
+08.
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmss.fd
 File: t1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-<graf/politechnika_sl_logo_bw_pion_en.pdf, id=122, 179.67125pt x 230.8625pt>
-File: graf/politechnika_sl_logo_bw_pion_en.pdf Graphic file (type pdf)
-<use graf/politechnika_sl_logo_bw_pion_en.pdf>
-Package pdftex.def Info: graf/politechnika_sl_logo_bw_pion_en.pdf  used on inpu
-t line 24.
+<politechnika_sl_logo_bw_pion_en.pdf, id=57, 179.67125pt x 230.8625pt>
+File: politechnika_sl_logo_bw_pion_en.pdf Graphic file (type pdf)
+<use politechnika_sl_logo_bw_pion_en.pdf>
+Package pdftex.def Info: politechnika_sl_logo_bw_pion_en.pdf  used on input lin
+e 410.
 (pdftex.def)             Requested size: 142.26378pt x 182.80913pt.
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 3
-7.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 4
+23.
 
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 3
-7.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 4
+23.
 
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-37.
+423.
 
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-37.
+423.
 
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 37.
+(Font)              <12> on input line 423.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 37.
+(Font)              <8> on input line 423.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 37.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 37.
-
+(Font)              <6> on input line 423.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 423
+.
 
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 37.
-
+LaTeX Font Info:    Trying to load font information for U+msb on input line 423
+.
 
 (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 51.
+(Font)              <14.4> on input line 437.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 51.
+(Font)              <10> on input line 437.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 51.
+(Font)              <7> on input line 437.
 
 
 [1
@@ -1516,92 +1514,65 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 {C:/Users/jwiec/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/jwie
 c/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}{C:/Users/jwiec/Ap
-pData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc} <./graf/politechn
-ika_sl_logo_bw_pion_en.pdf>])
+pData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc} <./politechnika_s
+l_logo_bw_pion_en.pdf>]
 
 [2
 
 
-] (chapters/00.tex)
+]
 
 [3]
 
 [4
 
-] (main.toc
-
-[5])
+] (main.toc)
 \tf@toc=\write6
 \openout6 = `main.toc'.
 
 
 
-[6] (chapters/01.tex
+[5]
+
+[6
+
+]
 Chapter 1.
 
 
 [1
 
 
+]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[2
 
 ]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
-3.
- (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
-File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[2]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 4
-4.
- (C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
-File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[3{C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}]
-) (chapters/02.tex
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[4]
 Chapter 2.
 
-
-[5
-
-]
+LaTeX Warning: Citation 'bib:book' on page 3 undefined on input line 540.
 
 
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
+LaTeX Warning: Citation 'bib:article' on page 3 undefined on input line 541.
 
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[6{C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.en
+LaTeX Warning: Citation 'bib:conference' on page 3 undefined on input line 542.
+
+
+
+LaTeX Warning: Citation 'bib:internet' on page 3 undefined on input line 543.
+
+
+
+[3{C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.en
 c}{C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}]
 
 
@@ -1612,7 +1583,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[7]
+[4
+
+]
+Chapter 3.
+
+
+[5]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1622,7 +1599,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[8]
+[6]
+Chapter 4.
+
+
+[7
+
+]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1632,23 +1615,17 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[9{C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.en
-c}]
+[8
 
+]
+Chapter 5.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 7
+94.
+(C:\Users\jwiec\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
+File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
 
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[10]
-Overfull \hbox (11.65327pt too wide) in paragraph at lines 134--135
-[]\T1/lmr/m/n/12 Back-propagation - The suc-cess-ful use and pop-ular-iz-a-tion
- of the back-propagation
- []
-
+[9{C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc}]
 
 
 
@@ -1659,44 +1636,21 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[11]
+[10
+
+]
+
+LaTeX Warning: Empty bibliography on input line 806.
 
 
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
 
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+[11
+
+]
 
 [12]
-Underfull \vbox (badness 4859) has occurred while \output is active []
 
-
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[13]) (chapters/03.tex
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[14]
-Chapter 3.
-) (chapters/04.tex
-
-[15
+[13
 
 ]
 
@@ -1708,13 +1662,25 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
 
-[16]
-Chapter 4.
-) (chapters/05.tex
-
-[17
+[14
 
 ]
+
+[15]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[16
+
+]
+
+[17]
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1726,9 +1692,11 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [18
 
-]
-Chapter 5.
-)
+] (main.lof)
+\tf@lof=\write7
+\openout7 = `main.lof'.
+
+
 
 [19]
 
@@ -1742,130 +1710,51 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [20
 
-]
-
-[21
-
-]
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[22]
-
-[23
-
-]
-
-[24] (chapters/06.tex) (chapters/07.tex
-
-[25
-
-]
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[26
-
-]) (chapters/08.tex
-
-[27]
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[28
-
-])
-
-[29]
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[30
-
-] (main.lof)
-\tf@lof=\write7
-\openout7 = `main.lof'.
-
-
-
-[31]
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[32
-
 ] (main.lot)
 \tf@lot=\write8
 \openout8 = `main.lot'.
 
 
 
-[33] (main.aux)
+[21] (main.aux)
  ***********
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
  ***********
+
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 78574F0DCE5264101FEFDAB411578B57;5185.
+(rerunfilecheck)             Checksum: 6F5B5C5A36E5C44377FFAB21EE153FAF;1944.
+
+Package biblatex Warning: Please (re)run BibTeX on the file(s):
+(biblatex)                main
+(biblatex)                and rerun LaTeX afterwards.
+
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 45387 strings out of 473682
- 1012589 string characters out of 5719215
- 1799486 words of memory out of 5000000
- 67592 multiletter control sequences out of 15000+600000
- 642119 words of font info for 90 fonts, out of 8000000 for 9000
+ 45060 strings out of 473682
+ 1003083 string characters out of 5719215
+ 1798934 words of memory out of 5000000
+ 67400 multiletter control sequences out of 15000+600000
+ 618499 words of font info for 82 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 89i,16n,96p,1925b,2367s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,11n,93p,1873b,2367s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pf
-b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.p
-fb><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.p
-fb><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.p
-fb><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pf
+b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pf
 b><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb
-><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><
-C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><
-C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri7.pfb><C
-:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pfb><C
-:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pfb>
-<C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb>
-<C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-
-Output written on main.pdf (39 pages, 361329 bytes).
+><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pfb
+><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.p
+fb><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.p
+fb><C:/Users/jwiec/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/sy
+mbols/msbm10.pfb>
+Output written on main.pdf (27 pages, 186854 bytes).
 PDF statistics:
- 534 PDF objects out of 1000 (max. 8388607)
- 134 named destinations out of 1000 (max. 500000)
- 250 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 263 PDF objects out of 1000 (max. 8388607)
+ 50 named destinations out of 1000 (max. 500000)
+ 122 words of extra memory for PDF output out of 10000 (max. 10000000)
 

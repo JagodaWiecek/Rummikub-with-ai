@@ -16,25 +16,27 @@
 \contentsline {chapter}{\numberline {2}Analysis of the problem}{5}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Problem statement}{5}{section.2.1}%
 \contentsline {section}{\numberline {2.2}State of the art}{5}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Artificial Intelligence in games}{6}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Reinforcement Learning}{10}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Deep Learning}{10}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.1}An Overview of Non-Player Character Behavior Systems}{6}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Deep Learning}{10}{subsection.2.2.2}%
 \contentsline {subsubsection}{History of Deep Learning}{10}{section*.8}%
 \contentsline {subsubsection}{Algorithm of Deep Learning}{12}{section*.9}%
-\contentsline {subsection}{\numberline {2.2.4}Policy Gradient Methods}{12}{subsection.2.2.4}%
-\contentsline {subsection}{\numberline {2.2.5}Proximal Policy Optimization}{12}{subsection.2.2.5}%
-\contentsline {subsection}{\numberline {2.2.6}Soft Actor-Critic}{12}{subsection.2.2.6}%
-\contentsline {section}{\numberline {2.3}Literature Research}{12}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Computing machinery and intelligence: By A. M. Turing}{12}{subsection.2.3.1}%
-\contentsline {section}{\numberline {2.4}Existing solutions}{13}{section.2.4}%
+\contentsline {subsection}{\numberline {2.2.3}Reinforcement Learning}{12}{subsection.2.2.3}%
+\contentsline {subsubsection}{History of Reinforcement Learning}{12}{section*.10}%
+\contentsline {subsubsection}{Fundamentals of Reinforcement Learning}{14}{section*.11}%
+\contentsline {subsubsection}{Deep Reinforcement Learning}{14}{section*.12}%
+\contentsline {subsection}{\numberline {2.2.4}Policy Gradient Methods}{14}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}Proximal Policy Optimization}{14}{subsection.2.2.5}%
+\contentsline {subsection}{\numberline {2.2.6}Soft Actor-Critic}{14}{subsection.2.2.6}%
+\contentsline {section}{\numberline {2.3}Literature Research}{14}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Existing solutions}{14}{section.2.4}%
 \contentsline {chapter}{\numberline {3}Subject of the thesis}{15}{chapter.3}%
 \contentsline {section}{\numberline {3.1}[Section title]}{15}{section.3.1}%
 \contentsline {section}{\numberline {3.2}[Subsection title]}{15}{section.3.2}%
 \contentsline {chapter}{\numberline {4}Experiments}{17}{chapter.4}%
 \contentsline {chapter}{\numberline {5}Summary}{19}{chapter.5}%
-\contentsline {chapter}{Bibliography}{22}{chapter*.12}%
-\contentsline {chapter}{Technical documentation}{25}{appendix*.13}%
-\contentsline {chapter}{List of abbreviations and symbols}{27}{appendix*.14}%
-\contentsline {chapter}{List of additional files in~electronic submission (if applicable)}{29}{appendix*.15}%
-\contentsline {chapter}{List of figures}{31}{appendix*.16}%
-\contentsline {chapter}{List of tables}{33}{appendix*.17}%
+\contentsline {chapter}{Bibliography}{22}{chapter*.15}%
+\contentsline {chapter}{Technical documentation}{25}{appendix*.16}%
+\contentsline {chapter}{List of abbreviations and symbols}{27}{appendix*.17}%
+\contentsline {chapter}{List of additional files in~electronic submission (if applicable)}{29}{appendix*.18}%
+\contentsline {chapter}{List of figures}{31}{appendix*.19}%
+\contentsline {chapter}{List of tables}{33}{appendix*.20}%

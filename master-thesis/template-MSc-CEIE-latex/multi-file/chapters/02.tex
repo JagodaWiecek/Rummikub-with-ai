@@ -15,31 +15,33 @@ This chapter presents a detailed analysis of the research problem addressed in t
 %nauka agenta
 %duża ilość zmiennych
 %duża randomowość gry
-The development of intelligent agents capable of operating effectively in complex, rule-based board games remains a significant challenge in artificial intelligence. While classical board games such as chess and Go have been successfully addressed using advanced reinforcement learning and search-based techniques, many logic-based tile placement games introduce additional layers of combinatorial complexity, dynamic action spaces, and stochastic variability.
+The development of intelligent NPC capable of operating effectively in complex, rule-based board games remains a significant challenge in artificial intelligence. While classical board games such as chess and Go have been successfully addressed using advanced reinforcement learning and search-based techniques, many logic-based tile placement games introduce additional layers of combinatorial complexity, dynamic action spaces, and stochastic variability.
 
 This thesis addresses the problem of training a computer-controlled player in a complex logic board game implemented in the Unity environment. The game serves as an experimental testbed for evaluating artificial intelligence algorithms under conditions of:
 \begin{itemize}
-	\item High-dimensional state representation
-	\item Large and dynamically changing action space
-	\item Strict rule-based constraints
-	\item Significant randomness in gameplay
+	\item high-dimensional state representation,
+	\item large and dynamically changing action space,
+	\item strict rule-based constraints,
+	\item significant randomness in gameplay.
 \end{itemize}
 
 \section{State of the art}
 %najnowocześniejsze technologie w temacie
 %wytłumaczenie
-Artificial Intelligence has played a significant role in the domain of digital games for several decades. From early deterministic rule-based systems to modern deep learning architectures, AI techniques have continuously evolved to enhance the behavior of Non-Player Characters (NPCs) and automated opponents. Over time, various algorithmic approaches have been employed, including finite state machines, heuristic search methods, planning algorithms, and, more recently, reinforcement learning techniques.
-This section reviews the most relevant contemporary approaches to game AI, with particular emphasis on reinforcement learning algorithms and decision-making systems applicable to complex, rule-based board games with large and dynamic action spaces.  
-\subsection{Artificial Intelligence in games}
+making algorithm has played a significant role in the domain of digital games for several decades. From early deterministic rule-based systems to modern deep learning architectures, AI algorithms have continuously evolved to enhance the behavior of Non-Player Characters (NPCs) and automated opponents. Over time, various algorithmic approaches have been employed, including finite state machines, heuristic search methods, planning algorithms, and, more recently, reinforcement learning techniques.
+This section reviews the most relevant contemporary approaches to artificial intelligence algorithms used in games, with particular emphasis on reinforcement learning algorithms and decision-making systems applicable to complex, rule-based board games with large and dynamic action spaces.  
+\subsection{An Overview of Non-Player Character Behavior Systems}
 % algorytmy sztucznej inteligencji wykorzystywanej w grach do implementacji npc
 According to \cite{NaeemMuddasar2020AGIt}, Artificial Intelligence (AI) can be defined as simulated intelligence on programmable machines that attempts to mimic the human brain.
 
- It is a thriving field, with active research topics aimed at automating routine labour, understanding speech and images, and supporting basic scientific research. AI systems are designed to solve tasks that are intellectually challenging for humans, but can be described formally (e.g. playing chess), as well as intuitive tasks that are difficult to describe formally (e.g. recognising faces).
+It is a thriving field, with active research topics aimed at automating routine labor, understanding speech and images, and supporting basic scientific research. AI systems are designed to solve tasks that are intellectually challenging for humans, but can be described formally (e.g. playing chess), as well as intuitive tasks that are difficult to describe formally (e.g. recognising faces).
  
-The aim of applying artificial intelligence algorithms in digital games is to create computer-controlled players that can imitate human behaviour and compete effectively with human opponents. A key challenge is designing an AI player that not only performs well and is capable of winning against human players, but also demonstrates behaviour that appears natural and realistic during gameplay. To achive that, developers and researchers were using multiple algorithms :
+The aim of applying artificial intelligence algorithms in digital games is to create computer-controlled players that can imitate human behavior and compete effectively with human opponents. A key challenge is designing an computer player that not only performs well and is capable of winning against human players, but also demonstrates behavior that appears natural and realistic during gameplay. To achieve this, developers and researchers employ a variety of AI algorithms and computational models:
 \begin{itemize}
-	\item Finite State Machines (FSMs) \\That functions as an abstract computational model that inhabits exactly one discrete state at any given moment. The agent's behaviour is dictated by its current state, and it transitions to new states based on specific environmental triggers or internal conditions. An FSM is formally defined by a 5-tuple:
-	$$M = (\Sigma, S, s_0, \delta, F) $$ 
+	\item Finite State Machines (FSMs) \\It is a foundational, abstract computational model utilized extensively in video game development to govern the decision-making processes of NPCs, operating on the principle that an entity can only exist in one of several predefined states at any given moment. Despite the emergence of more advanced AI architectures, FSMs remain highly relevant in modern game development, functioning either as standalone systems or as complementary modules in complex AI frameworks. An FSM is formally defined by a 5-tuple:
+	\begin{align}
+	M = (\Sigma, S, s_0, \delta, F) 
+	\end{align}
 	Where
 	\begin{itemize}
 		\item $\Sigma$ is the input alphabet, finite set of input signals
@@ -49,7 +51,7 @@ The aim of applying artificial intelligence algorithms in digital games is to cr
 		\item F represents final states
 	\end{itemize}
 	While highly efficient, FSMs suffer from scalability issues, as an increase in states can lead to an exponential explosion of transition rules \cite{uludagli2023non}.
-	\item Behavior Trees (BTs) \\ BTs solve the scalability issues of FSMs by utilizing a hierarchical, directed acyclic graph structure. The architecture consists of root nodes, control flow nodes (composites like Sequences and Selectors), decorator nodes, and execution leaves (actions). The system operates via a signal called a "tick" that traverses the tree at regular intervals \cite{uludagli2023non}. The algorithm goes as follows:
+	\item Behavior Trees (BTs) \\ BTs solve the scalability issues of FSMs by utilizing a hierarchical, directed acyclic graph structure. The architecture consists of root nodes, control flow nodes (composites like Sequences and Selectors), decorator nodes, and execution leaves (actions). The system operates via a signal called a "tick" that traverses the tree at regular intervals \cite{uludagli2023non}. The execution of a single sequence proceeds as follows:
 	\begin{enumerate}
 		
 		\item The Sequence node receives an execution tick from its parent.
@@ -57,11 +59,11 @@ The aim of applying artificial intelligence algorithms in digital games is to cr
 		\item If the child returns a \textit {Success} state, proceed to execute the next child in the sequence.\\If the child returns a Running state, halt execution and return \textit{Running} to the parent.\\If the child returns a \textit{Failure} state, halt execution and immediately return \textit{Failure} to the parent.
 		\item If all child nodes have been executed and returned \textit{Success}, the Sequence node returns \textit{Success} to its parent
 	\end{enumerate}
-	\item Rule-Based Systems (RBS) \\These systems constitute a foundational logic-based architecture in game AI. An RBS is structurally segregated into three primary components: an information database, a formalized rule set, and an arbiter mechanism. The database acts as the agent's memory, storing environmental observations and internal states. The rule set contains multiple declarative conditional statements (if-then-else rules). The arbiter acts as the central processing unit, analyzing the database against the rule set to trigger the appropriate action. \cite{uludagli2023non}
+	\item Rule-Based Systems (RBS) \\ They represent a classical decision-making paradigm within artificial intelligence. An RBS is structurally segregated into three primary components: an information database, a formalized rule set, and an arbiter mechanism. The database acts as the computer player's memory, storing environmental observations and internal states. The rule set contains multiple declarative conditional statements (if-then-else rules). The arbiter acts as the central processing unit, analyzing the database against the rule set to trigger the appropriate action. \cite{uludagli2023non}
 	
-	\item Heuristic Search \\These algorithms are systematic exploration techniques utilized to navigate through vast state spaces efficiently by incorporating domain-specific knowledge. Unlike blind search methods, heuristic algorithms evaluate the potential of intermediate states to reach a goal, drastically reducing the computational overhead. In modern game AI architectures, such as hyper-heuristics, heuristic search is frequently deployed for high-level macro-navigation or to solve deterministic portions of a game, while other algorithms take over for stochastic or localized maneuvering. \cite{perez2019general}
+	\item Heuristic Search \\These algorithms are systematic exploration techniques utilized to navigate through vast state spaces efficiently by incorporating domain-specific knowledge. Unlike blind search methods, heuristic algorithms evaluate the potential of intermediate states to reach a goal, drastically reducing the computational overhead. In modern game architectures, such as hyper-heuristics, heuristic search is frequently deployed for high-level macro-navigation or to solve deterministic portions of a game, while other algorithms take over for stochastic or localized maneuvering. \cite{perez2019general}
 	
-	\item Monte Carlo Tree Search (MCTS)\\This algorithm is a sophisticated heuristic search algorithm engineered to solve sequential decision-making problems within environments characterized by extraordinarily large and complex state spaces. The fundamental architecture of MCTS synthesizes the precision of classical tree search methodologies with the stochastic nature of the Monte Carlo method, utilizing repeated random sampling to statistically approximate the value of potential future states. MCTS dynamically and incrementally constructs a search tree in memory. In this tree structure, each node represents a specific game state, while the connecting edges correspond to the legal actions that transition the environment from one state to another. \cite{Monte_Carlo_Tree_Search_Optimization_for_Go_Game_AI}, \cite{ishihara2016applying}. The algorithm goes as follows:
+	\item Monte Carlo Tree Search (MCTS)\\This algorithm is a sophisticated heuristic search algorithm engineered to solve sequential decision-making problems within environments characterized by extraordinarily large and complex state spaces. The fundamental architecture of MCTS synthesizes the precision of classical tree search methodologies with the stochastic nature of the Monte Carlo method, which is a computational technique that uses repeated random sampling to obtain numerical results for complex problems. By simulating systems thousands or millions of times with random inputs, it estimates probabilities and outcomes \cite{Deep-Learning-book}. MCTS dynamically and incrementally constructs a search tree in memory. In this tree structure, each node represents a specific game state, while the connecting edges correspond to the legal actions that transition the environment from one state to another. \cite{Monte_Carlo_Tree_Search_Optimization_for_Go_Game_AI}, \cite{ishihara2016applying}. The algorithm goes as follows
 	\begin{enumerate}
 		\item Instantiate the root node $S_0$ representing the current environment state.
 		\item While the predefined computational budget is not exhausted, begin a new search iteration
@@ -74,19 +76,22 @@ The aim of applying artificial intelligence algorithms in digital games is to cr
 		
 	\end{enumerate}
 	
-	\item Minimax Algorithm\\ This algorithm is a classical recursive strategy utilized predominantly in zero-sum, complete-information board games. It models a strictly adversarial environment where one agent seeks to maximize its utility while the opponent aims to minimize it. The algorithm constructs a game tree representing all possible future moves. Since exhaustive search is practically impossible for complex games due to state space explosion, the search is truncated at a specific depth, and a manually designed heuristic evaluation function is used to score the leaf nodes \cite{9533206}. The algorithm goes as follows: $$v(s) = 
+	\item Minimax Algorithm\\ This algorithm is a classical recursive strategy utilized predominantly in zero-sum, complete-information board games. It models a strictly adversarial environment where one agent seeks to maximize its utility while the opponent aims to minimize it. The algorithm constructs a game tree representing all possible future moves. Since exhaustive search is practically impossible for complex games due to state space explosion, the search is truncated at a specific depth, and a manually designed heuristic evaluation function is used to score the leaf nodes \cite{9533206}. The algorithm goes as follows 
+	\begin{align}
+	v(s) = 
 	\begin{cases} 
 		eval(s) & \text{if } s \text{ is terminal} \\
 		\max_{a} v(result(s, a)) & \text{if maximizing player} \\
 		\min_{a} v(result(s, a)) & \text{if minimizing player}
-	\end{cases}$$
+	\end{cases}
+	\end{align}
 		Where
 	\begin{itemize}
 		\item v is value of state, which estimates how favorable a given situation is for the player
 		\item s is the current state of game, representing a specific configuration of all game elements at a given time.
 		\item a is an action that player can make in state s to transition to a new state
 	\end{itemize}
-	The algorithm with depth limit:
+	The algorithm with depth limit
 	\begin{enumerate}
 		\item Call the recursive function with the current state, current depth, and the maximizing player's identifier.
 		\item  If the maximum depth is reached or the state is terminal (win/loss/draw), invoke the static evaluation function to score the board and return the value.
@@ -96,21 +101,20 @@ The aim of applying artificial intelligence algorithms in digital games is to cr
 	\end{enumerate}
 	
 	\item Genetic Algorithms (GA) \\These algorithms represent a robust category of stochastic optimization and search techniques heavily inspired by the biological principles of natural selection and evolution
-	. In the context of computer games, these algorithms do not rely on traditional numerical expressions but operate on populations of candidate solutions, often encoded as chromosomes. The evaluation of each individual in the population is handled by an adaptation function, which calculates a numerical assessment known as fitness \cite{kopel2019applying}. This algorithm goes as follows:
+	. In the context of computer games, these algorithms do not rely on traditional numerical expressions but operate on populations of candidate solutions, often encoded as chromosomes. The evaluation of each individual in the population is handled by an adaptation function, which calculates a numerical assessment known as fitness \cite{kopel2019applying}. This algorithm goes as follows
 	\begin{enumerate}
-		\item Generate an initial population of random individuals
+		\item Generate an initial population of random individuals.
 		\item Assess the adaptation value (fitness) of every individual in the current population using the game's simulation environment.
-		\item Choose the most fitted individuals to act as parents for the next generation
+		\item Select the fittest individuals to act as parents for the next generation.
 		\item Merge segments of the parent chromosomes to produce new offspring.
-		\item alterations to certain genes within the offspring to maintain genetic diversity and prevent premature convergence
-		\item Replace the old population with the newly generated offspring and repeat steps 2-5 until a termination condition is satisfied
+		\item Introduce random alterations to certain genes within the offspring to maintain genetic diversity and prevent premature convergence.
+		\item Replace the old population with the newly generated offspring and repeat steps 2-5 until a termination condition is satisfied.
 	\end{enumerate}
 	
 	
 	\item Reinforcement Learning (RL)\\Algorithm allows agents to learn optimal policies through trial-and-error interactions using reward-penalty system. This topic is described in detail in chapter \ref{chap:Reinforcement_Learning_subchap}.
 \end{itemize}
-\subsection{Reinforcement Learning}
-\label{chap:Reinforcement_Learning_subchap}
+
 \subsection{Deep Learning} 
 
 \subsubsection{History of Deep Learning}
@@ -148,46 +152,58 @@ The pursuit of artificial intelligence dates back to ancient times, but, accordi
 
 \subsubsection{Algorithm of Deep Learning}
 
+\subsection{Reinforcement Learning}
+\label{chap:Reinforcement_Learning_subchap}
+\subsubsection{History of Reinforcement Learning}
+ In 1950 Alan Turing published a paper, "Computing machinery and intelligence" \cite{Turing1950}, where he stated a crucial question: "Can machines think?". Alan Turing presented a game called \textbf{Imitation Game}, known nowadays as \textbf{Turing Test}, that proceeded as follows:
+ \begin{enumerate}
+ 	\item Set up a remote scenario involving three participants: a machine programmed to imitate a human (Player A), a human (Player B) and an interrogator (Player C), who can be either male or female.
+ 	\item Isolate the interrogator (Player C) in a separate room. Ensure that all communication is via a text-only medium  to eliminate physical, visual and vocal biases.
+ 	\item Player A (the machine) receives questions from Player C and processes them to generate responses that deliberately mislead the interrogator. To simulate human fallibility, it may introduce typing pauses or even mathematical errors.
+ 	\item Player B provides truthful answers and attempts to assist Player C in correctly identifying the machine.
+ 	\item Player C must evaluate the text responses and declare "X is A and Y is B" or vice versa. If the interrogator decides wrongly as often as they would in a standard man-woman iteration of the game, the machine is deemed to exhibit satisfactory intellectual behavior.
+ \end{enumerate}
+ 
+ Turing correctly identifies that manually coding an exhaustive "table of instructions" to simulate an adult human mind is a computationally impossible task. His proposed paradigm shift is the conceptual birth of Machine Learning.
+ Instead of programming an adult, engineers should simulate a "child brain", a system with minimal initial mechanisms and vast amounts of blank storage. This system is then subjected to an educational regimen. Turing explicitly draws a mathematical and systemic parallel to biological evolution:
+ \begin{itemize}
+ 	\item Structure of the child machine = hereditary material
+ 	\item Changes of the child machine = mutation
+ 	\item Natural selection = judgment of the experimenter
+ \end{itemize}
+ The Child Machine Learning Loop algorithm is proceeded as follows:
+ \begin{enumerate}
+ 	\item Instantiate a discrete-state machine with a minimal instruction set and an integrated "random element" generator
+ 	\item The experimenter provides a task, instruction, or data via unemotional communication channels (like a symbolic language)
+ 	\item The machine generates an output. The random element allows for non-systematic exploration of the solution space, avoiding infinite loops
+ 	\item
+ 	\begin{itemize}
+ 		\item If the output is incorrect, apply a punishment signal. The machine's internal parameters are updated to decrease the probability of repeating the preceding sequence
+ 		\item If the output is correct, apply a reward signal. The parameters are updated to increase the probability of sequence repetition
+ 	\end{itemize}
+ 	\item The rules of operation (the program) dynamically adapt over time. The machine evolves from a blank slate to a highly complex cognitive engine capable of competing in intellectual fields like chess or natural language processing
+ \end{enumerate}
+ 
+ By using trial, error, rewards, and punishments, the child machine slowly writes its own adult rulebook. This idea represents an early conceptual foundation of what is now known as reinforcement learning.
+ 
+ \subsubsection{Fundamentals of Reinforcement Learning}
+ \subsubsection{Deep Reinforcement Learning}
+
+
+
+
 
 \subsection{Policy Gradient Methods}
 \subsection{Proximal Policy Optimization}
 \subsection{Soft Actor-Critic}
 \section{Literature Research}
-The development of computer players for board games has been a significant research area within the field of artificial intelligence for many years. Numerous studies have explored different approaches to decision-making, strategy optimization, and learning in game environments. The purpose of this literature research is to review existing methods, algorithms, and technologies used for training artificial agents in board and logic games.
 
-\subsection{Computing machinery and intelligence: By A. M. Turing}
-In 1950 Alan Turing published a paper, "Computing machinery and intelligence" \cite{Turing1950}, where he stated a crucial question: "Can machines think?". Alan Turing presented a game called \textbf{Imitation Game}, known nowadays as \textbf{Turing Test}, that proceeded as follows:
-\begin{enumerate}
-	\item Set up a remote scenario involving three participants: a machine programmed to imitate a human (Player A), a human (Player B) and an interrogator (Player C), who can be either male or female.
-	\item Isolate the interrogator (Player C) in a separate room. Ensure that all communication is via a text-only medium  to eliminate physical, visual and vocal biases.
-	\item Player A (the machine) receives questions from Player C and processes them to generate responses that deliberately mislead the interrogator. To simulate human fallibility, it may introduce typing pauses or even mathematical errors.
-	\item Player B provides truthful answers and attempts to assist Player C in correctly identifying the machine.
-	\item Player C must evaluate the text responses and declare "X is A and Y is B" or vice versa. If the interrogator decides wrongly as often as they would in a standard man-woman iteration of the game, the machine is deemed to exhibit satisfactory intellectual behavior.
-\end{enumerate}
 
-Turing correctly identifies that manually coding an exhaustive "table of instructions" to simulate an adult human mind is a computationally impossible task. His proposed paradigm shift is the conceptual birth of Machine Learning.
-Instead of programming an adult, engineers should simulate a "child brain", a system with minimal initial mechanisms and vast amounts of blank storage. This system is then subjected to an educational regimen. Turing explicitly draws a mathematical and systemic parallel to biological evolution:
-\begin{itemize}
-	\item Structure of the child machine = hereditary material
-	\item Changes of the child machine = mutation
-	\item Natural selection = judgment of the experimenter
-\end{itemize}
-The Child Machine Learning Loop algorithm is proceeded as follows:
-\begin{enumerate}
-	\item Instantiate a discrete-state machine with a minimal instruction set and an integrated "random element" generator
-	\item The experimenter provides a task, instruction, or data via unemotional communication channels (like a symbolic language)
-	\item The machine generates an output. The random element allows for non-systematic exploration of the solution space, avoiding infinite loops
-	\item
-	\begin{itemize}
-		\item If the output is incorrect, apply a punishment signal. The machine's internal parameters are updated to decrease the probability of repeating the preceding sequence
-		\item If the output is correct, apply a reward signal. The parameters are updated to increase the probability of sequence repetition
-	\end{itemize}
-	\item The rules of operation (the program) dynamically adapt over time. The machine evolves from a blank slate to a highly complex cognitive engine capable of competing in intellectual fields like chess or natural language processing
-\end{enumerate}
+%\subsection{Computing machinery and intelligence: By A. M. Turing}
 
-By using trial, error, rewards, and punishments, the child machine slowly writes its own adult rulebook. This idea represents an early conceptual foundation of what is now known as reinforcement learning.
 %badania związane z tematyką
 \section{Existing solutions}
+The development of computer players for board games has been a significant research area within the field of artificial intelligence for many years. Numerous studies have explored different approaches to decision-making, strategy optimization, and learning in game environments. 
 %istniejące techniki
 
 

@@ -1,0 +1,21 @@
+\babel@toc {british}{}\relax 
+\babel@toc {polish}{}\relax 
+\babel@toc {british}{}\relax 
+\babel@toc {polish}{}\relax 
+\babel@toc {british}{}\relax 
+\babel@toc {polish}{}\relax 
+\babel@toc {british}{}\relax 
+\thispagestyle {empty}
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}[Chapter title]}{3}{chapter.2}%
+\contentsline {chapter}{\numberline {3}[Chapter title]}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}[Section title]}{5}{section.3.1}%
+\contentsline {section}{\numberline {3.2}[Subsection title]}{5}{section.3.2}%
+\contentsline {chapter}{\numberline {4}Experiments}{7}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Summary}{9}{chapter.5}%
+\contentsline {chapter}{Bibliography}{11}{chapter.5}%
+\contentsline {chapter}{Technical documentation}{13}{appendix*.10}%
+\contentsline {chapter}{List of abbreviations and symbols}{15}{appendix*.11}%
+\contentsline {chapter}{List of additional files in~electronic submission (if applicable)}{17}{appendix*.12}%
+\contentsline {chapter}{List of figures}{19}{appendix*.13}%
+\contentsline {chapter}{List of tables}{21}{appendix*.14}%
