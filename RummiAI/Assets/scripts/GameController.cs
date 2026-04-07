@@ -164,9 +164,20 @@ public class GameController : MonoBehaviour
             ComputerPlayer.SetPlayersHand(ref this.mainBank, 3);
             //ai z indeksem 0
         }
+        else if(gameIndex == 5)
+        {
+            AI.SetPlayersHand(ref this.mainBank, 0);
+            AI_1.SetPlayersHand(ref this.mainBank, 1);
+            A_2.SetPlayersHand(ref this.mainBank, 2);
+            A_3.SetPlayersHand(ref this.mainBank, 3);
+        }
+        else if (gameIndex == 6)
+        {
+            AI.SetPlayersHand_TrainingFunction(ref this.mainBank, 0); //all tiles
+        }
         else
         {
-            player.SetPlayersHand(ref this.mainBank);
+            player.SetPlayersHand(ref this.mainBank); 
         }
 
         //learningStep = 0;
@@ -176,6 +187,12 @@ public class GameController : MonoBehaviour
                 learningStep = 0;
                 break;
             case 4:
+                learningStep = 1;
+                break;
+            case 5:
+                learningStep = 1;
+                break;
+            case 6:
                 learningStep = 1;
                 break;
             default:
@@ -414,6 +431,7 @@ public class GameController : MonoBehaviour
             mrComputerPlayer.Reset();
             ComputerPlayer.Reset();
             objectPlacer.Reset();
+
             gameTurnManager.turnController.Reset();
             CreateMainBank(ref this.mainBank);
             boardList = new();
@@ -464,11 +482,26 @@ public class GameController : MonoBehaviour
             thirdPlace.GetComponent<Text>().text = "";
             fourthPlace.GetComponent<Text>().text = "";
             Time.timeScale = 0f;
+        } //nie skoñczone
+        else if( gameIndex == 5)
+        {
+            //4 agenci
+        }
+        else if (gameIndex == 6) { //jeden agent do nauki, ma wszystkie p³ytki
+            AI.EndGame();
+            
+            objectPlacer.Reset();
+            gameTurnManager.turnController.Reset();
+            CreateMainBank(ref this.mainBank);
+            boardList = new();
+            boardDictionary = new();
+            AI.SetPlayersHand_TrainingFunction(ref this.mainBank, 0);
+            //gameTurnManager.Reset();
         }
 
-        
         //przekazanie listy plansz do ai
         //na naukê
+
 
     }
 

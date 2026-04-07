@@ -33,7 +33,8 @@ public class GameTurnManager : MonoBehaviour
     void Start()
     {
         //if else (GameController.Instance.gameIndex == 0) currentPlayerId = 0; //TO REMOVE !!
-        if(GameController.Instance.gameIndex != 3) currentPlayerId = Random.Range(0,4);
+        if (GameController.Instance.gameIndex == 6) currentPlayerId = 0;
+        else if (GameController.Instance.gameIndex != 3) currentPlayerId = Random.Range(0, 4);
         else currentPlayerId = Random.Range(0, 2);
         turnTime = 60;
         currentTurnTime = turnTime;
@@ -108,6 +109,10 @@ public class GameTurnManager : MonoBehaviour
                 else
                     ChangeTurn();
             }
+        }
+        else
+        {
+            currentTurnTime = 5;
         }
     }
     /// <summary>
@@ -257,6 +262,10 @@ public class GameTurnManager : MonoBehaviour
             ResetTime();
             SetTimeUI();
         }
+        else if (GameController.Instance.gameIndex == 6)
+        {
+            SetPlayersTileCountUI();
+        }
         }
 
     public void SetPlayersTileCountUI()
@@ -284,6 +293,10 @@ public class GameTurnManager : MonoBehaviour
         {
             AITilesText.GetComponent<Text>().text = "Agent: " + GameController.Instance.GetPlayerAI().GetList().Count.ToString();// 
         }
+        else if(GameController.Instance.gameIndex == 6)
+        {
+            AITilesText.GetComponent<Text>().text = "Agent: " + GameController.Instance.GetPlayerAI().GetList().Count.ToString();
+        }
 
     }
     /// <summary>
@@ -291,6 +304,7 @@ public class GameTurnManager : MonoBehaviour
     /// </summary>
     public void SetTimeUI()
     {
+        if (GameController.Instance.gameIndex == 6) return;
         timeText.GetComponent<Text>().text = "Time: "+ Mathf.FloorToInt(currentTurnTime);
     }
     public void ChangeTurn()

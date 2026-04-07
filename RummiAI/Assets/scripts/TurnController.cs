@@ -50,7 +50,8 @@ public class TurnController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (GameController.Instance.gameIndex != 1 && GameController.Instance.gameIndex != 4)
+        if (GameController.Instance.gameIndex != 1 && GameController.Instance.gameIndex != 4 && 
+            GameController.Instance.gameIndex != 5 && GameController.Instance.gameIndex != 6)
         {
             undoButton.gameObject.SetActive(false);
             endTurn.gameObject.SetActive(false);
@@ -64,7 +65,8 @@ public class TurnController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {//gameTurnManager
-        if (GameController.Instance.gameIndex != 1 && GameController.Instance.gameIndex != 4)
+        if (GameController.Instance.gameIndex != 1 && GameController.Instance.gameIndex != 4 && 
+            GameController.Instance.gameIndex != 5 && GameController.Instance.gameIndex != 6)
         {
             if (GameController.Instance.gameTurnManager.currentPlayerId == 0)
             {

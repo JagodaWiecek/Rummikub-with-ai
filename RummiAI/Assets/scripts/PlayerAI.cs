@@ -26,6 +26,10 @@ public class PlayerAI : Agent
 
     [SerializeField]
     public int myIndex;
+    [SerializeField]
+    protected int trainingIndex; //index do modyfikowania etapu treningu wewn¹trz sceny 6
+    [SerializeField]
+    protected int endTurnCount;
 
     private float elapsedTime = 0;
 
@@ -47,6 +51,7 @@ public class PlayerAI : Agent
 
     float time;
     float currnetTime;
+
 
     public RewardData rewards;
 
@@ -86,8 +91,9 @@ public class PlayerAI : Agent
                 break;
 
         }
-  
-
+        trainingIndex = (int)Academy.Instance.EnvironmentParameters.GetWithDefault("training_index", 0);
+        endTurnCount = 0;
+        //SetupTrainingStage(trainingIndex);
     }
 
     public override void CollectObservations(VectorSensor sensor)//, GridSensor)
@@ -172,7 +178,7 @@ public class PlayerAI : Agent
     public override void OnActionReceived(ActionBuffers actions)
     {
         if (GameController.Instance.gameTurnManager.currentPlayerId != myIndex) return;
-
+        AddReward(rewards.SP);
         //wybór akcji 
         //0. k³adzenie
         //1. usuwanie
@@ -180,8 +186,8 @@ public class PlayerAI : Agent
         //3. pobranie nowej karty
         //4. anulowanie ruchu 
         //5. zakoñczenie tury (wzi¹æ pod uwagê koniec tury przy zakoñczeniu czasu)
-            //int positionXZ = actions.DiscreteActions[0];
-            var (x,z) = From1Dto2D(actions.DiscreteActions[0]);
+        //int positionXZ = actions.DiscreteActions[0];
+        var (x,z) = From1Dto2D(actions.DiscreteActions[0]);
             //int  = actions.DiscreteActions[1];
 
             int akcjaAgenta = actions.DiscreteActions[1];
@@ -202,6 +208,7 @@ public class PlayerAI : Agent
 
             //currnetTime -= Time.deltaTime;
                 //currnetTime = this.time;
+           // if (GameController.Instance.gameIndex ==1 ||  GameController.Instance.gameIndex ==4)
                 switch (akcjaAgenta)
                 {
                     case 0:
@@ -236,7 +243,19 @@ public class PlayerAI : Agent
                     default:
                         break;
                 }
-            
+            //else if (GameController.Instance.gameIndex == 6)
+            //    switch (akcjaAgenta)
+            //{
+            //    case 0:
+            //        if (chosenTileIndex < AIPlayerHand.Count)
+            //        {
+            //            PutTileAction(x, z, chosenTileIndex);
+            //        }
+            //        //Próba po³o¿enia nowej p³ytki gdy ai nie ma ju¿ p³ytek, kara
+            //        else AddReward(rewards.PNTNT); //TODO
+            //        Debug.Log("Akcja k³adzenia p³ytki");
+            //        break;
+            //}
 
             //dodawanie punktów:
             //dodanie p³ytki na mapê w dostêpnym miejscu
@@ -244,7 +263,7 @@ public class PlayerAI : Agent
             //pierwsza tura tylko ci¹g³e p³ytki 
 
             //DiscreteActions[4] DiscreteActions[5] dla nowych pozycji na mapie, w innych momentach nieu¿ywane
-        
+
 
     }
     /// <summary>
@@ -267,22 +286,6 @@ public class PlayerAI : Agent
         int maxTiles = 64;   // Maksymalna liczba akcji w tej ga³êzi
         int availableTiles = AIPlayerHand.Count; // Liczba dostêpnych p³ytek w rêce agenta
         var board = GameController.Instance.GetBoardDictionary().board;
-
-        bool isMyTurn = GameController.Instance.gameTurnManager.currentPlayerId == myIndex;
-        if (!isMyTurn)
-        {
-            // Blokujemy wszystkie akcje w ga³êzi nr 2 (Typ Akcji)
-            // Zak³adaj¹c, ¿e masz 6 typów akcji (0-5)
-            for (int i = 0; i < 5; i++)
-            {
-                actionMask.SetActionEnabled(1, i, false);
-            }
-            // W tym momencie model nie mo¿e "wybraæ" niczego, 
-            // co mog³oby wywo³aæ logikê w OnActionReceived.
-            return;
-        }
-
-        // Wy³¹czanie akcji powy¿ej dostêpnych p³ytek
         if (AIPlayerHand.Count > 0)
         {
             for (int i = availableTiles; i < maxTiles; i++)
@@ -292,47 +295,47 @@ public class PlayerAI : Agent
         }
         if (AIPlayerHand.Count == 0) actionMask.SetActionEnabled(1, 0, false); //wy³¹czenie k³adzenia p³ytek gdy nie ma p³ytek w rêku
         
-        //gdy mamy tyle samo p³ytek co na pocz¹tku tury
-        if (AIPlayerHand.Count == AIPlayerHandCopy.Count)
-        {
-            actionMask.SetActionEnabled(1, 1, false);//nie mo¿na usun¹æ
-            actionMask.SetActionEnabled(1, 4, false);//nie mo¿na undo zrobiæ
-            actionMask.SetActionEnabled(1, 5, false);//nie mo¿na zakoñczyæ tury
-        }
-        //gdy mapa jest pusta
-        if (board.Count == 0)
-        {
-            actionMask.SetActionEnabled(1, 1, false); //nie mo¿na usuwaæ
-            actionMask.SetActionEnabled(1, 2, false);//nie mo¿na przestawiaæ
-        }
-        //if(firstTurn) actionMask.SetActionEnabled(2, 4, false);
 
-        if (firstTurn && AIPlayerHand.Count == AIPlayerHandCopy.Count) //jeœli mamy pierwsz¹ turê i agent nic nie wy³o¿y³
+            //gdy mamy tyle samo p³ytek co na pocz¹tku tury
+            if (AIPlayerHand.Count == AIPlayerHandCopy.Count)
+            {
+                actionMask.SetActionEnabled(1, 1, false);//nie mo¿na usun¹æ
+                actionMask.SetActionEnabled(1, 4, false);//nie mo¿na undo zrobiæ
+                actionMask.SetActionEnabled(1, 5, false);//nie mo¿na zakoñczyæ tury
+            }
+            //gdy mapa jest pusta
+            if (board.Count == 0)
+            {
+                actionMask.SetActionEnabled(1, 1, false); //nie mo¿na usuwaæ
+                actionMask.SetActionEnabled(1, 2, false);//nie mo¿na przestawiaæ
+            }
+            //if(firstTurn) actionMask.SetActionEnabled(2, 4, false);
+
+            if (firstTurn && AIPlayerHand.Count == AIPlayerHandCopy.Count) //jeœli mamy pierwsz¹ turê i agent nic nie wy³o¿y³
+            {
+                actionMask.SetActionEnabled(1, 2, false); //nie mo¿na przesuwaæ
+            }
+            if(GameController.Instance.gameIndex != 6)
+                if (!GameController.Instance.gameTurnManager.turnController.CheckMap()) //jeœli mapa jest zakoñczona niepoprawnie
+                {
+                    actionMask.SetActionEnabled(1, 5, false); //zablokowane koñczenie tury
+                }
+        
+        if(GameController.Instance.gameIndex == 6)
         {
-            actionMask.SetActionEnabled(1, 2, false); //nie mo¿na przesuwaæ
+            //actionMask.SetActionEnabled(1, 3, false);
+            if (this.trainingIndex % 2 == 0)
+            {
+                actionMask.SetActionEnabled(1, 1, false);
+                actionMask.SetActionEnabled(1, 2, false);
+                actionMask.SetActionEnabled(1, 4, false);
+            }
+            if (!(trainingIndex >= 6))
+            {
+                actionMask.SetActionEnabled(1, 3, false);
+            }
         }
 
-        if (!GameController.Instance.gameTurnManager.turnController.CheckMap()) //jeœli mapa jest zakoñczona niepoprawnie
-        {
-            actionMask.SetActionEnabled(1, 5, false); //zablokowane koñczenie tury
-        }
-
-        //for (int z = minZ; z <= maxZ; z++)
-        //{
-        //    for (int x = minX; x <= maxX; x++)
-        //    {
-        //        if (board.ContainsKey(new Vector3Int(x, 0, z)))
-        //        {
-        //            int index = From2Dto1D(x, z);
-        //            actionMask.SetActionEnabled(0, index, false);
-        //            actionMask.SetActionEnabled(3, index, false);
-        //        }
-        //        else
-        //        {
-
-        //        }
-        //    }
-        //}
 
     }
 
@@ -437,6 +440,92 @@ public class PlayerAI : Agent
         //Debug.Log("ile p³ytek-kopii jest w klasie player: " + playerHandCopy.Count);
     }
     /// <summary>
+    /// Funkcja do przypisania p³ytek do jednego gracza w trakcie treningu, w zale¿noœci od etapu treningu
+    /// </summary>
+    /// <param name="tiles"></param>
+    /// <param name="idx"></param>
+    public void SetPlayersHand_TrainingFunction(ref List<Tile> tiles, int idx)
+    {
+        AIPlayerHand = new();
+        AIPlayerHandCopy = new();
+        // playerHand = new ();
+        int TileIndex;
+        //int amount = 3;
+        bool shouldHaveJoker = Random.Range(0, 100) < 10;
+        if (this.trainingIndex <= 5) // Etapy nielosowe (0, 1, 2, 3, 4, 5)
+        {
+            int amount = 3; // Domyœlnie dla 0-1
+            if (this.trainingIndex == 2 || this.trainingIndex == 3) amount = 7;
+            if (this.trainingIndex == 4 || this.trainingIndex == 5) amount = 14;
+
+            // Jeœli ma byæ joker, zmniejszamy liczbê zwyk³ych p³ytek o 1
+            int normalTilesAmount = shouldHaveJoker ? amount - 1 : amount;
+
+            // 1. Wybieramy losowy kolor i start sekwencji (np. 1-13)
+            // Twoja lista tiles ma po kolei kolory, wiêc bezpieczniej szukaæ po parametrach
+            int randomColorIdx = Random.Range(0, 4);
+            UnityEngine.Color[] cols = { UnityEngine.Color.red, new UnityEngine.Color(1f, 0.5f, 0f), UnityEngine.Color.black, UnityEngine.Color.blue };
+            UnityEngine.Color selectedCol = cols[randomColorIdx];
+
+            // Losujemy start, ¿eby sekwencja siê zmieœci³a w 13
+            int maxPossibleStart = 13 - normalTilesAmount + 1;
+            int startNum = Random.Range(1, maxPossibleStart + 1);
+
+            // 2. Pobieramy sekwencjê z banku
+            for (int i = 0; i < normalTilesAmount; i++)
+            {
+                int targetNum = startNum + i;
+                // Szukamy konkretnej p³ytki w banku
+                int foundIndex = tiles.FindIndex(t => t.GetNumber() == targetNum && t.GetColor() == selectedCol);
+
+                if (foundIndex != -1)
+                {
+                    AIPlayerHand.Add(tiles[foundIndex]);
+                    tiles.RemoveAt(foundIndex);
+                }
+            }
+
+            // 3. Dodajemy Jokera, jeœli wylosowano
+            if (shouldHaveJoker)
+            {
+                int joker = tiles.FindIndex(t => t.GetNumber() == 30); // Twoje jokery maj¹ nr 30
+                if (joker != -1)
+                {
+                    AIPlayerHand.Add(tiles[joker]);
+                    tiles.RemoveAt(joker);
+                }
+            }
+        }
+        else if (this.trainingIndex == 6 || this.trainingIndex == 7)
+        {
+            for (int i = 0; i < 14; i++)
+            {
+                TileIndex = Random.Range(0, (tiles.Count));
+                // tiles[TileIndex].ShowTiles();
+                AIPlayerHand.Add(tiles[TileIndex]);
+                tiles.RemoveAt(TileIndex);
+            }
+        }
+        //Debug.Log("ile p³ytek jest w klasie player: "+playerHand.Count);
+        SaveListToCopy();
+       // PrintList();
+        this.myIndex = idx;
+    }
+
+    void PrintList()
+    {
+        string toPrint = string.Empty;
+        foreach(Tile tile in AIPlayerHand)
+        {
+            toPrint += tile.GetTilename()+" ";
+        }
+        Debug.Log(toPrint);
+    }
+    bool IsTheSameColor(int howManyTiles)
+    {
+        return false;
+    }
+    /// <summary>
     /// funkcja do sprawdzenia czy po³o¿enie p³ytki w wybranym miejscu jest poprawne
     /// jeœli tak to daæ nagrode
     /// jesli nie to ukaraæ
@@ -461,13 +550,17 @@ public class PlayerAI : Agent
                 Vector3Int positionminusjeden = new Vector3Int(x-1, 0, z);
                 Vector3Int positionminusdwa = new Vector3Int(x-2, 0, z);
                 if (board.ContainsKey(positionplusjeden) && board.ContainsKey(positionminusjeden))
-                    AddReward(rewards.PTPBOT); //puting tile properly between other tiles
+                    if (GameController.Instance.gameIndex == 6) AddReward(rewards.PTPBOT_T);
+                    else AddReward(rewards.PTPBOT); //puting tile properly between other tiles
                 else if (board.ContainsKey(positionplusjeden) || board.ContainsKey(positionminusjeden))
-                    AddReward(rewards.PTPCTOT); //puting tile properly close to other tile
-                else if ((board.ContainsKey(positionplusjeden) && board.ContainsKey(positionplusdwa))|| (board.ContainsKey(positionminusjeden) && board.ContainsKey(positionminusdwa)))
-                    AddReward(rewards.PTPOLOROTT); //puting tile properly on left or right of two tiles
-                else 
-                    AddReward(rewards.PTPOB);//TODO puting tile properly on board
+                    if (GameController.Instance.gameIndex == 6) AddReward(rewards.PTPCTOT_T); 
+                    else AddReward(rewards.PTPCTOT); //puting tile properly close to other tile
+                else if ((board.ContainsKey(positionplusjeden) && board.ContainsKey(positionplusdwa)) || (board.ContainsKey(positionminusjeden) && board.ContainsKey(positionminusdwa)))
+                    if (GameController.Instance.gameIndex == 6)  AddReward(rewards.PTPOLOROTT_T); 
+                    else AddReward(rewards.PTPOLOROTT); //puting tile properly on left or right of two tiles
+                else
+                    if (GameController.Instance.gameIndex == 6) AddReward(rewards.PTPOB_T); 
+                    else AddReward(rewards.PTPOB);//TODO puting tile properly on board
             }
             else AddReward(rewards.PTW);//TODO puting tile wrongly (invalid)
         }
@@ -602,66 +695,119 @@ public class PlayerAI : Agent
         //zakoñczenie tury jesli jest poprawnie
         //zmiana statusu firstTurn na false jeœli jest true
         //
-        if (GameController.Instance.gameTurnManager.turnController.CheckMap())
+        if (GameController.Instance.gameIndex == 6)
         {
-            if (firstTurn)
+            if(GameController.Instance.gameTurnManager.turnController.CheckMap())
             {
-                if (GameController.Instance.firstTurnController.CheckFirstTurnValidity(GameController.Instance.GetBoardDictionary().board))
-                {
-                    EndFirstTour();
-                    AddReward(rewards.IFTFP);//TODO If first turn is finished properly
-                    SaveListToCopy();
-                    GameController.Instance.firstTurnController.Reset();
-                    GameController.Instance.gameTurnManager.ChangeTurn();
-                    objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
-                    placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
-                    GameController.Instance.NewTurn();
-                    //zapisaæ mapê
-                    if(AIPlayerHand.Count==0)
-                    {
-                        GameController.Instance.EndGame();
-                    }
-                }
+                //dobrze mapa, wysoka nagroda
+                //rozró¿niæ czy mamy 0 p³ytek czy jeszcze coœ zosta³o
+                if(AIPlayerHand.Count == 0)
+                    GameController.Instance.EndGame();
                 else
                 {
-                    int value = GameController.Instance.firstTurnController.CheckFirstTurnValidityValue(GameController.Instance.GetBoardDictionary().board);
-                    float progress = Mathf.Clamp01(value / 30.0f);
-                    float basePenalty = rewards.IFTIMW * 0.5f;
-                    float varPenalty = rewards.IFTIMW * (1.0f - (progress));
-                    AddReward(basePenalty + 0.5f* varPenalty);//TODO If first turn is made wrongly
-                                   // Debug.Log("Agent Ÿle wy³o¿y³ siê w pierwszej turze");
+                    SaveListToCopy();
+                    objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
+                    placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
+                    AddReward( rewards.ATAHFT_T); //reward
                 }
+                Debug.Log("uda³o siê poprawnie zakoñczyæ turê w treningu");
             }
             else
             {
-                if (AIPlayerHand.Count >= AIPlayerHandCopy.Count)
+                if(this.trainingIndex<6 &&  endTurnCount == 5 )
                 {
-                    //TakeTileAction();
-                    AddReward(rewards.WEOTTSAOT);//TODO When at the end of turn, the agent has the same amount of tile like at the beginning
-                    //Debug.Log("Agent nic nie wy³o¿y³");
+                    endTurnCount = 0;
+                    GameController.Instance.EndGame();
+
+                }
+                else if(this.trainingIndex < 6 && endTurnCount <5)
+                {
+                    AddReward(-0.05f);
+                    UndoAction();
+                    endTurnCount++;
                 }
                 else
                 {
+                    //poprawa zachowania
                     SaveListToCopy();
-                    AddReward(rewards.ATAHFT);//TODO after the turn the agent has fewer tiles
-                    GameController.Instance.gameTurnManager.ChangeTurn();
                     objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
                     placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
-                    GameController.Instance.NewTurn();
-                    if (AIPlayerHand.Count == 0)
-                    {
-                        GameController.Instance.EndGame();
-                    }
+                    AddReward(rewards.MILWAT_T); //reward
                 }
+                //b³êdnie skoñczona mapa, przegrana
             }
 
         }
         else
         {
-            AddReward(rewards.MILWAT);//TODO the map is left wrongly after turn
-            //Debug.Log("Agent Ÿle zakoñczy³ ture");
-        }
-    }
+        if (GameController.Instance.gameTurnManager.turnController.CheckMap())
+        {
+           
+            
+                float handPressurePenalty = AIPlayerHand.Count * rewards.PFETIH;
+                AddReward(handPressurePenalty);
+                if (firstTurn)
+                {
+                    if (GameController.Instance.firstTurnController.CheckFirstTurnValidity(GameController.Instance.GetBoardDictionary().board))
+                    {
+                        EndFirstTour();
+                        AddReward(rewards.IFTFP);//TODO If first turn is finished properly
+                        SaveListToCopy();
+                        GameController.Instance.firstTurnController.Reset();
+                        GameController.Instance.gameTurnManager.ChangeTurn();
+                        objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
+                        placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
+                        GameController.Instance.NewTurn();
+                        //zapisaæ mapê
+                        if (AIPlayerHand.Count == 0)
+                        {
+                            GameController.Instance.EndGame();
+                        }
+                    }
+                    else
+                    {
+                        int value = GameController.Instance.firstTurnController.CheckFirstTurnValidityValue(GameController.Instance.GetBoardDictionary().board);
+                        float progress = Mathf.Clamp01(value / 30.0f);
+                        //float basePenalty = rewards.IFTIMW * 0.5f;
+                        //float varPenalty = rewards.IFTIMW * (1.0f - (progress));
+                        // AddReward(basePenalty + 0.5f* varPenalty);//TODO If first turn is made wrongly
+                        // Debug.Log("Agent Ÿle wy³o¿y³ siê w pierwszej turze");
+                        float partialReward = (progress * rewards.IFTFP) * 0.5f;
+                        AddReward(rewards.IFTIMW + partialReward);
+                    }
+                }
+                else
+                {
+                    if (AIPlayerHand.Count >= AIPlayerHandCopy.Count)
+                    {
+                        //TakeTileAction();
+                        AddReward(rewards.WEOTTSAOT);//TODO When at the end of turn, the agent has the same amount of tile like at the beginning
+                                                     //Debug.Log("Agent nic nie wy³o¿y³");
+                    }
+                    else
+                    {
+                        SaveListToCopy();
+                        AddReward(rewards.ATAHFT);//TODO after the turn the agent has fewer tiles
+                        GameController.Instance.gameTurnManager.ChangeTurn();
+                        objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
+                        placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
+                        GameController.Instance.NewTurn();
+                        if (AIPlayerHand.Count == 0)
+                        {
+                            GameController.Instance.EndGame();
+                        }
+                    }
+                }
+
+            }
+
+
+        else
+            {
+                AddReward(rewards.MILWAT);//TODO the map is left wrongly after turn
+                                          //Debug.Log("Agent Ÿle zakoñczy³ ture");
+            }
+        } }
     void TakeTileAction()
     {
         //nie chcemy by bra³ nowe p³ytki, ujemne punkty
@@ -672,8 +818,12 @@ public class PlayerAI : Agent
         AddNewTile(ref tiles);
         AddReward(rewards.TNT);//TODO Taking new tile
         if (firstTurn) GameController.Instance.firstTurnController.Reset();
-
-        GameController.Instance.gameTurnManager.ChangeTurn();
+        if (GameController.Instance.gameIndex != 6)
+        {
+            AddReward(rewards.TNT);//TODO Taking new tile
+            GameController.Instance.gameTurnManager.ChangeTurn();
+        }
+        else AddReward(0);//reward
         //undo
     }
     /// <summary>
@@ -688,7 +838,7 @@ public class PlayerAI : Agent
         else
         {
             //int score = FinalScore();
-            float penalty = AIPlayerHand.Count * (rewards.PFETIH);
+            float penalty = FinalScore() * (rewards.PFETIH);
 
             SetReward(rewards.lossPenalty); //loss
             AddReward(penalty);//TODO penalty for each tile in hand
