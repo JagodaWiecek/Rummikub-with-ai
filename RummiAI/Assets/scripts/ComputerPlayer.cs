@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using TMPro;
@@ -12,6 +13,16 @@ using UnityEngine.UIElements;
 using UnityEngine.XR;
 using static UnityEditor.PlayerSettings;
 using static UnityEngine.Rendering.VirtualTexturing.Debugging;
+
+public struct AIDecision
+{
+    public int ActionType;    
+    public int PositionXZ;    
+    public int TileIndex;     
+    public int NewPositionXZ; 
+    public bool flag;
+}
+
 /// <summary>
 /// Klasa gracza komputerowego z predefiniowanymi zachowaniami
 /// </summary>
@@ -41,10 +52,15 @@ public class ComputerPlayer : MonoBehaviour
     [SerializeField]
     PlacementSystem placementSystem;
 
+    public AIDecision aIDecision;
+    private Queue<AIDecision> expertDecisions = new Queue<AIDecision>();
+
     int maxX = 11;
     int minX = -12;
     int maxZ = 5;
     int minZ = -4;
+    int xSize = 24;
+    int zSize = 10;
 
     // Start is called before the first frame update
     void Start()
@@ -63,6 +79,26 @@ public class ComputerPlayer : MonoBehaviour
 
         }
     }
+    private int From2Dto1D(int x, int z)
+    {
+        int xNorm = x - minX;
+        int zNorm = z - minZ;
+        int index = (xNorm * zSize) + zNorm;
+        return index;
+    }
+    public AIDecision GetBestMove()
+    {
+        if (expertDecisions.Count > 0)
+        {
+            return expertDecisions.Dequeue();
+        }
+        else
+        {
+            return new AIDecision { flag = false };
+        }
+    }
+
+
 
     // Update is called once per frame
     void Update()
@@ -178,6 +214,20 @@ public class ComputerPlayer : MonoBehaviour
             objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
             placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
             GameController.Instance.NewTurn();
+
+            if (GameController.Instance.gameIndex == 7)
+            {
+                //return new AIDecision { ActionType = 0, PositionXZ = 0, TileIndex = i };
+                expertDecisions.Enqueue(new AIDecision
+                {
+                    ActionType = 5,
+                    PositionXZ = 0,
+                    TileIndex = 0,
+                    NewPositionXZ = 0,
+                    flag = true
+                });
+
+            }
         }
     }
 
@@ -562,7 +612,7 @@ public class ComputerPlayer : MonoBehaviour
         for(int i = 1,j=0;i< (chosenSpace.Count-1);i++,j++)
         {
 
-            PutTile(chosenSpace[i], sequention[j]);
+            PutTile(chosenSpace[i], sequention[j],j);
         }
 
         //wylosowanie wartoœci na mape dla x i z
@@ -688,7 +738,7 @@ public class ComputerPlayer : MonoBehaviour
     /// </summary>
     /// <param name="gridPosition">pozycja wybrana dla p³ytki</param>
     /// <param name="tile">konkteny obiekt do po³o¿enia na mapie</param>
-    void PutTile(Vector3Int gridPosition,Tile tile)
+    void PutTile(Vector3Int gridPosition,Tile tile,int i)
     {
 
         int index = objectPlacer.PlacedObject(database.objectsData[0].Prefab, grid.CellToWorld(gridPosition),ref tile, grid);
@@ -697,6 +747,18 @@ public class ComputerPlayer : MonoBehaviour
             database.objectsData[0].Size,
             database.objectsData[0].ID,
             index);
+        if (GameController.Instance.gameIndex == 7) 
+        {
+            expertDecisions.Enqueue(new AIDecision
+            {
+                ActionType = 0,
+                PositionXZ = From2Dto1D(gridPosition.x, gridPosition.z),
+                TileIndex = i,
+                NewPositionXZ = 0,
+                flag = true
+            });
+
+        }
         //tile.ShowTiles();
         //Debug.Log("na pozycji:" + gridPosition);
     }
@@ -717,7 +779,7 @@ public class ComputerPlayer : MonoBehaviour
                 if (handTiles[i].CheckTileValidity(position))
                 {
                     //postawiæ p³ytkê 
-                    PutTile(position, handTiles[i]);
+                    PutTile(position, handTiles[i],i);
                     handTiles.RemoveAt(i);
                     freePositions.Remove(position);
                     Vector3Int plusjeden = new((position.x + 1), 0, position.z);
@@ -873,6 +935,20 @@ public class ComputerPlayer : MonoBehaviour
                 placementSystem.GetGridData().MoveObjectAt(newGridPositions[i], oldGridPositions[j], database.objectsData[0].Size);
                 objectPlacer.MoveObjectTo(selectedObjectIndex, grid.CellToWorld(newGridPositions[i]));
                 GameController.Instance.GetBoardDictionary().MoveObjectAt(newGridPositions[i], oldGridPositions[j]);
+                if (GameController.Instance.gameIndex == 7)
+                {
+                    //return new AIDecision { ActionType = 0, PositionXZ = 0, TileIndex = i };
+
+                    expertDecisions.Enqueue(new AIDecision
+                    {
+                        ActionType = 2,
+                        PositionXZ = From2Dto1D(oldGridPositions[j].x, oldGridPositions[j].z),
+                        TileIndex = 0,
+                        NewPositionXZ = From2Dto1D(newGridPositions[i].x, newGridPositions[i].z),
+                        flag = true
+                    });
+
+                }
             }
             else break;
 
@@ -893,6 +969,25 @@ public class ComputerPlayer : MonoBehaviour
         placementSystem.GetGridData().MoveObjectAt(newGridPosition, oldGridPosition, database.objectsData[0].Size);
         objectPlacer.MoveObjectTo(selectedObjectIndex, grid.CellToWorld(newGridPosition));
         GameController.Instance.GetBoardDictionary().MoveObjectAt(newGridPosition, oldGridPosition);
+        if (GameController.Instance.gameIndex == 7)
+        {
+            //return new AIDecision { ActionType = 0, PositionXZ = 0, TileIndex = i };
+            aIDecision.flag = true;
+            aIDecision.ActionType = 2;
+            aIDecision.TileIndex = 0;
+            aIDecision.PositionXZ = From2Dto1D(oldGridPosition.x, oldGridPosition.z);
+            aIDecision.NewPositionXZ = From2Dto1D(newGridPosition.x, newGridPosition.z);
+
+            expertDecisions.Enqueue(new AIDecision
+            {
+                ActionType = 2,
+                PositionXZ = From2Dto1D(oldGridPosition.x, oldGridPosition.z),
+                TileIndex = 0,
+                NewPositionXZ = From2Dto1D(newGridPosition.x, newGridPosition.z),
+                flag = true
+            });
+
+        }
     }
     /// <summary>
     /// Przesuniêcie losowej sekwencji jeœli znajduj¹ siê bezpoœrednio obok siebie
@@ -1416,7 +1511,7 @@ public class ComputerPlayer : MonoBehaviour
 
         if(handTile.CheckTileValidity(new Vector3Int(x + 1, y, z)) && !board.ContainsKey(new Vector3Int(x + 1, y, z)))
         {
-            PutTile(new Vector3Int(x + 1, y, z), handTiles[index]);
+            PutTile(new Vector3Int(x + 1, y, z), handTiles[index],index);
             handTiles.RemoveAt(index);
         }
         else if (board.ContainsKey(new Vector3Int(x + 1, y, z)))
@@ -1446,7 +1541,7 @@ public class ComputerPlayer : MonoBehaviour
         int x = tempPosition.x; int y = tempPosition.y; int z = tempPosition.z;
         if (handTile.CheckTileValidity(new Vector3Int(x - 1, y, z)) && !board.ContainsKey(new Vector3Int(x - 1, y, z)))
         {
-            PutTile(new Vector3Int(x - 1, y, z), handTiles[index]);
+            PutTile(new Vector3Int(x - 1, y, z), handTiles[index], index);
             handTiles.RemoveAt(index);
         }
         else if (board.ContainsKey(new Vector3Int(x - 1, y, z)))

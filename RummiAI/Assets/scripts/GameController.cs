@@ -37,6 +37,8 @@ public class GameController : MonoBehaviour
     [SerializeField]
     ComputerPlayer ComputerPlayer;
     [SerializeField]
+    ComputerPlayer CP_AI ;
+    [SerializeField]
     PlayerAI AI;
     [SerializeField]
     PlayerAI AI_1;
@@ -175,6 +177,13 @@ public class GameController : MonoBehaviour
         {
             AI.SetPlayersHand_TrainingFunction(ref this.mainBank, 0); //all tiles
         }
+        else if (gameIndex == 7)
+        {
+            CP_AI.SetPlayersHand(ref this.mainBank, 0);
+            mrComputerPlayer.SetPlayersHand(ref this.mainBank, 1);
+            missComputerPlayer.SetPlayersHand(ref this.mainBank, 2);
+            ComputerPlayer.SetPlayersHand(ref this.mainBank, 3);
+        }
         else
         {
             player.SetPlayersHand(ref this.mainBank); 
@@ -273,6 +282,8 @@ public class GameController : MonoBehaviour
     public ComputerPlayer GetMrComputerPlayer() { return this.mrComputerPlayer; }
     public ComputerPlayer GetMissComputerPlayer() { return this.missComputerPlayer; }
     public ComputerPlayer GetComputerPlayer() { return this.ComputerPlayer; }
+
+    public ComputerPlayer GetCP_AI() { return this.CP_AI; }
     public PlayerAI GetPlayerAI() { return this.AI; }
 
     /// <summary>
@@ -497,6 +508,27 @@ public class GameController : MonoBehaviour
             boardDictionary = new();
             AI.SetPlayersHand_TrainingFunction(ref this.mainBank, 0);
             //gameTurnManager.Reset();
+        }
+        else if (gameIndex == 7)
+        {
+            CP_AI.Reset(); //Main character
+            missComputerPlayer.Reset();
+            mrComputerPlayer.Reset();
+            ComputerPlayer.Reset();
+
+            objectPlacer.Reset();
+            gameTurnManager.turnController.Reset();
+            CreateMainBank(ref this.mainBank);
+            boardList = new();
+            boardDictionary = new();
+
+            CP_AI.SetPlayersHand(ref this.mainBank, 0);
+            mrComputerPlayer.SetPlayersHand(ref this.mainBank, 1);
+            missComputerPlayer.SetPlayersHand(ref this.mainBank, 2);
+            ComputerPlayer.SetPlayersHand(ref this.mainBank, 3);
+
+            gameTurnManager.Reset();
+
         }
 
         //przekazanie listy plansz do ai

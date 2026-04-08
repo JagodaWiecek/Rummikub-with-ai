@@ -33,8 +33,6 @@ This section reviews the most relevant contemporary approaches to artificial int
 \subsection{An Overview of Non-Player Character Behavior Systems}
 % algorytmy sztucznej inteligencji wykorzystywanej w grach do implementacji npc
 According to \cite{NaeemMuddasar2020AGIt}, Artificial Intelligence (AI) can be defined as simulated intelligence on programmable machines that attempts to mimic the human brain.
-
-It is a thriving field, with active research topics aimed at automating routine labor, understanding speech and images, and supporting basic scientific research. AI systems are designed to solve tasks that are intellectually challenging for humans, but can be described formally (e.g. playing chess), as well as intuitive tasks that are difficult to describe formally (e.g. recognising faces).
  
 The aim of applying artificial intelligence algorithms in digital games is to create computer-controlled players that can imitate human behavior and compete effectively with human opponents. A key challenge is designing an computer player that not only performs well and is capable of winning against human players, but also demonstrates behavior that appears natural and realistic during gameplay. To achieve this, developers and researchers employ a variety of AI algorithms and computational models:
 \begin{itemize}
@@ -111,12 +109,15 @@ The aim of applying artificial intelligence algorithms in digital games is to cr
 		\item Replace the old population with the newly generated offspring and repeat steps 2-5 until a termination condition is satisfied.
 	\end{enumerate}
 	
+	\item Deep Neural Network \\is based on Artificial Neural Network (ANN), where each neuron can be interpreted as a linear function followed by a non-linear activation. A DNN extends this concept by stacking multiple layers of neurons, allowing the model to learn more complex patterns and representations.
+	Because of this layered structure, DNNs are capable of approximating highly complex functions, while still relying on simple operations at the level of individual neurons. This topic is described in detail in chapter \ref{chap:Deep_Learning_subchap}.
 	
 	\item Reinforcement Learning (RL)\\Algorithm allows agents to learn optimal policies through trial-and-error interactions using reward-penalty system. This topic is described in detail in chapter \ref{chap:Reinforcement_Learning_subchap}.
 \end{itemize}
 
 \subsection{Deep Learning} 
-
+\label{chap:Deep_Learning_subchap}
+It is a thriving field, with active research topics aimed at automating routine labor, understanding speech and images, and supporting basic scientific research. AI systems are designed to solve tasks that are intellectually challenging for humans, but can be described formally (e.g. playing chess), as well as intuitive tasks that are difficult to describe formally (e.g. recognising faces).
 \subsubsection{History of Deep Learning}
 The pursuit of artificial intelligence dates back to ancient times, but, according to \cite{Deep-Learning-book}, as a computational discipline it has evolved through three waves:
 \begin{enumerate}
@@ -145,13 +146,48 @@ The pursuit of artificial intelligence dates back to ancient times, but, accordi
 		\item Repeat steps 3 and 4 for all hidden layers in the network.
 		\item  After all layers are pretrained, add a classification layer on top and use the back-propagation algorithm to jointly train (fine-tune) the entire network using labeled data.
 	\end{itemize}
-	This discovery proved that deep architectures could outperform shallow models like Support Vector Machines (e.g., on the MNIST dataset). This wave popularized the specific term "Deep Learning" to emphasize the theoretical importance of depth in architectural design. 
+	This discovery proved that deep architectures could outperform shallow models like Support Vector Machines. This wave popularized the specific term "Deep Learning" to emphasize the theoretical importance of depth in architectural design. 
 	
-	Today, while the foundational algorithms like back-propagation remain the same as in the 1980s, the current wave's explosive success is heavily attributed to the age of "Big Data" (providing the millions of labeled examples necessary for statistical generalization) and the massive parallel computational power of modern general-purpose GPUs
+	Today, while the foundational algorithms like back-propagation remain the same as in the 1980s, the current wave's explosive success is heavily attributed to the age of "Big Data" (providing the millions of examples necessary for statistical generalization) and the massive parallel computational power of modern general-purpose GPUs
 \end{enumerate}
 
-\subsubsection{Algorithm of Deep Learning}
+\subsubsection{An Overview of Deep Learning}
 
+%co opisać, perceptron, budowa sieci neuronalnej, budowa deep nn
+%DNN vs ANN
+According to \cite{Deep-Learning-book}, deep learning constitutes a highly specialized and powerful sub-discipline of machine learning, engineered to solve complex, intuitive problems that defy traditional formalization, such as speech recognition and computer vision. While early artificial intelligence systems relied heavily on hard-coded knowledge and manually engineered rules, deep learning systems autonomously acquire knowledge by extracting complex patterns directly from raw data. The term "deep" in deep neural networks refers to the architecture of the network, where a standard neural network consists of an input layer, a single hidden layer and an output layer. A deep neural network has at least two hidden layers between the input and output layers.
+\\In the domains of computer science and machine learning, the terms Neural Network (NN) and Artificial Neural Network (ANN) are utilized interchangeably. These systems represent a robust class of computational models structurally and functionally inspired by the biological nervous systems of animals and humans. The foundational principle of an ANN is connectionism: while a single artificial neuron (or node) possesses minimal computational utility, a large, interconnected population of these units acting in parallel can exhibit highly intelligent, complex behavior. 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{./images/FeedForwardNN.png}
+	\caption{The graph of feedforward neural network}
+	\label{fig:FeedForwardNNGraph}
+\end{figure}
+
+The image \ref{fig:FeedForwardNNGraph} presents an example of the internal structure of an NN, meaningfully representing the most popular architectural paradigm, feedforward neural network architecture. The initial layer, {\bf Input layer}, receives the raw, pre-processed environmental data, such as image pixels or numerical matrices. { \bf Hidden layer} is an intermediate layer that performs the core abstraction and feature extraction. It is denoted as {\textit hidden} because the training data does not explicitly define what the output of these specific layers should be, the learning algorithm must autonomously deduce the optimal intermediate representations to solve the task. The number of neurons (units) within a single layer determines the network's {\textit width}, while the total number of sequential hidden layers defines the network's 
+ The { \bf Output Layer } is the terminal stage of the network.
+ It synthesizes the highly abstract, complex representations generated by the deepest hidden layers into a final predictive mapping, such as a continuous scalar value for regression or class probabilities for classification
+
+ At its core, a deep neural network represents a hierarchical composition of numerous mathematical functions, where each function corresponds to a distinct layer
+ \begin{align}
+f(x) = f^{(n)}(f^{(n-1)}(\dots f^{(1)}(x)))
+\end{align}
+where
+\begin{itemize}
+	\item $x$  represents the initial input vector
+	\item $f^{(i)}$ represents the transformation applied at the i-th hidden layer
+\end{itemize}
+
+The image \ref{fig:perceptronGraph} presents
+{\textit depth}.\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{./images/perceptron.png}
+	\caption{The graph of single perceptron}
+	\label{fig:perceptronGraph}
+\end{figure}
+%Architektura NN - input, output, hidden layers
+%Neuron model suma ważona, funkcja aktywacji, 
+%proces uczenia, funkcja straty, backpropagation, gradient descent
 \subsection{Reinforcement Learning}
 \label{chap:Reinforcement_Learning_subchap}
 \subsubsection{History of Reinforcement Learning}
@@ -193,7 +229,7 @@ The pursuit of artificial intelligence dates back to ancient times, but, accordi
 
 
 
-\subsection{Policy Gradient Methods}
+%\subsection{Policy Gradient Methods}
 \subsection{Proximal Policy Optimization}
 \subsection{Soft Actor-Critic}
 \section{Literature Research}

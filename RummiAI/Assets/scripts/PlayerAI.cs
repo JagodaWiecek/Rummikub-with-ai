@@ -99,50 +99,46 @@ public class PlayerAI : Agent
     public override void CollectObservations(VectorSensor sensor)//, GridSensor)
     {
         var board = GameController.Instance.GetBoardDictionary().board;
-        sensor.AddObservation(AIPlayerHand.Count/64); //ile p³ytek ma ai
-        sensor.AddObservation(GameController.Instance.gameTurnManager.currentTurnTime/ GameController.Instance.gameTurnManager.turnTime);//obserwacja czasu tury
-        sensor.AddObservation(firstTurn ? 1 : 0);//jeœli true to trzeba mieæ conajmniej 30 na start
-
-        var allPlayers = GameController.Instance.GetAllPlayers();
-        foreach (var player in allPlayers) 
+        sensor.AddObservation(GameController.Instance.gameTurnManager.currentTurnTime / GameController.Instance.gameTurnManager.turnTime);
+        sensor.AddObservation(firstTurn ? 1 : 0);
+        BufferSensorComponent bufferSensor = GetComponent<BufferSensorComponent>();
+        if (GameController.Instance.gameIndex == 7)
         {
-            sensor.AddObservation(player.tileAmount/64f);
+            sensor.AddObservation(GameController.Instance.GetCP_AI().GetList().Count/64f);
+            foreach (var tile in GameController.Instance.GetCP_AI().GetList())
+            {
+                float[] tileData = new float[3];
+                tileData[0] = GetNormalizedNumber(tile.GetNumber());
+                tileData[1] = GetNormalizedColor(tile.GetColor());
+                tileData[2] = GameController.Instance.GetCP_AI().GetList().IndexOf(tile)/64f;
+                bufferSensor.AppendObservation(tileData);
+            }
+        }
+        else 
+        {
+           
+            sensor.AddObservation(AIPlayerHand.Count/64f); //ile p³ytek ma 
+            
+            foreach (var tile in AIPlayerHand)
+            {
+                float[] tileData = new float[3];
+                tileData[0] = GetNormalizedNumber(tile.GetNumber());
+                tileData[1] = GetNormalizedColor(tile.GetColor());
+                tileData[2] = AIPlayerHand.IndexOf(tile)/64f;
+                bufferSensor.AppendObservation(tileData);
+                // Dodaj to na chwilê, ¿eby sprawdziæ:
+                // Debug.Log($"Buffer wysy³a p³ytkê: {tile.GetNumber()} {tile.GetColor()}");
+            }
+        }
+        var allPlayers = GameController.Instance.GetAllPlayers();
+        foreach (var player in allPlayers)
+        {
+            sensor.AddObservation(player.tileAmount / 64f);
             sensor.AddObservation(player.firstTurn ? 1f : 0f);
         }
         float totalPlayers = GameController.Instance.GetAllPlayers().Count + 1;
-        sensor.AddObservation((float)GameController.Instance.gameTurnManager.currentPlayerId/totalPlayers);
-        //obserwacje kolorów, numerów i indeksu p³ytki
-        /*for (int i = 0; i < 64; i++)
-        {
-            //AIPlayerHand.Count
-            if (i < AIPlayerHand.Count)
-            {
-                sensor.AddObservation(GetNormalizedNumber(AIPlayerHand[i].GetNumber()));
-                sensor.AddObservation(GetNormalizedColor(AIPlayerHand[i].GetColor()));
-                sensor.AddObservation(i);
-            }
-            else sensor.AddObservation(0f);
-            //sensor.AddObservation(AIPlayerHand[i].GetColor().r);
-            //sensor.AddObservation(AIPlayerHand[i].GetColor().g);
-            //sensor.AddObservation(AIPlayerHand[i].GetColor().b);
+        sensor.AddObservation((float)GameController.Instance.gameTurnManager.currentPlayerId / totalPlayers);
 
-        }*/
-        
-        BufferSensorComponent bufferSensor = GetComponent<BufferSensorComponent>();
-        foreach (var tile in AIPlayerHand)
-        {
-            float[] tileData = new float[2];
-            tileData[0] = GetNormalizedNumber(tile.GetNumber());
-            tileData[1] = GetNormalizedColor(tile.GetColor());
-
-            bufferSensor.AppendObservation(tileData);
-            // Dodaj to na chwilê, ¿eby sprawdziæ:
-            // Debug.Log($"Buffer wysy³a p³ytkê: {tile.GetNumber()} {tile.GetColor()}");
-        }
-        //obserwacja mapy, ka¿dego koloru i numeru p³ytki, i zaznaczenie jej jako pustej jeœli nie ma p³ytki
-        //float width = maxX - minX;
-        //float height = maxZ - minZ;
-        
         for (int z = minZ; z <= maxZ; z++)
         {
             for (int x = minX; x <= maxX; x++)
@@ -177,6 +173,7 @@ public class PlayerAI : Agent
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
+        if (GameController.Instance.gameIndex == 7) return;
         if (GameController.Instance.gameTurnManager.currentPlayerId != myIndex) return;
         AddReward(rewards.SP);
         //wybór akcji 
@@ -337,6 +334,25 @@ public class PlayerAI : Agent
         }
 
 
+    }
+
+    public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        var discreteActions = actionsOut.DiscreteActions;
+        if (GameController.Instance.gameIndex == 7)
+        {
+            
+            var decision = GameController.Instance.GetCP_AI().GetBestMove();
+
+            if (decision.flag)
+            {
+                discreteActions[0] = decision.PositionXZ;
+                discreteActions[1] = decision.ActionType;
+                discreteActions[2] = decision.TileIndex;
+                discreteActions[3] = decision.NewPositionXZ;
+            }
+          
+        }
     }
 
     private float GetNormalizedColor(UnityEngine.Color c)
@@ -511,7 +527,9 @@ public class PlayerAI : Agent
        // PrintList();
         this.myIndex = idx;
     }
-
+    /// <summary>
+    /// Funkcja do debugowania
+    /// </summary>
     void PrintList()
     {
         string toPrint = string.Empty;
@@ -521,10 +539,7 @@ public class PlayerAI : Agent
         }
         Debug.Log(toPrint);
     }
-    bool IsTheSameColor(int howManyTiles)
-    {
-        return false;
-    }
+
     /// <summary>
     /// funkcja do sprawdzenia czy po³o¿enie p³ytki w wybranym miejscu jest poprawne
     /// jeœli tak to daæ nagrode
@@ -559,7 +574,7 @@ public class PlayerAI : Agent
                     if (GameController.Instance.gameIndex == 6)  AddReward(rewards.PTPOLOROTT_T); 
                     else AddReward(rewards.PTPOLOROTT); //puting tile properly on left or right of two tiles
                 else
-                    if (GameController.Instance.gameIndex == 6) AddReward(rewards.PTPOB_T); 
+                    if (GameController.Instance.gameIndex == 6) AddReward(DistanceOnBoard(rewards.PTPOB_T, board, position)); 
                     else AddReward(rewards.PTPOB);//TODO puting tile properly on board
             }
             else AddReward(rewards.PTW);//TODO puting tile wrongly (invalid)
@@ -567,6 +582,32 @@ public class PlayerAI : Agent
         else AddReward(rewards.PNTNT);//TODO Puting new tile when there are no tiles in hand
     }
 
+    private float DistanceOnBoard(float reward, Dictionary<Vector3Int, Tile> board, Vector3Int position )
+    {
+        if(board.Count() - 1 <= 0)
+            return reward;
+            
+        int x = position.x; int y = position.y; int z = position.z;
+        float totalDistance = 0f;
+        int count = 0;
+
+        foreach (var existingPos in board.Keys)
+        {
+            if (existingPos == position) continue;
+            float dist = Vector3.Distance(position, existingPos);
+            totalDistance += dist;
+            count++;
+        }
+        float avgDistance = totalDistance / count;
+        float maxInfluenceRange = 10.0f;
+
+        float normalized = Mathf.Clamp01((avgDistance - 1f) / (maxInfluenceRange - 1f));
+        float distanceReward = Mathf.Lerp(reward, 0f, normalized);
+
+        Debug.Log("Œrednia nagroda: " + distanceReward);
+
+        return Mathf.Max(0f, distanceReward);
+    }
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex, int index)
     {
 

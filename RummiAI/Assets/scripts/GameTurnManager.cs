@@ -110,6 +110,13 @@ public class GameTurnManager : MonoBehaviour
                     ChangeTurn();
             }
         }
+        else if (GameController.Instance.gameIndex == 7)
+        {
+            if (currentTurnTime <= 0)
+            {
+                ChangeTurn();
+            }
+        }
         else
         {
             currentTurnTime = 5;
@@ -266,6 +273,36 @@ public class GameTurnManager : MonoBehaviour
         {
             SetPlayersTileCountUI();
         }
+        else if (GameController.Instance.gameIndex == 7)
+        {
+            if (currentPlayerId == 0)
+            {
+                currentPlayerText.GetComponent<Text>().text = "Player: CP_AI";
+                //takeTile.EnableAllButtons();
+                //SetPlayersTileCountUI();
+            }
+            else if (currentPlayerId == 1)
+            {
+                currentPlayerText.GetComponent<Text>().text = "Player: MrComputer";
+                //takeTile.DisableAllButtons();
+                //SetPlayersTileCountUI();
+            }
+            else if (currentPlayerId == 2)
+            {
+                currentPlayerText.GetComponent<Text>().text = "Player: MissComputer";
+                // takeTile.DisableAllButtons();
+                //SetPlayersTileCountUI();
+            }
+            else if (currentPlayerId == 3)
+            {
+                currentPlayerText.GetComponent<Text>().text = "Player: Computer";
+                //takeTile.DisableAllButtons();
+                //SetPlayersTileCountUI();
+            }
+            SetPlayersTileCountUI();
+            ResetTime();
+            SetTimeUI();
+        }
         }
 
     public void SetPlayersTileCountUI()
@@ -297,6 +334,13 @@ public class GameTurnManager : MonoBehaviour
         {
             AITilesText.GetComponent<Text>().text = "Agent: " + GameController.Instance.GetPlayerAI().GetList().Count.ToString();
         }
+        else if (GameController.Instance.gameIndex == 7)
+        {
+            MissComputerTilesText.GetComponent<Text>().text = "MissComputer: " + GameController.Instance.GetMissComputerPlayer().GetList().Count.ToString();
+            MrComputerTilesText.GetComponent<Text>().text = "MrComputer: " + GameController.Instance.GetMrComputerPlayer().GetList().Count.ToString();
+            ComputerTilesText.GetComponent<Text>().text = "Computer: " + GameController.Instance.GetComputerPlayer().GetList().Count.ToString();
+            AITilesText.GetComponent<Text>().text = "CP_AI: " + GameController.Instance.GetCP_AI().GetList().Count.ToString();// 
+        }
 
     }
     /// <summary>
@@ -315,7 +359,7 @@ public class GameTurnManager : MonoBehaviour
         
         if (currentPlayerId == 4) currentPlayerId = 0;
 
-        if (GameController.Instance.gameIndex != 1 && GameController.Instance.gameIndex != 4) { takeTile.SetButtonNumber(); }
+        if (GameController.Instance.gameIndex != 1 && GameController.Instance.gameIndex != 4 && GameController.Instance.gameIndex != 7) { takeTile.SetButtonNumber(); }
         EndTurn();
         SetUIText();
     }
