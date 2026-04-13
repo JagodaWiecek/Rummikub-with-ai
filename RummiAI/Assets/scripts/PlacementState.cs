@@ -59,7 +59,7 @@ public class PlacementState : IPlacementState
 
     public void OnAction(Vector3Int gridPosition)
     {
-       // Debug.Log("OnAction w PlacementState"+gridPosition);
+        //Debug.Log("OnAction w PlacementState"+gridPosition);
         bool placementValidity = CheckPlacementValidity(gridPosition, selectedObjectIndex);
         Vector3Int minRange = new Vector3Int(minX, 0, minZ);
         Vector3Int maxRange = new Vector3Int(maxX, 0, maxZ);

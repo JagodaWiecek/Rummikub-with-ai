@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 using UnityEngine.XR;
-using static UnityEditor.PlayerSettings;
+//using static UnityEditor.PlayerSettings;
 using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 public struct AIDecision
@@ -20,7 +20,6 @@ public struct AIDecision
     public int PositionXZ;    
     public int TileIndex;     
     public int NewPositionXZ; 
-    public bool flag;
 }
 
 /// <summary>
@@ -53,7 +52,7 @@ public class ComputerPlayer : MonoBehaviour
     PlacementSystem placementSystem;
 
     public AIDecision aIDecision;
-    private Queue<AIDecision> expertDecisions = new Queue<AIDecision>();
+    public Queue<AIDecision> expertDecisions = new Queue<AIDecision>();
 
     int maxX = 11;
     int minX = -12;
@@ -65,19 +64,11 @@ public class ComputerPlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        switch (GameController.Instance.learningStep)
+        if(GameController.Instance.gameIndex == 4)
         {
-            case 0:
-                firstTurn = true;
-                break;
-            case 1:
-                firstTurn = false;
-                break;
-            default:
-                firstTurn = true;
-                break;
-
+            firstTurn = false;
         }
+
     }
     private int From2Dto1D(int x, int z)
     {
@@ -86,24 +77,13 @@ public class ComputerPlayer : MonoBehaviour
         int index = (xNorm * zSize) + zNorm;
         return index;
     }
-    public AIDecision GetBestMove()
-    {
-        if (expertDecisions.Count > 0)
-        {
-            return expertDecisions.Dequeue();
-        }
-        else
-        {
-            return new AIDecision { flag = false };
-        }
-    }
 
 
 
     // Update is called once per frame
     void Update()
     {
-        if (GameController.Instance.gameTurnManager.currentPlayerId == myIndex) 
+        if (GameController.Instance.gameTurnManager.currentPlayerId == myIndex)
         {
             elapsedTime += Time.deltaTime;
             //time = 2f;
@@ -114,93 +94,209 @@ public class ComputerPlayer : MonoBehaviour
             //SortByColors();
             //ShowTilesInDeck();
             //var board = GameController.Instance.GetBoardDictionary().board;
-           // TakeTileBetween(ref GameController.Instance.GetBoardDictionary().board, ref this.computerPlayerHand);
-
-            if (elapsedTime >= 2f && elapsedTime < 4f)
+            // TakeTileBetween(ref GameController.Instance.GetBoardDictionary().board, ref this.computerPlayerHand);
+            if (GameController.Instance.gameIndex != 7)
             {
-                List<List<Tile>> sequencesbyColors = FindSequentialColorSets(ref computerPlayerHand);
-                if (sequencesbyColors.Count > 0)
+
+                if (elapsedTime >= 2f && elapsedTime < 4f)
                 {
-                    for (int i = sequencesbyColors.Count - 1; i >= 0; i--)
+                    List<List<Tile>> sequencesbyColors = FindSequentialColorSets(ref computerPlayerHand);
+                    if (sequencesbyColors.Count > 0)
                     {
-                        List<Tile> sequence = sequencesbyColors[i];
-                        PutTilesOnBoard(sequence);
-                        RemoveFromList(sequence);
-                        sequencesbyColors.RemoveAt(i);
+                        for (int i = sequencesbyColors.Count - 1; i >= 0; i--)
+                        {
+                            List<Tile> sequence = sequencesbyColors[i];
+                            PutTilesOnBoard(sequence);
+                            RemoveFromList(sequence);
+                            sequencesbyColors.RemoveAt(i);
+                        }
+                    }
+                    // else elapsedTime = 4f;
+
+                }
+                if (elapsedTime >= 4f && elapsedTime < 6f)
+                {
+                    List<List<Tile>> sequencesbyNumbers = FindSameNumberDifferentColorSets(ref computerPlayerHand);
+                    if (sequencesbyNumbers.Count > 0)
+                    {
+                        for (int i = sequencesbyNumbers.Count - 1; i >= 0; i--)
+                        {
+                            List<Tile> sequence = sequencesbyNumbers[i];
+                            PutTilesOnBoard(sequence);
+                            RemoveFromList(sequence);
+                            sequencesbyNumbers.RemoveAt(i); // Usuñ przetworzon¹ sekwencjê
+                        }
+                        //Debug.Log("sekwencji tych samych liczb: " + sequencesbyNumbers.Count);
+                    }
+                    //else elapsedTime = 6f;
+
+
+                }
+                if (elapsedTime >= 6f && elapsedTime < 8f)
+                {//przeanalizowaæ czy mo¿na coœ dodaæ
+                    if (!GetFirstTour())
+                    {
+                        //funkcja do znalezienia wolnych miejsc obok sekwencji
+                        //przeiterowania deku i znalezienie czy mo¿na postawiæ p³ytkê
+                        //funkcja w tile sie przyda do walidacji
+                        var board = GameController.Instance.GetBoardDictionary().board;
+                        ExtendSequence(ref board, ref this.computerPlayerHand);
+                    }
+                    //else elapsedTime = 8f;
+
+                }
+                if (elapsedTime >= 8f && elapsedTime < 10f)
+                {
+                    if (!GetFirstTour()) //can't be the first turn
+                    {
+                        var board = GameController.Instance.GetBoardDictionary().board;
+                        TakeTileBetween(ref board, ref this.computerPlayerHand);
+                        MoveToExtendRUN(ref board, ref this.computerPlayerHand);
+                        ExtendSequence(ref board, ref this.computerPlayerHand);
+                        //ExtendSequence(ref board, ref this.computerPlayerHand);
                     }
                 }
-               // else elapsedTime = 4f;
-
-            }
-            if (elapsedTime >= 4f && elapsedTime < 6f)
-            {
-                List<List<Tile>> sequencesbyNumbers = FindSameNumberDifferentColorSets(ref computerPlayerHand);
-                if (sequencesbyNumbers.Count > 0)
+                if (elapsedTime >= 10f)
                 {
-                    for (int i = sequencesbyNumbers.Count - 1; i >= 0; i--)
+                    elapsedTime = 0f;
+                    // Resetujemy czas i tura++
+                    //jeœli liczba kart siê nie zmieni³a, to +1 karta, jeœli nie, to po prostu nowa tura
+                    if (computerPlayerHand.Count == computerPlayerHandCopy.Count)
                     {
-                        List<Tile> sequence = sequencesbyNumbers[i];
-                        PutTilesOnBoard(sequence);
-                        RemoveFromList(sequence);
-                        sequencesbyNumbers.RemoveAt(i); // Usuñ przetworzon¹ sekwencjê
+                        //nie by³o ruchu
+                        List<Tile> board = GameController.Instance.GetGameBank();
+                        AddNewTile(ref board);
+                        //Debug.Log("Nie mogê siê wy³o¿yæ: "+this.transform.name);
+                        GameController.Instance.NewTurn();
                     }
-                    //Debug.Log("sekwencji tych samych liczb: " + sequencesbyNumbers.Count);
+                    else
+                    {
+                        //by³ ruch
+                        if (GetFirstTour())//by³ ruch wiêc jeœli by³a to pierwsza tura to ju¿ nie jest
+                            EndFirstTour();
+                        NewTurn();
+                        SaveListToCopy();
+                        //zapisaæ kopie
+                    }
+                    GameController.Instance.gameTurnManager.ChangeTurn();
+                    if (computerPlayerHand.Count == 0)
+                        GameController.Instance.EndGame();
                 }
-                //else elapsedTime = 6f;
-
-
+                //
             }
-            if(elapsedTime >= 6f && elapsedTime < 8f)
-            {//przeanalizowaæ czy mo¿na coœ dodaæ
-                if (!GetFirstTour())
-                {
-                    //funkcja do znalezienia wolnych miejsc obok sekwencji
-                    //przeiterowania deku i znalezienie czy mo¿na postawiæ p³ytkê
-                    //funkcja w tile sie przyda do walidacji
-                    var board = GameController.Instance.GetBoardDictionary().board;
-                    ExtendSequence(ref board , ref this.computerPlayerHand);
-                }
-                //else elapsedTime = 8f;
 
-            }
-            if (elapsedTime >= 8f && elapsedTime < 10f)
+            else
             {
-                if (!GetFirstTour()) //can't be the first turn
+                //GameController.Instance.GetPlayerAI().RequestDecision();
+                if (elapsedTime >= 0.5f && elapsedTime < 1f)
                 {
-                    var board = GameController.Instance.GetBoardDictionary().board;
-                    TakeTileBetween(ref board, ref this.computerPlayerHand);
-                    MoveToExtendRUN(ref board , ref this.computerPlayerHand);
-                    ExtendSequence(ref board, ref this.computerPlayerHand);
-                    //ExtendSequence(ref board, ref this.computerPlayerHand);
+                    List<List<Tile>> sequencesbyColors = FindSequentialColorSets(ref computerPlayerHand);
+                    if (sequencesbyColors.Count > 0)
+                    {
+                        for (int i = sequencesbyColors.Count - 1; i >= 0; i--)
+                        {
+                            List<Tile> sequence = sequencesbyColors[i];
+                            PutTilesOnBoard(sequence);
+                            RemoveFromList(sequence);
+                            sequencesbyColors.RemoveAt(i);
+                        }
+                    }
+                    // else elapsedTime = 4f;
+
+                }
+                if (elapsedTime >= 1f && elapsedTime < 1.5f)
+                {
+                    List<List<Tile>> sequencesbyNumbers = FindSameNumberDifferentColorSets(ref computerPlayerHand);
+                    if (sequencesbyNumbers.Count > 0)
+                    {
+                        for (int i = sequencesbyNumbers.Count - 1; i >= 0; i--)
+                        {
+                            List<Tile> sequence = sequencesbyNumbers[i];
+                            PutTilesOnBoard(sequence);
+                            RemoveFromList(sequence);
+                            sequencesbyNumbers.RemoveAt(i); // Usuñ przetworzon¹ sekwencjê
+                        }
+                        //Debug.Log("sekwencji tych samych liczb: " + sequencesbyNumbers.Count);
+                    }
+                    //else elapsedTime = 6f;
+
+
+                }
+                if (elapsedTime >= 1.5f && elapsedTime < 2f)
+                {//przeanalizowaæ czy mo¿na coœ dodaæ
+                    if (!GetFirstTour())
+                    {
+                        //funkcja do znalezienia wolnych miejsc obok sekwencji
+                        //przeiterowania deku i znalezienie czy mo¿na postawiæ p³ytkê
+                        //funkcja w tile sie przyda do walidacji
+                        var board = GameController.Instance.GetBoardDictionary().board;
+                        ExtendSequence(ref board, ref this.computerPlayerHand);
+                    }
+                    //else elapsedTime = 8f;
+
+                }
+                if (elapsedTime >= 2f && elapsedTime < 2.5f)
+                {
+                    if (!GetFirstTour()) //can't be the first turn
+                    {
+                        var board = GameController.Instance.GetBoardDictionary().board;
+                        TakeTileBetween(ref board, ref this.computerPlayerHand);
+                        MoveToExtendRUN(ref board, ref this.computerPlayerHand);
+                        ExtendSequence(ref board, ref this.computerPlayerHand);
+                        //ExtendSequence(ref board, ref this.computerPlayerHand);
+                    }
+                }
+                if (elapsedTime >= 2.5f)
+                {
+                    elapsedTime = 0f;
+                    // Resetujemy czas i tura++
+                    //jeœli liczba kart siê nie zmieni³a, to +1 karta, jeœli nie, to po prostu nowa tura
+                    if (computerPlayerHand.Count == computerPlayerHandCopy.Count)
+                    {
+                        //nie by³o ruchu
+                        List<Tile> board = GameController.Instance.GetGameBank();
+                        AddNewTile(ref board);
+                        //Debug.Log("Nie mogê siê wy³o¿yæ: "+this.transform.name);
+                        GameController.Instance.NewTurn();
+                        if (GameController.Instance.gameIndex == 7 && this.myIndex == 0)
+                        {
+                            //return new AIDecision { ActionType = 0, PositionXZ = 0, TileIndex = i };
+                            expertDecisions.Enqueue(new AIDecision
+                            {
+                                ActionType = 3,
+                                PositionXZ = 0,
+                                TileIndex = 0,
+                                NewPositionXZ = 0
+                            });
+                            GameController.Instance.GetPlayerAI().RequestDecision();
+                        }
+                    }
+                    else
+                    {
+                        //by³ ruch
+                        if (GetFirstTour())//by³ ruch wiêc jeœli by³a to pierwsza tura to ju¿ nie jest
+                            EndFirstTour();
+                        NewTurn();
+                        SaveListToCopy();
+                        //zapisaæ kopie
+                        if (GameController.Instance.gameIndex == 7 && this.myIndex == 0)
+                        {
+                            //return new AIDecision { ActionType = 0, PositionXZ = 0, TileIndex = i };
+                            expertDecisions.Enqueue(new AIDecision
+                            {
+                                ActionType = 5,
+                                PositionXZ = 0,
+                                TileIndex = 0,
+                                NewPositionXZ = 0
+                            });
+                            GameController.Instance.GetPlayerAI().RequestDecision();
+                        }
+                    }
+                    GameController.Instance.gameTurnManager.ChangeTurn();
+                    if (computerPlayerHand.Count == 0)
+                        GameController.Instance.EndGame();
                 }
             }
-            if (elapsedTime >= 10f)
-            {
-                elapsedTime = 0f;
-                 // Resetujemy czas i tura++
-                //jeœli liczba kart siê nie zmieni³a, to +1 karta, jeœli nie, to po prostu nowa tura
-                if(computerPlayerHand.Count == computerPlayerHandCopy.Count)
-                {
-                    //nie by³o ruchu
-                    List<Tile> board = GameController.Instance.GetGameBank();
-                    AddNewTile(ref board);
-                    //Debug.Log("Nie mogê siê wy³o¿yæ: "+this.transform.name);
-                    GameController.Instance.NewTurn();
-                }
-                else
-                {
-                    //by³ ruch
-                    if (GetFirstTour())//by³ ruch wiêc jeœli by³a to pierwsza tura to ju¿ nie jest
-                        EndFirstTour();
-                    NewTurn();
-                    SaveListToCopy();
-                    //zapisaæ kopie
-                }
-                GameController.Instance.gameTurnManager.ChangeTurn();
-                if (computerPlayerHand.Count == 0)
-                    GameController.Instance.EndGame();
-            }
-            //
         }
     }
     /// <summary>
@@ -215,19 +311,7 @@ public class ComputerPlayer : MonoBehaviour
             placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
             GameController.Instance.NewTurn();
 
-            if (GameController.Instance.gameIndex == 7)
-            {
-                //return new AIDecision { ActionType = 0, PositionXZ = 0, TileIndex = i };
-                expertDecisions.Enqueue(new AIDecision
-                {
-                    ActionType = 5,
-                    PositionXZ = 0,
-                    TileIndex = 0,
-                    NewPositionXZ = 0,
-                    flag = true
-                });
 
-            }
         }
     }
 
@@ -640,7 +724,7 @@ public class ComputerPlayer : MonoBehaviour
         List < Vector3Int > list = new List < Vector3Int >();
 
         int levelZ = UnityEngine.Random.Range(minZ, (maxZ + 1));
-        int levelX = UnityEngine.Random.Range(minX, ((maxX+1) - tileAmount));
+        int levelX = UnityEngine.Random.Range(minX, ((maxX + 1 ) - tileAmount));
         //int levelZ = -4;
         //int levelX = -9;
         int amountToOccupy = tileAmount+ 2;
@@ -656,7 +740,14 @@ public class ComputerPlayer : MonoBehaviour
                 levelX = UnityEngine.Random.Range(minX, maxX + 1 - tileAmount);
                 list.Clear();
                 errorAmount++;
-                if (errorAmount >= 500) Debug.LogError("nie ma miejsca na planszy");
+                if (errorAmount >= 5000) 
+                {
+                    GameController.Instance.gameTurnManager.ChangeTurn();
+                    Debug.Log("nie ma miejsca na planszy");
+                    errorAmount = 0;
+                    GameController.Instance.EndGame();
+                    break;
+                }
                 i = 0; 
             }
             else
@@ -664,12 +755,12 @@ public class ComputerPlayer : MonoBehaviour
                 list.Add(position);
                 levelX++;
                 i++;
-                errorAmount = 0;
+                //errorAmount = 0;
             }
         }
 
 
-
+        
         return list;
     }
 
@@ -689,7 +780,7 @@ public class ComputerPlayer : MonoBehaviour
         List<Vector3Int> list = new List<Vector3Int>();
 
         int levelZ = UnityEngine.Random.Range(minZ, (maxZ + 1));
-        int levelX = UnityEngine.Random.Range(minX, ((maxX + 1) - tileAmount-1));
+        int levelX = UnityEngine.Random.Range(minX, ((maxX + 1) - tileAmount -2));
         //int levelZ = -4;
         //int levelX = -9;
         int amountToOccupy = tileAmount + 6;
@@ -702,10 +793,17 @@ public class ComputerPlayer : MonoBehaviour
             if (board.ContainsKey(position) || !CheckPlacementValidity(position, 0))
             {
                 levelZ = UnityEngine.Random.Range(minZ, maxZ + 1);
-                levelX = UnityEngine.Random.Range(minX, maxX + 1 - tileAmount-1);
+                levelX = UnityEngine.Random.Range(minX, maxX + 1 - tileAmount -2);
                 list.Clear();
                 errorAmount++;
-                if (errorAmount >= 500) Debug.LogError("nie ma miejsca na planszy");
+                if (errorAmount >= 5000){
+                    GameController.Instance.gameTurnManager.ChangeTurn();
+                    errorAmount = 0;
+                    Debug.Log("nie ma miejsca na planszy FreeSpaceToPutForManipulation");
+
+                    GameController.Instance.EndGame();
+                    break;
+                }
                 i = 0;
             }
             else
@@ -713,10 +811,10 @@ public class ComputerPlayer : MonoBehaviour
                 list.Add(position);
                 levelX++;
                 i++;
-                errorAmount = 0;
+               
             }
         }
-
+        
         //Debug.Log("zaalokowane miejsce: "+ list.Count);
         list.RemoveAt(0);
         list.RemoveAt(0);
@@ -747,16 +845,16 @@ public class ComputerPlayer : MonoBehaviour
             database.objectsData[0].Size,
             database.objectsData[0].ID,
             index);
-        if (GameController.Instance.gameIndex == 7) 
+        if (GameController.Instance.gameIndex == 7 && this.myIndex == 0) 
         {
             expertDecisions.Enqueue(new AIDecision
             {
                 ActionType = 0,
                 PositionXZ = From2Dto1D(gridPosition.x, gridPosition.z),
                 TileIndex = i,
-                NewPositionXZ = 0,
-                flag = true
+                NewPositionXZ = 0
             });
+            GameController.Instance.GetPlayerAI().RequestDecision();
 
         }
         //tile.ShowTiles();
@@ -935,7 +1033,7 @@ public class ComputerPlayer : MonoBehaviour
                 placementSystem.GetGridData().MoveObjectAt(newGridPositions[i], oldGridPositions[j], database.objectsData[0].Size);
                 objectPlacer.MoveObjectTo(selectedObjectIndex, grid.CellToWorld(newGridPositions[i]));
                 GameController.Instance.GetBoardDictionary().MoveObjectAt(newGridPositions[i], oldGridPositions[j]);
-                if (GameController.Instance.gameIndex == 7)
+                if (GameController.Instance.gameIndex == 7 && this.myIndex == 0)
                 {
                     //return new AIDecision { ActionType = 0, PositionXZ = 0, TileIndex = i };
 
@@ -944,10 +1042,9 @@ public class ComputerPlayer : MonoBehaviour
                         ActionType = 2,
                         PositionXZ = From2Dto1D(oldGridPositions[j].x, oldGridPositions[j].z),
                         TileIndex = 0,
-                        NewPositionXZ = From2Dto1D(newGridPositions[i].x, newGridPositions[i].z),
-                        flag = true
+                        NewPositionXZ = From2Dto1D(newGridPositions[i].x, newGridPositions[i].z)
                     });
-
+                    GameController.Instance.GetPlayerAI().RequestDecision();
                 }
             }
             else break;
@@ -969,23 +1066,18 @@ public class ComputerPlayer : MonoBehaviour
         placementSystem.GetGridData().MoveObjectAt(newGridPosition, oldGridPosition, database.objectsData[0].Size);
         objectPlacer.MoveObjectTo(selectedObjectIndex, grid.CellToWorld(newGridPosition));
         GameController.Instance.GetBoardDictionary().MoveObjectAt(newGridPosition, oldGridPosition);
-        if (GameController.Instance.gameIndex == 7)
+        if (GameController.Instance.gameIndex == 7 && this.myIndex == 0)
         {
             //return new AIDecision { ActionType = 0, PositionXZ = 0, TileIndex = i };
-            aIDecision.flag = true;
-            aIDecision.ActionType = 2;
-            aIDecision.TileIndex = 0;
-            aIDecision.PositionXZ = From2Dto1D(oldGridPosition.x, oldGridPosition.z);
-            aIDecision.NewPositionXZ = From2Dto1D(newGridPosition.x, newGridPosition.z);
 
             expertDecisions.Enqueue(new AIDecision
             {
                 ActionType = 2,
                 PositionXZ = From2Dto1D(oldGridPosition.x, oldGridPosition.z),
                 TileIndex = 0,
-                NewPositionXZ = From2Dto1D(newGridPosition.x, newGridPosition.z),
-                flag = true
+                NewPositionXZ = From2Dto1D(newGridPosition.x, newGridPosition.z)
             });
+            GameController.Instance.GetPlayerAI().RequestDecision();
 
         }
     }
@@ -1568,7 +1660,7 @@ public class ComputerPlayer : MonoBehaviour
     /// <param name="tempPosition"></param>
     void fixOutOfMap(ref Dictionary<Vector3Int, Tile> board, Vector3Int tempPosition)
     {
-        if (tempPosition.x - 1 < this.minX || tempPosition.x - 2 < this.minX)
+        if (tempPosition.x < this.minX || tempPosition.x - 1 < this.minX)
         {
             //Debug.Log("Poza map¹ z lewej");
             List<Vector3Int> oldPositions = new();
@@ -1592,7 +1684,7 @@ public class ComputerPlayer : MonoBehaviour
             List<Vector3Int> newPositions = FreeSpaceToPutForManipulation(oldPositions.Count);
             moveTile(newPositions, oldPositions);
         }
-        else if (tempPosition.x + 1 > this.maxX || tempPosition.x + 2 > this.maxX)
+        else if (tempPosition.x >= this.maxX || tempPosition.x + 1 > this.maxX)
         {
            // Debug.Log("Poza map¹ z prawej");
             List<Vector3Int> oldPositions = new();
@@ -1641,26 +1733,35 @@ public class ComputerPlayer : MonoBehaviour
                     //odwrócenie
                     PutOnRight(ref board, handTiles[index-1], index-1, newPositions[1], ref handTiles);
                     PutOnRight(ref board, handTiles[index-1], index-1, newPositions[2], ref handTiles);
+                    //fixOutOfMap(ref board, newPositions[0]);
+                    fixOutOfMap(ref board, newPositions[1]);
+                    fixOutOfMap(ref board, newPositions[2]);
+                    fixOutOfMap(ref board, newPositions[3]);
                     break;
                 }
             case 2:
                 {
                     PutOnLeft(ref board, handTiles[index], index, newPositions[1], ref handTiles);
                     PutOnRight(ref board, handTiles[index], index, newPositions[1], ref handTiles);
-                    break;
+                    fixOutOfMap(ref board, newPositions[0]);
+                    fixOutOfMap(ref board, newPositions[1]);
+                    fixOutOfMap(ref board, newPositions[2]);
+                    break; 
                 }
             case 3:
                 {
                     PutOnLeft(ref board, handTiles[index+1], index+1, newPositions[1], ref handTiles);
                     PutOnLeft(ref board, handTiles[index], index, newPositions[0], ref handTiles);
-
+                    fixOutOfMap(ref board, newPositions[0]);
+                    fixOutOfMap(ref board, newPositions[1]);
+                    fixOutOfMap(ref board, newPositions[2]);
                     break;
                 }
             default:
                 break;
         }
         index-=2;
-        fixOutOfMap(ref board, newPositions[1]);
+        ;
         //ExtendSequence(ref board, ref handTiles);
     }
 

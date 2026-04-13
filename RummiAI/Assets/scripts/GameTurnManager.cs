@@ -10,6 +10,8 @@ public class GameTurnManager : MonoBehaviour
     public int currentPlayerId;//bêdzie losowe
     public int turnTime;
     public float currentTurnTime;
+    public float currentAgentsPeriodicity;
+    public float agentsPeriodicity;
     [SerializeField]
     GameObject timeText;
     [SerializeField]
@@ -39,12 +41,26 @@ public class GameTurnManager : MonoBehaviour
         turnTime = 60;
         currentTurnTime = turnTime;
         SetUIText();
+        agentsPeriodicity = 1f;
+        currentAgentsPeriodicity = 0f;
+
     }
 
     // Update is called once per frame
     void Update()
     {
         currentTurnTime -= Time.deltaTime;
+        if((GameController.Instance.gameIndex == 1 || GameController.Instance.gameIndex == 4 || GameController.Instance.gameIndex == 6) && //sceny
+            GameController.Instance.GetPlayerAI() != null && currentPlayerId == GameController.Instance.GetPlayerAI().myIndex)
+        {
+            if(currentAgentsPeriodicity <= 0)
+            {
+                currentAgentsPeriodicity = agentsPeriodicity;
+                GameController.Instance.GetPlayerAI().RequestDecision();
+            }
+            currentAgentsPeriodicity -= Time.deltaTime;
+            
+        }
         SetTimeUI();
         if (GameController.Instance.gameIndex == 0)
         {

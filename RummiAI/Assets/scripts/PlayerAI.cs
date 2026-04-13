@@ -7,6 +7,7 @@ using Unity.MLAgents.Sensors;
 using System.Drawing;
 using Unity.VisualScripting;
 using System.Linq;
+using UnityEngine.UIElements;
 /// <summary>
 /// Klasa PlayerIA implementuje metody dla agenta do wykonywania konkretnych funkcjonalnoœci
 ///i interakcji w œrodowisku. Klasa dziedziczy po interfejsie Agent, która jest
@@ -58,19 +59,10 @@ public class PlayerAI : Agent
 
     void Start()
     {
-        
-        switch (GameController.Instance.learningStep)
-        {
-            case 0:
-                firstTurn = true;
-                break;
-            case 1:
-                firstTurn = false;
-                break;
-            default:
-                firstTurn = true;
-                break;
 
+        if (GameController.Instance.gameIndex == 4)
+        {
+            firstTurn = false;
         }
 
         time = 1f;
@@ -78,18 +70,9 @@ public class PlayerAI : Agent
     }
     public override void OnEpisodeBegin()
     {
-        switch (GameController.Instance.learningStep)
+        if (GameController.Instance.gameIndex == 4)
         {
-            case 0:
-                firstTurn = true;
-                break;
-            case 1:
-                firstTurn = false;
-                break;
-            default:
-                firstTurn = true;
-                break;
-
+            firstTurn = false;
         }
         trainingIndex = (int)Academy.Instance.EnvironmentParameters.GetWithDefault("training_index", 0);
         endTurnCount = 0;
@@ -113,6 +96,7 @@ public class PlayerAI : Agent
                 tileData[2] = GameController.Instance.GetCP_AI().GetList().IndexOf(tile)/64f;
                 bufferSensor.AppendObservation(tileData);
             }
+            Debug.Log("Obserwowanie w recordingu");
         }
         else 
         {
@@ -191,24 +175,10 @@ public class PlayerAI : Agent
             int chosenTileIndex = actions.DiscreteActions[2];
 
             var (xNew, zNew) = From1Dto2D(actions.DiscreteActions[3]);
-            //int zNewAction = actions.DiscreteActions[5];
-
-            //int xCoord = xAction + minX; //przekszta³cenie na koordynaty x
-            //int zCoord = zAction + minZ; // przekszta³cenie na koordynaty z
-            //base.OnActionReceived(actions);
-           // Debug.Log("wybrana akcja: "+ actions.DiscreteActions[2]);
-            //Debug.Log("id karty: "+ actions.DiscreteActions[3]);
-            
-            //int xNewCoord = xNew + minX; //przekszta³cenie na koordynaty x
-            //int zNewCoord = zNewAction + minZ; // przekszta³cenie na koordynaty z
-    
-
-            //currnetTime -= Time.deltaTime;
-                //currnetTime = this.time;
-           // if (GameController.Instance.gameIndex ==1 ||  GameController.Instance.gameIndex ==4)
                 switch (akcjaAgenta)
                 {
                     case 0:
+                        
                         if (chosenTileIndex < AIPlayerHand.Count)
                         {
                             PutTileAction(x, z, chosenTileIndex);
@@ -240,26 +210,11 @@ public class PlayerAI : Agent
                     default:
                         break;
                 }
-            //else if (GameController.Instance.gameIndex == 6)
-            //    switch (akcjaAgenta)
-            //{
-            //    case 0:
-            //        if (chosenTileIndex < AIPlayerHand.Count)
-            //        {
-            //            PutTileAction(x, z, chosenTileIndex);
-            //        }
-            //        //Próba po³o¿enia nowej p³ytki gdy ai nie ma ju¿ p³ytek, kara
-            //        else AddReward(rewards.PNTNT); //TODO
-            //        Debug.Log("Akcja k³adzenia p³ytki");
-            //        break;
-            //}
 
-            //dodawanie punktów:
-            //dodanie p³ytki na mapê w dostêpnym miejscu
-            //
-            //pierwsza tura tylko ci¹g³e p³ytki 
-
-            //DiscreteActions[4] DiscreteActions[5] dla nowych pozycji na mapie, w innych momentach nieu¿ywane
+        if (GameController.Instance.gameTurnManager.turnController.CheckMap())
+        {
+            AddReward(rewards.SR);
+        }
 
 
     }
@@ -292,6 +247,25 @@ public class PlayerAI : Agent
         }
         if (AIPlayerHand.Count == 0) actionMask.SetActionEnabled(1, 0, false); //wy³¹czenie k³adzenia p³ytek gdy nie ma p³ytek w rêku
         
+        //gdy nie ma tury agenta
+        //if(GameController.Instance.gameTurnManager.currentPlayerId != this.myIndex)
+        //{
+        //    actionMask.SetActionEnabled(1, 0, false);
+        //    actionMask.SetActionEnabled(1, 1, false);
+        //    actionMask.SetActionEnabled(1, 2, false);
+        //    actionMask.SetActionEnabled(1, 3, false);
+        //    actionMask.SetActionEnabled(1, 4, false);
+        //    actionMask.SetActionEnabled(1, 5, false);
+        //    for (int i =0;i<maxTiles;i++)
+        //    {
+        //        actionMask.SetActionEnabled(2, i, false);
+        //    }
+        //    for(int i = 0;i< xSize* zSize;i++)
+        //    {
+        //        actionMask.SetActionEnabled(0, i, false);
+        //        actionMask.SetActionEnabled(3, i, false);
+        //    }
+        //}
 
             //gdy mamy tyle samo p³ytek co na pocz¹tku tury
             if (AIPlayerHand.Count == AIPlayerHandCopy.Count)
@@ -312,6 +286,8 @@ public class PlayerAI : Agent
             {
                 actionMask.SetActionEnabled(1, 2, false); //nie mo¿na przesuwaæ
             }
+
+
             if(GameController.Instance.gameIndex != 6)
                 if (!GameController.Instance.gameTurnManager.turnController.CheckMap()) //jeœli mapa jest zakoñczona niepoprawnie
                 {
@@ -341,17 +317,21 @@ public class PlayerAI : Agent
         var discreteActions = actionsOut.DiscreteActions;
         if (GameController.Instance.gameIndex == 7)
         {
-            
-            var decision = GameController.Instance.GetCP_AI().GetBestMove();
-
-            if (decision.flag)
+            var decisions = GameController.Instance.GetCP_AI().expertDecisions;
+            if (decisions.Count > 0)
             {
-                discreteActions[0] = decision.PositionXZ;
-                discreteActions[1] = decision.ActionType;
-                discreteActions[2] = decision.TileIndex;
-                discreteActions[3] = decision.NewPositionXZ;
+                var decision = decisions.Dequeue();
+
+                // BEZPIECZNIK: upewnij siê, ¿e wartoœci nie wychodz¹ poza zakres
+                discreteActions[0] = Mathf.Clamp(decision.PositionXZ, 0, 239);
+                discreteActions[1] = Mathf.Clamp(decision.ActionType, 0, 5);
+                discreteActions[2] = Mathf.Clamp(decision.TileIndex, 0, 63);
+                discreteActions[3] = Mathf.Clamp(decision.NewPositionXZ, 0, 239);
+
+                Debug.Log($"Nagrywam: " + PrintAction(decision) );
+                Debug.Log("Aktywna akcja"); 
             }
-          
+            else { Debug.Log("Pusta akcja"); }
         }
     }
 
@@ -383,6 +363,30 @@ public class PlayerAI : Agent
         z = z+ minZ;
 
         return (x,z);
+    }
+
+    string PrintAction(AIDecision decision)
+    {
+        string toPrint = "akcja";
+        var (x, z) = From1Dto2D(decision.PositionXZ);
+        var (newx, newz) = From1Dto2D(decision.NewPositionXZ);
+        if (decision.ActionType == 0)
+        {
+            toPrint += " po³o¿enia p³ytki";// na pozycje x = "+x+", z = "+z ;
+        }
+        else if(decision.ActionType == 2)
+        {
+            toPrint += " przesuniêcia p³ytki ";// z pozycji x = " + x + ", z = " + z+ " na pozycje x = "+ newx + ", z = "+ newz;
+        }
+        else if(decision.ActionType == 3)
+        {
+            toPrint += " pobrania p³ytki ";
+        }
+        else if(decision.ActionType == 5)
+        {
+            toPrint += " nowej tury ";
+        }
+        return toPrint;
     }
 
     public List<Tile> GetList() { return this.AIPlayerHand; }
@@ -576,6 +580,8 @@ public class PlayerAI : Agent
                 else
                     if (GameController.Instance.gameIndex == 6) AddReward(DistanceOnBoard(rewards.PTPOB_T, board, position)); 
                     else AddReward(rewards.PTPOB);//TODO puting tile properly on board
+
+                
             }
             else AddReward(rewards.PTW);//TODO puting tile wrongly (invalid)
         }
@@ -813,7 +819,7 @@ public class PlayerAI : Agent
                         //float varPenalty = rewards.IFTIMW * (1.0f - (progress));
                         // AddReward(basePenalty + 0.5f* varPenalty);//TODO If first turn is made wrongly
                         // Debug.Log("Agent Ÿle wy³o¿y³ siê w pierwszej turze");
-                        float partialReward = (progress * rewards.IFTFP) * 0.5f;
+                        float partialReward = (progress * rewards.IFTFP) * 1f;
                         AddReward(rewards.IFTIMW + partialReward);
                     }
                 }
@@ -880,7 +886,11 @@ public class PlayerAI : Agent
         {
             //int score = FinalScore();
             float penalty = FinalScore() * (rewards.PFETIH);
-
+            if(GameController.Instance.gameIndex == 7)
+            {
+                penalty = GameController.Instance.GetCP_AI().FinalScore();
+            }
+                
             SetReward(rewards.lossPenalty); //loss
             AddReward(penalty);//TODO penalty for each tile in hand
             //kary w zale¿noœci od wyniku

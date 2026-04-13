@@ -98,13 +98,14 @@ public class GameController : MonoBehaviour
                 // Jeœli instancja ju¿ istnieje, to nie przypisujemy jej ponownie
                 Destroy(gameObject);
             }
-        
+
     }
     public static void SetInstance(GameController instance)
     {
         if (Instance == null)
         {
             Instance = instance;
+
         }
         else
         {
@@ -119,11 +120,31 @@ public class GameController : MonoBehaviour
     /// </summary>
     void Start()
     {
-        
+        switch (gameIndex)
+        {
+            case 1:
+                learningStep = 0;
+                break;
+            case 4:
+                learningStep = 1;
+                break;
+            case 5:
+                learningStep = 1;
+                break;
+            case 6:
+                learningStep = 1;
+                break;
+            default:
+                learningStep = 0;
+                break;
+        }
+
         if (endGameObject != null) endGameObject.SetActive(false);
         if (stopScreen != null) stopScreen.SetActive(false);
         else Debug.Log("stopScreen is null");
         CreateMainBank(ref this.mainBank);
+
+        if (gameIndex == 4 || gameIndex == 1) Time.timeScale = 30f; //TO DO
 
         boardList = new();
         boardDictionary = new();
@@ -190,24 +211,7 @@ public class GameController : MonoBehaviour
         }
 
         //learningStep = 0;
-        switch (gameIndex)
-        {
-            case 1:
-                learningStep = 0;
-                break;
-            case 4:
-                learningStep = 1;
-                break;
-            case 5:
-                learningStep = 1;
-                break;
-            case 6:
-                learningStep = 1;
-                break;
-            default:
-                learningStep = 0;
-                break;
-        }
+
 
     }
 
@@ -241,6 +245,13 @@ public class GameController : MonoBehaviour
             if (Time.timeScale == 1f)
                 Time.timeScale = 5f;
             else if (Time.timeScale == 5f)
+                Time.timeScale = 1f;
+        }
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            if (Time.timeScale == 1f)
+                Time.timeScale = 20f;
+            else if (Time.timeScale == 20f)
                 Time.timeScale = 1f;
         }
     }
@@ -494,10 +505,10 @@ public class GameController : MonoBehaviour
             fourthPlace.GetComponent<Text>().text = "";
             Time.timeScale = 0f;
         } //nie skoñczone
-        else if( gameIndex == 5)
+        else if( gameIndex == 5)  
         {
             //4 agenci
-        }
+        } //nie skoñczone 
         else if (gameIndex == 6) { //jeden agent do nauki, ma wszystkie p³ytki
             AI.EndGame();
             
@@ -511,6 +522,7 @@ public class GameController : MonoBehaviour
         }
         else if (gameIndex == 7)
         {
+            AI.EndGame();
             CP_AI.Reset(); //Main character
             missComputerPlayer.Reset();
             mrComputerPlayer.Reset();
