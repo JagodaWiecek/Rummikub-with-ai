@@ -82,6 +82,9 @@ public class GameController : MonoBehaviour
     /// zmienna do oznaczania epatu nauki, 0 dla ostatecznej gry, 1 dla nauki bez pierwszej tury
     /// </summary>
     public int learningStep;
+    //zmienne do nauki, game index = 6
+    public int tileAmount;
+    public int trainingIndex;
     /// <summary>
     /// inicjuje instancje
     /// </summary>
@@ -120,6 +123,9 @@ public class GameController : MonoBehaviour
     /// </summary>
     void Start()
     {
+
+        tileAmount = 4;
+        trainingIndex = 0;
         switch (gameIndex)
         {
             case 1:
@@ -196,7 +202,10 @@ public class GameController : MonoBehaviour
         }
         else if (gameIndex == 6)
         {
-            AI.SetPlayersHand_TrainingFunction(ref this.mainBank, 0); //all tiles
+
+            //wszystkie losowania i przekazywania zmiennych do nauki i dzielenia etapów
+
+            AI.PrepareToTrain(ref this.mainBank, 0, tileAmount, trainingIndex); //all tiles
         }
         else if (gameIndex == 7)
         {
@@ -517,7 +526,7 @@ public class GameController : MonoBehaviour
             CreateMainBank(ref this.mainBank);
             boardList = new();
             boardDictionary = new();
-            AI.SetPlayersHand_TrainingFunction(ref this.mainBank, 0);
+            AI.PrepareToTrain(ref this.mainBank, 0, tileAmount, trainingIndex);
             //gameTurnManager.Reset();
         }
         else if (gameIndex == 7)

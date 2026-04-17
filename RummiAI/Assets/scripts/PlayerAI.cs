@@ -8,6 +8,7 @@ using System.Drawing;
 using Unity.VisualScripting;
 using System.Linq;
 using UnityEngine.UIElements;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 /// <summary>
 /// Klasa PlayerIA implementuje metody dla agenta do wykonywania konkretnych funkcjonalnoœci
 ///i interakcji w œrodowisku. Klasa dziedziczy po interfejsie Agent, która jest
@@ -27,8 +28,6 @@ public class PlayerAI : Agent
 
     [SerializeField]
     public int myIndex;
-    [SerializeField]
-    protected int trainingIndex; //index do modyfikowania etapu treningu wewn¹trz sceny 6
     [SerializeField]
     protected int endTurnCount;
 
@@ -56,11 +55,16 @@ public class PlayerAI : Agent
 
     public RewardData rewards;
 
+    //For curriculum learning
+    int tileAmountCR;
+    int boardAvailability; //min 24, max 240
+    protected int trainingIndex; //index do modyfikowania etapu treningu wewn¹trz sceny 6
 
+    public CurriculumLearningTrainer curriculumLearningTrainer;
     void Start()
     {
 
-        if (GameController.Instance.gameIndex == 4)
+        if (GameController.Instance.gameIndex == 4 || GameController.Instance.gameIndex == 6)
         {
             firstTurn = false;
         }
@@ -70,9 +74,15 @@ public class PlayerAI : Agent
     }
     public override void OnEpisodeBegin()
     {
-        if (GameController.Instance.gameIndex == 4)
+        boardAvailability = 24;
+        if (GameController.Instance.gameIndex == 4 || GameController.Instance.gameIndex == 6)
         {
             firstTurn = false;
+        }
+
+        if (curriculumLearningTrainer != null)
+        {
+            string myBehaviorName = GetComponent<Unity.MLAgents.Policies.BehaviorParameters>().BehaviorName;
         }
         trainingIndex = (int)Academy.Instance.EnvironmentParameters.GetWithDefault("training_index", 0);
         endTurnCount = 0;
@@ -84,42 +94,43 @@ public class PlayerAI : Agent
         var board = GameController.Instance.GetBoardDictionary().board;
         sensor.AddObservation(GameController.Instance.gameTurnManager.currentTurnTime / GameController.Instance.gameTurnManager.turnTime);
         sensor.AddObservation(firstTurn ? 1 : 0);
+
         BufferSensorComponent bufferSensor = GetComponent<BufferSensorComponent>();
-        if (GameController.Instance.gameIndex == 7)
+        List<Tile> hand = (GameController.Instance.gameIndex == 7)
+        ? GameController.Instance.GetCP_AI().GetList(): AIPlayerHand;
+        sensor.AddObservation(hand.Count / 64f);
+
+        foreach (var tile in hand) //obserwacje dla buffora
         {
-            sensor.AddObservation(GameController.Instance.GetCP_AI().GetList().Count/64f);
-            foreach (var tile in GameController.Instance.GetCP_AI().GetList())
+            float[] tileData = new float[6];
+            int colorIndex = GetNormalizedColor(tile.GetColor());
+            bool isJoker = colorIndex == -1;
+            tileData[0] = GetNormalizedNumber(tile.GetNumber());
+            tileData[1] = isJoker ? 1f : 0f;
+            if (isJoker)
             {
-                float[] tileData = new float[3];
-                tileData[0] = GetNormalizedNumber(tile.GetNumber());
-                tileData[1] = GetNormalizedColor(tile.GetColor());
-                tileData[2] = GameController.Instance.GetCP_AI().GetList().IndexOf(tile)/64f;
-                bufferSensor.AppendObservation(tileData);
+                tileData[2] = 0f;
+                tileData[3] = 0f;
+                tileData[4] = 0f;
+                tileData[5] = 0f;
             }
-            Debug.Log("Obserwowanie w recordingu");
-        }
-        else 
-        {
-           
-            sensor.AddObservation(AIPlayerHand.Count/64f); //ile p³ytek ma 
-            
-            foreach (var tile in AIPlayerHand)
+            else
             {
-                float[] tileData = new float[3];
-                tileData[0] = GetNormalizedNumber(tile.GetNumber());
-                tileData[1] = GetNormalizedColor(tile.GetColor());
-                tileData[2] = AIPlayerHand.IndexOf(tile)/64f;
-                bufferSensor.AppendObservation(tileData);
-                // Dodaj to na chwilê, ¿eby sprawdziæ:
-                // Debug.Log($"Buffer wysy³a p³ytkê: {tile.GetNumber()} {tile.GetColor()}");
+                tileData[2] = (colorIndex == 0) ? 1f : 0f;
+                tileData[3] = (colorIndex == 1) ? 1f : 0f;
+                tileData[4] = (colorIndex == 2) ? 1f : 0f;
+                tileData[5] = (colorIndex == 3) ? 1f : 0f;
             }
-        }
+
+            bufferSensor.AppendObservation(tileData);
+        } //bufor
+
         var allPlayers = GameController.Instance.GetAllPlayers();
         foreach (var player in allPlayers)
         {
             sensor.AddObservation(player.tileAmount / 64f);
             sensor.AddObservation(player.firstTurn ? 1f : 0f);
-        }
+        } //inni gracze
         float totalPlayers = GameController.Instance.GetAllPlayers().Count + 1;
         sensor.AddObservation((float)GameController.Instance.gameTurnManager.currentPlayerId / totalPlayers);
 
@@ -127,28 +138,38 @@ public class PlayerAI : Agent
         {
             for (int x = minX; x <= maxX; x++)
             {
-                //sensor.AddObservation((x - minX) / width); // Pozycja x
-                //sensor.AddObservation((z - minZ) / height); // Pozycja z
-                //sensor.AddObservation(x); // Pozycja x
-                //sensor.AddObservation(z);
-                sensor.AddObservation(From2Dto1D(x, z)/(zSize*xSize));
-                if (board.ContainsKey(new(x, 0, z)))
+                var pos = new Vector3Int(x, 0, z); 
+                if (board.ContainsKey(pos))
                 {
-                    sensor.AddObservation(GetNormalizedNumber(board[new(x, 0, z)].GetNumber()));
-                    sensor.AddObservation(GetNormalizedColor(board[new(x, 0, z)].GetColor()));
-                    sensor.AddObservation(board[new(x, 0, z)].GetPut() ? 1f : 0f);
+                    var tile = board[pos];
+                    int colorIndex = GetNormalizedColor(tile.GetColor());
+                    bool isJoker = colorIndex == -1;
+
+                    sensor.AddObservation(1f); //is occupied
+                    sensor.AddObservation(GetNormalizedNumber(tile.GetNumber())); //nobmer
+                    sensor.AddObservation(isJoker ? 1f : 0f); //joker flag
+
+                    sensor.AddOneHotObservation(colorIndex, 4); // 4 encodingi
+
+                    sensor.AddObservation(tile.GetPut() ? 1f : 0f);// put flag
                 }
                 else
                 {
                     //puste pole
+                    sensor.AddObservation(0f); // occupied
+                    sensor.AddObservation(0f); // number
+                    sensor.AddObservation(0f); // joker
+
                     sensor.AddObservation(0f);
                     sensor.AddObservation(0f);
                     sensor.AddObservation(0f);
-                    //sensor.AddObservation(-1f);
+                    sensor.AddObservation(0f);
+
+                    sensor.AddObservation(0f); // put
                 }
                 
             }
-        }
+        } //mapa
         //do obserwacji
         //co ma na rêce
         //ile ma na rêce
@@ -171,51 +192,91 @@ public class PlayerAI : Agent
         var (x,z) = From1Dto2D(actions.DiscreteActions[0]);
             //int  = actions.DiscreteActions[1];
 
-            int akcjaAgenta = actions.DiscreteActions[1];
-            int chosenTileIndex = actions.DiscreteActions[2];
+        int akcjaAgenta = actions.DiscreteActions[1];
+        int chosenTileIndex = actions.DiscreteActions[2];
 
-            var (xNew, zNew) = From1Dto2D(actions.DiscreteActions[3]);
-                switch (akcjaAgenta)
-                {
-                    case 0:
-                        
-                        if (chosenTileIndex < AIPlayerHand.Count)
-                        {
-                            PutTileAction(x, z, chosenTileIndex);
-                        }
-                        //Próba po³o¿enia nowej p³ytki gdy ai nie ma ju¿ p³ytek, kara
-                        else AddReward(rewards.PNTNT); //TODO
-                        Debug.Log("Akcja k³adzenia p³ytki");
-                        break; 
-                    case 1:
-                        RemoveTileAction(x, z);
-                        Debug.Log("Akcja usuniêcia p³ytki");
-                        break;
-                    case 2:
-                        MoveTileAction(x, z, xNew, zNew);
-                        Debug.Log("Akcja przesuniêcia p³ytki");
-                        break;
-                    case 3:
-                        TakeTileAction();
-                        Debug.Log("Akcja pobrania nowej p³ytki");
-                        break;
-                    case 4:
-                        UndoAction();
-                        Debug.Log("Akcja anulowania wszystkich ruchów");
-                        break;
-                    case 5:
-                        EndTurnAction();
-                        Debug.Log("Akcja zakoñczenia tury");
-                        break;
-                    default:
-                        break;
-                }
-
-        if (GameController.Instance.gameTurnManager.turnController.CheckMap())
+        var (xNew, zNew) = From1Dto2D(actions.DiscreteActions[3]);
+        if (GameController.Instance.gameIndex != 6)
         {
-            AddReward(rewards.SR);
-        }
+            switch (akcjaAgenta)
+            {
+                case 0:
 
+                    if (chosenTileIndex < AIPlayerHand.Count)
+                    {
+                        PutTileAction(x, z, chosenTileIndex);
+                    }
+                    //Próba po³o¿enia nowej p³ytki gdy ai nie ma ju¿ p³ytek, kara
+                    else AddReward(rewards.PNTNT); //TODO
+                    Debug.Log("Akcja k³adzenia p³ytki");
+                    break;
+                case 1:
+                    RemoveTileAction(x, z);
+                    Debug.Log("Akcja usuniêcia p³ytki");
+                    break;
+                case 2:
+                    MoveTileAction(x, z, xNew, zNew);
+                    Debug.Log("Akcja przesuniêcia p³ytki");
+                    break;
+                case 3:
+                    TakeTileAction();
+                    Debug.Log("Akcja pobrania nowej p³ytki");
+                    break;
+                case 4:
+                    UndoAction();
+                    Debug.Log("Akcja anulowania wszystkich ruchów");
+                    break;
+                case 5:
+                    EndTurnAction();
+                    Debug.Log("Akcja zakoñczenia tury");
+                    break;
+                default:
+                    break;
+            }
+
+            if (GameController.Instance.gameTurnManager.turnController.CheckMap())
+            {
+                AddReward(rewards.SR);
+            }
+        }
+        else
+        {
+            switch (akcjaAgenta)
+            {
+                case 0:
+
+                    if (chosenTileIndex < AIPlayerHand.Count)
+                    {
+                        PutTileAction(x, z, chosenTileIndex); // uczniowa funkcja dla cl
+                    }
+                    //Próba po³o¿enia nowej p³ytki gdy ai nie ma ju¿ p³ytek, kara
+                    else AddReward(rewards.PNTNT); //TODO
+                    Debug.Log("Akcja k³adzenia p³ytki");
+                    break;
+                case 1:
+                    RemoveTileAction(x, z); // uczniowa funkcja dla cl
+                    Debug.Log("Akcja usuniêcia p³ytki CL");
+                    break;
+                case 2: 
+                    MoveTileAction(x, z, xNew, zNew); // uczniowa funkcja dla cl
+                    Debug.Log("Akcja przesuniêcia p³ytki CL");
+                    break;
+                case 3:
+                    TakeTileAction(); // uczniowa funkcja dla cl
+                    Debug.Log("Akcja pobrania nowej p³ytki CL");
+                    break;
+                case 4:
+                    UndoAction(); // uczniowa funkcja dla cl
+                    Debug.Log("Akcja anulowania wszystkich ruchów CL");
+                    break;
+                case 5:
+                    EndTurnAction(); // uczniowa funkcja dla cl
+                    Debug.Log("Akcja zakoñczenia tury CL");
+                    break;
+                default:
+                    break;
+            }
+        }
 
     }
     /// <summary>
@@ -245,28 +306,29 @@ public class PlayerAI : Agent
                 actionMask.SetActionEnabled(2, i, false); // Wy³¹czanie akcji
             }
         }
-        if (AIPlayerHand.Count == 0) actionMask.SetActionEnabled(1, 0, false); //wy³¹czenie k³adzenia p³ytek gdy nie ma p³ytek w rêku
-        
-        //gdy nie ma tury agenta
-        //if(GameController.Instance.gameTurnManager.currentPlayerId != this.myIndex)
-        //{
-        //    actionMask.SetActionEnabled(1, 0, false);
-        //    actionMask.SetActionEnabled(1, 1, false);
-        //    actionMask.SetActionEnabled(1, 2, false);
-        //    actionMask.SetActionEnabled(1, 3, false);
-        //    actionMask.SetActionEnabled(1, 4, false);
-        //    actionMask.SetActionEnabled(1, 5, false);
-        //    for (int i =0;i<maxTiles;i++)
-        //    {
-        //        actionMask.SetActionEnabled(2, i, false);
-        //    }
-        //    for(int i = 0;i< xSize* zSize;i++)
-        //    {
-        //        actionMask.SetActionEnabled(0, i, false);
-        //        actionMask.SetActionEnabled(3, i, false);
-        //    }
-        //}
+        else if (AIPlayerHand.Count == 0) actionMask.SetActionEnabled(1, 0, false); //wy³¹czenie k³adzenia p³ytek gdy nie ma p³ytek w rêku
+ 
 
+        //gdy mapa jest pusta
+        if (board.Count == 0)
+        {
+            actionMask.SetActionEnabled(1, 1, false); //nie mo¿na usuwaæ
+            actionMask.SetActionEnabled(1, 2, false);//nie mo¿na przestawiaæ
+        }
+            //if(firstTurn) actionMask.SetActionEnabled(2, 4, false);
+
+        if (firstTurn && AIPlayerHand.Count == AIPlayerHandCopy.Count) //jeœli mamy pierwsz¹ turê i agent nic nie wy³o¿y³
+        {
+            actionMask.SetActionEnabled(1, 2, false); //nie mo¿na przesuwaæ
+        }
+
+
+        if (GameController.Instance.gameIndex != 6)
+        {
+            if (!GameController.Instance.gameTurnManager.turnController.CheckMap()) //jeœli mapa jest zakoñczona niepoprawnie
+            {
+                actionMask.SetActionEnabled(1, 5, false); //zablokowane koñczenie tury
+            }
             //gdy mamy tyle samo p³ytek co na pocz¹tku tury
             if (AIPlayerHand.Count == AIPlayerHandCopy.Count)
             {
@@ -274,41 +336,12 @@ public class PlayerAI : Agent
                 actionMask.SetActionEnabled(1, 4, false);//nie mo¿na undo zrobiæ
                 actionMask.SetActionEnabled(1, 5, false);//nie mo¿na zakoñczyæ tury
             }
-            //gdy mapa jest pusta
-            if (board.Count == 0)
-            {
-                actionMask.SetActionEnabled(1, 1, false); //nie mo¿na usuwaæ
-                actionMask.SetActionEnabled(1, 2, false);//nie mo¿na przestawiaæ
-            }
-            //if(firstTurn) actionMask.SetActionEnabled(2, 4, false);
 
-            if (firstTurn && AIPlayerHand.Count == AIPlayerHandCopy.Count) //jeœli mamy pierwsz¹ turê i agent nic nie wy³o¿y³
-            {
-                actionMask.SetActionEnabled(1, 2, false); //nie mo¿na przesuwaæ
-            }
-
-
-            if(GameController.Instance.gameIndex != 6)
-                if (!GameController.Instance.gameTurnManager.turnController.CheckMap()) //jeœli mapa jest zakoñczona niepoprawnie
-                {
-                    actionMask.SetActionEnabled(1, 5, false); //zablokowane koñczenie tury
-                }
-        
+        }
         if(GameController.Instance.gameIndex == 6)
         {
-            //actionMask.SetActionEnabled(1, 3, false);
-            if (this.trainingIndex % 2 == 0)
-            {
-                actionMask.SetActionEnabled(1, 1, false);
-                actionMask.SetActionEnabled(1, 2, false);
-                actionMask.SetActionEnabled(1, 4, false);
-            }
-            if (!(trainingIndex >= 6))
-            {
-                actionMask.SetActionEnabled(1, 3, false);
-            }
+            CurriculumLearningActionMask(ref actionMask);
         }
-
 
     }
 
@@ -335,17 +368,20 @@ public class PlayerAI : Agent
         }
     }
 
-    private float GetNormalizedColor(UnityEngine.Color c)
+    private int GetNormalizedColor(UnityEngine.Color c)
     {
-        if (c == UnityEngine.Color.red) return 0.25f;
-        if (c == UnityEngine.Color.blue) return 0.5f;
-        if (c == new UnityEngine.Color(1f, 0.50f, 0f)) return 0.75f;
-        if (c == UnityEngine.Color.black) return 1f;
-        return 0f; //jokery
+        if (c == UnityEngine.Color.red) return 0;
+        if (c == UnityEngine.Color.blue) return 1;
+        if (c == new UnityEngine.Color(1f, 0.5f, 0f)) return 2;
+        if (c == UnityEngine.Color.black) return 3;
+        return -1; // joker
     }
     private float GetNormalizedNumber(int number)
     {
-        return number / 30f;
+        if (number < 30)
+            return (number - 1f) / 12f;
+        else return -1;
+       
     }
 
     private int From2Dto1D(int x, int z)
@@ -459,90 +495,6 @@ public class PlayerAI : Agent
         //countJoker = CountJoker(computerPlayerHand);
         //Debug.Log("ile p³ytek-kopii jest w klasie player: " + playerHandCopy.Count);
     }
-    /// <summary>
-    /// Funkcja do przypisania p³ytek do jednego gracza w trakcie treningu, w zale¿noœci od etapu treningu
-    /// </summary>
-    /// <param name="tiles"></param>
-    /// <param name="idx"></param>
-    public void SetPlayersHand_TrainingFunction(ref List<Tile> tiles, int idx)
-    {
-        AIPlayerHand = new();
-        AIPlayerHandCopy = new();
-        // playerHand = new ();
-        int TileIndex;
-        //int amount = 3;
-        bool shouldHaveJoker = Random.Range(0, 100) < 10;
-        if (this.trainingIndex <= 5) // Etapy nielosowe (0, 1, 2, 3, 4, 5)
-        {
-            int amount = 3; // Domyœlnie dla 0-1
-            if (this.trainingIndex == 2 || this.trainingIndex == 3) amount = 7;
-            if (this.trainingIndex == 4 || this.trainingIndex == 5) amount = 14;
-
-            // Jeœli ma byæ joker, zmniejszamy liczbê zwyk³ych p³ytek o 1
-            int normalTilesAmount = shouldHaveJoker ? amount - 1 : amount;
-
-            // 1. Wybieramy losowy kolor i start sekwencji (np. 1-13)
-            // Twoja lista tiles ma po kolei kolory, wiêc bezpieczniej szukaæ po parametrach
-            int randomColorIdx = Random.Range(0, 4);
-            UnityEngine.Color[] cols = { UnityEngine.Color.red, new UnityEngine.Color(1f, 0.5f, 0f), UnityEngine.Color.black, UnityEngine.Color.blue };
-            UnityEngine.Color selectedCol = cols[randomColorIdx];
-
-            // Losujemy start, ¿eby sekwencja siê zmieœci³a w 13
-            int maxPossibleStart = 13 - normalTilesAmount + 1;
-            int startNum = Random.Range(1, maxPossibleStart + 1);
-
-            // 2. Pobieramy sekwencjê z banku
-            for (int i = 0; i < normalTilesAmount; i++)
-            {
-                int targetNum = startNum + i;
-                // Szukamy konkretnej p³ytki w banku
-                int foundIndex = tiles.FindIndex(t => t.GetNumber() == targetNum && t.GetColor() == selectedCol);
-
-                if (foundIndex != -1)
-                {
-                    AIPlayerHand.Add(tiles[foundIndex]);
-                    tiles.RemoveAt(foundIndex);
-                }
-            }
-
-            // 3. Dodajemy Jokera, jeœli wylosowano
-            if (shouldHaveJoker)
-            {
-                int joker = tiles.FindIndex(t => t.GetNumber() == 30); // Twoje jokery maj¹ nr 30
-                if (joker != -1)
-                {
-                    AIPlayerHand.Add(tiles[joker]);
-                    tiles.RemoveAt(joker);
-                }
-            }
-        }
-        else if (this.trainingIndex == 6 || this.trainingIndex == 7)
-        {
-            for (int i = 0; i < 14; i++)
-            {
-                TileIndex = Random.Range(0, (tiles.Count));
-                // tiles[TileIndex].ShowTiles();
-                AIPlayerHand.Add(tiles[TileIndex]);
-                tiles.RemoveAt(TileIndex);
-            }
-        }
-        //Debug.Log("ile p³ytek jest w klasie player: "+playerHand.Count);
-        SaveListToCopy();
-       // PrintList();
-        this.myIndex = idx;
-    }
-    /// <summary>
-    /// Funkcja do debugowania
-    /// </summary>
-    void PrintList()
-    {
-        string toPrint = string.Empty;
-        foreach(Tile tile in AIPlayerHand)
-        {
-            toPrint += tile.GetTilename()+" ";
-        }
-        Debug.Log(toPrint);
-    }
 
     /// <summary>
     /// funkcja do sprawdzenia czy po³o¿enie p³ytki w wybranym miejscu jest poprawne
@@ -588,32 +540,6 @@ public class PlayerAI : Agent
         else AddReward(rewards.PNTNT);//TODO Puting new tile when there are no tiles in hand
     }
 
-    private float DistanceOnBoard(float reward, Dictionary<Vector3Int, Tile> board, Vector3Int position )
-    {
-        if(board.Count() - 1 <= 0)
-            return reward;
-            
-        int x = position.x; int y = position.y; int z = position.z;
-        float totalDistance = 0f;
-        int count = 0;
-
-        foreach (var existingPos in board.Keys)
-        {
-            if (existingPos == position) continue;
-            float dist = Vector3.Distance(position, existingPos);
-            totalDistance += dist;
-            count++;
-        }
-        float avgDistance = totalDistance / count;
-        float maxInfluenceRange = 10.0f;
-
-        float normalized = Mathf.Clamp01((avgDistance - 1f) / (maxInfluenceRange - 1f));
-        float distanceReward = Mathf.Lerp(reward, 0f, normalized);
-
-        Debug.Log("Œrednia nagroda: " + distanceReward);
-
-        return Mathf.Max(0f, distanceReward);
-    }
     private bool CheckPlacementValidity(Vector3Int gridPosition, int selectedObjectIndex, int index)
     {
 
@@ -855,6 +781,17 @@ public class PlayerAI : Agent
                                           //Debug.Log("Agent Ÿle zakoñczy³ ture");
             }
         } }
+    public int FinalScore()
+    {
+        int score = 0;
+        foreach (Tile tile in AIPlayerHand)
+        {
+            score += tile.GetNumber();
+        }
+
+        return score;
+
+    }
     void TakeTileAction()
     {
         //nie chcemy by bra³ nowe p³ytki, ujemne punkty
@@ -895,6 +832,7 @@ public class PlayerAI : Agent
             AddReward(penalty);//TODO penalty for each tile in hand
             //kary w zale¿noœci od wyniku
         }
+
         EndEpisode();
         //Reset();
     }
@@ -966,15 +904,194 @@ public class PlayerAI : Agent
     }
 
 
-    public int FinalScore()
+
+    public Dictionary<Vector3Int, Tile>  returnAvailableBoard(int positionsAmount)
     {
-        int score = 0;
-        foreach (Tile tile in AIPlayerHand)
+        Dictionary<Vector3Int, Tile> availablePositions = new Dictionary<Vector3Int, Tile>();
+
+        return availablePositions;
+    }
+
+    public void CurriculumLearningActionMask(ref IDiscreteActionMask actionMask)
+    {
+        //actionMask.SetActionEnabled(1, 3, false);
+        if (true) //jakiœ warunek TODO
+        { //tylko 0 - k³adzenie i 5 - koniec tury dostêpne
+            actionMask.SetActionEnabled(1, 1, false);
+            actionMask.SetActionEnabled(1, 2, false);
+            actionMask.SetActionEnabled(1, 3, false);
+            actionMask.SetActionEnabled(1, 4, false);
+
+            // p³ytki na mapie tylko te dostêpne, na start 24
+
+        }
+        for (int i = boardAvailability; i < zSize * xSize; i++)
         {
-            score += tile.GetNumber();
+            actionMask.SetActionEnabled(0, i, false);
+            actionMask.SetActionEnabled(3, i, false);
         }
 
-        return score;
+    }
+
+    public void PrepareToTrain(ref List<Tile> tiles, int idx, int tileAmount, int trainingIndex)
+    {
+        SetPlayersHand_TrainingFunction(ref tiles, idx, tileAmount, false, false);
+    }
+
+    /// <summary>
+    /// Funkcja do przypisania p³ytek do jednego gracza w trakcie treningu, w zale¿noœci od etapu treningu
+    /// </summary>
+    /// <param name="tiles"></param>
+    /// <param name="idx"></param>
+    public void SetPlayersHand_TrainingFunction(ref List<Tile> tiles, int idx, int tileAmount, bool isSeq, bool isJoker)
+    {
+        AIPlayerHand = new();
+        AIPlayerHandCopy = new();
+        if (isSeq)
+            tileAmount = Mathf.Clamp(tileAmount, 3, 13);
+        else
+            tileAmount = Mathf.Clamp(tileAmount, 3, 4);
+        // playerHand = new ();S
+        //int TileIndex;
+        //int amount = 3;
+        int normalTilesAmount = isJoker ? tileAmount - 1 : tileAmount;
+        UnityEngine.Color[] cols = { UnityEngine.Color.red, new UnityEngine.Color(1f, 0.5f, 0f), UnityEngine.Color.black, UnityEngine.Color.blue };
+        if (isSeq)
+        {
+            int randomColorIdx = Random.Range(0, 4);
+
+            UnityEngine.Color selectedCol = cols[randomColorIdx];
+            int maxPossibleStart = 13 - normalTilesAmount + 1;
+            int startNum = Random.Range(1, maxPossibleStart + 1);
+
+            for (int i = 0; i < normalTilesAmount; i++)
+            {
+                int targetNum = startNum + i;
+                int foundIndex = tiles.FindIndex(t => t.GetNumber() == targetNum && t.GetColor() == selectedCol);
+
+                if (foundIndex != -1)
+                {
+                    AIPlayerHand.Add(tiles[foundIndex]);
+                    tiles.RemoveAt(foundIndex);
+                }
+            }
+            if (isJoker)
+            {
+                int joker = tiles.FindIndex(t => t.GetNumber() == 30); // Twoje jokery maj¹ nr 30
+                if (joker != -1)
+                {
+                    AIPlayerHand.Add(tiles[joker]);
+                    tiles.RemoveAt(joker);
+                }
+            }
+        }
+        else //group
+        {
+            int targetNum = Random.Range(1, 14);
+            List<UnityEngine.Color> availableColors = new List<UnityEngine.Color>(cols);
+
+            for (int i = 0; i < normalTilesAmount; i++)
+            {
+                int colorIdx = Random.Range(0, availableColors.Count);
+                UnityEngine.Color selectedCol = availableColors[colorIdx];
+
+                int foundIndex = tiles.FindIndex(t => t.GetNumber() == targetNum && t.GetColor() == selectedCol);
+
+                if (foundIndex != -1)
+                {
+                    AIPlayerHand.Add(tiles[foundIndex]);
+                    tiles.RemoveAt(foundIndex);
+                    availableColors.RemoveAt(colorIdx);
+                }
+            }
+        }
+
+        //Debug.Log("ile p³ytek jest w klasie player: "+playerHand.Count);
+        SaveListToCopy();
+        PrintList();
+        this.myIndex = idx;
+    }
+    /// <summary>
+    /// Funkcja do debugowania
+    /// </summary>
+    void PrintList()
+    {
+        string toPrint = string.Empty;
+        foreach (Tile tile in AIPlayerHand)
+        {
+            toPrint += tile.GetTilename() + " ";
+        }
+        Debug.Log(toPrint);
+    }
+    private float DistanceOnBoard(float reward, Dictionary<Vector3Int, Tile> board, Vector3Int position)
+    {
+        if (board.Count() - 1 <= 0)
+            return reward;
+
+        int x = position.x; int y = position.y; int z = position.z;
+        float totalDistance = 0f;
+        int count = 0;
+
+        foreach (var existingPos in board.Keys)
+        {
+            if (existingPos == position) continue;
+            float dist = Vector3.Distance(position, existingPos);
+            totalDistance += dist;
+            count++;
+        }
+        float avgDistance = totalDistance / count;
+        float maxInfluenceRange = 10.0f;
+
+        float normalized = Mathf.Clamp01((avgDistance - 1f) / (maxInfluenceRange - 1f));
+        float distanceReward = Mathf.Lerp(reward, 0f, normalized);
+
+        Debug.Log("Œrednia nagroda: " + distanceReward);
+
+        return Mathf.Max(0f, distanceReward);
+    }
+    void PutTileAction_CurriculumLearning(int x, int z, int indeks) //wiemy ¿e zawsze bêdzie 
+    {
+        //sprawdziæ czy mo¿na po³o¿yæ
+        var board = GameController.Instance.GetBoardDictionary().board;
+        if (AIPlayerHand.Count > 0)
+        {
+            Vector3Int position = new Vector3Int(x, 0, z);
+            bool placementValidity = CheckPlacementValidity(position, 0, indeks);
+
+            if (placementValidity)
+            {
+                PutTile(position, AIPlayerHand[indeks]);
+                AIPlayerHand.RemoveAt(indeks);
+                Vector3Int positionplusjeden = new Vector3Int(x + 1, 0, z);
+                Vector3Int positionplusdwa = new Vector3Int(x + 2, 0, z);
+                Vector3Int positionminusjeden = new Vector3Int(x - 1, 0, z);
+                Vector3Int positionminusdwa = new Vector3Int(x - 2, 0, z);
+                if (board.ContainsKey(positionplusjeden) && board.ContainsKey(positionminusjeden))
+                    AddReward(rewards.PTPBOT_T); //puting tile properly between other tiles
+                else if (board.ContainsKey(positionplusjeden) || board.ContainsKey(positionminusjeden))
+                    AddReward(rewards.PTPCTOT_T);//puting tile properly close to other tile
+                else if ((board.ContainsKey(positionplusjeden) && board.ContainsKey(positionplusdwa)) || (board.ContainsKey(positionminusjeden) && board.ContainsKey(positionminusdwa)))
+                    AddReward(rewards.PTPOLOROTT_T); //puting tile properly on left or right of two tiles
+                else
+                    AddReward(DistanceOnBoard(rewards.PTPOB_T, board, position));//TODO puting tile properly on board
+
+
+            }
+            else AddReward(rewards.PTW);//TODO puting tile wrongly (invalid)
+        }
+        else AddReward(rewards.PNTNT);//TODO Puting new tile when there are no tiles in hand
+    }
+
+    void MoveTileAction_CurriculumLearning(int oldX, int oldZ, int newX, int newZ)
+    {
+
+    }
+    void RemoveTileAction_CurriculumLearning(int x, int z)
+    {
+
+    }
+    void EndTurnAction_CurriculumLearning()
+    {
 
     }
 }
