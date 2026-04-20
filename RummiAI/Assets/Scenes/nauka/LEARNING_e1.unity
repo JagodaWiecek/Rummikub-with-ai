@@ -2023,7 +2023,11 @@ MonoBehaviour:
   mrComputerPlayer: {fileID: 1187523808}
   missComputerPlayer: {fileID: 202831033}
   ComputerPlayer: {fileID: 468212914}
+  CP_AI: {fileID: 0}
   AI: {fileID: 1953003586}
+  AI_1: {fileID: 0}
+  A_2: {fileID: 0}
+  A_3: {fileID: 0}
   placementSystem: {fileID: 1434540506}
   objectPlacer: {fileID: 1896926890}
   boardDictionary: {fileID: 0}
@@ -2037,6 +2041,7 @@ MonoBehaviour:
   thirdPlace: {fileID: 0}
   fourthPlace: {fileID: 0}
   stopScreen: {fileID: 1260712643}
+  learningStep: 0
 --- !u!1 &1758723374
 GameObject:
   m_ObjectHideFlags: 0
@@ -2084,6 +2089,8 @@ MonoBehaviour:
   currentPlayerId: 0
   turnTime: 60
   currentTurnTime: 30
+  currentAgentsPeriodicity: 0
+  agentsPeriodicity: 0
   timeText: {fileID: 1936729153}
   currentPlayerText: {fileID: 352062923}
   MissComputerTilesText: {fileID: 1222880193}
@@ -2229,7 +2236,7 @@ GameObject:
   - component: {fileID: 1953003585}
   - component: {fileID: 1953003587}
   - component: {fileID: 1953003586}
-  - component: {fileID: 1953003588}
+  - component: {fileID: 1953003589}
   m_Layer: 0
   m_Name: PlayerAI
   m_TagString: Untagged
@@ -2272,10 +2279,13 @@ MonoBehaviour:
   AIPlayerHandCopy: []
   firstTurn: 0
   myIndex: 0
+  trainingIndex: 0
+  endTurnCount: 0
   database: {fileID: 11400000, guid: 421ebad51cc74194d80b0972b624fa7f, type: 2}
   objectPlacer: {fileID: 1896926890}
   grid: {fileID: 1223401790}
   placementSystem: {fileID: 1434540506}
+  rewards: {fileID: 11400000, guid: 424698e71dae6104b887443d0df93d86, type: 2}
 --- !u!114 &1953003587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2289,24 +2299,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 1350
-    NumStackedVectorObservations: 1
+    VectorObservationSize: 972
+    NumStackedVectorObservations: 2
     m_ActionSpec:
       m_NumContinuousActions: 0
-      BranchSizes: 160000000900000006000000400000001600000009000000
-    VectorActionSize: 160000000900000006000000400000001600000009000000
+      BranchSizes: f00000000600000040000000f0000000
+    VectorActionSize: f00000000600000040000000f0000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
-  m_InferenceDevice: 0
+  m_InferenceDevice: 1
   m_BehaviorType: 0
   m_BehaviorName: PlayRummikub
   TeamId: 0
-  m_UseChildSensors: 1
+  m_UseChildSensors: 0
   m_UseChildActuators: 1
   m_ObservableAttributeHandling: 0
---- !u!114 &1953003588
+--- !u!114 &1953003589
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2315,11 +2325,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1953003584}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Script: {fileID: 11500000, guid: dd8012d5925524537b27131fef517017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DecisionPeriod: 5
-  TakeActionsBetweenDecisions: 1
+  m_SensorName: BufferSensor
+  m_ObservableSize: 3
+  m_MaxNumObservables: 64
 --- !u!1 &2082919659
 GameObject:
   m_ObjectHideFlags: 0

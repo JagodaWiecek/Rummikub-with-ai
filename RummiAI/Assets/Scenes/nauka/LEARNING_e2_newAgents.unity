@@ -2017,13 +2017,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapId: 0
-  gameIndex: 1
+  gameIndex: 4
   mainBank: []
   player: {fileID: 0}
   mrComputerPlayer: {fileID: 1187523808}
   missComputerPlayer: {fileID: 202831033}
   ComputerPlayer: {fileID: 468212914}
-  CP_AI: {fileID: 0}
   AI: {fileID: 1953003586}
   AI_1: {fileID: 0}
   A_2: {fileID: 0}
@@ -2236,7 +2235,6 @@ GameObject:
   - component: {fileID: 1953003586}
   - component: {fileID: 1953003588}
   - component: {fileID: 1953003589}
-  - component: {fileID: 1953003590}
   m_Layer: 0
   m_Name: PlayerAI
   m_TagString: Untagged
@@ -2279,8 +2277,6 @@ MonoBehaviour:
   AIPlayerHandCopy: []
   firstTurn: 0
   myIndex: 0
-  trainingIndex: 0
-  endTurnCount: 0
   database: {fileID: 11400000, guid: 421ebad51cc74194d80b0972b624fa7f, type: 2}
   objectPlacer: {fileID: 1896926890}
   grid: {fileID: 1223401790}
@@ -2299,8 +2295,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 972
-    NumStackedVectorObservations: 2
+    VectorObservationSize: 733
+    NumStackedVectorObservations: 4
     m_ActionSpec:
       m_NumContinuousActions: 0
       BranchSizes: f00000000600000040000000f0000000
@@ -2309,11 +2305,11 @@ MonoBehaviour:
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
-  m_InferenceDevice: 0
+  m_InferenceDevice: 1
   m_BehaviorType: 0
   m_BehaviorName: PlayRummikub
   TeamId: 0
-  m_UseChildSensors: 1
+  m_UseChildSensors: 0
   m_UseChildActuators: 1
   m_ObservableAttributeHandling: 0
 --- !u!114 &1953003588
@@ -2328,7 +2324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DecisionPeriod: 20
+  DecisionPeriod: 5
   TakeActionsBetweenDecisions: 0
 --- !u!114 &1953003589
 MonoBehaviour:
@@ -2343,24 +2339,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SensorName: BufferSensor
-  m_ObservableSize: 3
+  m_ObservableSize: 2
   m_MaxNumObservables: 64
---- !u!114 &1953003590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1953003584}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2902496c0120472b90269f94a0aec7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Record: 0
-  NumStepsToRecord: 0
-  DemonstrationName: RummikubExpert
-  DemonstrationDirectory: Recording
 --- !u!1 &2082919659
 GameObject:
   m_ObjectHideFlags: 0

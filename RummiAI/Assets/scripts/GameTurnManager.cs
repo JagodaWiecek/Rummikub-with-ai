@@ -41,7 +41,9 @@ public class GameTurnManager : MonoBehaviour
         turnTime = 60;
         currentTurnTime = turnTime;
         SetUIText();
-        agentsPeriodicity = 1f;
+        if(GameController.Instance.gameIndex != 6)
+            agentsPeriodicity = 1f;
+        else agentsPeriodicity = 0.1f;
         currentAgentsPeriodicity = 0f;
 
     }

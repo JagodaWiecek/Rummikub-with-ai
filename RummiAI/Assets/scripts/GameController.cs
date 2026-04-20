@@ -205,7 +205,7 @@ public class GameController : MonoBehaviour
 
             //wszystkie losowania i przekazywania zmiennych do nauki i dzielenia etapów
 
-            AI.PrepareToTrain(ref this.mainBank, 0, tileAmount, trainingIndex); //all tiles
+            AI.PrepareToTrain(ref this.mainBank, 0); //all tiles
         }
         else if (gameIndex == 7)
         {
@@ -519,14 +519,14 @@ public class GameController : MonoBehaviour
             //4 agenci
         } //nie skoñczone 
         else if (gameIndex == 6) { //jeden agent do nauki, ma wszystkie p³ytki
-            AI.EndGame();
+            AI.EndGame_CurriculumLearning();
             
             objectPlacer.Reset();
             gameTurnManager.turnController.Reset();
             CreateMainBank(ref this.mainBank);
             boardList = new();
             boardDictionary = new();
-            AI.PrepareToTrain(ref this.mainBank, 0, tileAmount, trainingIndex);
+            AI.PrepareToTrain(ref this.mainBank, 0);
             //gameTurnManager.Reset();
         }
         else if (gameIndex == 7)
