@@ -45,18 +45,11 @@ public class RewardData : ScriptableObject
     public float SP = -0.005f; //to force agent to make the smallest amount of moves in game, step penalty
 
     [Header("Curriculum Specific Rewards")] //Training
-    public float PTPOB_T = 0.1f; //puting tile properly on board
-    public float PTPBOT_T = 0.2f; //puting tile properly between other tiles
-    public float PTPCTOT_T = 0.15f; //puting tile properly close to other tile
-    public float PTPOLOROTT_T = 0.2f; //puting tile properly on left or right of two tiles
-    public float ATAHFT_T = 0.3f; //after the turn the agent has fewer tiles
+    public float winReward_CL = 1.0f; //wygrana w CL
+    public float lossPenalty_CL = -1.0f; //przegrana w CL
+    public float PT_CL = -0.1f; //po這瞠nie p造tki 
+    public float PTP_CL = 0.1f; //po這瞠nie p造tki poprawnie 
 
-   
-    public float TNT_T = -0.1f; //Taking new tile
-    public float PTW_T = -0.05f; //puting tile wrongly
-    public float MILWAT_T = -0.2f; //the map is left wrongly after turn
-    public float PFETIH_T = -0.01f; //penalty for each tile in hand
-    
 
 
 

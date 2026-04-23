@@ -2042,6 +2042,8 @@ MonoBehaviour:
   fourthPlace: {fileID: 0}
   stopScreen: {fileID: 1260712643}
   learningStep: 0
+  tileAmount: 0
+  trainingIndex: 0
 --- !u!1 &1758723374
 GameObject:
   m_ObjectHideFlags: 0
@@ -2089,6 +2091,8 @@ MonoBehaviour:
   currentPlayerId: 0
   turnTime: 60
   currentTurnTime: 30
+  currentAgentsPeriodicity: 0
+  agentsPeriodicity: 0
   timeText: {fileID: 1936729153}
   currentPlayerText: {fileID: 352062923}
   MissComputerTilesText: {fileID: 1222880193}
@@ -2234,7 +2238,6 @@ GameObject:
   - component: {fileID: 1953003585}
   - component: {fileID: 1953003587}
   - component: {fileID: 1953003586}
-  - component: {fileID: 1953003588}
   - component: {fileID: 1953003589}
   - component: {fileID: 1953003590}
   m_Layer: 0
@@ -2279,13 +2282,13 @@ MonoBehaviour:
   AIPlayerHandCopy: []
   firstTurn: 0
   myIndex: 0
-  trainingIndex: 0
   endTurnCount: 0
   database: {fileID: 11400000, guid: 421ebad51cc74194d80b0972b624fa7f, type: 2}
   objectPlacer: {fileID: 1896926890}
   grid: {fileID: 1223401790}
   placementSystem: {fileID: 1434540506}
   rewards: {fileID: 11400000, guid: 424698e71dae6104b887443d0df93d86, type: 2}
+  curriculumLearningTrainer: {fileID: 0}
 --- !u!114 &1953003587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2299,7 +2302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 972
+    VectorObservationSize: 1692
     NumStackedVectorObservations: 2
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -2316,20 +2319,6 @@ MonoBehaviour:
   m_UseChildSensors: 1
   m_UseChildActuators: 1
   m_ObservableAttributeHandling: 0
---- !u!114 &1953003588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1953003584}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DecisionPeriod: 20
-  TakeActionsBetweenDecisions: 0
 --- !u!114 &1953003589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2343,7 +2332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SensorName: BufferSensor
-  m_ObservableSize: 3
+  m_ObservableSize: 6
   m_MaxNumObservables: 64
 --- !u!114 &1953003590
 MonoBehaviour:

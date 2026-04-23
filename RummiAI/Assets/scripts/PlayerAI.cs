@@ -84,6 +84,7 @@ public class PlayerAI : Agent
     CurrculumLearningSetupMode currculumLearningSetupMode;
     protected int trainingIndex; //index do modyfikowania etapu treningu wewn¹trz sceny 6
     bool[] allowedActions;
+    protected HashSet<int> takenSpots;//zmienna do przechowywania zajêtych pozycji w przestrzeni 1d
 
     void Start()
     {
@@ -95,26 +96,36 @@ public class PlayerAI : Agent
 
         time = 1f;
         currnetTime = time;
+        takenSpots = new HashSet<int>();
     }
     public override void Initialize()
     {
         base.Initialize();
-        this.trainingIndex = curriculumLearningTrainer.LoadProgress();
+       // if (GameController.Instance != null && GameController.Instance.gameIndex == 6) Debug.Log("zainicjowane");
+       if(curriculumLearningTrainer != null)
+        {
+            //Debug.Log("zainicjowane");
+            this.trainingIndex = curriculumLearningTrainer.LoadProgress();
+        }
+        else { this.trainingIndex = 0; }
+          
     }
     public override void OnEpisodeBegin()
     {
-        
+        //if (GameController.Instance.gameIndex == 6)
+        //    this.trainingIndex = curriculumLearningTrainer.LoadProgress();
         if (GameController.Instance.gameIndex == 4 || GameController.Instance.gameIndex == 6)
         {
             firstTurn = false;
         }
 
-        if (curriculumLearningTrainer != null)
-        {
-            string myBehaviorName = GetComponent<Unity.MLAgents.Policies.BehaviorParameters>().BehaviorName;
-        }
+        //if (curriculumLearningTrainer != null)
+        //{
+        //    string myBehaviorName = GetComponent<Unity.MLAgents.Policies.BehaviorParameters>().BehaviorName;
+        //}
         //trainingIndex = (int)Academy.Instance.EnvironmentParameters.GetWithDefault("training_index", 0);
         endTurnCount = 0;
+        takenSpots = new HashSet<int>();
         //SetupTrainingStage(trainingIndex);
     }
 
@@ -222,6 +233,7 @@ public class PlayerAI : Agent
             //int  = actions.DiscreteActions[1];
 
         int akcjaAgenta = actions.DiscreteActions[1];
+        Debug.Log("Akcja: "+ akcjaAgenta);
         int chosenTileIndex = actions.DiscreteActions[2];
 
         var (xNew, zNew) = From1Dto2D(actions.DiscreteActions[3]);
@@ -274,10 +286,9 @@ public class PlayerAI : Agent
             {
                 case 0:
 
-                    if (chosenTileIndex < AIPlayerHand.Count)
-                    {
-                        PutTileAction_CurriculumLearning(x, z, chosenTileIndex); // uczniowa funkcja dla cl
-                    }
+                    
+                    PutTileAction_CurriculumLearning(x, z, chosenTileIndex); // uczniowa funkcja dla cl
+                    
                     //Próba po³o¿enia nowej p³ytki gdy ai nie ma ju¿ p³ytek, kara
                     //else AddReward(rewards.PNTNT); //TODO
                     Debug.Log("Akcja k³adzenia p³ytki CL");
@@ -328,6 +339,8 @@ public class PlayerAI : Agent
         int maxTiles = 64;   // Maksymalna liczba akcji w tej ga³êzi
         int availableTiles = AIPlayerHand.Count; // Liczba dostêpnych p³ytek w rêce agenta
         var board = GameController.Instance.GetBoardDictionary().board;
+        //actionMask.SetActionEnabled(0, 0, false);
+        // actionMask.SetActionEnabled(1, 0, false);
         if (AIPlayerHand.Count > 0)
         {
             for (int i = availableTiles; i < maxTiles; i++) // nie mo¿na wybraæ indeksu p³ytki gdy nie ma tylu p³ytek w rêce, max 64, nie mozna dobrac np 18 jeœli agent ma 5 p³ytek
@@ -335,41 +348,60 @@ public class PlayerAI : Agent
                 actionMask.SetActionEnabled(2, i, false); // Wy³¹czanie akcji
             }
         }
-        else if (AIPlayerHand.Count == 0) actionMask.SetActionEnabled(1, 0, false); //wy³¹czenie k³adzenia p³ytek gdy nie ma p³ytek w rêku
- 
-
-        //gdy mapa jest pusta
         if (board.Count == 0)
         {
             actionMask.SetActionEnabled(1, 1, false); //nie mo¿na usuwaæ
             actionMask.SetActionEnabled(1, 2, false);//nie mo¿na przestawiaæ
         }
-            //if(firstTurn) actionMask.SetActionEnabled(2, 4, false);
-
+        if (AIPlayerHand.Count == AIPlayerHandCopy.Count)
+        {
+            actionMask.SetActionEnabled(1, 1, false);//nie mo¿na usun¹æ
+            actionMask.SetActionEnabled(1, 4, false);//nie mo¿na undo zrobiæ
+            actionMask.SetActionEnabled(1, 5, false);//nie mo¿na zakoñczyæ tury
+        }
         if (firstTurn && AIPlayerHand.Count == AIPlayerHandCopy.Count) //jeœli mamy pierwsz¹ turê i agent nic nie wy³o¿y³
         {
             actionMask.SetActionEnabled(1, 2, false); //nie mo¿na przesuwaæ
         }
+        else if (AIPlayerHand.Count == 0) actionMask.SetActionEnabled(1, 0, false); //wy³¹czenie k³adzenia p³ytek gdy nie ma p³ytek w rêku
 
 
         if (GameController.Instance.gameIndex != 6)
         {
+            //gdy mapa jest pusta
+           
+            //if(firstTurn) actionMask.SetActionEnabled(2, 4, false);
+
+            
+
             if (!GameController.Instance.gameTurnManager.turnController.CheckMap()) //jeœli mapa jest zakoñczona niepoprawnie
             {
                 actionMask.SetActionEnabled(1, 5, false); //zablokowane koñczenie tury
             }
             //gdy mamy tyle samo p³ytek co na pocz¹tku tury
-            if (AIPlayerHand.Count == AIPlayerHandCopy.Count)
-            {
-                actionMask.SetActionEnabled(1, 1, false);//nie mo¿na usun¹æ
-                actionMask.SetActionEnabled(1, 4, false);//nie mo¿na undo zrobiæ
-                actionMask.SetActionEnabled(1, 5, false);//nie mo¿na zakoñczyæ tury
-            }
-
+            
         }
         if(GameController.Instance.gameIndex == 6)
         {
             CurriculumLearningActionMask(ref actionMask);
+            //for (int i = 0; i < allowedActions.Length; i++) //zablokowanie akcji która zosta³a okreœlona false przy ustawieniach
+            //{ //tylko 0 - k³adzenie i 5 - koniec tury dostêpne
+            //    if (!allowedActions[i]) //te co maj¹ false to blokujemy
+            //    {
+            //        actionMask.SetActionEnabled(1, i, false);
+            //    }
+
+            //    // p³ytki na mapie tylko te dostêpne, na start 24
+
+            //}
+            //for (int i = currculumLearningSetupMode.boardAvailability; i < zSize * xSize; i++) //nie mo¿na wybraæ pozycji która jest ograniczona
+            //{
+            //    actionMask.SetActionEnabled(0, i, false);
+            //    actionMask.SetActionEnabled(3, i, false);
+            //}
+
+
+
         }
 
     }
@@ -413,17 +445,17 @@ public class PlayerAI : Agent
        
     }
 
-    private int From2Dto1D(int x, int z)
+    private int From2Dto1D(int x, int z) 
     {
         int xNorm = x - minX;
         int zNorm = z - minZ;
-        int index = (xNorm * zSize) + zNorm;
+        int index = (zNorm * xSize) + xNorm;
         return index;
     }
     private (int x, int z) From1Dto2D(int xz)
     {
-        int x = xz/zSize;
-        int z = xz%zSize;
+        int x = xz%xSize;
+        int z = xz/xSize;
         x = x + minX;
         z = z+ minZ;
 
@@ -504,6 +536,23 @@ public class PlayerAI : Agent
         AddReward(penalty);//TODO
 
     }
+    /// <summary>
+    /// funkcja do zwrócenia p³ytek do tali agenta
+    /// agent dostaje kary w zale¿noci od iloœci przywracanych p³ytek,
+    /// ale to jest do curriculum learning, gdzie agent nie dostaje kary
+    /// </summary>
+    public void RestoreCopyList_CurriculumLearning()
+    {
+        float amount = AIPlayerHandCopy.Count - AIPlayerHand.Count;
+        AIPlayerHand.Clear();
+        foreach (Tile tile in AIPlayerHandCopy)
+        {
+            AIPlayerHand.Add(tile);
+        }
+        float penalty = amount * (rewards.TNTPT); //taking back tiles
+        AddReward(penalty);//TODO
+
+    }
 
     public void SetPlayersHand(ref List<Tile> tiles, int idx)
     {
@@ -550,17 +599,13 @@ public class PlayerAI : Agent
                 Vector3Int positionminusjeden = new Vector3Int(x-1, 0, z);
                 Vector3Int positionminusdwa = new Vector3Int(x-2, 0, z);
                 if (board.ContainsKey(positionplusjeden) && board.ContainsKey(positionminusjeden))
-                    if (GameController.Instance.gameIndex == 6) AddReward(rewards.PTPBOT_T);
-                    else AddReward(rewards.PTPBOT); //puting tile properly between other tiles
+                     AddReward(rewards.PTPBOT); //puting tile properly between other tiles
                 else if (board.ContainsKey(positionplusjeden) || board.ContainsKey(positionminusjeden))
-                    if (GameController.Instance.gameIndex == 6) AddReward(rewards.PTPCTOT_T); 
-                    else AddReward(rewards.PTPCTOT); //puting tile properly close to other tile
+                     AddReward(rewards.PTPCTOT); //puting tile properly close to other tile
                 else if ((board.ContainsKey(positionplusjeden) && board.ContainsKey(positionplusdwa)) || (board.ContainsKey(positionminusjeden) && board.ContainsKey(positionminusdwa)))
-                    if (GameController.Instance.gameIndex == 6)  AddReward(rewards.PTPOLOROTT_T); 
-                    else AddReward(rewards.PTPOLOROTT); //puting tile properly on left or right of two tiles
+                     AddReward(rewards.PTPOLOROTT); //puting tile properly on left or right of two tiles
                 else
-                    if (GameController.Instance.gameIndex == 6) AddReward(DistanceOnBoard(rewards.PTPOB_T, board, position)); 
-                    else AddReward(rewards.PTPOB);//TODO puting tile properly on board
+                    AddReward(rewards.PTPOB);//TODO puting tile properly on board
 
                 
             }
@@ -670,7 +715,7 @@ public class PlayerAI : Agent
                 int index = GameController.Instance.GetBoardDictionaryList().Count - 1;
                 placementSystem.GetGridData().RestoreCopyDictionary();
                 GameController.Instance.GetBoardDictionary().SaveDictionary(GameController.Instance.GetBoardDictionaryList()[index].board);
-                RestoreCopyList();
+                RestoreCopyList_CurriculumLearning();
                 GameController.Instance.gameTurnManager.turnController.Restore3DMap();
             }
             else
@@ -679,7 +724,7 @@ public class PlayerAI : Agent
                 {
                     objectPlacer.ClearplacedGameObjects();
                     GameController.Instance.GetBoardDictionary().board.Clear();
-                    RestoreCopyList();
+                    RestoreCopyList_CurriculumLearning();
                     placementSystem.GetGridData().GetDictionary().Clear();
                     GameController.Instance.gameTurnManager.turnController.RemoveAllChildren();
                 }
@@ -697,51 +742,7 @@ public class PlayerAI : Agent
         //zakoñczenie tury jesli jest poprawnie
         //zmiana statusu firstTurn na false jeœli jest true
         //
-        if (GameController.Instance.gameIndex == 6)
-        {
-            if(GameController.Instance.gameTurnManager.turnController.CheckMap())
-            {
-                //dobrze mapa, wysoka nagroda
-                //rozró¿niæ czy mamy 0 p³ytek czy jeszcze coœ zosta³o
-                if(AIPlayerHand.Count == 0)
-                    GameController.Instance.EndGame();
-                else
-                {
-                    SaveListToCopy();
-                    objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
-                    placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
-                    AddReward( rewards.ATAHFT_T); //reward
-                }
-                Debug.Log("uda³o siê poprawnie zakoñczyæ turê w treningu");
-            }
-            else
-            {
-                if(this.trainingIndex<6 &&  endTurnCount == 5 )
-                {
-                    endTurnCount = 0;
-                    GameController.Instance.EndGame();
-
-                }
-                else if(this.trainingIndex < 6 && endTurnCount <5)
-                {
-                    AddReward(-0.05f);
-                    UndoAction();
-                    endTurnCount++;
-                }
-                else
-                {
-                    //poprawa zachowania
-                    SaveListToCopy();
-                    objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
-                    placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
-                    AddReward(rewards.MILWAT_T); //reward
-                }
-                //b³êdnie skoñczona mapa, przegrana
-            }
-
-        }
-        else
-        {
+      
         if (GameController.Instance.gameTurnManager.turnController.CheckMap())
         {
            
@@ -802,14 +803,12 @@ public class PlayerAI : Agent
                 }
 
             }
-
-
         else
             {
                 AddReward(rewards.MILWAT);//TODO the map is left wrongly after turn
                                           //Debug.Log("Agent Ÿle zakoñczy³ ture");
             }
-        } }
+        } 
     public int FinalScore()
     {
         int score = 0;
@@ -842,25 +841,47 @@ public class PlayerAI : Agent
     /// </summary>
     public void EndGame()
     {
-        if(AIPlayerHand.Count == 0)
+        if(GameController.Instance.gameIndex !=6)
         {
-            SetReward(rewards.winReward);//TODO win
-        }
-        else
-        {
-            //int score = FinalScore();
-            float penalty = FinalScore() * (rewards.PFETIH);
-            if(GameController.Instance.gameIndex == 7)
+            if(AIPlayerHand.Count == 0)
             {
-                penalty = GameController.Instance.GetCP_AI().FinalScore();
+                SetReward(rewards.winReward);//TODO win
             }
+            else
+            {
+                //int score = FinalScore();
+                float penalty = FinalScore() * (rewards.PFETIH);
+                if(GameController.Instance.gameIndex == 7)
+                {
+                    penalty = GameController.Instance.GetCP_AI().FinalScore();
+                }
                 
-            SetReward(rewards.lossPenalty); //loss
-            AddReward(penalty);//TODO penalty for each tile in hand
-            //kary w zale¿noœci od wyniku
-        }
+                SetReward(rewards.lossPenalty); //loss
+                AddReward(penalty);//TODO penalty for each tile in hand
+                //kary w zale¿noœci od wyniku
+            }
 
-        EndEpisode();
+            EndEpisode();
+        }
+        else//w akcji musi byæ podobne sprawdzenie, które przekieruje tutaj albo poœrednio albo bezpoœrednio
+        //poœrednio ³¹czy siê z wygran¹ i resetem planszy i rêki
+        //bezpoœrednio wi¹¿e siê z przywróceniem stanu pierwszego, np przywrócenie jednej p³ytki z planszy, ale mapa i bank zostaje
+        //tutaj ustawiana jest ostateczna nagroda i koniec epizodu
+        //tutaj równie¿ l¹dowaæ bêdzie liczenie sumy wartoœci dla trenera
+        {
+            float finalReward;
+            if (AIPlayerHand.Count == 0 && GameController.Instance.gameTurnManager.turnController.CheckMap())
+            {
+                finalReward = 1f;
+            }
+            else
+            {
+                finalReward = -1f;
+            }
+            EndEpisode();
+            curriculumLearningTrainer.AddResult(finalReward, ref this.trainingIndex);
+        }
+       
         //Reset();
     }
 
@@ -942,7 +963,7 @@ public class PlayerAI : Agent
     public void CurriculumLearningActionMask(ref IDiscreteActionMask actionMask)
     {
         //actionMask.SetActionEnabled(1, 3, false);
-        for(int i =0;i< allowedActions.Length;i++) //jakiœ warunek TODO
+        for(int i =0;i< allowedActions.Length;i++) //zablokowanie akcji która zosta³a okreœlona false przy ustawieniach
         { //tylko 0 - k³adzenie i 5 - koniec tury dostêpne
             if (!allowedActions[i]) //te co maj¹ false to blokujemy
             {
@@ -957,6 +978,10 @@ public class PlayerAI : Agent
             actionMask.SetActionEnabled(0, i, false);
             actionMask.SetActionEnabled(3, i, false);
         }
+        if (AIPlayerHand.Count == 0) actionMask.SetActionEnabled(1, 0, false); //nie mo¿na mieæ akcji k³adzenia p³ytki gdy nie ma p³ytek w rêce
+
+
+
 
     }
 
@@ -964,6 +989,10 @@ public class PlayerAI : Agent
     {
         PrepareVariables(ref this.allowedActions, ref this.currculumLearningSetupMode);
         SetPlayersHand_TrainingFunction(ref tiles, idx, currculumLearningSetupMode.tileAmount, currculumLearningSetupMode.set, currculumLearningSetupMode.jokerChances);
+        if (currculumLearningSetupMode.AddOneTile) 
+            TrainingPutSeq(currculumLearningSetupMode.tileAmount, currculumLearningSetupMode.boardAvailability, AIPlayerHand); //k³adzie sekwencjê na planszê
+        else if (currculumLearningSetupMode.MoveExisting) 
+            TrainingMoveTile(currculumLearningSetupMode.tileAmount, currculumLearningSetupMode.boardAvailability, AIPlayerHand);
     }
 
     /// <summary>
@@ -1035,6 +1064,15 @@ public class PlayerAI : Agent
                     availableColors.RemoveAt(colorIdx);
                 }
             }
+            if (isJoker)
+            {
+                int joker = tiles.FindIndex(t => t.GetNumber() == 30); // Twoje jokery maj¹ nr 30
+                if (joker != -1)
+                {
+                    AIPlayerHand.Add(tiles[joker]);
+                    tiles.RemoveAt(joker);
+                }
+            }
         }
 
         //Debug.Log("ile p³ytek jest w klasie player: "+playerHand.Count);
@@ -1100,30 +1138,32 @@ public class PlayerAI : Agent
         else AddReward(0.0f);//TODO Puting new tile when there are no tiles in hand
     }
 
-    void MoveTileAction_CurriculumLearning(int oldX, int oldZ, int newX, int newZ)
+    void MoveTileAction_CurriculumLearning(int oldX, int oldZ, int newX, int newZ) //TODO
     {
 
     }
-    void RemoveTileAction_CurriculumLearning(int x, int z)
+    void RemoveTileAction_CurriculumLearning(int x, int z) //MAYBE TODO
     {
 
     }
-    void EndTurnAction_CurriculumLearning()
+    void EndTurnAction_CurriculumLearning() //TODO
     {
-        //nie chcemy by bra³ nowe p³ytki, ujemne punkty
-        //anulowanie zmian na mapie jeœli siê pojawi³y
-        //undo wy uniwersalne zrobiæ
-        UndoAction();
+        //jeœli ma tak¹ sam¹ iloœæ p³ytek to nic nie po³o¿y³
+        //albo jest przesuwanie, ale to wtedy musi byæ mapa poprawna 
+        //i tak mapê trzeba sprawdzic bo jak bêdzie mniej p³ytek w rêce to mapa musi byæ poprawna
+        //jak coœ niepoprawne bêdzie to resetujemy mapê i endepisode lokalnie
+        //jak poprawne to endgame globalne
+        //na pewnym etapie k³adzenie nie mo¿e koñczyæ siê od razu,
+        //czy mo¿e zrobiæ jak nie ma w ogóle p³ytek? a jak ma to kontynuacja 
+        if (AIPlayerHand.Count == 0 && GameController.Instance.gameTurnManager.turnController.CheckMap()) GameController.Instance.EndGame();
+
+        Revoke_CurriculumLearning();
         List<Tile> tiles = GameController.Instance.GetGameBank();
         AddNewTile(ref tiles);
         AddReward(rewards.TNT);//TODO Taking new tile
         if (firstTurn) GameController.Instance.firstTurnController.Reset();
-        if (GameController.Instance.gameIndex != 6)
-        {
-            AddReward(rewards.TNT);//TODO Taking new tile
-            GameController.Instance.gameTurnManager.ChangeTurn();
-        }
-        else AddReward(0);//reward
+                   
+        //else AddReward(0);//reward
         //undo
     }
     public void EndGame_CurriculumLearning()
@@ -1170,7 +1210,8 @@ public class PlayerAI : Agent
         //  4 undo
         //  5 koniec tury
         int oneLine = 24; //ile jedna linia mo¿e mieæ, max 10
-        if (this.trainingIndex == 0) 
+
+        if (this.trainingIndex == 2) //dodawanie p³ytek do serii - ju¿ s¹ dwie p³ytki i musi do³o¿yæ 3.
         {
             currculumLearningSetupMode.boardAvailability = oneLine;
             currculumLearningSetupMode.jokerChances = 0;
@@ -1182,7 +1223,7 @@ public class PlayerAI : Agent
             currculumLearningSetupMode.guidanceStrength = 1.0f;
             allowedActions = new bool[] { true, false,false,false,false,true };
         }
-        if (this.trainingIndex == 1) 
+        if (this.trainingIndex == 1) //k³adzenie ca³ych sekwencji 3
         {
             currculumLearningSetupMode.boardAvailability = oneLine;
             currculumLearningSetupMode.jokerChances = 0;
@@ -1195,34 +1236,200 @@ public class PlayerAI : Agent
             allowedActions = new bool[] { true, false, false, false, false, true };
 
         }
+        if (this.trainingIndex == 0) //to samo ale grupy - dwie p³ytki i dok³adanie jednej
+           // TYMCZASOWO PRZESUWANIE P£YTEK
+        {
+            currculumLearningSetupMode.boardAvailability = oneLine;
+            currculumLearningSetupMode.jokerChances = 0;
+            currculumLearningSetupMode.tileAmount = 3;
+            currculumLearningSetupMode.set = 100;
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = true;
+            currculumLearningSetupMode.guidanceStrength = 1.0f;
+            allowedActions = new bool[] { false, false, true, false, false, true };
+        }
     }
     /// <summary>
     /// funkcja do znalezienia pozycji do po³o¿enia p³ytek na mapie dla serii/grupy
     /// </summary>
-    /// <param name="tileAmount"></param>
+    /// <param name="tileAmount">ile p³ytek w rêce ma agent</param>
+    /// /// <param name="availableBoardAmount">jakie pozycje na mapie s¹ dostêpne, jest to np 24 oznaczaj¹ca ¿e mamy pozycje wolne w przedziale (0-23)</param>
     /// <returns></returns>
-    private List<Vector3Int> FreeSpaceToPut(int tileAmount)
+    private List<Vector3Int> FreeSpaceToPut(int tileAmount, int availableBoardAmount)
     {
-        return new List<Vector3Int>();
+        int safeStart;
+        int availableLines;
+        do 
+        {
+            availableLines = AmountOfLines((availableBoardAmount)); //ile mamy dostepnych linii, od 0 do 9 (czyli 10 linii), to zwróci o 1 za du¿o ale pozbywamy siê tego przy z
+            int z = Random.Range(0, availableLines); //jak¹ linie ostatecznie bêdziemy zajmowaæ, do zajmowania pozycja z
+            var (first, last) = RangePositions(z, availableLines, tileAmount);
+            safeStart = Random.Range(first, last + 1); 
+            //funkcja musi zwróciæ false gdy jest bezpieczne miejsce znalezione
+
+        } while(freeSpot(safeStart, availableLines));
+
+        //ostateczny wybór, zabezpieczenie przed 
+        List <Vector3Int> list = new List<Vector3Int>();
+        for (int i = 0; i < tileAmount;i++)
+        {   
+            var (xPos, zPos) = From1Dto2D(safeStart+i);
+            list.Add(new Vector3Int(xPos, 0, zPos));
+            takenSpots.Add(safeStart + i);
+        }
+        return list;
     }
-    private List<Vector3Int> FreeSpaceToMove(int tileAmount) 
+    private (List<Vector3Int>,int) FreeSpaceToMove(int tileAmount, int availableBoardAmount) 
     {
-        return new List<Vector3Int>();
+        int safeStart;
+        int availableLines;
+        do
+        {
+            availableLines = AmountOfLines((availableBoardAmount)); //ile mamy dostepnych linii, od 0 do 9 (czyli 10 linii), to zwróci o 1 za du¿o ale pozbywamy siê tego przy z
+            int z = Random.Range(0, availableLines); //jak¹ linie ostatecznie bêdziemy zajmowaæ, do zajmowania pozycja z
+            var (first, last) = RangePositions(z, availableLines, tileAmount);
+            safeStart = Random.Range(first, last + 1);
+            //funkcja musi zwróciæ false gdy jest bezpieczne miejsce znalezione
+
+        } while (freeSpot(safeStart, tileAmount));
+
+        //ostateczny wybór, zabezpieczenie przed 
+        List<Vector3Int> list = new List<Vector3Int>();
+        for (int i = 0; i < tileAmount; i++)
+        {
+            var (xPos, zPos) = From1Dto2D(safeStart + i);
+            list.Add(new Vector3Int(xPos, 0, zPos));
+            takenSpots.Add(safeStart + i);
+        }
+        // return list;
+        do
+        {
+            availableLines = AmountOfLines((availableBoardAmount));
+            int z = Random.Range(0, availableLines); 
+            var (first, last) = RangePositions(z, availableLines, 1);
+            safeStart = Random.Range(first, last + 1);
+
+        } while (freeSpot(safeStart, 1));
+
+
+        return (list, safeStart);
     }
 
-    void TrainingPutSeq()
+    void TrainingPutSeq(int tileAmount, int availableBoardAmount, List<Tile> sequention)
     {
         //lista p³ytek, dok³adanie jednej, losowanie która p³ytka nie bêdzie po³o¿ona
         //universalne co do iloœci p³ytek dla agenta
         //p³ytki musz¹ mieæ os razu zmienn¹ put na true
         //decyzja która p³ytka zostaje w rêce
+        List<Vector3Int> chosenSpace = FreeSpaceToPut(tileAmount, availableBoardAmount);
+        int indexOut = Random.Range(0, tileAmount); //wartoœæ do wybrania losowego która p³ytka NIE zostanie po³o¿ona
+
+        for (int i = 0, j = 0; i < chosenSpace.Count ; i++)
+        {
+            if(i == indexOut)
+            {
+                j++;
+                continue;
+            }
+            PutTile(chosenSpace[i], sequention[j]);
+            AIPlayerHand.RemoveAt(j);
+        }
+        SaveListToCopy();
+        objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
+        placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
+        GameController.Instance.gameTurnManager.EndTurn();//zmiana wszystkich p³ytek na planszy na put = true
+
     }
 
-    void TrainingMoveTile()
+    void TrainingMoveTile(int tileAmount, int availableBoardAmount, List<Tile> sequention)
     {
         //lista p³ytek, przek³adanie p³ytek, tak by by³y od siebie w odleg³oœci 2 
         //universalne co do iloœci p³ytek dla agenta
         //p³ytki musz¹ mieæ os razu zmienn¹ put na true
         //wszystkie p³ytki s¹ po³o¿one na planszy, ale jedna z dala od sekwencji
+        var (chosenSpace,singleTile) = FreeSpaceToMove(tileAmount, availableBoardAmount);
+        int indexOut = Random.Range(0, tileAmount);
+        for (int i = 0, j = 0; i < chosenSpace.Count; i++)
+        {
+            if (i == indexOut)
+            {
+                var (x, z) = From1Dto2D(singleTile);
+                PutTile(new Vector3Int (x,0,z), sequention[j]);
+                AIPlayerHand.RemoveAt(j);
+                continue;
+            }
+            PutTile(chosenSpace[i], sequention[j]);
+            AIPlayerHand.RemoveAt(j);
+        }
+        SaveListToCopy();
+        objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
+        placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
+        GameController.Instance.gameTurnManager.EndTurn();//zmiana wszystkich p³ytek na planszy na put = true
+    }
+
+    private int AmountOfLines(int availableBoardAmount)
+    {
+
+        return availableBoardAmount/xSize;
+    }
+    private (int first, int last) RangePositions(int z, int availableBoardAmount, int tileAmount)
+    {
+        int startOfLine = z * xSize; // 0, 24, 48, 72,96,120,144,168,192,216
+        int endOfLine = startOfLine + (xSize - 1); //23, 47, 71, 95, 119, 143, 167, 191, 215, 239
+        int first = startOfLine + 1; //1, 25, 49, 73, 97, 121, 145, 169, 193, 217
+        int last = endOfLine - tileAmount; //20, 44, 68, 92, 116, 140, 164, 188, 212, 236
+        return (first, last);
+    }
+
+    bool freeSpot(int potentialStart, int tileAmount)
+    {
+        //takenSpots
+        for (int i = -2; i< (tileAmount+2);i++)
+        {
+            int indexToCheck = potentialStart + i;
+            if (takenSpots.Count <= 0) return false;
+            if (takenSpots.Contains(indexToCheck))
+            {
+                return true; // Znaleziono zajête miejsce / duplikat
+            }
+
+        }
+        return false;
+    }
+    /// <summary>
+    /// funkcja do cofniêcia akcji wykonanych przez agenta
+    /// </summary>
+    void Revoke_CurriculumLearning()
+    {
+        //przyznaæ ujemne punkty za anulowanie
+        //w zale¿noœci od iloœci wracaj¹cych p³ytek
+        if (GameController.Instance.gameTurnManager.turnController.MapContents())
+        {
+
+            if (GameController.Instance.GetBoardDictionaryList().Count != 0)
+            {
+                int index = GameController.Instance.GetBoardDictionaryList().Count - 1;
+                placementSystem.GetGridData().RestoreCopyDictionary();
+                GameController.Instance.GetBoardDictionary().SaveDictionary(GameController.Instance.GetBoardDictionaryList()[index].board);
+                RestoreCopyList();
+                GameController.Instance.gameTurnManager.turnController.Restore3DMap();
+            }
+            else
+            {
+                if (GameController.Instance.GetBoardDictionary().board.Count != 0)
+                {
+                    objectPlacer.ClearplacedGameObjects();
+                    GameController.Instance.GetBoardDictionary().board.Clear();
+                    RestoreCopyList();
+                    placementSystem.GetGridData().GetDictionary().Clear();
+                    GameController.Instance.gameTurnManager.turnController.RemoveAllChildren();
+                }
+            }
+            if (firstTurn) GameController.Instance.firstTurnController.Reset();
+
+            
+        }
+        
     }
 }
