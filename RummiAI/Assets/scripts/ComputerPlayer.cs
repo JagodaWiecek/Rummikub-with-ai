@@ -19,7 +19,7 @@ public struct AIDecision
     public int ActionType;    
     public int PositionXZ;    
     public int TileIndex;     
-    public int NewPositionXZ; 
+    public int OldPositionXZ; 
 }
 
 /// <summary>
@@ -266,7 +266,7 @@ public class ComputerPlayer : MonoBehaviour
                                 ActionType = 3,
                                 PositionXZ = 0,
                                 TileIndex = 0,
-                                NewPositionXZ = 0
+                                OldPositionXZ = 0
                             });
                             GameController.Instance.GetPlayerAI().RequestDecision();
                         }
@@ -287,7 +287,7 @@ public class ComputerPlayer : MonoBehaviour
                                 ActionType = 5,
                                 PositionXZ = 0,
                                 TileIndex = 0,
-                                NewPositionXZ = 0
+                                OldPositionXZ = 0
                             });
                             GameController.Instance.GetPlayerAI().RequestDecision();
                         }
@@ -852,7 +852,7 @@ public class ComputerPlayer : MonoBehaviour
                 ActionType = 0,
                 PositionXZ = From2Dto1D(gridPosition.x, gridPosition.z),
                 TileIndex = i,
-                NewPositionXZ = 0
+                OldPositionXZ = 0
             });
             GameController.Instance.GetPlayerAI().RequestDecision();
 
@@ -1040,9 +1040,9 @@ public class ComputerPlayer : MonoBehaviour
                     expertDecisions.Enqueue(new AIDecision
                     {
                         ActionType = 2,
-                        PositionXZ = From2Dto1D(oldGridPositions[j].x, oldGridPositions[j].z),
+                        PositionXZ = From2Dto1D(newGridPositions[i].x, newGridPositions[i].z),
                         TileIndex = 0,
-                        NewPositionXZ = From2Dto1D(newGridPositions[i].x, newGridPositions[i].z)
+                        OldPositionXZ = From2Dto1D(oldGridPositions[j].x, oldGridPositions[j].z)
                     });
                     GameController.Instance.GetPlayerAI().RequestDecision();
                 }
@@ -1073,9 +1073,9 @@ public class ComputerPlayer : MonoBehaviour
             expertDecisions.Enqueue(new AIDecision
             {
                 ActionType = 2,
-                PositionXZ = From2Dto1D(oldGridPosition.x, oldGridPosition.z),
+                PositionXZ = From2Dto1D(newGridPosition.x, newGridPosition.z),
                 TileIndex = 0,
-                NewPositionXZ = From2Dto1D(newGridPosition.x, newGridPosition.z)
+                OldPositionXZ = From2Dto1D(oldGridPosition.x, oldGridPosition.z)
             });
             GameController.Instance.GetPlayerAI().RequestDecision();
 

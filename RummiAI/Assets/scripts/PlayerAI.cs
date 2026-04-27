@@ -4,9 +4,9 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
+using System.Linq;
 using System.Drawing;
 using Unity.VisualScripting;
-using System.Linq;
 using UnityEngine.UIElements;
 using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 /// <summary>
@@ -16,12 +16,14 @@ public struct CurrculumLearningSetupMode
 {
     /// <summary>    flag (true/false) Do³o¿enie jednej p³ytki </summary>
     public bool AddOneTile;
-    /// <summary>   flag (true/false) Przesuwanie obecnych </summary>
+    /// <summary>   flag (true/false) Przesuwanie p³ytek na mapie</summary>
     public bool MoveExisting;        
     /// <summary>  flag (true/false) Samodzielne uk³adanie wszystkiego </summary>
     public bool PlaceAllManual;  
     /// <summary>   (3-14)     ile p³ytek agent ma na etap</summary>
-    public int tileAmount;          
+    public int tileAmount;
+    /// <summary>czy iloœæ p³ytek "tileAmount" bêdzie randomowana czy nie, True jak ma byæ ró¿ne co turê, False jak ma byæ tylko tyle ile jest wyznaczone w tileAmount</summary>
+    public bool randomTileAmount;
     /// <summary>  (24-240) (10 linii) ile pól na mapie jest dostêpnych </summary>
     public int boardAvailability;    
     /// <summary>    szansa na jokera, 0 aby nie by³o w ogóle </summary>
@@ -30,7 +32,27 @@ public struct CurrculumLearningSetupMode
     public int set;
     /// <summary>    zmienna jako iloczyn do modyfikowania nagród poœrednich </summary>
     public float guidanceStrength;
+    /// <summary>
+    /// zmienna do decydowania czy na planszy s¹ ustawione p³ytki aby agent móg³ interaktowaæ z wiêkszym œrodowiskiem
+    /// </summary>
+    public bool preparedSeqOnBoard;
+    /// <summary>
+    /// zmienna wskazujaca ile bêdzie dodatkowych sekwencji gotowych na mapie, to iloœæ maksymalna, pomiêdzy 1 a seqAmount
+    /// </summary>
+    public int seqAmount;
+    /// <summary>
+    /// Flaga do okreœlenia czy jest wykorzystana funkcja do "podkradniecia" jednej lub dwóch p³ytek z rêki agenta i po³o¿ona z inn¹ sekwencj¹ na planszy
+    /// do nauki modelu o podbieraniu p³ytek aby wy³o¿yæ swoj¹ niepe³n¹ sekwencjê
+    /// </summary>
+    public bool isSeqToFilch;
 
+
+}
+
+public struct RewardsCurrculumLearning
+{
+    /// <summary> zmienna do okreœlenia czy agent przegra³ czy wygra³, True dla wygra³ wiêc set nagroda, False dla przegra³ wiêc set kara </summary>
+    public bool isWin;
 }
 
 /// <summary>
@@ -85,6 +107,7 @@ public class PlayerAI : Agent
     protected int trainingIndex; //index do modyfikowania etapu treningu wewn¹trz sceny 6
     bool[] allowedActions;
     protected HashSet<int> takenSpots;//zmienna do przechowywania zajêtych pozycji w przestrzeni 1d
+    RewardsCurrculumLearning rewardsCurrculumLearning;
 
     void Start()
     {
@@ -107,7 +130,7 @@ public class PlayerAI : Agent
             //Debug.Log("zainicjowane");
             this.trainingIndex = curriculumLearningTrainer.LoadProgress();
         }
-        else { this.trainingIndex = 0; }
+        else { this.trainingIndex = 0; }//unused
           
     }
     public override void OnEpisodeBegin()
@@ -229,14 +252,14 @@ public class PlayerAI : Agent
         //4. anulowanie ruchu 
         //5. zakoñczenie tury (wzi¹æ pod uwagê koniec tury przy zakoñczeniu czasu)
         //int positionXZ = actions.DiscreteActions[0];
-        var (x,z) = From1Dto2D(actions.DiscreteActions[0]);
+        var (xTarget,zTarget) = From1Dto2D(actions.DiscreteActions[0]);
             //int  = actions.DiscreteActions[1];
 
         int akcjaAgenta = actions.DiscreteActions[1];
         Debug.Log("Akcja: "+ akcjaAgenta);
         int chosenTileIndex = actions.DiscreteActions[2];
 
-        var (xNew, zNew) = From1Dto2D(actions.DiscreteActions[3]);
+        var (xOld, zOld) = From1Dto2D(actions.DiscreteActions[3]);
         if (GameController.Instance.gameIndex != 6)
         {
             switch (akcjaAgenta)
@@ -245,18 +268,18 @@ public class PlayerAI : Agent
 
                     if (chosenTileIndex < AIPlayerHand.Count)
                     {
-                        PutTileAction(x, z, chosenTileIndex);
+                        PutTileAction(xTarget, zTarget, chosenTileIndex);
                     }
                     //Próba po³o¿enia nowej p³ytki gdy ai nie ma ju¿ p³ytek, kara
                     else AddReward(rewards.PNTNT); //TODO
                     Debug.Log("Akcja k³adzenia p³ytki");
                     break;
                 case 1:
-                    RemoveTileAction(x, z);
+                    RemoveTileAction(xOld, zOld);
                     Debug.Log("Akcja usuniêcia p³ytki");
                     break;
                 case 2:
-                    MoveTileAction(x, z, xNew, zNew);
+                    MoveTileAction(xTarget, zTarget, xOld, zOld);
                     Debug.Log("Akcja przesuniêcia p³ytki");
                     break;
                 case 3:
@@ -286,23 +309,24 @@ public class PlayerAI : Agent
             {
                 case 0:
 
-                    
-                    PutTileAction_CurriculumLearning(x, z, chosenTileIndex); // uczniowa funkcja dla cl
+                    if (AIPlayerHand.Count > 0)
+                        PutTileAction_CurriculumLearning(xTarget, zTarget, chosenTileIndex); // uczniowa funkcja dla cl
+                    //else
                     
                     //Próba po³o¿enia nowej p³ytki gdy ai nie ma ju¿ p³ytek, kara
                     //else AddReward(rewards.PNTNT); //TODO
                     Debug.Log("Akcja k³adzenia p³ytki CL");
                     break;
                 case 1:
-                    RemoveTileAction(x, z); // uczniowa funkcja dla cl
+                    RemoveTileAction(xOld, zOld); // uczniowa funkcja dla cl
                     Debug.Log("Akcja usuniêcia p³ytki CL");
                     break;
-                case 2: 
-                    MoveTileAction(x, z, xNew, zNew); // uczniowa funkcja dla cl
+                case 2:
+                    MoveTileAction_CurriculumLearning(xTarget, zTarget, xOld, zOld); // uczniowa funkcja dla cl
                     Debug.Log("Akcja przesuniêcia p³ytki CL");
                     break;
                 case 3:
-                    TakeTileAction(); // uczniowa funkcja dla cl
+                    TakeTile_CurriculumLearning(); // uczniowa funkcja dla cl
                     Debug.Log("Akcja pobrania nowej p³ytki CL");
                     break;
                 case 4:
@@ -310,7 +334,7 @@ public class PlayerAI : Agent
                     Debug.Log("Akcja anulowania wszystkich ruchów CL");
                     break;
                 case 5:
-                    EndTurnAction(); // uczniowa funkcja dla cl
+                    EndTurnAction_CurriculumLearning(); // uczniowa funkcja dla cl
                     Debug.Log("Akcja zakoñczenia tury CL");
                     break;
                 default:
@@ -357,7 +381,7 @@ public class PlayerAI : Agent
         {
             actionMask.SetActionEnabled(1, 1, false);//nie mo¿na usun¹æ
             actionMask.SetActionEnabled(1, 4, false);//nie mo¿na undo zrobiæ
-            actionMask.SetActionEnabled(1, 5, false);//nie mo¿na zakoñczyæ tury
+            
         }
         if (firstTurn && AIPlayerHand.Count == AIPlayerHandCopy.Count) //jeœli mamy pierwsz¹ turê i agent nic nie wy³o¿y³
         {
@@ -365,15 +389,16 @@ public class PlayerAI : Agent
         }
         else if (AIPlayerHand.Count == 0) actionMask.SetActionEnabled(1, 0, false); //wy³¹czenie k³adzenia p³ytek gdy nie ma p³ytek w rêku
 
+        MaskPostions(ref actionMask); //
 
         if (GameController.Instance.gameIndex != 6)
         {
             //gdy mapa jest pusta
-           
+
             //if(firstTurn) actionMask.SetActionEnabled(2, 4, false);
 
-            
 
+            if (AIPlayerHand.Count == AIPlayerHandCopy.Count) actionMask.SetActionEnabled(1, 5, false);//nie mo¿na zakoñczyæ tury
             if (!GameController.Instance.gameTurnManager.turnController.CheckMap()) //jeœli mapa jest zakoñczona niepoprawnie
             {
                 actionMask.SetActionEnabled(1, 5, false); //zablokowane koñczenie tury
@@ -384,28 +409,31 @@ public class PlayerAI : Agent
         if(GameController.Instance.gameIndex == 6)
         {
             CurriculumLearningActionMask(ref actionMask);
-            //for (int i = 0; i < allowedActions.Length; i++) //zablokowanie akcji która zosta³a okreœlona false przy ustawieniach
-            //{ //tylko 0 - k³adzenie i 5 - koniec tury dostêpne
-            //    if (!allowedActions[i]) //te co maj¹ false to blokujemy
-            //    {
-            //        actionMask.SetActionEnabled(1, i, false);
-            //    }
-
-            //    // p³ytki na mapie tylko te dostêpne, na start 24
-
-            //}
-            //for (int i = currculumLearningSetupMode.boardAvailability; i < zSize * xSize; i++) //nie mo¿na wybraæ pozycji która jest ograniczona
-            //{
-            //    actionMask.SetActionEnabled(0, i, false);
-            //    actionMask.SetActionEnabled(3, i, false);
-            //}
-
-
-
         }
 
     }
 
+    protected void MaskPostions(ref IDiscreteActionMask actionMask)
+    {
+        var board = GameController.Instance.GetBoardDictionary().board;
+        for (int z = minZ; z <= maxZ; z++)
+            for (int x = minX;x <= maxX; x++)
+            {
+                if (board.ContainsKey(new Vector3Int(x,0,z)))
+                {
+                    actionMask.SetActionEnabled(0, From2Dto1D(x, z), false);
+                }
+                else
+                {
+                    if(board.Count == 0 && From2Dto1D(x, z) != 0)
+                        actionMask.SetActionEnabled(3, From2Dto1D(x, z), false);
+                    else if(board.Count != 0)
+                        actionMask.SetActionEnabled(3, From2Dto1D(x, z), false);
+
+                }
+                    
+            }
+    }    
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var discreteActions = actionsOut.DiscreteActions;
@@ -420,7 +448,7 @@ public class PlayerAI : Agent
                 discreteActions[0] = Mathf.Clamp(decision.PositionXZ, 0, 239);
                 discreteActions[1] = Mathf.Clamp(decision.ActionType, 0, 5);
                 discreteActions[2] = Mathf.Clamp(decision.TileIndex, 0, 63);
-                discreteActions[3] = Mathf.Clamp(decision.NewPositionXZ, 0, 239);
+                discreteActions[3] = Mathf.Clamp(decision.OldPositionXZ, 0, 239);
 
                 Debug.Log($"Nagrywam: " + PrintAction(decision) );
                 Debug.Log("Aktywna akcja"); 
@@ -466,7 +494,7 @@ public class PlayerAI : Agent
     {
         string toPrint = "akcja";
         var (x, z) = From1Dto2D(decision.PositionXZ);
-        var (newx, newz) = From1Dto2D(decision.NewPositionXZ);
+        var (newx, newz) = From1Dto2D(decision.OldPositionXZ);
         if (decision.ActionType == 0)
         {
             toPrint += " po³o¿enia p³ytki";// na pozycje x = "+x+", z = "+z ;
@@ -638,24 +666,37 @@ public class PlayerAI : Agent
     /// <param name="oldZ">stara pozycja p³ytki z</param>
     /// <param name="newX">nowa pozycja x dla p³ytki</param>
     /// <param name="newZ">nowa pozycja z dla p³ytki</param>
-    void MoveTileAction(int oldX, int oldZ, int newX, int newZ)
+    void MoveTileAction( int newX, int newZ,int oldX, int oldZ)
     {
         Vector3Int oldPosition = new Vector3Int(oldX, 0, oldZ);
-        Vector3Int newPosition = new Vector3Int(oldX, 0, oldZ);
-        Tile tile;
-        if (GameController.Instance.GetBoardDictionary().board.ContainsKey(oldPosition) &&//wybrana pozycja istnieje
-            (firstTurn &&
-            !GameController.Instance.GetBoardDictionary().board[oldPosition].GetPut()))//w pierwszej turze mo¿na poruszaæ tylko nowo postawionym p³ytkami
+        Vector3Int newPosition = new Vector3Int(newX, 0, newZ);
+        var board = GameController.Instance.GetBoardDictionary().board;
+        if (!board.ContainsKey(oldPosition) || board.ContainsKey(newPosition))
         {
-            tile = GameController.Instance.GetBoardDictionary().board[oldPosition].getTile();
-            AddReward(rewards.MTPTDP);//TODO moving tile to different position that is not its previous position and it is not first turn
-        }
-        else
-        {
-            AddReward(rewards.MDDE);//TODO Moving destination doesn't exist
+            AddReward(rewards.MDDE);
             return;
-        }//TODO
-        bool placementValidity = CheckPlacementValidity(newPosition, oldPosition, 0, tile);//jest wolne miejsce
+        }
+        Tile tile;
+        if(firstTurn) //jeœli jest pierwsza tura
+        {
+            if(!GameController.Instance.GetBoardDictionary().board[oldPosition].GetPut()) 
+                // gdy p³ytka istnieje na pozycji iii w pierwszej turze p³ytka jest po³o¿ona przez samego agenta, nie mo¿na przesuwaæ p³ytkami przeciwników podczas pierwszej tury
+            {
+                tile = board[oldPosition].getTile();
+                AddReward(rewards.MTPTDP);//TODO moving tile to different position that is not its previous position
+            }
+            else//p³ytka jest postawiona przez innego gracza, kara powrót
+            {
+                AddReward(rewards.MDIW);
+                return;
+            }
+        }
+        else//jak nie ma pierwszej tury
+        {
+            tile = board[oldPosition].getTile();
+        }
+        
+        bool placementValidity = CheckPlacementValidity(newPosition, oldPosition, 0, tile);//czy przeniesienie jest poprawne
         if (placementValidity)
         {
             moveTile(newPosition, oldPosition);
@@ -841,48 +882,24 @@ public class PlayerAI : Agent
     /// </summary>
     public void EndGame()
     {
-        if(GameController.Instance.gameIndex !=6)
+        if(AIPlayerHand.Count == 0)
         {
-            if(AIPlayerHand.Count == 0)
+            SetReward(rewards.winReward);//TODO win
+        }
+        else
+        {
+            //int score = FinalScore();
+            float penalty = FinalScore() * (rewards.PFETIH);
+            if(GameController.Instance.gameIndex == 7)
             {
-                SetReward(rewards.winReward);//TODO win
+                penalty = GameController.Instance.GetCP_AI().FinalScore();
             }
-            else
-            {
-                //int score = FinalScore();
-                float penalty = FinalScore() * (rewards.PFETIH);
-                if(GameController.Instance.gameIndex == 7)
-                {
-                    penalty = GameController.Instance.GetCP_AI().FinalScore();
-                }
                 
-                SetReward(rewards.lossPenalty); //loss
-                AddReward(penalty);//TODO penalty for each tile in hand
-                //kary w zale¿noœci od wyniku
-            }
-
-            EndEpisode();
+            SetReward(rewards.lossPenalty); //loss
+            AddReward(penalty);//TODO penalty for each tile in hand
+            //kary w zale¿noœci od wyniku
         }
-        else//w akcji musi byæ podobne sprawdzenie, które przekieruje tutaj albo poœrednio albo bezpoœrednio
-        //poœrednio ³¹czy siê z wygran¹ i resetem planszy i rêki
-        //bezpoœrednio wi¹¿e siê z przywróceniem stanu pierwszego, np przywrócenie jednej p³ytki z planszy, ale mapa i bank zostaje
-        //tutaj ustawiana jest ostateczna nagroda i koniec epizodu
-        //tutaj równie¿ l¹dowaæ bêdzie liczenie sumy wartoœci dla trenera
-        {
-            float finalReward;
-            if (AIPlayerHand.Count == 0 && GameController.Instance.gameTurnManager.turnController.CheckMap())
-            {
-                finalReward = 1f;
-            }
-            else
-            {
-                finalReward = -1f;
-            }
-            EndEpisode();
-            curriculumLearningTrainer.AddResult(finalReward, ref this.trainingIndex);
-        }
-       
-        //Reset();
+        EndEpisode();   
     }
 
     public void EndOfTime()
@@ -988,11 +1005,13 @@ public class PlayerAI : Agent
     public void PrepareToTrain(ref List<Tile> tiles, int idx)
     {
         PrepareVariables(ref this.allowedActions, ref this.currculumLearningSetupMode);
-        SetPlayersHand_TrainingFunction(ref tiles, idx, currculumLearningSetupMode.tileAmount, currculumLearningSetupMode.set, currculumLearningSetupMode.jokerChances);
+        SetPlayersHand_TrainingFunction(ref tiles, idx, ref currculumLearningSetupMode.tileAmount, currculumLearningSetupMode.set, currculumLearningSetupMode.jokerChances, currculumLearningSetupMode.randomTileAmount);
         if (currculumLearningSetupMode.AddOneTile) 
             TrainingPutSeq(currculumLearningSetupMode.tileAmount, currculumLearningSetupMode.boardAvailability, AIPlayerHand); //k³adzie sekwencjê na planszê
         else if (currculumLearningSetupMode.MoveExisting) 
             TrainingMoveTile(currculumLearningSetupMode.tileAmount, currculumLearningSetupMode.boardAvailability, AIPlayerHand);
+
+        if (currculumLearningSetupMode.preparedSeqOnBoard) PutingManySeq(ref tiles, currculumLearningSetupMode.seqAmount, currculumLearningSetupMode.tileAmount, currculumLearningSetupMode.boardAvailability);
     }
 
     /// <summary>
@@ -1000,7 +1019,7 @@ public class PlayerAI : Agent
     /// </summary>
     /// <param name="tiles"></param>
     /// <param name="idx"></param>
-    public void SetPlayersHand_TrainingFunction(ref List<Tile> tiles, int idx, int tileAmount, int Set, int Joker)
+    public void SetPlayersHand_TrainingFunction(ref List<Tile> tiles, int idx,ref int tileAmount, int Set, int Joker,bool randomTileAmount)
     {
         AIPlayerHand = new();
         AIPlayerHandCopy = new();
@@ -1009,19 +1028,22 @@ public class PlayerAI : Agent
         if (isSet)
             tileAmount = Mathf.Clamp(tileAmount, 3, 13);
         else
-            tileAmount = Mathf.Clamp(tileAmount, 3, 4);
-        // playerHand = new ();S
-        //int TileIndex;
-        //int amount = 3
-        
-        int normalTilesAmount = isJoker ? tileAmount - 1 : tileAmount;
+            tileAmount = Mathf.Clamp(tileAmount, 3, 4); 
+        if (randomTileAmount) 
+            tileAmount = Random.Range(3, tileAmount + 1);
+            // playerHand = new ();S
+            //int TileIndex;
+            //int amount = 3
+
+            int normalTilesAmount = isJoker ? tileAmount - 1 : tileAmount;
         UnityEngine.Color[] cols = { UnityEngine.Color.red, new UnityEngine.Color(1f, 0.5f, 0f), UnityEngine.Color.black, UnityEngine.Color.blue };
         if (isSet)
         {
             int randomColorIdx = Random.Range(0, 4);
 
             UnityEngine.Color selectedCol = cols[randomColorIdx];
-            int maxPossibleStart = 13 - normalTilesAmount + 1;
+            int totalSpan = isJoker ? normalTilesAmount + 1 : normalTilesAmount;
+            int maxPossibleStart = 13 - totalSpan + 1;
             int startNum = Random.Range(1, maxPossibleStart + 1);
 
             for (int i = 0; i < normalTilesAmount; i++)
@@ -1118,34 +1140,101 @@ public class PlayerAI : Agent
 
         return Mathf.Max(0f, distanceReward);
     }
-    void PutTileAction_CurriculumLearning(int x, int z, int indeks) //wiemy ¿e zawsze bêdzie 
+    void PutTileAction_CurriculumLearning(int x, int z, int indeks) //TODOCL wiemy ¿e zawsze bêdzie 
     {
         //sprawdziæ czy mo¿na po³o¿yæ
         var board = GameController.Instance.GetBoardDictionary().board;
-        if (AIPlayerHand.Count > 0)
-        {
+        
+        
             Vector3Int position = new Vector3Int(x, 0, z);
             bool placementValidity = CheckPlacementValidity(position, 0, indeks);
 
-            if (placementValidity)
-            {
-                PutTile(position, AIPlayerHand[indeks]);
-                AIPlayerHand.RemoveAt(indeks);
+        if (placementValidity) //poprane k³adzenie
+        {
+            PutTile(position, AIPlayerHand[indeks]);
+            AIPlayerHand.RemoveAt(indeks);
 
-            }
-            else AddReward(0.0f);//TODO puting tile wrongly (invalid)
+            Vector3Int positionplusjeden = new Vector3Int(x + 1, 0, z);
+            Vector3Int positionplusdwa = new Vector3Int(x + 2, 0, z);
+            Vector3Int positionminusjeden = new Vector3Int(x - 1, 0, z);
+            Vector3Int positionminusdwa = new Vector3Int(x - 2, 0, z);
+            if (board.ContainsKey(positionplusjeden) && board.ContainsKey(positionminusjeden))
+                AddReward(0.2f); //TODOCL ting tile properly between other tiles
+            else if (board.ContainsKey(positionplusjeden) || board.ContainsKey(positionminusjeden))
+                AddReward(0.15f); //TODOCL puting tile properly close to other tile
+            else if ((board.ContainsKey(positionplusjeden) && board.ContainsKey(positionplusdwa)) || (board.ContainsKey(positionminusjeden) && board.ContainsKey(positionminusdwa))) 
+                AddReward(0.2f); //TODOCL puting tile properly on left or right of two tiles
+            else
+                AddReward(DistanceOnBoard(0.1f, board, position));//TODOCL punktacja odleg³oœciowa, aby agent dawa³ bli¿ej p³ytki
+
+
         }
-        else AddReward(0.0f);//TODO Puting new tile when there are no tiles in hand
+        else AddReward(-0.1f);//TODOCL
+        
     }
 
-    void MoveTileAction_CurriculumLearning(int oldX, int oldZ, int newX, int newZ) //TODO
+    void MoveTileAction_CurriculumLearning(int newX, int newZ, int oldX, int oldZ) //TODOCL
     {
+        Vector3Int oldPosition = new Vector3Int(oldX, 0, oldZ);
+        Vector3Int newPosition = new Vector3Int(newX, 0, newZ);
+        var board = GameController.Instance.GetBoardDictionary().board;
+        if (!board.ContainsKey(oldPosition) || board.ContainsKey(newPosition))
+        {
+            AddReward(rewards.MDDE);
+            return;
+        }
+        Tile tile;
+        if (firstTurn) //jeœli jest pierwsza tura
+        {
+            if (!GameController.Instance.GetBoardDictionary().board[oldPosition].GetPut())
+            // gdy p³ytka istnieje na pozycji iii w pierwszej turze p³ytka jest po³o¿ona przez samego agenta, nie mo¿na przesuwaæ p³ytkami przeciwników podczas pierwszej tury
+            {
+                tile = board[oldPosition].getTile();
+                AddReward(rewards.MTPTDP);//TODO moving tile to different position that is not its previous position
+            }
+            else//p³ytka jest postawiona przez innego gracza, kara powrót
+            {
+                AddReward(rewards.MDIW);
+                return;
+            }
+        }
+        else//jak nie ma pierwszej tury
+        {
+            tile = board[oldPosition].getTile();
+        }
 
+        bool placementValidity = CheckPlacementValidity(newPosition, oldPosition, 0, tile);//jest wolne miejsce
+        if (placementValidity)
+        {
+            moveTile(newPosition, oldPosition);
+           // AddReward(rewards.MTP);//TODO moving tile properly
+
+            Vector3Int positionplusjeden = new Vector3Int(newX + 1, 0, newZ);
+            Vector3Int positionplusdwa = new Vector3Int(newX + 2, 0, newZ);
+            Vector3Int positionminusjeden = new Vector3Int(newX - 1, 0, newZ);
+            Vector3Int positionminusdwa = new Vector3Int(newX - 2, 0, newZ);
+            if (board.ContainsKey(positionplusjeden) && board.ContainsKey(positionminusjeden))
+                AddReward(0.2f); //TODOCL puting tile properly between other tiles
+            else if (board.ContainsKey(positionplusjeden) || board.ContainsKey(positionminusjeden))
+                AddReward(0.15f); //TODOCL puting tile properly close to other tile
+            else if ((board.ContainsKey(positionplusjeden) && board.ContainsKey(positionplusdwa)) || (board.ContainsKey(positionminusjeden) && board.ContainsKey(positionminusdwa)))
+                AddReward(0.2f); //TODOCL puting tile properly on left or right of two tiles
+            else
+                AddReward(DistanceOnBoard(0.1f, board, newPosition));//TODOCL punktacja odleg³oœciowa, aby agent dawa³ bli¿ej p³ytki
+        }
+        else
+        {
+            AddReward(rewards.MDIW);//TODO Moving destination is wrong
+            return;
+        }
     }
     void RemoveTileAction_CurriculumLearning(int x, int z) //MAYBE TODO
     {
 
     }
+    /// <summary>
+    /// zakoñczenie tury oraz ustalenie flag w trakcie curriculum learning
+    /// </summary>
     void EndTurnAction_CurriculumLearning() //TODO
     {
         //jeœli ma tak¹ sam¹ iloœæ p³ytek to nic nie po³o¿y³
@@ -1155,39 +1244,97 @@ public class PlayerAI : Agent
         //jak poprawne to endgame globalne
         //na pewnym etapie k³adzenie nie mo¿e koñczyæ siê od razu,
         //czy mo¿e zrobiæ jak nie ma w ogóle p³ytek? a jak ma to kontynuacja 
-        if (AIPlayerHand.Count == 0 && GameController.Instance.gameTurnManager.turnController.CheckMap()) GameController.Instance.EndGame();
+        if (AIPlayerHand.Count == 0 ) //nie ma p³ytek w rêce
+        {
+            if (GameController.Instance.gameTurnManager.turnController.CheckMap())
+            {
+                rewardsCurrculumLearning.isWin = true;
+                GameController.Instance.EndGame(); //win
+            }
+            else //mapa jest Ÿle skoñczona
+            {
+                if (allowedActions[2])//agent mo¿e przesuwaæ p³ytki, kontynuacja nauk ale musi byæ kara
+                {
+                    AddReward(-0.1f); //kara, mo¿e przesuwaæ a nie robi //TODOCL
 
-        Revoke_CurriculumLearning();
-        List<Tile> tiles = GameController.Instance.GetGameBank();
-        AddNewTile(ref tiles);
-        AddReward(rewards.TNT);//TODO Taking new tile
-        if (firstTurn) GameController.Instance.firstTurnController.Reset();
+                }
+                else//agent nie mo¿e przesuwaæ p³ytek, koniec gry, p³ytki wracaj¹ do rêki agenta
+                {
+                    rewardsCurrculumLearning.isWin = false;
+                    EndGame_CurriculumLearning();
+                }
+
+
+            }// nie ma p³ytek ale mapa jest 
+        }
+        else
+        {
+            if (GameController.Instance.gameTurnManager.turnController.CheckMap())//mapa zostawiona poprawnie ale s¹ p³ytki
+            {
+                //ma p³ytki na rêce ale mapa zostawiona dobrze
+                //musi byæ kara bo agent powinien zostawiæ wszystkie p³ytki
+                AddReward(-0.1f); //TODOCL
+            }
+            else//s¹ p³ytki w rêce ale mapa niepoprawna
+            {
+                if (AIPlayerHand.Count < AIPlayerHandCopy.Count)
+                {
+                    //niepoprawna mapa ale agent zrobi³ akcje po³o¿enia p³ytki
+                    //mo¿e jeszcze kontynuowaæ 
+                    AddReward(0.1f); //TODOCL
+                }
+                else 
+                {
+                    //nie wykona³ ruchu a zakoñczy³ turê, musi byæ kara
+                    AddReward(-0.1f); //TODOCL
+                }
+                
+                
+            }
+
+        }
+        //Do przemyœlenia, jak uczyæ 
+
+        
+        //List<Tile> tiles = GameController.Instance.GetGameBank();
+        //AddNewTile(ref tiles);
+        //AddReward(rewards.TNT);//TODO Taking new tile
+        //if (firstTurn) GameController.Instance.firstTurnController.Reset();
                    
         //else AddReward(0);//reward
         //undo
     }
+    /// <summary>
+    /// funkcja do zakoñczenia gry, tylko gdy gameIndex==6
+    /// </summary>
     public void EndGame_CurriculumLearning()
     {
-        if (AIPlayerHand.Count == 0)
+        float winReward = 0f;
+        if(rewardsCurrculumLearning.isWin)
         {
-            SetReward(rewards.winReward);//TODO win
+            //ju¿ siê reset zrobi
+            winReward = 1.0f;
         }
         else
         {
-            //int score = FinalScore();
-            float penalty = FinalScore() * (rewards.PFETIH);
-            if (GameController.Instance.gameIndex == 7)
-            {
-                penalty = GameController.Instance.GetCP_AI().FinalScore();
-            }
-
-            SetReward(rewards.lossPenalty); //loss
-            AddReward(penalty);//TODO penalty for each tile in hand
-            //kary w zale¿noœci od wyniku
+            winReward = -1.0f;
+            Revoke_CurriculumLearning();
         }
 
+        SetReward(winReward); //TODOCL
+        curriculumLearningTrainer.AddResult(winReward,ref this.trainingIndex);
         EndEpisode();
         //Reset();
+    }
+
+    public void TakeTile_CurriculumLearning()
+    {
+        // Ma³a kara bo nie chcemy by dobiera³ ale czasami musi
+        Revoke_CurriculumLearning();
+        List<Tile> tiles = GameController.Instance.GetGameBank();
+        AddNewTile(ref tiles);
+        AddReward(0.01f); //TODOCL
+        GameController.Instance.gameTurnManager.ChangeTurn();
     }
     /// <summary>
     /// Funkcja do ustalania zmiennych w konkretnych etapach nauki
@@ -1211,16 +1358,20 @@ public class PlayerAI : Agent
         //  5 koniec tury
         int oneLine = 24; //ile jedna linia mo¿e mieæ, max 10
 
-        if (this.trainingIndex == 2) //dodawanie p³ytek do serii - ju¿ s¹ dwie p³ytki i musi do³o¿yæ 3.
+        if (this.trainingIndex == 0) //dodawanie p³ytek do serii - ju¿ s¹ dwie p³ytki i musi do³o¿yæ 3.
         {
-            currculumLearningSetupMode.boardAvailability = oneLine;
+            currculumLearningSetupMode.boardAvailability = oneLine*10;
             currculumLearningSetupMode.jokerChances = 0;
             currculumLearningSetupMode.tileAmount = 3;
+            currculumLearningSetupMode.randomTileAmount = false;
             currculumLearningSetupMode.set = 100;
-            currculumLearningSetupMode.PlaceAllManual = false; 
-            currculumLearningSetupMode.AddOneTile = true;
+            currculumLearningSetupMode.PlaceAllManual = true; 
+            currculumLearningSetupMode.AddOneTile = false;
             currculumLearningSetupMode.MoveExisting = false;
             currculumLearningSetupMode.guidanceStrength = 1.0f;
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.isSeqToFilch = true;
+            currculumLearningSetupMode.seqAmount = 10;
             allowedActions = new bool[] { true, false,false,false,false,true };
         }
         if (this.trainingIndex == 1) //k³adzenie ca³ych sekwencji 3
@@ -1228,26 +1379,48 @@ public class PlayerAI : Agent
             currculumLearningSetupMode.boardAvailability = oneLine;
             currculumLearningSetupMode.jokerChances = 0;
             currculumLearningSetupMode.tileAmount = 3;
+            currculumLearningSetupMode.randomTileAmount = false;
             currculumLearningSetupMode.set = 100;
             currculumLearningSetupMode.PlaceAllManual = true;
             currculumLearningSetupMode.AddOneTile = false;
             currculumLearningSetupMode.MoveExisting = false;
             currculumLearningSetupMode.guidanceStrength = 1.0f;
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.seqAmount = 5;
             allowedActions = new bool[] { true, false, false, false, false, true };
 
         }
-        if (this.trainingIndex == 0) //to samo ale grupy - dwie p³ytki i dok³adanie jednej
-           // TYMCZASOWO PRZESUWANIE P£YTEK
+        if (this.trainingIndex == 2) //to samo ale grupy - dwie p³ytki i dok³adanie jednej
         {
             currculumLearningSetupMode.boardAvailability = oneLine;
             currculumLearningSetupMode.jokerChances = 0;
             currculumLearningSetupMode.tileAmount = 3;
-            currculumLearningSetupMode.set = 100;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.set = 0;
             currculumLearningSetupMode.PlaceAllManual = false;
-            currculumLearningSetupMode.AddOneTile = false;
-            currculumLearningSetupMode.MoveExisting = true;
+            currculumLearningSetupMode.AddOneTile = true;
+            currculumLearningSetupMode.MoveExisting = false;
             currculumLearningSetupMode.guidanceStrength = 1.0f;
-            allowedActions = new bool[] { false, false, true, false, false, true };
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.seqAmount = 5;
+            allowedActions = new bool[] { true, false, false, false, false, true };
+        }
+        if (this.trainingIndex == 3) //to samo ale grupy - dwie p³ytki i dok³adanie jednej
+                                     // TYMCZASOWO PRZESUWANIE P£YTEK
+        {
+            currculumLearningSetupMode.boardAvailability = oneLine;
+            currculumLearningSetupMode.jokerChances = 0;
+            currculumLearningSetupMode.tileAmount = 3;
+            currculumLearningSetupMode.set = 0;
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+            currculumLearningSetupMode.guidanceStrength = 1.0f;
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 5;
+            allowedActions = new bool[] { true, false, false, false, false, true };
         }
     }
     /// <summary>
@@ -1398,7 +1571,8 @@ public class PlayerAI : Agent
         return false;
     }
     /// <summary>
-    /// funkcja do cofniêcia akcji wykonanych przez agenta
+    /// funkcja do cofniêcia akcji wykonanych przez agenta,
+    /// bez nadawania kary, s³u¿y do zresetowania akcji agenta gdy zrobi³ coœ Ÿle i zakoñczy³ turê
     /// </summary>
     void Revoke_CurriculumLearning()
     {
@@ -1431,5 +1605,299 @@ public class PlayerAI : Agent
             
         }
         
+    }
+    /// <summary>
+    /// funkcja do "zabrania" jednej p³ytki od agenta aby zrobiæ seriê lub grupê z t¹ p³ytk¹ - 
+    /// ale tak ¿e ta sekwencja "prze¿yje" bez tej jednej p³ytki - 
+    /// funkcja s³u¿y do nauczenia modelu u¿ywania p³ytek z planszy do po³o¿enia dwóch lub jedn¹ p³ytkê, 
+    /// agent powinien podebraæ p³ytkê od innej sekwencji i zrobiæ w³asn¹,
+    /// <param name="tilesToExtend">ile p³ytek zostanie zabrane z rêki agenta</param>
+    /// <param name="tileAmount">ile p³ytek bêdzie w sekwencji na mapie, jeœli tilesToExtend = 1 to minimum musi byæ 4, gdy tilesToExtend = 2 to minimum musi byæ 5</param>
+    /// </summary>
+    void SeqToFilch(int tilesToExtend,int tileAmount, ref List<Tile> tiles)
+    {
+        //ile p³ytek zabraæ z rêki agenta
+        int idx = Random.Range(0, AIPlayerHand.Count);//index p³ytki który zostanie podebrany
+        List<Tile> seq = new List<Tile>();
+
+        SaveListToCopy();
+
+    }
+    /// <summary>
+    /// Funkcja do po³ozenia losowej iloœci gotowych sekwencji na mapie
+    /// </summary>
+    /// <param name="tiles"></param>
+    /// <param name="seqAmount"></param>
+    /// <param name="tileAmount"></param>
+    /// <param name="availableBoardAmount"></param>
+    void PutingManySeq(ref List<Tile> tiles, int seqAmount, int tileAmount, int availableBoardAmount)
+    {
+        seqAmount = Random.Range(1, seqAmount + 1);
+        for (int i = 0; i < seqAmount; i++)
+        {
+            List<Tile> seq = new List<Tile>();
+            //int tileAmount = 3;
+            SeqPreparing(ref tiles, ref seq, ref tileAmount, 100, 100, true);
+            if (seq.Count > 0)
+            {
+                //po³o¿enie p³ytek na wolne miejsce
+                TrainingPutingManySeq(tileAmount, availableBoardAmount, ref seq);
+            }
+            else continue;
+        }
+    }
+
+    /// <summary>
+    /// Funkcja do przygotowania pojedyñczej sekwencji do po³o¿enia
+    /// </summary>
+    /// <param name="tiles"></param>
+    /// <param name="seq">lista która zostanie potem u¿yta</param>
+    /// <param name="tileAmount">ile p³ytek ma mieæ sekwencja</param>
+    /// <param name="Set">czy bêdzie grupa czy seria</param>
+    /// <param name="Joker">jaka jest szansa na jokera</param>
+    /// <param name="randomTileAmount">czy iloœæ p³ytek w sekwencji bêdzie losowa z przedzia³u czy zawsze sta³a</param>
+    void SeqPreparing(ref List<Tile> tiles, ref List<Tile> seq, ref int tileAmount, int Set, int Joker, bool randomTileAmount)
+    {
+        //AIPlayerHand = new();
+        //AIPlayerHandCopy = new();
+        //int joker = tiles.FindIndex(t => t.GetNumber() == 30);
+        if (tiles.FindIndex(t => t.GetNumber() == 30) == -1)
+        {
+            Joker = 0;
+        }
+        bool isJoker = Random.Range(0, 100) < Joker;
+        bool isSet = Random.Range(0, 100) < Set;
+        if (isSet)
+            tileAmount = Mathf.Clamp(tileAmount, 3, 13);
+        else
+            tileAmount = Mathf.Clamp(tileAmount, 3, 4);
+
+        if (randomTileAmount)
+            tileAmount = Random.Range(3, tileAmount + 1);
+        int normalTilesAmount = isJoker ? tileAmount - 1 : tileAmount;
+        // playerHand = new ();S
+        //int TileIndex;
+        //int amount = 3
+        //zabezpieczyæ przed tworzeniem sekwencji w których brakuje p³ytek
+
+
+
+        UnityEngine.Color[] cols = { UnityEngine.Color.red, new UnityEngine.Color(1f, 0.5f, 0f), UnityEngine.Color.black, UnityEngine.Color.blue };
+        bool sequenceReady = false;
+        int safetyIterator = 0;
+        while (!sequenceReady && safetyIterator < 100)
+        {
+            safetyIterator++;
+            List<int> foundIndices = new List<int>();
+            bool allFound = true;
+            if (isSet)
+            {
+
+                int randomColorIdx = Random.Range(0, 4);
+                UnityEngine.Color selectedCol = cols[randomColorIdx];
+                int totalSpan = isJoker ? normalTilesAmount + 1 : normalTilesAmount;
+                int maxPossibleStart = 13 - totalSpan + 1;
+                int startNum = Random.Range(1, maxPossibleStart + 1);
+
+                
+
+                for (int i = 0; i < normalTilesAmount; i++)
+                {
+                    int targetNum = startNum + i;
+                    int foundIndex = tiles.FindIndex(t => t.GetNumber() == targetNum && t.GetColor() == selectedCol);
+
+                    if (foundIndex != -1) foundIndices.Add(foundIndex);
+                    else { allFound = false; break; }
+                }
+            }
+            else //group
+            {
+                int targetNum = Random.Range(1, 14);
+                List<UnityEngine.Color> availableColors = new List<UnityEngine.Color>(cols);
+
+                for (int i = 0; i < normalTilesAmount; i++)
+                {
+                    int colorIdx = Random.Range(0, availableColors.Count);
+                    UnityEngine.Color selectedCol = availableColors[colorIdx];
+
+                    int foundIndex = tiles.FindIndex(t => t.GetNumber() == targetNum && t.GetColor() == selectedCol);
+
+                    if (foundIndex != -1)
+                    {
+                        foundIndices.Add(foundIndex);
+                        availableColors.RemoveAt(colorIdx);
+                    }
+                    else { allFound = false; break; }
+                }     
+            }
+            int jokerIdx = -1;
+            if (allFound && isJoker)
+            {
+                jokerIdx = tiles.FindIndex(t => t.GetNumber() == 30);
+                if (jokerIdx == -1) allFound = false;
+            }
+            if (allFound)
+            {
+                if (isJoker) foundIndices.Add(jokerIdx);
+
+                foreach (int idx in foundIndices.OrderByDescending(i => i))
+                {
+                    seq.Add(tiles[idx]);
+                    tiles.RemoveAt(idx);
+                }
+                if (isSet)
+                {
+                    
+                    seq = seq.OrderBy(t => t.GetNumber()).ToList();
+                }
+                sequenceReady = true;
+            }
+            else
+                foundIndices.Clear();
+        }
+
+        //Debug.Log("ile p³ytek jest w klasie player: "+playerHand.Count);
+        //SaveListToCopy();
+        //PrintList();
+       // this.myIndex = idx;
+    }
+
+    /// <summary>
+    /// Funkcja do po³o¿enia ca³ej sekwnecji na mapie, 
+    /// </summary>
+    /// <param name="tileAmount">ile miejsc na planszy trzeba zareserwowaæ</param>
+    /// <param name="availableBoardAmount"></param>
+    /// <param name="sequention"></param>
+    void TrainingPutingManySeq(int tileAmount, int availableBoardAmount,ref List<Tile> sequention)
+    {
+        List<Vector3Int> chosenSpace = FreeSpaceToPut(tileAmount, availableBoardAmount);
+
+        for (int i = 0; i < chosenSpace.Count; i++)
+        {
+            
+            PutTile(chosenSpace[i], sequention[0]);
+            sequention.RemoveAt(0);
+        }
+        
+        //SaveListToCopy();
+        objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
+        placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
+        GameController.Instance.gameTurnManager.EndTurn();//zmiana wszystkich p³ytek na planszy na put = true
+
+    }
+
+
+    void CreateSeq(ref List<Tile> tiles, ref List<Tile> seq, ref int tileAmount, int Set, int Joker, bool randomTileAmount)
+    {
+        //AIPlayerHand = new();
+        //AIPlayerHandCopy = new();
+        //int joker = tiles.FindIndex(t => t.GetNumber() == 30);
+        if (tiles.FindIndex(t => t.GetNumber() == 30) == -1) Joker = 0;
+        bool isJoker = Random.Range(0, 100) < Joker;
+
+        bool isSet;
+        UnityEngine.Color seqColor = new UnityEngine.Color();
+        //bool firstOrLast = Random>r
+        if (seq.Count == 2)
+        {
+            isSet = true;
+            seqColor = seq[0].GetColor();
+        }
+        else isSet = Random.Range(0, 100) < Set;
+
+        //wykrywanie jakie liczby i kolory
+
+
+        //bool 
+        if (isSet || seq.Count>1)
+            tileAmount = Mathf.Clamp(tileAmount, 3, 13-seq.Count);
+        else
+            tileAmount = 3;
+
+        if (randomTileAmount)
+            tileAmount = Random.Range(3, tileAmount + 1);
+        int normalTilesAmount = isJoker ? tileAmount - 1 : tileAmount;
+        // playerHand = new ();S
+        //int TileIndex;
+        //int amount = 3
+        //zabezpieczyæ przed tworzeniem sekwencji w których brakuje p³ytek
+
+
+
+        UnityEngine.Color[] cols = { UnityEngine.Color.red, new UnityEngine.Color(1f, 0.5f, 0f), UnityEngine.Color.black, UnityEngine.Color.blue };
+        bool sequenceReady = false;
+        int safetyIterator = 0;
+        while (!sequenceReady && safetyIterator < 100)
+        {
+            safetyIterator++;
+            List<int> foundIndices = new List<int>();
+            bool allFound = true;
+            if (isSet)
+            {
+
+                int randomColorIdx = Random.Range(0, 4);
+                UnityEngine.Color selectedCol = cols[randomColorIdx];
+                int totalSpan = isJoker ? normalTilesAmount + 1 : normalTilesAmount;
+                int maxPossibleStart = 13 - totalSpan + 1;
+                int startNum = Random.Range(1, maxPossibleStart + 1);
+
+
+
+                for (int i = 0; i < normalTilesAmount; i++)
+                {
+                    int targetNum = startNum + i;
+                    int foundIndex = tiles.FindIndex(t => t.GetNumber() == targetNum && t.GetColor() == selectedCol);
+
+                    if (foundIndex != -1) foundIndices.Add(foundIndex);
+                    else { allFound = false; break; }
+                }
+            }
+            else //group
+            {
+                int targetNum = Random.Range(1, 14);
+                List<UnityEngine.Color> availableColors = new List<UnityEngine.Color>(cols);
+
+                for (int i = 0; i < normalTilesAmount; i++)
+                {
+                    int colorIdx = Random.Range(0, availableColors.Count);
+                    UnityEngine.Color selectedCol = availableColors[colorIdx];
+
+                    int foundIndex = tiles.FindIndex(t => t.GetNumber() == targetNum && t.GetColor() == selectedCol);
+
+                    if (foundIndex != -1)
+                    {
+                        foundIndices.Add(foundIndex);
+                        availableColors.RemoveAt(colorIdx);
+                    }
+                    else { allFound = false; break; }
+                }
+            }
+            int jokerIdx = -1;
+            if (allFound && isJoker)
+            {
+                jokerIdx = tiles.FindIndex(t => t.GetNumber() == 30);
+                if (jokerIdx == -1) allFound = false;
+            }
+            if (allFound)
+            {
+                if (isJoker) foundIndices.Add(jokerIdx);
+
+                foreach (int idx in foundIndices.OrderByDescending(i => i))
+                {
+                    seq.Add(tiles[idx]);
+                    tiles.RemoveAt(idx);
+                }
+                if (isSet)
+                {
+
+                    seq = seq.OrderBy(t => t.GetNumber()).ToList();
+                }
+                sequenceReady = true;
+            }
+            else
+                foundIndices.Clear();
+        }
+
+      
     }
 }

@@ -371,13 +371,18 @@ public class GameTurnManager : MonoBehaviour
     }
     public void ChangeTurn()
     {
-        currentPlayerId++;
+        if (GameController.Instance.gameIndex != 6)
+            currentPlayerId++;
         if (GameController.Instance.gameIndex == 3)
             if (currentPlayerId == 2) currentPlayerId = 0;
         
         if (currentPlayerId == 4) currentPlayerId = 0;
 
-        if (GameController.Instance.gameIndex != 1 && GameController.Instance.gameIndex != 4 && GameController.Instance.gameIndex != 7) { takeTile.SetButtonNumber(); }
+        if (GameController.Instance.gameIndex != 1 
+            && GameController.Instance.gameIndex != 4 
+            && GameController.Instance.gameIndex != 7 
+            && GameController.Instance.gameIndex != 6) { takeTile.SetButtonNumber(); }
+        // Debug.Log("nowa tura agenta");
         EndTurn();
         SetUIText();
     }
