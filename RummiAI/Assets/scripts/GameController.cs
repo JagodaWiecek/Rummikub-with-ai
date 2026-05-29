@@ -165,7 +165,7 @@ public class GameController : MonoBehaviour
         }
         else if (gameIndex == 1) //DO OBSERWACJI
         {
-            AI.SetPlayersHand(ref this.mainBank, 0);
+            AI.SetPlayersHand(ref this.mainBank, 0,14);
             mrComputerPlayer.SetPlayersHand(ref this.mainBank, 1);
             missComputerPlayer.SetPlayersHand(ref this.mainBank, 2);
             ComputerPlayer.SetPlayersHand(ref this.mainBank, 3);
@@ -176,18 +176,18 @@ public class GameController : MonoBehaviour
             player.SetPlayersHand(ref this.mainBank);
             mrComputerPlayer.SetPlayersHand(ref this.mainBank, 1);
             missComputerPlayer.SetPlayersHand(ref this.mainBank, 2);
-            AI.SetPlayersHand(ref this.mainBank, 3);
+            AI.SetPlayersHand(ref this.mainBank, 3,14);
             //ai z indeksem 3
         }
         else if (gameIndex == 3)
         {
             player.SetPlayersHand(ref this.mainBank);
-            AI.SetPlayersHand(ref this.mainBank, 1);
+            AI.SetPlayersHand(ref this.mainBank, 1, 14);
             //ai z indeksem 1
         }
         else if (gameIndex == 4) //NAUKA ETAP 1
         {
-            AI.SetPlayersHand(ref this.mainBank, 0);
+            AI.SetPlayersHand(ref this.mainBank, 0, 14);
             mrComputerPlayer.SetPlayersHand(ref this.mainBank, 1);
             missComputerPlayer.SetPlayersHand(ref this.mainBank, 2);
             ComputerPlayer.SetPlayersHand(ref this.mainBank, 3);
@@ -195,10 +195,10 @@ public class GameController : MonoBehaviour
         }
         else if(gameIndex == 5)
         {
-            AI.SetPlayersHand(ref this.mainBank, 0);
-            AI_1.SetPlayersHand(ref this.mainBank, 1);
-            A_2.SetPlayersHand(ref this.mainBank, 2);
-            A_3.SetPlayersHand(ref this.mainBank, 3);
+            AI.SetPlayersHand(ref this.mainBank, 0, 14);
+            AI_1.SetPlayersHand(ref this.mainBank, 1,14);
+            A_2.SetPlayersHand(ref this.mainBank, 2, 14);
+            A_3.SetPlayersHand(ref this.mainBank, 3, 14);
         }
         else if (gameIndex == 6)
         {
@@ -263,6 +263,7 @@ public class GameController : MonoBehaviour
             else if (Time.timeScale == 20f)
                 Time.timeScale = 1f;
         }
+        if (Input.GetKeyDown(KeyCode.E)) EndGame();
     }
     public void StopGame()
     { 
@@ -468,7 +469,7 @@ public class GameController : MonoBehaviour
             boardList = new();
             boardDictionary = new();
 
-            AI.SetPlayersHand(ref this.mainBank, 0);
+            AI.SetPlayersHand(ref this.mainBank, 0, 14);
             mrComputerPlayer.SetPlayersHand(ref this.mainBank, 1);
             missComputerPlayer.SetPlayersHand(ref this.mainBank, 2);
             ComputerPlayer.SetPlayersHand(ref this.mainBank, 3);

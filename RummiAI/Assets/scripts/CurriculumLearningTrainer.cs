@@ -10,7 +10,7 @@ public class CurriculumLearningTrainer : MonoBehaviour
     [Header("Path to Settings")]
     public string customFolderPath = "results/CR_IL/";
     public string folderName = "TrainingProgress";
-    public float successThreshold = 0.9f;
+    public float successThreshold = 0.8f;
     public string fileName;
 
     private int trainingIndex;    
@@ -23,6 +23,7 @@ public class CurriculumLearningTrainer : MonoBehaviour
         if (!Directory.Exists(customFolderPath))
         {
             Directory.CreateDirectory(customFolderPath);
+           
         }
         //successThreshold = 0.9f;
         windowSize = 100;
@@ -48,9 +49,14 @@ public class CurriculumLearningTrainer : MonoBehaviour
                 Debug.Log($"<color=cyan>[Curriculum]</color> Wczytano etap {savedStage} dla modelu: {this.fileName}");
                 return savedStage;
             }
+           
         }
-
-        Debug.Log($"<color=yellow>[Curriculum]</color> Brak zapisu dla {fileName}. Start od etapu 0.");
+        //else
+        //{
+        //    trainingIndex = -1;
+        //}
+            Debug.Log($"<color=yellow>[Curriculum]</color> Brak zapisu dla {fileName}. Start od etapu {trainingIndex}.");
+        
         return 0;
     }
     /// <summary>

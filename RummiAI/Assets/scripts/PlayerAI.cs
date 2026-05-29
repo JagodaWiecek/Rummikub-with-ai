@@ -45,6 +45,32 @@ public struct CurrculumLearningSetupMode
     /// do nauki modelu o podbieraniu p³ytek aby wy³o¿yæ swoj¹ niepe³n¹ sekwencjê
     /// </summary>
     public bool isSeqToFilch;
+    /// <summary>
+    /// Ile p³ytek zostanie podebrane od agenta, musi byæ od 1 do 2 p³ytek
+    /// </summary>
+    public int amountToFilch;
+    /// <summary>
+    /// Flaga do oznaczenia czy agent dostanie do rêki oba typy sekwencji, grupê i seriê
+    /// </summary>
+    public bool setAndGroup;
+    /// <summary>
+    /// flaga do wyznaczenia czy agent ma dostaæ tylko jokera do deku, do po³¹czenia ze zmienn¹ setAndGroup
+    /// </summary>
+    public bool onlyJoker;
+    /// <summary>
+    /// flaga do okreœlenia ostatniej fazy
+    /// , tutaj agent bêdzie dostawaæ losowe p³ytki do rêki, 14, na planszy pojawi¹ siê sekwencje, bêdzie mieæ wszystkie akcje dostêpne
+    /// ,mo¿liwoœæ dobierania p³ytek
+    /// </summary>
+    public bool finalPhase;
+    /// <summary>
+    /// zmienna do ograniczenia losowych p³ytek na start, aby agent nie dosta³ 14 p³ytek losowych na raz
+    /// </summary>
+    public int finalTileAmount;
+    /// <summary>
+    /// zmienna do wyliczenia ile maksymalnie razy agent mo¿e wykonaæ ruchów przed przegran¹
+    /// </summary>
+    public int constraintMoves;
 
 
 }
@@ -98,6 +124,10 @@ public class PlayerAI : Agent
     float time;
     float currnetTime;
 
+    //memory saver
+     
+    private static readonly UnityEngine.Color orangeColor = new UnityEngine.Color(1f, 0.5f, 0f);
+    private Vector3Int tempPos = new Vector3Int(0, 0, 0);
 
     public RewardData rewards;
 
@@ -105,9 +135,13 @@ public class PlayerAI : Agent
     public CurriculumLearningTrainer curriculumLearningTrainer;
     CurrculumLearningSetupMode currculumLearningSetupMode;
     protected int trainingIndex; //index do modyfikowania etapu treningu wewn¹trz sceny 6
-    bool[] allowedActions;
+    bool[] allowedActions = new bool[6];
     protected HashSet<int> takenSpots;//zmienna do przechowywania zajêtych pozycji w przestrzeni 1d
     RewardsCurrculumLearning rewardsCurrculumLearning;
+
+    private int lastTargetPosition;
+    private int lastOldPosition;
+    private int amountOfMoves;
 
     void Start()
     {
@@ -115,6 +149,10 @@ public class PlayerAI : Agent
         if (GameController.Instance.gameIndex == 4 || GameController.Instance.gameIndex == 6)
         {
             firstTurn = false;
+            lastTargetPosition = -1;
+            lastOldPosition = -1;
+            amountOfMoves = 0;
+            //allowedActions = new bool[6];
         }
 
         time = 1f;
@@ -158,34 +196,44 @@ public class PlayerAI : Agent
         sensor.AddObservation(GameController.Instance.gameTurnManager.currentTurnTime / GameController.Instance.gameTurnManager.turnTime);
         sensor.AddObservation(firstTurn ? 1 : 0);
 
-        BufferSensorComponent bufferSensor = GetComponent<BufferSensorComponent>();
+        var sensors = GetComponents<BufferSensorComponent>();
+
+        BufferSensorComponent boardSensor =
+            sensors.First(s => s.SensorName == "BoardSensor");
+
+        BufferSensorComponent handSensor =
+            sensors.First(s => s.SensorName == "HandSensor");
+
         List<Tile> hand = (GameController.Instance.gameIndex == 7)
         ? GameController.Instance.GetCP_AI().GetList(): AIPlayerHand;
         sensor.AddObservation(hand.Count / 64f);
 
         foreach (var tile in hand) //obserwacje dla buffora
         {
-            float[] tileData = new float[6];
+            //float[] tileData = new float[6];
+            //tileDataBuffer
+            float[] tileDataBuffer = new float[6];
             int colorIndex = GetNormalizedColor(tile.GetColor());
             bool isJoker = colorIndex == -1;
-            tileData[0] = GetNormalizedNumber(tile.GetNumber());
-            tileData[1] = isJoker ? 1f : 0f;
+            tileDataBuffer[0] = GetNormalizedNumber(tile.GetNumber());
+            tileDataBuffer[1] = isJoker ? 1f : 0f;
             if (isJoker)
             {
-                tileData[2] = 0f;
-                tileData[3] = 0f;
-                tileData[4] = 0f;
-                tileData[5] = 0f;
+                tileDataBuffer[2] = 0f;
+                tileDataBuffer[3] = 0f;
+                tileDataBuffer[4] = 0f;
+                tileDataBuffer[5] = 0f;
             }
             else
             {
-                tileData[2] = (colorIndex == 0) ? 1f : 0f;
-                tileData[3] = (colorIndex == 1) ? 1f : 0f;
-                tileData[4] = (colorIndex == 2) ? 1f : 0f;
-                tileData[5] = (colorIndex == 3) ? 1f : 0f;
+                tileDataBuffer[2] = (colorIndex == 0) ? 1f : 0f;
+                tileDataBuffer[3] = (colorIndex == 1) ? 1f : 0f;
+                tileDataBuffer[4] = (colorIndex == 2) ? 1f : 0f;
+                tileDataBuffer[5] = (colorIndex == 3) ? 1f : 0f;
             }
 
-            bufferSensor.AppendObservation(tileData);
+            handSensor.AppendObservation(tileDataBuffer);
+
         } //bufor
 
         var allPlayers = GameController.Instance.GetAllPlayers();
@@ -197,47 +245,93 @@ public class PlayerAI : Agent
         float totalPlayers = GameController.Instance.GetAllPlayers().Count + 1;
         sensor.AddObservation((float)GameController.Instance.gameTurnManager.currentPlayerId / totalPlayers);
 
+        //boardSensor
         for (int z = minZ; z <= maxZ; z++)
         {
             for (int x = minX; x <= maxX; x++)
             {
-                var pos = new Vector3Int(x, 0, z); 
-                if (board.ContainsKey(pos))
+                tempPos.x = x; tempPos.z = z;
+                if (board.ContainsKey(tempPos))
                 {
-                    var tile = board[pos];
+                    var tile = board[tempPos];
+                    float[] boardData = new float[12];
+                    (boardData[0], boardData[1]) = GetNormalizedPosition(x, z);
+                    boardData[2] = GetNormalizedNumber(tile.GetNumber());
                     int colorIndex = GetNormalizedColor(tile.GetColor());
                     bool isJoker = colorIndex == -1;
+                    boardData[3] = isJoker ? 1f : 0f;
+                    boardData[4] = colorIndex == 0 ? 1f : 0f;
+                    boardData[5] = colorIndex == 1 ? 1f : 0f;
+                    boardData[6] = colorIndex == 2 ? 1f : 0f;
+                    boardData[7] = colorIndex == 3 ? 1f : 0f;
 
-                    sensor.AddObservation(1f); //is occupied
-                    sensor.AddObservation(GetNormalizedNumber(tile.GetNumber())); //nobmer
-                    sensor.AddObservation(isJoker ? 1f : 0f); //joker flag
-
-                    sensor.AddOneHotObservation(colorIndex, 4); // 4 encodingi
-
-                    sensor.AddObservation(tile.GetPut() ? 1f : 0f);// put flag
+                    //hot encoding dla koloru
+                    Vector3Int minus1 = new Vector3Int(tempPos.x-1, 0 , tempPos.z);
+                    Vector3Int plus1 = new Vector3Int(tempPos.x+1, 0 , tempPos.z);
+                    bool leftN = board.ContainsKey(minus1) ? true : false;
+                    bool rightN = board.ContainsKey(plus1) ? true : false;
+                    //boardData[8] = leftN ? 1f : 0f;
+                    //boardData[9] = rightN ? 1f : 0f;
+                    var (isSet, isGroup,canBeExtendedLeft, canBeExtendedRight) = SetOrGroup(x, z, board);
+                    boardData[8] = isSet ? 1f : 0f;
+                    boardData[9] = isGroup ? 1f : 0f;
+                    boardData[10] = canBeExtendedLeft ? 1f : 0f;
+                    boardData[11] = canBeExtendedRight ? 1f : 0f;
+                    //s¹siad z prawej i lewej, czy seria czy grupa
+                    boardSensor.AppendObservation(boardData);
                 }
-                else
-                {
-                    //puste pole
-                    sensor.AddObservation(0f); // occupied
-                    sensor.AddObservation(0f); // number
-                    sensor.AddObservation(0f); // joker
-
-                    sensor.AddObservation(0f);
-                    sensor.AddObservation(0f);
-                    sensor.AddObservation(0f);
-                    sensor.AddObservation(0f);
-
-                    sensor.AddObservation(0f); // put
-                }
-                
             }
-        } //mapa
-        //do obserwacji
-        //co ma na rêce
-        //ile ma na rêce
-        //ile ju¿ jest na mapie p³ytek, jakie i gdzie
-        //base.CollectObservations(sensor);
+        }
+
+
+        //for (int z = minZ; z <= maxZ; z++)
+        //{
+        //    for (int x = minX; x <= maxX; x++)
+        //    {
+        //        tempPos.x = x; tempPos.z = z;
+        //        if (board.ContainsKey(tempPos))
+        //        {
+        //            var tile = board[tempPos];
+        //            int colorIndex = GetNormalizedColor(tile.GetColor());
+        //            bool isJoker = colorIndex == -1;
+
+            //            sensor.AddObservation(1f); //is occupied
+            //            sensor.AddObservation(GetNormalizedNumber(tile.GetNumber())); //nobmer
+            //            sensor.AddObservation(isJoker ? 1f : 0f); //joker flag
+
+            //           // sensor.AddOneHotObservation(colorIndex, 4); // 4 encodingi
+            //            sensor.AddObservation(colorIndex == 0 ? 1f : 0f);
+            //            sensor.AddObservation(colorIndex == 1 ? 1f : 0f);
+            //            sensor.AddObservation(colorIndex == 2 ? 1f : 0f);
+            //            sensor.AddObservation(colorIndex == 3 ? 1f : 0f);
+
+            //            sensor.AddObservation(tile.GetPut() ? 1f : 0f);// put flag
+            //        }
+            //        else
+            //        {
+            //            //puste pole
+            //            sensor.AddObservation(0f); // occupied
+            //            sensor.AddObservation(0f); // number
+            //            sensor.AddObservation(0f); // joker
+
+            //            sensor.AddObservation(0f);
+            //            sensor.AddObservation(0f);
+            //            sensor.AddObservation(0f);
+            //            sensor.AddObservation(0f);
+
+            //            sensor.AddObservation(0f); // put
+            //        }
+
+            //    }
+            //} //mapa
+
+
+
+            //do obserwacji
+            //co ma na rêce
+            //ile ma na rêce
+            //ile ju¿ jest na mapie p³ytek, jakie i gdzie
+            //base.CollectObservations(sensor);
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
@@ -256,7 +350,7 @@ public class PlayerAI : Agent
             //int  = actions.DiscreteActions[1];
 
         int akcjaAgenta = actions.DiscreteActions[1];
-        Debug.Log("Akcja: "+ akcjaAgenta);
+        //Debug.Log("Akcja: "+ akcjaAgenta);
         int chosenTileIndex = actions.DiscreteActions[2];
 
         var (xOld, zOld) = From1Dto2D(actions.DiscreteActions[3]);
@@ -318,7 +412,7 @@ public class PlayerAI : Agent
                     Debug.Log("Akcja k³adzenia p³ytki CL");
                     break;
                 case 1:
-                    RemoveTileAction(xOld, zOld); // uczniowa funkcja dla cl
+                    RemoveTileAction_CurriculumLearning(xOld, zOld); // uczniowa funkcja dla cl
                     Debug.Log("Akcja usuniêcia p³ytki CL");
                     break;
                 case 2:
@@ -330,7 +424,7 @@ public class PlayerAI : Agent
                     Debug.Log("Akcja pobrania nowej p³ytki CL");
                     break;
                 case 4:
-                    UndoAction(); // uczniowa funkcja dla cl
+                    Revoke_CurriculumLearning(); // uczniowa funkcja dla cl
                     Debug.Log("Akcja anulowania wszystkich ruchów CL");
                     break;
                 case 5:
@@ -340,6 +434,7 @@ public class PlayerAI : Agent
                 default:
                     break;
             }
+            MovesIncrement();
         }
 
     }
@@ -408,6 +503,8 @@ public class PlayerAI : Agent
         }
         if(GameController.Instance.gameIndex == 6)
         {
+            if(!GameController.Instance.gameTurnManager.turnController.MapContents())
+                actionMask.SetActionEnabled(1, 5, false);
             CurriculumLearningActionMask(ref actionMask);
         }
 
@@ -419,16 +516,18 @@ public class PlayerAI : Agent
         for (int z = minZ; z <= maxZ; z++)
             for (int x = minX;x <= maxX; x++)
             {
-                if (board.ContainsKey(new Vector3Int(x,0,z)))
+                tempPos.x = x; tempPos.z = z;
+                int actionIndex = From2Dto1D(x, z);
+                if (board.ContainsKey(tempPos))
                 {
-                    actionMask.SetActionEnabled(0, From2Dto1D(x, z), false);
+                    actionMask.SetActionEnabled(0, actionIndex, false);
                 }
                 else
                 {
-                    if(board.Count == 0 && From2Dto1D(x, z) != 0)
-                        actionMask.SetActionEnabled(3, From2Dto1D(x, z), false);
+                    if(board.Count == 0 && actionIndex != 0)
+                        actionMask.SetActionEnabled(3, actionIndex, false);
                     else if(board.Count != 0)
-                        actionMask.SetActionEnabled(3, From2Dto1D(x, z), false);
+                        actionMask.SetActionEnabled(3, actionIndex, false);
 
                 }
                     
@@ -461,7 +560,7 @@ public class PlayerAI : Agent
     {
         if (c == UnityEngine.Color.red) return 0;
         if (c == UnityEngine.Color.blue) return 1;
-        if (c == new UnityEngine.Color(1f, 0.5f, 0f)) return 2;
+        if (c == orangeColor) return 2;
         if (c == UnityEngine.Color.black) return 3;
         return -1; // joker
     }
@@ -472,6 +571,324 @@ public class PlayerAI : Agent
         else return -1;
        
     }
+
+    private (float, float) GetNormalizedPosition(int x, int z)
+    {
+        float normalizedX = 2f * ((float)(x - minX) / (maxX - minX)) - 1f;
+        float normalizedZ = 2f * ((float)(z - minZ) / (maxZ - minZ)) - 1f;
+
+        return (normalizedX, normalizedZ);
+    }
+    private (bool, bool,bool,bool) SetOrGroup(int x,int z, Dictionary<Vector3Int,Tile> board)
+    {
+        bool isSet = false;
+        bool isGroup = false;
+        bool canBeExtendedLeft = true;
+        bool canBeExtendedRight = true;
+        Vector3Int pos = new Vector3Int(x,0,z);
+        Vector3Int minus1 = new Vector3Int(x-1, 0, z);
+        Vector3Int minus2 = new Vector3Int(x-2, 0, z);
+        Vector3Int plus1 = new Vector3Int(x+1, 0, z);
+        Vector3Int plus2 = new Vector3Int(x+2, 0, z);
+
+        //sprawdzenie czy mamy grupê czy seriê
+        if (board.ContainsKey(minus1) || board.ContainsKey(plus1)) //jeœli oba s¹ false to mamy pojedyñcz¹ p³ytkê
+        {
+            if (board[pos].GetNumber() == 30)//jeœli nasza pozycja to joker. to pozosta³e to jeden mo¿e jeszcze byæ
+            {
+                                             //mamy s¹siadów, trzeba jeszcze jokery
+                if (board.ContainsKey(minus1) && board.ContainsKey(plus1))
+                {
+                    //mamy prawo lewo, sprawdzamy grupê/seriê
+                    //max prawo
+                    if (board[minus1].GetColor() == board[plus1].GetColor() )//mamy ten sam kolor, znaczy ¿e seria 
+                        isSet = true;
+                    
+                    else if (board[minus1].GetNumber() == board[plus1].GetNumber())
+                        isGroup = true;
+                    
+                    else if (board[minus1].GetNumber() == 30 || board[plus1].GetNumber() == 30)//któryœ z nich jest jokerem
+                    {
+                        if(board[minus1].GetNumber() == 30 )
+                        {
+                            if(board.ContainsKey(minus2))//mamy 4 p³ytkê po lewej
+                            {
+                                if (board[minus2].GetColor() == board[plus1].GetColor()) isSet = true;
+                                else if(board[minus2].GetNumber() == board[plus1].GetNumber()) isGroup = true;
+                            }
+                            else if (board.ContainsKey(plus2))//mamy czwart¹ p³ytkê po prawej
+                            {
+                                if(board[plus2].GetColor() == board[plus1].GetColor()) isSet = true;
+                                else if(board[plus2].GetNumber() == board[plus1].GetNumber()) isGroup = true;
+                            }
+                            //jak ¿adne nie spe³nione to mamy jeszcze elastyczn¹ sytuacjê gdzie sekwencja mo¿e staæ dopiero seri¹ b¹dŸ grup¹, w obecnej sytuacji jest oboma i ¿adnym
+                        }
+                        else
+                        {
+                            if (board.ContainsKey(minus2))//mamy 4 p³ytkê po lewej
+                            {
+                                if (board[minus2].GetColor() == board[minus1].GetColor()) isSet = true;
+                                else if (board[minus2].GetNumber() == board[minus1].GetNumber()) isGroup = true;
+                            }
+                            else if (board.ContainsKey(plus2))//mamy czwart¹ p³ytkê po prawej
+                            {
+                                if (board[plus2].GetColor() == board[minus1].GetColor()) isSet = true;
+                                else if (board[plus2].GetNumber() == board[minus1].GetNumber()) isGroup = true;
+                            }
+                        }
+                    }
+
+                }
+                else if (board.ContainsKey(minus1) && board.ContainsKey(minus2))
+                {
+                    //mamy p³ytkê po prawej, dwie po lewej, moze byæ 13, do sprawdzenia czy mo¿na postawiæ
+                    if (board[minus1].GetColor() == board[minus2].GetColor())
+                        isSet = true;
+                    else if (board[minus1].GetNumber() == board[minus2].GetNumber())
+                        isGroup = true;
+                    else if (board[minus1].GetNumber()==30 || board[minus2].GetNumber() == 30)//któryœ z nich to joker
+                    {
+                        if(board[minus1].GetNumber() == 30)
+                        {
+                            Vector3Int minus3 = new Vector3Int(x - 3, 0, z);
+                            if (board.ContainsKey(minus3))//mamy 4 p³ytkê 
+                            {
+                                if (board[minus2].GetColor() == board[minus3].GetColor()) isSet = true;
+                                else if (board[minus2].GetNumber() == board[minus3].GetNumber()) isGroup = true;
+                            }
+                        }
+                        else
+                        {
+                            Vector3Int minus3 = new Vector3Int(x - 3, 0, z);
+                            if (board.ContainsKey(minus3))
+                            {
+                                if (board[minus1].GetColor() == board[minus3].GetColor()) isSet = true;
+                                else if (board[minus1].GetNumber() == board[minus3].GetNumber()) isGroup = true;
+                            }
+                        }
+                    }
+                }
+                else if (board.ContainsKey(plus1) && board.ContainsKey(plus2))
+                {
+                    //p³ytka po lewej, dwie po prawej, mo¿e byæ 1
+                    if (board[plus1].GetColor() == board[plus2].GetColor())
+                        isSet = true;
+                    else if (board[plus1].GetNumber() == board[plus2].GetNumber())
+                        isGroup = true;
+                    else if (board[plus1].GetNumber() == 30 || board[plus2].GetNumber() == 30)
+                    {
+                        if (board[plus1].GetNumber() == 30)
+                        {
+                            Vector3Int plus3 = new Vector3Int(x + 3, 0, z);
+                            if(board.ContainsKey(plus3))
+                            {
+                                if(board[plus3].GetColor() == board[plus2].GetColor()) isSet = true;
+                                else if(board[plus3].GetNumber() == board[plus2].GetNumber()) isGroup = true;
+                            }
+                        }
+                        else
+                        {
+                            Vector3Int plus3 = new Vector3Int(x + 3, 0, z);
+                            if (board.ContainsKey(plus3))
+                            {
+                                if (board[plus3].GetColor() == board[plus1].GetColor()) isSet = true;
+                                else if (board[plus3].GetNumber() == board[plus1].GetNumber()) isGroup = true;
+                            }
+                        }
+                    }
+                }
+
+            }
+            else//tutaj niby joker te¿ do sprawdzenia, a nawet dwa
+             
+            {
+                if (board.ContainsKey(minus1) && board.ContainsKey(plus1))
+                {
+                    //mamy prawo lewo, sprawdzamy grupê/seriê
+                    //max prawo
+                    if (board[minus1].GetNumber() == 30 && board[plus1].GetNumber() == 30) //oba to jokery
+                    {
+                        
+                        if (board.ContainsKey(minus2))
+                        {
+                            if (board[pos].GetColor() == board[minus2].GetColor()) isSet = true;
+                            else if (board[pos].GetNumber() == board[minus2].GetNumber()) isGroup = true;
+                        }
+                        else if(board.ContainsKey(plus2))
+                        {
+                            if (board[pos].GetColor() == board[plus2].GetColor()) isSet = true;
+                            else if (board[pos].GetNumber() == board[plus2].GetNumber()) isGroup = true;
+                        }
+                        //jak nie zawiera to mamy niezdefiniowan¹ seq
+                    }
+                    else if (board[minus1].GetNumber() == 30 || board[plus1].GetNumber() == 30) //któryœ z nich to joker
+                    {
+                        if(board[minus1].GetNumber() == 30)
+                        {
+                            if(board[pos].GetColor() == board[plus1].GetColor()) isSet = true;
+                            else if (board[pos].GetNumber() == board[plus1].GetNumber()) isGroup = true;
+                        }
+                        else
+                        {
+                            if (board[pos].GetColor() == board[minus1].GetColor()) isSet = true;
+                            else if (board[pos].GetNumber() == board[minus1].GetNumber()) isGroup = true;
+                        }
+                    }
+                    else if (board[pos].GetColor() == board[minus1].GetColor()) isSet = true;
+                    else if (board[pos].GetNumber() == board[minus1].GetNumber()) isGroup= true;
+
+
+                }
+                else if (board.ContainsKey(minus1) && board.ContainsKey(minus2))
+                {
+                    //mamy p³ytkê po prawej, dwie po lewej, moze byæ 13, do sprawdzenia czy mo¿na postawiæ
+                    
+                    if (board[minus1].GetNumber() == 30 && board[minus2].GetNumber() == 30)
+                    {
+                        Vector3Int minus3 = new Vector3Int(x - 3, 0, z);
+                        if(board.ContainsKey(minus3))
+                        {
+                            if(board[pos].GetColor() == board[minus3].GetColor()) isSet = true;
+                            else if (board[pos].GetNumber() == board[minus3].GetNumber()) isGroup = true;
+                        }
+                    }
+                    else if (board[minus1].GetNumber() == 30 || board[minus2].GetNumber() == 30)
+                    {
+                        if(board[minus1].GetNumber() == 30)
+                        {
+                            if (board[pos].GetColor() == board[minus2].GetColor()) isSet = true;
+                            else if (board[pos].GetNumber() == board[minus2].GetNumber()) isGroup = true;
+                        }
+                        else
+                        {
+                            if (board[pos].GetColor() == board[minus1].GetColor()) isSet = true;
+                            else if (board[pos].GetNumber() == board[minus1].GetNumber()) isGroup = true;
+                        }
+                    }
+                    else if (board[pos].GetColor() == board[minus1].GetColor()) isSet = true;
+                    else if (board[pos].GetNumber() == board[minus1].GetNumber()) isGroup = true;
+                }
+                else if (board.ContainsKey(plus1) && board.ContainsKey(plus2))
+                {
+                    
+
+                    if (board[plus1].GetNumber() == 30 && board[plus2].GetNumber() == 30)
+                    {
+                        Vector3Int plus3 = new Vector3Int(x + 3, 0, z);
+                        if (board.ContainsKey(plus3))
+                        {
+                            if (board[pos].GetColor() == board[plus3].GetColor()) isSet = true;
+                            else if (board[pos].GetNumber() == board[plus3].GetNumber()) isGroup = true;
+                        }
+                    }
+                    else if (board[plus1].GetNumber() == 30 || board[plus2].GetNumber() == 30)
+                    {
+                        if (board[plus1].GetNumber() == 30)
+                        {
+                            if (board[pos].GetColor() == board[plus2].GetColor()) isSet = true;
+                            else if (board[pos].GetNumber() == board[plus2].GetNumber()) isGroup = true;
+                        }
+                        else
+                        {
+                            if (board[pos].GetColor() == board[plus1].GetColor()) isSet = true;
+                            else if (board[pos].GetNumber() == board[plus1].GetNumber()) isGroup = true;
+                        }
+                    }
+                    else if (board[pos].GetColor() == board[plus1].GetColor()) isSet = true;
+                    else if (board[pos].GetNumber() == board[plus1].GetNumber()) isGroup = true;
+                }
+                else if (board.ContainsKey(minus1)) //tylko lewa jedna, czyli dwie p³ytki
+                {
+                    if (board[pos].GetColor() == board[minus1].GetColor()) isSet = true;
+                    else if (board[pos].GetNumber() == board[minus1].GetNumber()) isGroup = true;
+                }
+                else if (board.ContainsKey(plus1))//tylko jedna prawa
+                {
+                    if (board[pos].GetColor() == board[plus1].GetColor()) isSet = true;
+                    else if (board[pos].GetNumber() == board[plus1].GetNumber()) isGroup = true;
+                }
+            }
+        }
+
+
+        if(isGroup) //jak mamy grupê to trzeba sprawdziæ czy mo¿na extendowaæ
+        {
+            int amount = 0;
+            int xPos = x;
+            while(board.ContainsKey(new Vector3Int(xPos,0,z))) xPos--; //szukamy pocz¹tku, zatrzymuje siê gdy znajdziemy pozycjê przed pocz¹tkiem
+
+            xPos++;//dlatego trzeba dodaæ jedn¹ pozycjê
+            if (xPos <= minX) canBeExtendedLeft = false; //na skraju mapy lewe, nie mo¿na rozszerzyæ bez przesuniêcia
+            while (board.ContainsKey(new Vector3Int(xPos, 0, z)))
+            {
+                amount++;
+                xPos++;
+            }
+            xPos--;
+            if (xPos >= maxX) canBeExtendedRight = false; //na skraju mapy prawej, nie mo¿na rozszerzyæ bez przesuniêcia
+
+            else if  (amount == 4)
+            {
+                canBeExtendedLeft = false;
+                canBeExtendedRight = false;
+
+            }//nie mo¿na w ogóle rozszerzaæ
+            else if (amount > 4)
+                Debug.LogError("wykryto za du¿¹ grupê");//nigdy nie powinno mieæ miejsca
+
+        }
+        else if (isSet) //czy mo¿na extendowaæ seriê
+        {
+            int xPos = x;
+            int amount = 0;
+            while (board.ContainsKey(new Vector3Int(xPos, 0, z))) xPos--; //sprawdzamy pocz¹tek, musimy wiedzieæ czy mamy jedynkê na pocz¹tku, czy mo¿e jokera co imituje 1
+            xPos++;
+            if (board[new Vector3Int(xPos, 0, z)].GetNumber() == 1 || xPos <= minX)
+            {
+                canBeExtendedLeft = false;
+            }
+            else if (board[new Vector3Int(xPos, 0, z)].GetNumber() == 30)//gdy mamy jokera na pocz¹tku
+            {
+                if(board[new Vector3Int(xPos+1, 0, z)].GetNumber() == 30)//jakimœ cudem mamy jokera i na drugim miejscu
+                {
+                    if(board.ContainsKey(new Vector3Int(xPos + 2, 0, z)) && board[new Vector3Int(xPos + 2, 0, z)].GetNumber() == 3) canBeExtendedRight = false; //mamy seriê gdzie 1 i 2 s¹ zast¹pione jokerami, co jest poprawne i nie mo¿na powiêkszaæ z lewej
+
+                }
+                else if (board[new Vector3Int(xPos + 1, 0, z)].GetNumber() == 2) //pierwsza liczba jest zast¹piona jokerem, nie mo¿na extendowaæ
+                    canBeExtendedRight = false;
+
+            }
+           
+            while (board.ContainsKey(new Vector3Int(xPos, 0, z)))
+            {
+                amount++;
+                xPos++;
+            }
+            xPos--;
+            if (amount == 13) canBeExtendedRight = false;
+            else if(amount > 13) Debug.LogError("wykryto za du¿¹ seriê");//nigdy nie powinno mieæ miejsca
+
+            if(xPos >= maxX || board[new Vector3Int(xPos, 0, z)].GetNumber() ==13)//ostatnia pozycja na mapie wiersza lub ostatnia cyfra serii, nie mo¿na extendowaæ przez przesuniêcia
+            {
+                canBeExtendedLeft = false;
+            }
+            else if (board[new Vector3Int(xPos, 0, z)].GetNumber() == 30)//jeœli ostatnia p³ytka to joker
+            {
+                if(board[new Vector3Int(xPos - 1, 0, z)].GetNumber() == 12) canBeExtendedLeft = false;
+                else if(board[new Vector3Int(xPos-2, 0, z)].GetNumber() == 30) //i jakimœ cudem przedostatnia te¿ jest jokerem
+                    if (board.ContainsKey(new Vector3Int(xPos - 2, 0, z)) && board[new Vector3Int(xPos - 2, 0, z)].GetNumber() == 11) canBeExtendedRight = false;
+                
+            }
+        }
+        else
+        {
+            if(x <= minX) canBeExtendedLeft = false;
+            else if(x >= maxX) canBeExtendedLeft = false;
+        }
+
+        return (isSet, isGroup, canBeExtendedLeft, canBeExtendedRight);
+    }
+
 
     private int From2Dto1D(int x, int z) 
     {
@@ -531,7 +948,9 @@ public class PlayerAI : Agent
             AIPlayerHand.Add(tiles[TileIndex]);
             tiles.RemoveAt(TileIndex);
             SaveListToCopy();
-            AddReward(rewards.TNT);//TODO
+            if (GameController.Instance.gameIndex != 6)
+                AddReward(rewards.TNT);//TODO
+            else AddReward(-0.01f); //TODOCL
             //countJoker = CountJoker(AIPlayerHand);
         }
         else GameController.Instance.EndGame();
@@ -582,13 +1001,13 @@ public class PlayerAI : Agent
 
     }
 
-    public void SetPlayersHand(ref List<Tile> tiles, int idx)
+    public void SetPlayersHand(ref List<Tile> tiles, int idx,int amountOfTiles)
     {
         AIPlayerHand = new();
         AIPlayerHandCopy = new();
         // playerHand = new ();
         int TileIndex;
-        for (int i = 0; i < 14; i++)
+        for (int i = 0; i < amountOfTiles; i++)
         {
             TileIndex = Random.Range(0, (tiles.Count));
            // tiles[TileIndex].ShowTiles();
@@ -756,7 +1175,7 @@ public class PlayerAI : Agent
                 int index = GameController.Instance.GetBoardDictionaryList().Count - 1;
                 placementSystem.GetGridData().RestoreCopyDictionary();
                 GameController.Instance.GetBoardDictionary().SaveDictionary(GameController.Instance.GetBoardDictionaryList()[index].board);
-                RestoreCopyList_CurriculumLearning();
+                RestoreCopyList();
                 GameController.Instance.gameTurnManager.turnController.Restore3DMap();
             }
             else
@@ -765,7 +1184,7 @@ public class PlayerAI : Agent
                 {
                     objectPlacer.ClearplacedGameObjects();
                     GameController.Instance.GetBoardDictionary().board.Clear();
-                    RestoreCopyList_CurriculumLearning();
+                    RestoreCopyList();
                     placementSystem.GetGridData().GetDictionary().Clear();
                     GameController.Instance.gameTurnManager.turnController.RemoveAllChildren();
                 }
@@ -905,10 +1324,12 @@ public class PlayerAI : Agent
     public void EndOfTime()
     {
         //funkcja undo
-        UndoAction();
+        if(GameController.Instance.gameIndex !=6) UndoAction();
+        else Revoke_CurriculumLearning();
         List<Tile> tiles = GameController.Instance.GetGameBank();
         AddNewTile(ref tiles);
-        AddReward(rewards.WAWFMDT);//TODO when the agent won't finish moves during turn
+        if (GameController.Instance.gameIndex != 6) AddReward(rewards.WAWFMDT);//TODO when the agent won't finish moves during turn
+        else AddReward(-0.1f);
         if (firstTurn) GameController.Instance.firstTurnController.Reset();
           
         //dodanie p³ytki
@@ -968,15 +1389,6 @@ public class PlayerAI : Agent
         GameController.Instance.GetBoardDictionary().board.Remove(gridPosition);
     }
 
-
-
-    public Dictionary<Vector3Int, Tile>  returnAvailableBoard(int positionsAmount)
-    {
-        Dictionary<Vector3Int, Tile> availablePositions = new Dictionary<Vector3Int, Tile>();
-
-        return availablePositions;
-    }
-
     public void CurriculumLearningActionMask(ref IDiscreteActionMask actionMask)
     {
         //actionMask.SetActionEnabled(1, 3, false);
@@ -1004,13 +1416,27 @@ public class PlayerAI : Agent
 
     public void PrepareToTrain(ref List<Tile> tiles, int idx)
     {
-        PrepareVariables(ref this.allowedActions, ref this.currculumLearningSetupMode);
-        SetPlayersHand_TrainingFunction(ref tiles, idx, ref currculumLearningSetupMode.tileAmount, currculumLearningSetupMode.set, currculumLearningSetupMode.jokerChances, currculumLearningSetupMode.randomTileAmount);
+        AIPlayerHand = new();
+        AIPlayerHandCopy = new();
+        this.myIndex = idx;
+        PrepareVariables(ref this.allowedActions, ref this.currculumLearningSetupMode); //przygotowanie flag
+        //przygotowanie rêki agenta
+        if (currculumLearningSetupMode.setAndGroup)
+        {
+            SetPlayersHand_TrainingFunction(ref tiles, ref currculumLearningSetupMode.tileAmount, 100, currculumLearningSetupMode.jokerChances, currculumLearningSetupMode.randomTileAmount);
+            SetPlayersHand_TrainingFunction(ref tiles, ref currculumLearningSetupMode.tileAmount, 0, currculumLearningSetupMode.jokerChances, currculumLearningSetupMode.randomTileAmount);
+        }
+        else if (currculumLearningSetupMode.onlyJoker) OnlyJoker(ref tiles);
+        else if (currculumLearningSetupMode.finalPhase) SetPlayersHand(ref tiles, idx, currculumLearningSetupMode.finalTileAmount); 
+        else
+            SetPlayersHand_TrainingFunction(ref tiles, ref currculumLearningSetupMode.tileAmount, currculumLearningSetupMode.set, currculumLearningSetupMode.jokerChances, currculumLearningSetupMode.randomTileAmount);
+        //
+        //przygotowanie planszy
         if (currculumLearningSetupMode.AddOneTile) 
             TrainingPutSeq(currculumLearningSetupMode.tileAmount, currculumLearningSetupMode.boardAvailability, AIPlayerHand); //k³adzie sekwencjê na planszê
         else if (currculumLearningSetupMode.MoveExisting) 
             TrainingMoveTile(currculumLearningSetupMode.tileAmount, currculumLearningSetupMode.boardAvailability, AIPlayerHand);
-
+        if (currculumLearningSetupMode.isSeqToFilch) SeqToFilch(currculumLearningSetupMode.amountToFilch, currculumLearningSetupMode.tileAmount, ref tiles, currculumLearningSetupMode.boardAvailability);
         if (currculumLearningSetupMode.preparedSeqOnBoard) PutingManySeq(ref tiles, currculumLearningSetupMode.seqAmount, currculumLearningSetupMode.tileAmount, currculumLearningSetupMode.boardAvailability);
     }
 
@@ -1019,10 +1445,9 @@ public class PlayerAI : Agent
     /// </summary>
     /// <param name="tiles"></param>
     /// <param name="idx"></param>
-    public void SetPlayersHand_TrainingFunction(ref List<Tile> tiles, int idx,ref int tileAmount, int Set, int Joker,bool randomTileAmount)
+    public void SetPlayersHand_TrainingFunction(ref List<Tile> tiles,ref int tileAmount, int Set, int Joker,bool randomTileAmount)
     {
-        AIPlayerHand = new();
-        AIPlayerHandCopy = new();
+
         bool isJoker = Random.Range(0, 100) < Joker;
         bool isSet = Random.Range(0, 100) < Set;
         if (isSet)
@@ -1099,8 +1524,16 @@ public class PlayerAI : Agent
 
         //Debug.Log("ile p³ytek jest w klasie player: "+playerHand.Count);
         SaveListToCopy();
-        PrintList();
-        this.myIndex = idx;
+        //PrintList();
+        
+    }
+    public void OnlyJoker(ref List<Tile> tiles)
+    {
+        int joker = tiles.FindIndex(t => t.GetNumber() == 30);
+        if (joker == -1) return;
+        AIPlayerHand.Add(tiles[joker]);
+        tiles.RemoveAt(joker);
+        SaveListToCopy();
     }
     /// <summary>
     /// Funkcja do debugowania
@@ -1136,12 +1569,14 @@ public class PlayerAI : Agent
         float normalized = Mathf.Clamp01((avgDistance - 1f) / (maxInfluenceRange - 1f));
         float distanceReward = Mathf.Lerp(reward, 0f, normalized);
 
-        Debug.Log("Œrednia nagroda: " + distanceReward);
+        //Debug.Log("Œrednia nagroda: " + distanceReward);
 
         return Mathf.Max(0f, distanceReward);
     }
     void PutTileAction_CurriculumLearning(int x, int z, int indeks) //TODOCL wiemy ¿e zawsze bêdzie 
     {
+
+        CheckLastPosition(x, z,ref this.lastTargetPosition);
         //sprawdziæ czy mo¿na po³o¿yæ
         var board = GameController.Instance.GetBoardDictionary().board;
         
@@ -1153,30 +1588,43 @@ public class PlayerAI : Agent
         {
             PutTile(position, AIPlayerHand[indeks]);
             AIPlayerHand.RemoveAt(indeks);
-
+            AddReward(0.01f); //za ka¿dy poprawny ruch
             Vector3Int positionplusjeden = new Vector3Int(x + 1, 0, z);
             Vector3Int positionplusdwa = new Vector3Int(x + 2, 0, z);
             Vector3Int positionminusjeden = new Vector3Int(x - 1, 0, z);
             Vector3Int positionminusdwa = new Vector3Int(x - 2, 0, z);
             if (board.ContainsKey(positionplusjeden) && board.ContainsKey(positionminusjeden))
-                AddReward(0.2f); //TODOCL ting tile properly between other tiles
+                AddReward(0.3f * currculumLearningSetupMode.guidanceStrength); //TODOCL ting tile properly between other tiles
             else if (board.ContainsKey(positionplusjeden) || board.ContainsKey(positionminusjeden))
-                AddReward(0.15f); //TODOCL puting tile properly close to other tile
+                AddReward(0.2f * currculumLearningSetupMode.guidanceStrength); //TODOCL puting tile properly close to other tile
             else if ((board.ContainsKey(positionplusjeden) && board.ContainsKey(positionplusdwa)) || (board.ContainsKey(positionminusjeden) && board.ContainsKey(positionminusdwa))) 
-                AddReward(0.2f); //TODOCL puting tile properly on left or right of two tiles
+                AddReward(0.25f * currculumLearningSetupMode.guidanceStrength); //TODOCL puting tile properly on left or right of two tiles
             else
-                AddReward(DistanceOnBoard(0.1f, board, position));//TODOCL punktacja odleg³oœciowa, aby agent dawa³ bli¿ej p³ytki
+                AddReward(0.1f * currculumLearningSetupMode.guidanceStrength);//TODOCL punktacja odleg³oœciowa, aby agent dawa³ bli¿ej p³ytki
+                //AddReward((0.05f + DistanceOnBoard(0.1f, board, position))* currculumLearningSetupMode.guidanceStrength);//TODOCL punktacja odleg³oœciowa, aby agent dawa³ bli¿ej p³ytki
 
 
         }
         else AddReward(-0.1f);//TODOCL
         
     }
-
+    public void CheckLastPosition(int x, int z,ref int value)
+    {
+        if (value != -1)
+        {
+            if (value == From2Dto1D(x, z))
+                AddReward(-0.1f);
+            value = From2Dto1D(x, z);
+        }
+        else value = From2Dto1D(x, z);
+    }
     void MoveTileAction_CurriculumLearning(int newX, int newZ, int oldX, int oldZ) //TODOCL
     {
         Vector3Int oldPosition = new Vector3Int(oldX, 0, oldZ);
         Vector3Int newPosition = new Vector3Int(newX, 0, newZ);
+        CheckLastPosition(newX, newZ, ref this.lastTargetPosition);
+        CheckLastPosition(oldX, oldZ, ref this.lastOldPosition);
+
         var board = GameController.Instance.GetBoardDictionary().board;
         if (!board.ContainsKey(oldPosition) || board.ContainsKey(newPosition))
         {
@@ -1190,7 +1638,7 @@ public class PlayerAI : Agent
             // gdy p³ytka istnieje na pozycji iii w pierwszej turze p³ytka jest po³o¿ona przez samego agenta, nie mo¿na przesuwaæ p³ytkami przeciwników podczas pierwszej tury
             {
                 tile = board[oldPosition].getTile();
-                AddReward(rewards.MTPTDP);//TODO moving tile to different position that is not its previous position
+                AddReward(0.05f * currculumLearningSetupMode.guidanceStrength);//TODO moving tile to different position that is not its previous position
             }
             else//p³ytka jest postawiona przez innego gracza, kara powrót
             {
@@ -1214,13 +1662,13 @@ public class PlayerAI : Agent
             Vector3Int positionminusjeden = new Vector3Int(newX - 1, 0, newZ);
             Vector3Int positionminusdwa = new Vector3Int(newX - 2, 0, newZ);
             if (board.ContainsKey(positionplusjeden) && board.ContainsKey(positionminusjeden))
-                AddReward(0.2f); //TODOCL puting tile properly between other tiles
+                AddReward(0.3f * currculumLearningSetupMode.guidanceStrength); //TODOCL puting tile properly between other tiles
             else if (board.ContainsKey(positionplusjeden) || board.ContainsKey(positionminusjeden))
-                AddReward(0.15f); //TODOCL puting tile properly close to other tile
+                AddReward(0.15f * currculumLearningSetupMode.guidanceStrength); //TODOCL puting tile properly close to other tile
             else if ((board.ContainsKey(positionplusjeden) && board.ContainsKey(positionplusdwa)) || (board.ContainsKey(positionminusjeden) && board.ContainsKey(positionminusdwa)))
-                AddReward(0.2f); //TODOCL puting tile properly on left or right of two tiles
+                AddReward(0.25f * currculumLearningSetupMode.guidanceStrength); //TODOCL puting tile properly on left or right of two tiles
             else
-                AddReward(DistanceOnBoard(0.1f, board, newPosition));//TODOCL punktacja odleg³oœciowa, aby agent dawa³ bli¿ej p³ytki
+                AddReward(DistanceOnBoard(0.05f, board, newPosition) * currculumLearningSetupMode.guidanceStrength);//TODOCL punktacja odleg³oœciowa, aby agent dawa³ bli¿ej p³ytki
         }
         else
         {
@@ -1230,7 +1678,23 @@ public class PlayerAI : Agent
     }
     void RemoveTileAction_CurriculumLearning(int x, int z) //MAYBE TODO
     {
+        Vector3Int position = new Vector3Int(x, 0, z);
 
+        if (GameController.Instance.GetBoardDictionary().board.ContainsKey(position))
+        {
+            //reward dla wykrycia pozycji
+            if (!GameController.Instance.GetBoardDictionary().board[position].GetPut())
+            {
+                AddReward(-0.1f);//TODO deliting tile
+                AIPlayerHand.Add(GameController.Instance.GetBoardDictionary().board[position].getTile());
+                removeTile(position);
+            }
+            else
+            {
+                AddReward(-0.3f);//TODO trying removing tile that can't be removed, it is permanently put
+            }
+        }
+        else AddReward(-0.5f);//TODO deleting not existing tile
     }
     /// <summary>
     /// zakoñczenie tury oraz ustalenie flag w trakcie curriculum learning
@@ -1255,13 +1719,14 @@ public class PlayerAI : Agent
             {
                 if (allowedActions[2])//agent mo¿e przesuwaæ p³ytki, kontynuacja nauk ale musi byæ kara
                 {
-                    AddReward(-0.1f); //kara, mo¿e przesuwaæ a nie robi //TODOCL
+                    AddReward(-0.05f * currculumLearningSetupMode.guidanceStrength); //kara, mo¿e przesuwaæ a nie robi //TODOCL
 
                 }
                 else//agent nie mo¿e przesuwaæ p³ytek, koniec gry, p³ytki wracaj¹ do rêki agenta
                 {
-                    rewardsCurrculumLearning.isWin = false;
-                    EndGame_CurriculumLearning();
+                    //rewardsCurrculumLearning.isWin = false;
+                    AddReward(-0.2f * currculumLearningSetupMode.guidanceStrength);//powrót p³ytek na rêkê, mapa ta sama
+                    Revoke_CurriculumLearning();
                 }
 
 
@@ -1273,7 +1738,8 @@ public class PlayerAI : Agent
             {
                 //ma p³ytki na rêce ale mapa zostawiona dobrze
                 //musi byæ kara bo agent powinien zostawiæ wszystkie p³ytki
-                AddReward(-0.1f); //TODOCL
+                
+                AddReward(-0.02f * currculumLearningSetupMode.guidanceStrength); //TODOCL
             }
             else//s¹ p³ytki w rêce ale mapa niepoprawna
             {
@@ -1281,7 +1747,7 @@ public class PlayerAI : Agent
                 {
                     //niepoprawna mapa ale agent zrobi³ akcje po³o¿enia p³ytki
                     //mo¿e jeszcze kontynuowaæ 
-                    AddReward(0.1f); //TODOCL
+                    AddReward(0.05f * currculumLearningSetupMode.guidanceStrength); //TODOCL
                 }
                 else 
                 {
@@ -1293,16 +1759,7 @@ public class PlayerAI : Agent
             }
 
         }
-        //Do przemyœlenia, jak uczyæ 
 
-        
-        //List<Tile> tiles = GameController.Instance.GetGameBank();
-        //AddNewTile(ref tiles);
-        //AddReward(rewards.TNT);//TODO Taking new tile
-        //if (firstTurn) GameController.Instance.firstTurnController.Reset();
-                   
-        //else AddReward(0);//reward
-        //undo
     }
     /// <summary>
     /// funkcja do zakoñczenia gry, tylko gdy gameIndex==6
@@ -1313,16 +1770,22 @@ public class PlayerAI : Agent
         if(rewardsCurrculumLearning.isWin)
         {
             //ju¿ siê reset zrobi
-            winReward = 1.0f;
+            winReward = 3.0f;
+            amountOfMoves = 0;
+            curriculumLearningTrainer.AddResult(1f, ref this.trainingIndex);//win
+            Debug.Log($"wygrana w indeksie {this.trainingIndex}");
+            SetReward(winReward);
         }
         else
         {
-            winReward = -1.0f;
-            Revoke_CurriculumLearning();
+            winReward = -2.0f;
+            
+            curriculumLearningTrainer.AddResult(-1f, ref this.trainingIndex);//loss
+           // AddReward(winReward); //TODOCL
         }
 
-        SetReward(winReward); //TODOCL
-        curriculumLearningTrainer.AddResult(winReward,ref this.trainingIndex);
+        // //TODOCL
+        SetReward(winReward);
         EndEpisode();
         //Reset();
     }
@@ -1333,8 +1796,17 @@ public class PlayerAI : Agent
         Revoke_CurriculumLearning();
         List<Tile> tiles = GameController.Instance.GetGameBank();
         AddNewTile(ref tiles);
-        AddReward(0.01f); //TODOCL
+        AddReward(0.01f * currculumLearningSetupMode.guidanceStrength); //TODOCL
         GameController.Instance.gameTurnManager.ChangeTurn();
+    }
+    private void SetAllowedActions(bool a0, bool a1, bool a2, bool a3, bool a4, bool a5)
+    {
+        allowedActions[0] = a0;
+        allowedActions[1] = a1;
+        allowedActions[2] = a2;
+        allowedActions[3] = a3;
+        allowedActions[4] = a4;
+        allowedActions[5] = a5;
     }
     /// <summary>
     /// Funkcja do ustalania zmiennych w konkretnych etapach nauki
@@ -1357,71 +1829,1208 @@ public class PlayerAI : Agent
         //  4 undo
         //  5 koniec tury
         int oneLine = 24; //ile jedna linia mo¿e mieæ, max 10
-
-        if (this.trainingIndex == 0) //dodawanie p³ytek do serii - ju¿ s¹ dwie p³ytki i musi do³o¿yæ 3.
+        currculumLearningSetupMode.constraintMoves = 50;
+        if (this.trainingIndex == -1)
         {
-            currculumLearningSetupMode.boardAvailability = oneLine*10;
+            currculumLearningSetupMode.boardAvailability = 10;
             currculumLearningSetupMode.jokerChances = 0;
             currculumLearningSetupMode.tileAmount = 3;
-            currculumLearningSetupMode.randomTileAmount = false;
             currculumLearningSetupMode.set = 100;
-            currculumLearningSetupMode.PlaceAllManual = true; 
-            currculumLearningSetupMode.AddOneTile = false;
-            currculumLearningSetupMode.MoveExisting = false;
-            currculumLearningSetupMode.guidanceStrength = 1.0f;
-            currculumLearningSetupMode.preparedSeqOnBoard = false;
-            currculumLearningSetupMode.isSeqToFilch = true;
-            currculumLearningSetupMode.seqAmount = 10;
-            allowedActions = new bool[] { true, false,false,false,false,true };
-        }
-        if (this.trainingIndex == 1) //k³adzenie ca³ych sekwencji 3
-        {
-            currculumLearningSetupMode.boardAvailability = oneLine;
-            currculumLearningSetupMode.jokerChances = 0;
-            currculumLearningSetupMode.tileAmount = 3;
             currculumLearningSetupMode.randomTileAmount = false;
-            currculumLearningSetupMode.set = 100;
-            currculumLearningSetupMode.PlaceAllManual = true;
-            currculumLearningSetupMode.AddOneTile = false;
-            currculumLearningSetupMode.MoveExisting = false;
-            currculumLearningSetupMode.guidanceStrength = 1.0f;
-            currculumLearningSetupMode.preparedSeqOnBoard = false;
-            currculumLearningSetupMode.isSeqToFilch = false;
-            currculumLearningSetupMode.seqAmount = 5;
-            allowedActions = new bool[] { true, false, false, false, false, true };
+            currculumLearningSetupMode.setAndGroup = false;
+            currculumLearningSetupMode.constraintMoves = 5;
 
-        }
-        if (this.trainingIndex == 2) //to samo ale grupy - dwie p³ytki i dok³adanie jednej
-        {
-            currculumLearningSetupMode.boardAvailability = oneLine;
-            currculumLearningSetupMode.jokerChances = 0;
-            currculumLearningSetupMode.tileAmount = 3;
-            currculumLearningSetupMode.randomTileAmount = false;
-            currculumLearningSetupMode.set = 0;
             currculumLearningSetupMode.PlaceAllManual = false;
             currculumLearningSetupMode.AddOneTile = true;
             currculumLearningSetupMode.MoveExisting = false;
+
             currculumLearningSetupMode.guidanceStrength = 1.0f;
-            currculumLearningSetupMode.preparedSeqOnBoard = false;
+
             currculumLearningSetupMode.isSeqToFilch = false;
-            currculumLearningSetupMode.seqAmount = 5;
-            allowedActions = new bool[] { true, false, false, false, false, true };
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, false, false, false, true };
+            SetAllowedActions(true, false, false, false, false, true);
         }
-        if (this.trainingIndex == 3) //to samo ale grupy - dwie p³ytki i dok³adanie jednej
-                                     // TYMCZASOWO PRZESUWANIE P£YTEK
+        else if (this.trainingIndex == 0) 
+        {
+            currculumLearningSetupMode.boardAvailability = oneLine;
+            currculumLearningSetupMode.jokerChances = 0;
+            currculumLearningSetupMode.tileAmount = 3;
+            currculumLearningSetupMode.set = 100;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+            currculumLearningSetupMode.constraintMoves = 5;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = true;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 1.0f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, false, false, false, true };
+            SetAllowedActions(true, false, false, false, false, true);
+        }//dodawanie p³ytek do serii - ju¿ s¹ dwie p³ytki i musi do³o¿yæ 3.
+        else if (this.trainingIndex == 1) 
+        {
+            currculumLearningSetupMode.boardAvailability = oneLine;
+            currculumLearningSetupMode.jokerChances = 0;
+            currculumLearningSetupMode.tileAmount = 3;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.set = 100;
+            currculumLearningSetupMode.setAndGroup = false;
+            currculumLearningSetupMode.constraintMoves = 8;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 1.0f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, false, false, false, true };
+            SetAllowedActions(true, false, false, false, false, true);
+
+        }//k³adzenie ca³ej serii 3 p³ytek
+        else if (this.trainingIndex == 2) 
+        {
+            currculumLearningSetupMode.boardAvailability = oneLine;
+            currculumLearningSetupMode.jokerChances = 0;
+            currculumLearningSetupMode.tileAmount = 3;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.set = 0;
+            currculumLearningSetupMode.setAndGroup = false;
+            currculumLearningSetupMode.constraintMoves = 5;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = true;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 1.0f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+            SetAllowedActions(true, false, false, false, false, true);
+            currculumLearningSetupMode.finalPhase = false;
+        }//grupy, 2 p³ytki po³o¿one i agent ma do³o¿yæ 3.
+        else if (this.trainingIndex == 3) 
+
         {
             currculumLearningSetupMode.boardAvailability = oneLine;
             currculumLearningSetupMode.jokerChances = 0;
             currculumLearningSetupMode.tileAmount = 3;
             currculumLearningSetupMode.set = 0;
+            currculumLearningSetupMode.setAndGroup = false;
+            currculumLearningSetupMode.constraintMoves = 8;
+
             currculumLearningSetupMode.PlaceAllManual = true;
             currculumLearningSetupMode.AddOneTile = false;
             currculumLearningSetupMode.MoveExisting = false;
+
             currculumLearningSetupMode.guidanceStrength = 1.0f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
             currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+            SetAllowedActions(true, false, false, false, false, true);
+            currculumLearningSetupMode.finalPhase = false;
+        }//k³adzenie pe³ne swojej grupy 3
+        else if (this.trainingIndex == 4) 
+        {
+            currculumLearningSetupMode.boardAvailability = oneLine;
+            currculumLearningSetupMode.jokerChances = 0;
+            currculumLearningSetupMode.tileAmount = 3;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+            currculumLearningSetupMode.constraintMoves = 8;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 1.0f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+            SetAllowedActions(true, false, false, false, false, true);
+            currculumLearningSetupMode.finalPhase = false;
+        }//losowo grupa albo seria do po³o¿enia samemu, 3 p³ytki
+        else if (this.trainingIndex == 5) 
+        {
+            currculumLearningSetupMode.boardAvailability = oneLine;
+            currculumLearningSetupMode.jokerChances = 0;
+            currculumLearningSetupMode.tileAmount = 4;
+            currculumLearningSetupMode.set = 60;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+            currculumLearningSetupMode.constraintMoves = 10;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.95f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+            SetAllowedActions(true, false, false, false, false, true);
+            currculumLearningSetupMode.finalPhase = false;
+        }//zwiêkszenie iloœci do 4
+        else if (this.trainingIndex == 6) 
+        {
+            currculumLearningSetupMode.boardAvailability = oneLine;
+            currculumLearningSetupMode.jokerChances = 0;
+            currculumLearningSetupMode.tileAmount = 4;
+            currculumLearningSetupMode.set = 60;
+            currculumLearningSetupMode.randomTileAmount = true;
+            currculumLearningSetupMode.setAndGroup = false;
+            currculumLearningSetupMode.constraintMoves = 10;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.95f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+            SetAllowedActions(true, false, false, false, false, true);
+            currculumLearningSetupMode.finalPhase = false;
+        }//losowa iloœæ p³ytek, 3 lub 4
+        else if(this.trainingIndex == 7) 
+        {
+            currculumLearningSetupMode.boardAvailability = oneLine;
+            currculumLearningSetupMode.jokerChances = 0;
+            currculumLearningSetupMode.tileAmount = 4;
+            currculumLearningSetupMode.set = 60;
+            currculumLearningSetupMode.randomTileAmount = true;
+            currculumLearningSetupMode.setAndGroup = true;
+            currculumLearningSetupMode.constraintMoves = 20;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.95f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+            SetAllowedActions(true, false, false, false, false, true);
+        }//jest i grupa i seria
+        else if (this.trainingIndex == 8) 
+        {
+            currculumLearningSetupMode.boardAvailability = oneLine;
+            currculumLearningSetupMode.jokerChances = 0;
+            currculumLearningSetupMode.tileAmount = 3;
+            currculumLearningSetupMode.set = 100;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+            currculumLearningSetupMode.constraintMoves = 6;//powinno byæ 5 tbh
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = true;
+
+            currculumLearningSetupMode.guidanceStrength = 0.95f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { false, false, true, false, false, true };
+            SetAllowedActions(false, false, true, false, false, true);
+        }//nauka przesuwania p³ytek, najpierw 3 p³ytki i serie tylko
+        else if (this.trainingIndex == 9) 
+        {
+            currculumLearningSetupMode.boardAvailability = oneLine;
+            currculumLearningSetupMode.jokerChances = 0;
+            currculumLearningSetupMode.tileAmount = 3;
+            currculumLearningSetupMode.set = 0;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+            currculumLearningSetupMode.constraintMoves = 6;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = true;
+
+            currculumLearningSetupMode.guidanceStrength = 0.95f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { false, false, true, false, false, true };
+            SetAllowedActions(false, false, true, false, false, true);
+        }//nauka przesuwania p³ytek, najpierw 3 p³ytki i grupa tylko
+        else if (this.trainingIndex == 10) {
+            currculumLearningSetupMode.boardAvailability = oneLine;
+            currculumLearningSetupMode.jokerChances = 0;
+            currculumLearningSetupMode.tileAmount = 4;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+            currculumLearningSetupMode.constraintMoves = 7;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = true;
+
+            currculumLearningSetupMode.guidanceStrength = 0.9f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { false, false, true, false, false, true };
+            SetAllowedActions(false, false, true, false, false, true);
+        }//przesuwanie,4 p³ytki, grupa albo seria
+        else if (this.trainingIndex == 11) {
+            currculumLearningSetupMode.boardAvailability = oneLine;
+            currculumLearningSetupMode.jokerChances = 0;
+            currculumLearningSetupMode.tileAmount = 4;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = true;
+            currculumLearningSetupMode.setAndGroup = false;
+            currculumLearningSetupMode.constraintMoves = 7;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = true;
+
+            currculumLearningSetupMode.guidanceStrength = 0.9f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { false, false, true, false, false, true };
+            SetAllowedActions(false, false, true, false, false, true);
+        }//przesuwanie, losowo miêdzy 3-4 p³ytki, grupa lub seria
+        else if (this.trainingIndex == 12) {
+            currculumLearningSetupMode.boardAvailability = oneLine;
+            currculumLearningSetupMode.jokerChances = 100;
+            currculumLearningSetupMode.tileAmount = 3;
+            currculumLearningSetupMode.set = 100;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+            currculumLearningSetupMode.constraintMoves = 7;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = true;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.9f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, false, false, false, true };
+            SetAllowedActions(true, false, false, false, false, true);
+        } //k³adzenie jednej do serii, ale joker na 100% siê pojawia, tylko seria
+        else if (this.trainingIndex == 13) {
+            currculumLearningSetupMode.boardAvailability = oneLine;
+            currculumLearningSetupMode.jokerChances = 100;
+            currculumLearningSetupMode.tileAmount = 3;
+            currculumLearningSetupMode.set = 100;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.9f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, false, false, false, true };
+            SetAllowedActions(true, false, false, false, false, true);
+        }// k³adzenie ca³ej serii z jokerem
+         else if (this.trainingIndex == 14) {
+            currculumLearningSetupMode.boardAvailability = oneLine;
+            currculumLearningSetupMode.jokerChances = 100;
+            currculumLearningSetupMode.tileAmount = 3;
+            currculumLearningSetupMode.set = 0;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+            currculumLearningSetupMode.constraintMoves = 5;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = true;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.9f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, false, false, false, true };
+            SetAllowedActions(true, false, false, false, false, true);
+        }//dok³adanie do grupy, 3 p³ytki, joker
+         else if (this.trainingIndex == 15) 
+         {
+            currculumLearningSetupMode.boardAvailability = oneLine;
+            currculumLearningSetupMode.jokerChances = 100;
+            currculumLearningSetupMode.tileAmount = 3;
+            currculumLearningSetupMode.set = 0;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.85f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, false, false, false, true };
+            SetAllowedActions(true, false, false, false, false, true);
+        }//k³adzenie ca³ej grupy, joker, 3 p³ytki
+         else if (this.trainingIndex == 16) 
+        {
+            currculumLearningSetupMode.boardAvailability = oneLine;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 4;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.85f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, false, false, false, true };
+            SetAllowedActions(true, false, false, false, false, true);
+        }//losowo seria/grupa, joker randomowo, 4 p³ytki
+         else if (this.trainingIndex == 17) 
+        {
+            currculumLearningSetupMode.boardAvailability = oneLine*2;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 4;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = true;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.85f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, false, false, false, true };
+            SetAllowedActions(true, false, false, false, false, true);
+        }//wiêcej przestrzeni (48 pól)/ randomowo 3-4 p³ytki
+         else if (this.trainingIndex == 18) {
+            currculumLearningSetupMode.boardAvailability = oneLine*2;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 5;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.85f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+           // allowedActions = new bool[] { true, false, false, false, false, true };
+            SetAllowedActions(true, false, false, false, false, true);
+        }//wiêcej p³ytek, 5, sta³a liczba
+         else if (this.trainingIndex == 19) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 2;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 5;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.85f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = false;
+            currculumLearningSetupMode.seqAmount = 0;
+            currculumLearningSetupMode.onlyJoker = false;
+           // allowedActions = new bool[] { true, false, true, false, false, true };
+            SetAllowedActions(true, false, true, false, false, true);
+        }//k³adzenie p³ytek i przesuwanie razem
+        else if (this.trainingIndex == 20)
+        {
+            currculumLearningSetupMode.boardAvailability = oneLine * 2;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 6;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = true;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.8f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 0;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 3;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, true, false, false, true };
+            SetAllowedActions(true, false, true, false, false, true);
+        }//sam joker w rêce do po³o¿enia na planszy, 3 losowe sekwencje na planszy
+         else if (this.trainingIndex == 21) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 2;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 3;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.8f;
+
+            currculumLearningSetupMode.isSeqToFilch = true;
+            currculumLearningSetupMode.amountToFilch = 1;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 1;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, true, false, false, true };
+            SetAllowedActions(true, false, true, false, false, true);
+        }// 3 p³ytki, joker, dwie linie, seria lub grupa, nauka podbierania p³ytek z innych sekwencji
+         else if (this.trainingIndex == 22) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 2;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 4;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = true;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.8f;
+
+            currculumLearningSetupMode.isSeqToFilch = true;
+            currculumLearningSetupMode.amountToFilch = 1;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 1;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, true, false, false, true };
+            SetAllowedActions(true, false, true, false, false, true);
+        }// 4 p³ytki, joker, dwie linie, seria lub grupa, nauka podbierania p³ytek z innych sekwencji
+         else if (this.trainingIndex == 23) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 2;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 5;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = true;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.8f;
+
+            currculumLearningSetupMode.isSeqToFilch = true;
+            currculumLearningSetupMode.amountToFilch = 1;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 1;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, true, false, false, true };
+            SetAllowedActions(true, false, true, false, false, true);
+        }// 5 p³ytki, joker, dwie linie, seria lub grupa, nauka podbierania p³ytek z innych sekwencji
+         else if (this.trainingIndex == 24) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 3;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 5;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = true;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.8f;
+
+            currculumLearningSetupMode.isSeqToFilch = true;
+            currculumLearningSetupMode.amountToFilch = 1;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 1;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, true, false, false, true };
+            SetAllowedActions(true, false, true, false, false, true);
+        }//wiêksza plansza (72) 3 linie, 5 p³ytki, joker, seria lub grupa, nauka podbierania p³ytek z innych sekwencji
+         else if (this.trainingIndex == 25) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 3;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 5;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = true;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.75f;
+
+            currculumLearningSetupMode.isSeqToFilch = true;
+            currculumLearningSetupMode.amountToFilch = 1;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 2;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, true, false, false, true };
+            SetAllowedActions(true, false, true, false, false, true);
+        }//3 linie mapy,  5 p³ytki, joker, seria lub grupa, wiêcej dodatkowych sekwencji
+         else if (this.trainingIndex == 26) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 4;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 5;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = true;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.75f;
+
+            currculumLearningSetupMode.isSeqToFilch = true;
+            currculumLearningSetupMode.amountToFilch = 1;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 2;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, true, false, false, true };
+            SetAllowedActions(true, false, true, false, false, true);
+        }//wiêksza plansza, 4 linie, 5 p³ytek, losowa iloœæ, grupa albo seria
+         else if (this.trainingIndex == 27) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 4;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 5;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = true;
+            currculumLearningSetupMode.setAndGroup = true;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.75f;
+
+            currculumLearningSetupMode.isSeqToFilch = true;
+            currculumLearningSetupMode.amountToFilch = 1;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 2;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, true, false, false, true };
+            SetAllowedActions(true, false, true, false, false, true);
+        }//grupa i seria,
+        else if (this.trainingIndex == 28) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 4;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 5;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = true;
+            currculumLearningSetupMode.setAndGroup = true;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.75f;
+
+            currculumLearningSetupMode.isSeqToFilch = true;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 2;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, true, false, false, true };
+            SetAllowedActions(true, false, true, false, false, true);
+        }//amountToFilch = 2,(to teraz random miêdzy 1 i 2)
+         else if (this.trainingIndex == 29) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 5;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 5;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = true;
+            currculumLearningSetupMode.setAndGroup = true;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.75f;
+
+            currculumLearningSetupMode.isSeqToFilch = true;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 2;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, true, false, false, true };
+            SetAllowedActions(true, false, true, false, false, true);
+        }//wiêcej miejsca, 5 linii
+         else if (this.trainingIndex == 30) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 5;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 5;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = true;
+            currculumLearningSetupMode.setAndGroup = true;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.7f;
+
+            currculumLearningSetupMode.isSeqToFilch = true;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 4;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, true, false, false, true };
+            SetAllowedActions(true, false, true, false, false, true);
+        }//wiêcej sekwencji na mapie
+         else if (this.trainingIndex == 31) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 5;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 5;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = true;
+            currculumLearningSetupMode.setAndGroup = true;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.7f;
+
+            currculumLearningSetupMode.isSeqToFilch = true;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 4;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, true, false, true, true };
+            SetAllowedActions(true, false, true, false, true, true);
+        }//dodanie funkcji undo
+         else if (this.trainingIndex == 32) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 5;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 5;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = true;
+            currculumLearningSetupMode.setAndGroup = true;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.7f;
+
+            currculumLearningSetupMode.isSeqToFilch = true;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 4;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, true, true, true, true };
+            SetAllowedActions(true, false, true, true, true, true);
+        }//dodanie funkcji dobierania p³ytek
+         else if (this.trainingIndex == 33)
+        {
+            currculumLearningSetupMode.boardAvailability = oneLine * 5;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 6;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.7f;
+
+            currculumLearningSetupMode.isSeqToFilch = true;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 4;
+            currculumLearningSetupMode.onlyJoker = false;
+            //allowedActions = new bool[] { true, false, true, true, true, true };
+            SetAllowedActions(true, false, true, true, true, true);
+        }//wiêksza iloœæ p³ytek, nielosowe
+         else if (this.trainingIndex == 34) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 5;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 7;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = true;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.7f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 4;
+            currculumLearningSetupMode.onlyJoker = false;
+            currculumLearningSetupMode.finalPhase = false;
+            currculumLearningSetupMode.finalTileAmount = 4;
+            //allowedActions = new bool[] { true, false, true, true, true, true };
+            SetAllowedActions(true, false, true, true, true, true);
+        } // wiêcej p³ytek, 
+         else if (this.trainingIndex == 35)
+        {
+            currculumLearningSetupMode.boardAvailability = oneLine * 5;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 7;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.65f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
             currculumLearningSetupMode.seqAmount = 5;
-            allowedActions = new bool[] { true, false, false, false, false, true };
+            currculumLearningSetupMode.onlyJoker = false;
+            currculumLearningSetupMode.finalPhase = true;
+            currculumLearningSetupMode.finalTileAmount = 1;
+            //allowedActions = new bool[] { true, false, true, true, true, true };
+            SetAllowedActions(true, false, true, true, true, true);
+        } //random tiles, 1 ,final phase
+         else if (this.trainingIndex == 36) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 5;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 7;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.65f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 5;
+            currculumLearningSetupMode.onlyJoker = false;
+            currculumLearningSetupMode.finalPhase = true;
+            currculumLearningSetupMode.finalTileAmount = 2;
+            //allowedActions = new bool[] { true, false, true, true, true, true };
+            SetAllowedActions(true, false, true, true, true, true);
+        }// 2 random tiles
+         else if (this.trainingIndex == 37) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 6;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 7;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.65f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 5;
+            currculumLearningSetupMode.onlyJoker = false;
+            currculumLearningSetupMode.finalPhase = true;
+            currculumLearningSetupMode.finalTileAmount = 3;
+            //allowedActions = new bool[] { true, false, true, true, true, true };
+            SetAllowedActions(true, false, true, true, true, true);
+        } //3 random tiles, wiêksza mapa
+         else if (this.trainingIndex == 38) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 6;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 7;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.65f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 5;
+            currculumLearningSetupMode.onlyJoker = false;
+            currculumLearningSetupMode.finalPhase = true;
+            currculumLearningSetupMode.finalTileAmount = 4;
+            //allowedActions = new bool[] { true, false, true, true, true, true };
+            SetAllowedActions(true, false, true, true, true, true);
+        }//4 random tiles, wiêcej sekwencji
+         else if (this.trainingIndex == 39) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 7;
+            currculumLearningSetupMode.jokerChances = 40;
+            currculumLearningSetupMode.tileAmount = 7;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.65f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 5;
+            currculumLearningSetupMode.onlyJoker = false;
+            currculumLearningSetupMode.finalPhase = true;
+            currculumLearningSetupMode.finalTileAmount = 4;
+            //allowedActions = new bool[] { true, false, true, true, true, true };
+            SetAllowedActions(true, false, true, true, true, true);
+        }//wiêcej miejsca
+         else if (this.trainingIndex == 40)
+        {
+            currculumLearningSetupMode.boardAvailability = oneLine * 7;
+            currculumLearningSetupMode.jokerChances = 30;
+            currculumLearningSetupMode.tileAmount = 7;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.6f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 5;
+            currculumLearningSetupMode.onlyJoker = false;
+            currculumLearningSetupMode.finalPhase = true;
+            currculumLearningSetupMode.finalTileAmount = 6;
+            //allowedActions = new bool[] { true, false, true, true, true, true };
+            SetAllowedActions(true, false, true, true, true, true);
+        }//wiêcej random p³ytek, 6
+         else if (this.trainingIndex == 41) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 7;
+            currculumLearningSetupMode.jokerChances = 30;
+            currculumLearningSetupMode.tileAmount = 7;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.6f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 5;
+            currculumLearningSetupMode.onlyJoker = false;
+            currculumLearningSetupMode.finalPhase = true;
+            currculumLearningSetupMode.finalTileAmount = 9;
+            //allowedActions = new bool[] { true, false, true, true, true, true };
+            SetAllowedActions(true, false, true, true, true, true);
+        }//9 random p³ytek
+         else if (this.trainingIndex == 42) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 8;
+            currculumLearningSetupMode.jokerChances = 30;
+            currculumLearningSetupMode.tileAmount = 7;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.6f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 5;
+            currculumLearningSetupMode.onlyJoker = false;
+            currculumLearningSetupMode.finalPhase = true;
+            currculumLearningSetupMode.finalTileAmount = 10;
+            //allowedActions = new bool[] { true, false, true, true, true, true };
+            SetAllowedActions(true, false, true, true, true, true);
+        }//10 random p³ytek, wiêksza mapa
+        else if (this.trainingIndex == 43 )
+        {
+            currculumLearningSetupMode.boardAvailability = oneLine * 9;
+            currculumLearningSetupMode.jokerChances = 30;
+            currculumLearningSetupMode.tileAmount = 7;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.6f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 5;
+            currculumLearningSetupMode.onlyJoker = false;
+            currculumLearningSetupMode.finalPhase = true;
+            currculumLearningSetupMode.finalTileAmount = 10;
+            //allowedActions = new bool[] { true, false, true, true, true, true };
+            SetAllowedActions(true, false, true, true, true, true);
+        }//wiêksza mapa
+        else if (this.trainingIndex == 44) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 9;
+            currculumLearningSetupMode.jokerChances = 30;
+            currculumLearningSetupMode.tileAmount = 7;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.6f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 5;
+            currculumLearningSetupMode.onlyJoker = false;
+            currculumLearningSetupMode.finalPhase = true;
+            currculumLearningSetupMode.finalTileAmount = 12;
+            //allowedActions = new bool[] { true, false, true, true, true, true };
+            SetAllowedActions(true, false, true, true, true, true);
+        }//wiêcej random p³ytek, 12
+        else if (this.trainingIndex == 45) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 9;
+            currculumLearningSetupMode.jokerChances = 30;
+            currculumLearningSetupMode.tileAmount = 7;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.55f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 7;
+            currculumLearningSetupMode.onlyJoker = false;
+            currculumLearningSetupMode.finalPhase = true;
+            currculumLearningSetupMode.finalTileAmount = 14;
+            //allowedActions = new bool[] { true, false, true, true, true, true };
+            SetAllowedActions(true, false, true, true, true, true);
+        } //ostateczna iloœæ random tiles, wiêcej sekwencji
+        else if (this.trainingIndex == 46) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 10;
+            currculumLearningSetupMode.jokerChances = 30;
+            currculumLearningSetupMode.tileAmount = 7;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.5f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 7;
+            currculumLearningSetupMode.onlyJoker = false;
+            currculumLearningSetupMode.finalPhase = true;
+            currculumLearningSetupMode.finalTileAmount = 14;
+            //allowedActions = new bool[] { true, false, true, true, true, true };
+            SetAllowedActions(true, false, true, true, true, true);
+        }//ostateczna mapa
+        else if (this.trainingIndex == 47) {
+            currculumLearningSetupMode.boardAvailability = oneLine * 10;
+            currculumLearningSetupMode.jokerChances = 30;
+            currculumLearningSetupMode.tileAmount = 7;
+            currculumLearningSetupMode.set = 50;
+            currculumLearningSetupMode.randomTileAmount = false;
+            currculumLearningSetupMode.setAndGroup = false;
+
+            currculumLearningSetupMode.PlaceAllManual = false;
+            currculumLearningSetupMode.AddOneTile = false;
+            currculumLearningSetupMode.MoveExisting = false;
+
+            currculumLearningSetupMode.guidanceStrength = 0.5f;
+
+            currculumLearningSetupMode.isSeqToFilch = false;
+            currculumLearningSetupMode.amountToFilch = 2;
+
+            currculumLearningSetupMode.preparedSeqOnBoard = true;
+            currculumLearningSetupMode.seqAmount = 10;
+            currculumLearningSetupMode.onlyJoker = false;
+            currculumLearningSetupMode.finalPhase = true;
+            currculumLearningSetupMode.finalTileAmount = 14;
+            //allowedActions = new bool[] { true, true, true, true, true, true };
+            SetAllowedActions(true, true, true, true, true, true);
+        } //dodanie usuwania, wiêcej sekwencji na mapie
+        //else if (this.trainingIndex == ) {}
+        else
+        {
+            Debug.Log("<color=green>Curriculum Learning ukoñczone! Zapisywanie i zamykanie...</color>");
+            EndEpisode();
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         }
+        
     }
     /// <summary>
     /// funkcja do znalezienia pozycji do po³o¿enia p³ytek na mapie dla serii/grupy
@@ -1512,6 +3121,7 @@ public class PlayerAI : Agent
         objectPlacer.SetPlacedGameObjectsCopy();///zapisanie kopii objectPlacer
         placementSystem.GetGridData().SaveCopyDictionary();///zapisanie kopii GridData
         GameController.Instance.gameTurnManager.EndTurn();//zmiana wszystkich p³ytek na planszy na put = true
+        GameController.Instance.NewTurn();
 
     }
 
@@ -1571,22 +3181,30 @@ public class PlayerAI : Agent
         return false;
     }
     /// <summary>
-    /// funkcja do cofniêcia akcji wykonanych przez agenta,
+    /// funkcja do cofniêcia akcji wykonanych przez agenta, aka UndoAction
     /// bez nadawania kary, s³u¿y do zresetowania akcji agenta gdy zrobi³ coœ Ÿle i zakoñczy³ turê
     /// </summary>
     void Revoke_CurriculumLearning()
     {
         //przyznaæ ujemne punkty za anulowanie
         //w zale¿noœci od iloœci wracaj¹cych p³ytek
+        int returnedTilesCount = AIPlayerHandCopy.Count - AIPlayerHand.Count;
         if (GameController.Instance.gameTurnManager.turnController.MapContents())
         {
+            
+            if (returnedTilesCount > 0)
+            {
+                float revokePenalty = returnedTilesCount * -0.02f;
+                AddReward(revokePenalty * currculumLearningSetupMode.guidanceStrength);
+            }
+            
 
             if (GameController.Instance.GetBoardDictionaryList().Count != 0)
             {
                 int index = GameController.Instance.GetBoardDictionaryList().Count - 1;
                 placementSystem.GetGridData().RestoreCopyDictionary();
                 GameController.Instance.GetBoardDictionary().SaveDictionary(GameController.Instance.GetBoardDictionaryList()[index].board);
-                RestoreCopyList();
+                RestoreCopyList_CurriculumLearning();
                 GameController.Instance.gameTurnManager.turnController.Restore3DMap();
             }
             else
@@ -1595,7 +3213,7 @@ public class PlayerAI : Agent
                 {
                     objectPlacer.ClearplacedGameObjects();
                     GameController.Instance.GetBoardDictionary().board.Clear();
-                    RestoreCopyList();
+                    RestoreCopyList_CurriculumLearning();
                     placementSystem.GetGridData().GetDictionary().Clear();
                     GameController.Instance.gameTurnManager.turnController.RemoveAllChildren();
                 }
@@ -1604,7 +3222,10 @@ public class PlayerAI : Agent
 
             
         }
-        
+        else if (returnedTilesCount == 0)
+        {
+            AddReward(-0.01f);
+        }
     }
     /// <summary>
     /// funkcja do "zabrania" jednej p³ytki od agenta aby zrobiæ seriê lub grupê z t¹ p³ytk¹ - 
@@ -1614,14 +3235,34 @@ public class PlayerAI : Agent
     /// <param name="tilesToExtend">ile p³ytek zostanie zabrane z rêki agenta</param>
     /// <param name="tileAmount">ile p³ytek bêdzie w sekwencji na mapie, jeœli tilesToExtend = 1 to minimum musi byæ 4, gdy tilesToExtend = 2 to minimum musi byæ 5</param>
     /// </summary>
-    void SeqToFilch(int tilesToExtend,int tileAmount, ref List<Tile> tiles)
+    void SeqToFilch(int tilesToExtend,int tileAmount, ref List<Tile> tiles, int availableBoardAmount)
     {
         //ile p³ytek zabraæ z rêki agenta
-        int idx = Random.Range(0, AIPlayerHand.Count);//index p³ytki który zostanie podebrany
+        int idx;
         List<Tile> seq = new List<Tile>();
+        tilesToExtend = Mathf.Clamp(tilesToExtend, 1, 2);
+        if (tilesToExtend == 2)
+        {
+            idx = Random.Range(0, AIPlayerHand.Count() - 1);
+            seq.Add(AIPlayerHand[idx]);
+            AIPlayerHand.RemoveAt(idx);
+            seq.Add(AIPlayerHand[idx]);
+            AIPlayerHand.RemoveAt(idx);
+            //Debug.Log("Zabranie: "+ seq[0].GetTilename() + " i " + seq[1].GetTilename());
+        }
+        else
+        {
+            idx = Random.Range(0, AIPlayerHand.Count());
+            seq.Add(AIPlayerHand[idx]);
+            AIPlayerHand.RemoveAt(idx);
+           // Debug.Log("Zabranie: " + seq[0].GetTilename());
+        }
+        //int idx = Random.Range(0, AIPlayerHand.Count);//index p³ytki który zostanie podebrany
+        
 
         SaveListToCopy();
-
+        CreateSeq(ref tiles, ref seq,ref tileAmount, 50, 10);
+        TrainingPutingManySeq(tileAmount, availableBoardAmount,ref seq);
     }
     /// <summary>
     /// Funkcja do po³ozenia losowej iloœci gotowych sekwencji na mapie
@@ -1786,45 +3427,78 @@ public class PlayerAI : Agent
 
     }
 
-
-    void CreateSeq(ref List<Tile> tiles, ref List<Tile> seq, ref int tileAmount, int Set, int Joker, bool randomTileAmount)
+    /// <summary>
+    /// funkcja do zrobienia sekwencji do po³o¿enia na planszê w oparciu o to co ju¿ jest w w liœcie seq
+    /// </summary>
+    /// <param name="tiles"></param>
+    /// <param name="seq"></param>
+    /// <param name="tileAmount"></param>
+    /// <param name="Set"></param>
+    /// <param name="Joker"></param>
+    void CreateSeq(ref List<Tile> tiles, ref List<Tile> seq, ref int tileAmount, int Set, int Joker)
     {
         //AIPlayerHand = new();
         //AIPlayerHandCopy = new();
         //int joker = tiles.FindIndex(t => t.GetNumber() == 30);
         if (tiles.FindIndex(t => t.GetNumber() == 30) == -1) Joker = 0;
-        bool isJoker = Random.Range(0, 100) < Joker;
-
+        bool jokerAlreadyInSeq = seq.Any(t => t.GetNumber() == 30);
+        bool isJoker = jokerAlreadyInSeq? false : Random.Range(0, 100) < Joker;
+        UnityEngine.Color[] cols = { UnityEngine.Color.red, new UnityEngine.Color(1f, 0.5f, 0f), UnityEngine.Color.black, UnityEngine.Color.blue };
         bool isSet;
         UnityEngine.Color seqColor = new UnityEngine.Color();
+        int maxNum;
+        int minNum;
+        //seqColor = seq[0].GetColor();
         //bool firstOrLast = Random>r
-        if (seq.Count == 2)
+        if (jokerAlreadyInSeq)
         {
-            isSet = true;
-            seqColor = seq[0].GetColor();
-        }
-        else isSet = Random.Range(0, 100) < Set;
+            if (seq.Count >= 2)
+            {
+                Tile normalTile = seq.FirstOrDefault(t => t.GetNumber() != 30);
+                isSet = true;
+                seqColor = normalTile.GetColor();
+                minNum = normalTile.GetNumber();
+                maxNum = minNum;
 
+            }
+            else
+            {
+                isSet = Random.Range(0, 100) < Set;
+                seqColor = cols[Random.Range(0, 4)];
+                minNum = Random.Range(1, 10); // Losowy start
+                maxNum = minNum;
+            }
+        }
+        else //nie ma jokera w seq
+        {
+            if (seq.Count >= 2)
+            {
+                isSet = true;
+                seqColor = seq[0].GetColor();
+                minNum = seq[0].GetNumber();
+                maxNum = seq[1].GetNumber();
+
+            }
+            else
+            {
+                isSet = Random.Range(0, 100) < Set;
+                seqColor = seq[0].GetColor();
+                minNum = seq[0].GetNumber();
+                maxNum = seq[0].GetNumber();
+            }
+        }
         //wykrywanie jakie liczby i kolory
 
 
         //bool 
-        if (isSet || seq.Count>1)
-            tileAmount = Mathf.Clamp(tileAmount, 3, 13-seq.Count);
+        if (isSet || seq.Count() >1)
+            tileAmount = Mathf.Clamp(tileAmount, 3 + seq.Count(), 13);
         else
-            tileAmount = 3;
+            tileAmount = 4;
 
-        if (randomTileAmount)
-            tileAmount = Random.Range(3, tileAmount + 1);
-        int normalTilesAmount = isJoker ? tileAmount - 1 : tileAmount;
-        // playerHand = new ();S
-        //int TileIndex;
-        //int amount = 3
-        //zabezpieczyæ przed tworzeniem sekwencji w których brakuje p³ytek
-
-
-
-        UnityEngine.Color[] cols = { UnityEngine.Color.red, new UnityEngine.Color(1f, 0.5f, 0f), UnityEngine.Color.black, UnityEngine.Color.blue };
+        int neededFromBank = isJoker ? (tileAmount - seq.Count - 1) : (tileAmount - seq.Count);
+        if (neededFromBank < 0) neededFromBank = 0;
+        
         bool sequenceReady = false;
         int safetyIterator = 0;
         while (!sequenceReady && safetyIterator < 100)
@@ -1834,19 +3508,40 @@ public class PlayerAI : Agent
             bool allFound = true;
             if (isSet)
             {
+               
+                bool up = Random.value > 0.5f;
 
-                int randomColorIdx = Random.Range(0, 4);
-                UnityEngine.Color selectedCol = cols[randomColorIdx];
-                int totalSpan = isJoker ? normalTilesAmount + 1 : normalTilesAmount;
-                int maxPossibleStart = 13 - totalSpan + 1;
-                int startNum = Random.Range(1, maxPossibleStart + 1);
+                int startNum;
+                if (up)
+                {
+                    if(maxNum + neededFromBank <= 13)
+                    {
+                        startNum = maxNum + 1;
+                    }
+                    else 
+                    {
+                        startNum = minNum - neededFromBank;
+                    }
+                }
+                else
+                {
+                    
+                    if (minNum - neededFromBank >= 1)
+                    {
+                        startNum = minNum - neededFromBank;
+                    }
+                    else 
+                    {
+                        startNum = maxNum + 1;
+                    }
+                }
 
+                if (startNum < 1 || startNum + neededFromBank - 1 > 13) allFound = false;
 
-
-                for (int i = 0; i < normalTilesAmount; i++)
+                for (int i = 0; i < neededFromBank; i++)
                 {
                     int targetNum = startNum + i;
-                    int foundIndex = tiles.FindIndex(t => t.GetNumber() == targetNum && t.GetColor() == selectedCol);
+                    int foundIndex = tiles.FindIndex(t => t.GetNumber() == targetNum && t.GetColor() == seqColor);
 
                     if (foundIndex != -1) foundIndices.Add(foundIndex);
                     else { allFound = false; break; }
@@ -1854,11 +3549,13 @@ public class PlayerAI : Agent
             }
             else //group
             {
-                int targetNum = Random.Range(1, 14);
+                int targetNum = seq[0].GetNumber();
                 List<UnityEngine.Color> availableColors = new List<UnityEngine.Color>(cols);
+                foreach (var t in seq) availableColors.Remove(t.GetColor());
 
-                for (int i = 0; i < normalTilesAmount; i++)
+                for (int i = 0; i < neededFromBank; i++)
                 {
+                    if (availableColors.Count == 0) { allFound = false; break; }
                     int colorIdx = Random.Range(0, availableColors.Count);
                     UnityEngine.Color selectedCol = availableColors[colorIdx];
 
@@ -1878,6 +3575,7 @@ public class PlayerAI : Agent
                 jokerIdx = tiles.FindIndex(t => t.GetNumber() == 30);
                 if (jokerIdx == -1) allFound = false;
             }
+
             if (allFound)
             {
                 if (isJoker) foundIndices.Add(jokerIdx);
@@ -1891,6 +3589,19 @@ public class PlayerAI : Agent
                 {
 
                     seq = seq.OrderBy(t => t.GetNumber()).ToList();
+                    if (seq.Count > 1)
+                    {
+                        Tile lastTile = seq[seq.Count - 1];
+                        Tile secondLastTile = seq[seq.Count - 2];
+
+                        
+                        if (lastTile.GetNumber() == 30 && secondLastTile.GetNumber() == 13)
+                        {
+                           
+                            seq.RemoveAt(seq.Count - 1);
+                            seq.Insert(0, lastTile);
+                        }
+                    }
                 }
                 sequenceReady = true;
             }
@@ -1899,5 +3610,16 @@ public class PlayerAI : Agent
         }
 
       
+    }
+
+    void MovesIncrement()
+    {
+        amountOfMoves++;
+        if(amountOfMoves>= currculumLearningSetupMode.constraintMoves)
+        {
+            amountOfMoves = 0;
+            rewardsCurrculumLearning.isWin = false;
+            GameController.Instance.EndGame();//by ca³y reset mapy by³
+        }
     }
 }
