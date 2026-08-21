@@ -1,0 +1,11 @@
+﻿Run,Agent,EndStep,EndStepThousands,ReachedLevel12,StopReason,ActiveTrainingHours,ElapsedHours,ExcludedGapHours,LongGapCount,FirstTimestamp,LastTimestamp,LevelFile
+1,PPO_baseline,1050000,1050.0,True,Level 12 reached,7.455698236955537,18.805029528074794,11.349331291119258,1,2026-07-27 20:35:12.667392015,2026-07-28 15:23:30.773693085,/content/baseline/PPO_baseline/Curriculum_Level.csv
+2,PPO_baseline_no1,2000000,2000.0,False,Step limit reached,9.166627123885684,9.166627123885684,0.0,0,2026-07-29 18:00:21.228116512,2026-07-30 03:10:21.085762501,/content/baseline/PPO_baseline_no1/Curriculum_Level.csv
+3,PPO_baseline_no2,1430000,1430.0,True,Level 12 reached,10.67483170290788,10.67483170290788,0.0,0,2026-07-28 02:47:27.478274584,2026-07-28 13:27:56.872405052,/content/baseline/PPO_baseline_no2/Curriculum_Level.csv
+4,PPO_baseline_no3,1330000,1330.0,True,Level 12 reached,4.964063050283326,11.994287877347734,7.0302248270644085,1,2026-07-31 18:05:51.194852114,2026-08-01 06:05:30.631210566,/content/baseline/PPO_baseline_no3/Curriculum_Level.csv
+5,PPO_baseline_no4,1130000,1130.0,True,Level 12 reached,4.129805364343855,4.129805364343855,0.0,0,2026-07-30 12:11:27.786098719,2026-07-30 16:19:15.085410357,/content/baseline/PPO_baseline_no4/Curriculum_Level.csv
+6,PPO_baseline_no5,1230000,1230.0,True,Level 12 reached,4.486976803938548,15.17573475976785,10.688757955829303,1,2026-07-30 16:41:37.337391615,2026-07-31 07:52:09.982526779,/content/baseline/PPO_baseline_no5/Curriculum_Level.csv
+7,PPO_baseline_no6,1160000,1160.0,True,Level 12 reached,3.984524228639073,3.984524228639073,0.0,0,2026-07-30 20:00:41.213093519,2026-07-30 23:59:45.500316620,/content/baseline/PPO_baseline_no6/Curriculum_Level.csv
+8,PPO_baseline_no7,1670000,1670.0,True,Level 12 reached,5.958286772039202,5.958286772039202,0.0,0,2026-07-31 00:13:59.958070040,2026-07-31 06:11:29.790449381,/content/baseline/PPO_baseline_no7/Curriculum_Level.csv
+9,PPO_baseline_no8,1110000,1110.0,True,Level 12 reached,4.031838188899888,4.031838188899888,0.0,0,2026-07-31 08:04:36.093238592,2026-07-31 12:06:30.710718632,/content/baseline/PPO_baseline_no8/Curriculum_Level.csv
+10,PPO_baseline_no9,1370000,1370.0,True,Level 12 reached,5.279673958222071,5.279673958222071,0.0,0,2026-07-31 12:10:01.067239285,2026-07-31 17:26:47.893488884,/content/baseline/PPO_baseline_no9/Curriculum_Level.csv

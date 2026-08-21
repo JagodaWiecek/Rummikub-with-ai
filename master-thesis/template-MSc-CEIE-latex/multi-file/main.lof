@@ -7,12 +7,27 @@
 \babel@toc {british}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces The graph of feedforward neural network}}{13}{figure.caption.10}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces The graph of single perceptron}}{14}{figure.caption.11}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces The graph of feedforward neural network}}{14}{figure.caption.10}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces The graph of single perceptron}}{15}{figure.caption.11}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces ReLu plot}}{16}{figure.caption.12}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces logistic sigmoid plot}}{17}{figure.caption.13}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Tanh plot}}{17}{figure.caption.14}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Reinforcement learning diagram}}{23}{figure.caption.17}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Figure caption.}}{17}{figure.caption.15}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces The image of behavior parameters of the agent in the Unity}}{51}{figure.caption.26}%
 \addvspace {10\p@ }
-\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Cumulative reward graph of 10 baseline agents }}{73}{figure.caption.31}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Cumulative reward mean and SD graph of 10 baseline agents }}{74}{figure.caption.32}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Curriculum progression of individual 10 baseline agents }}{75}{figure.caption.33}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Curriculum progression mean and SD of individual 10 baseline agents }}{76}{figure.caption.34}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Entropy chart of individual 10 baseline agents }}{77}{figure.caption.35}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Entropy mean and SD chart of individual 10 baseline agents }}{77}{figure.caption.36}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Cumulative reward graph of 10 GAIL agents }}{83}{figure.caption.42}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Cumulative reward graph of 10 GAIL agents }}{84}{figure.caption.43}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces lesson progress graph of 10 GAIL agents }}{84}{figure.caption.44}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces lesson progress mean and SD graph of 10 GAIL agents }}{86}{figure.caption.45}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Entropy chart of individual 10 gail agents }}{87}{figure.caption.46}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Entropy chart of mean and SD of individual 10 gail agents }}{88}{figure.caption.47}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

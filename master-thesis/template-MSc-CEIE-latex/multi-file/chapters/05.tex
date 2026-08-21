@@ -1,16 +1,42 @@
 \chapter{Summary}
-
+\label{chapt::sum}
+This chapter summaries the work performed and the experiments conducted, and outlines the potential future developments of the project.
 %\begin{itemize}
 %\item What problem have I solved?
 %\item How have I solved the problem?
 %\item What are pros and cons of my solutions?
 %\item Can I state some recommendations?
 %\end{itemize}
+%\begin{itemize}
+%	\item synthetic description of performed work
+%	\item conclusions
+%	\item  future development, potential future research
+%	\item Has the objective been reached?
+%\end{itemize}
 
-\begin{itemize}
-\item synthetic description of performed work
-\item conclusions
-\item  future development, potential future research
-\item Has the objective been reached?
-\end{itemize}
+\section{Conclusions}
+
+The objective of this study was to apply artificial intelligence algorithms to train a computer player in the logical board game, which was Rummikub. The game environment was characterized by a highly complex action space, randomness, and long-range dependencies between decisions. The \textbf{Sparse Reward Problem} arose, which was mitigated by applying action masking, reward shaping, curriculum learning, and imitation learning. The goal of the experiment was to compare whether a model incorporating imitation learning would reach a specified curriculum level while requiring fewer environmental steps. However, the
+resulting policies do not represent a complete player capable of playing a full game of
+Rummikub, but agents trained to perform selected tile-placement tasks in a simplified single-agent environment without opponents, turn management, or long-term game strategy.
+
+As part of this thesis, a game environment was designed in Unity with an integrated ML-Agents tool, a reward and punishment system, an expert demonstration, and the implementation of masks and a curriculum-based learning environment. The project also involved configuring models, training, and testing 20 independent agents within the environment.
+
+The objective of this study was achieved within the scope of the designed experiment.
+The experiments conducted confirmed that gradually increasing difficulty and reward shaping enable reinforcement learning agents to master selected mechanisms of a complex logic game. The addition of GAIL did not shorten training or significantly improve the quality of the successfully trained policies, but in the sample studied, it was associated with greater reliability in achieving the objective.
+
+
+\section{Future development}
+
+%The most natural path forward is to continue training through the subsequent levels of the Curriculum Learning program.
+The current experiments were concluded after completing Level 11 and reaching Level 12, whereas the full game setup includes a much larger number of stages. This would allow us to verify whether the agents retain their previously acquired skills and whether the learned policy remains stable after the introduction of new game mechanics. It would also allow us to analyze whether the differences between the baseline and GAIL models would become more pronounced as the difficulty level increases.  
+
+%Another important area of focus is determining whether the skills acquired in the controlled curriculum tasks can be applied in a full game of Rummikub. Currently, the agents are able to perform selected tasks related to forming sequences and sets, however, this does not yet mean that they can make correct decisions in a full game. The full environment contains many more elements simultaneously, a greater number of possible actions, a longer decision horizon, and additional dependencies between moves.
+%Such transfer could take place in various ways, including by transferring a trained agent, from the curriculum learning environment, to the full game to see if that agent makes more correct moves than an agent that was not trained before playing the full game.
+
+In the current experiments, GAIL used demonstrations recorded during a full game. The states and actions occurring in these demonstrations did not necessarily correspond to the simplified conditions of individual curriculum levels. Preparing separate demonstrations for levels or groups of similar levels could provide the agent with a more appropriate imitation signal. This would allow us to verify whether the lack of overall acceleration in PPO+GAIL resulted from the limited usefulness of demonstrations derived from a full game.
+
+The results were obtained for a single selected configuration of PPO and GAIL. The lack of a clear advantage for GAIL in terms of the number of steps does not, therefore, mean that the method could not achieve better results with a different set of parameters. In future experiments, it would be worthwhile to test the GAIL signal strength, the CL promotion threshold, the minimum lesson length, and the values of penalties and rewards in the environment.
+
+Another direction is to expand the experiments to include other reinforcement learning algorithms and methods that support exploration. It would be worth testing whether the SAC algorithm, as an off-policy method, performed better in this environment. Integrating auxiliary methods such as \textbf{Curiosity}, \textbf{RND}, or \textbf{HRL} could also reveal whether their inclusion affects the computer player’s performance in the environment.
 

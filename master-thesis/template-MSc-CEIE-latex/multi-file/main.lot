@@ -8,9 +8,18 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces A caption of a table is ABOVE it.}}{18}{table.caption.16}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Stages of the implemented Curriculum Learning environment.}}{61}{table.3.1}%
 \addvspace {10\p@ }
-\addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{\ignorespaces PPO hyperparameters and neural network architecture used in all training configurations.}}{71}{table.caption.27}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Hyperparameters of the auxiliary learning techniques.}}{72}{table.caption.28}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces First recorded training steps at which individual baseline agents completed the level. }}{78}{table.caption.37}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Training outcome of individual PPO baseline agents. }}{80}{table.caption.38}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Evaluation results of PPO baseline agents over 1000 episodes on curriculum level 11.}}{81}{table.caption.40}%
+\contentsline {table}{\numberline {4.6}{\ignorespaces First recorded training steps at which individual GAIL agents completed the level. }}{88}{table.caption.48}%
+\contentsline {table}{\numberline {4.7}{\ignorespaces Training outcome of individual PPO GAIL agents. }}{90}{table.caption.49}%
+\contentsline {table}{\numberline {4.8}{\ignorespaces Evaluation results of PPO GAIL agents over 1000 episodes on curriculum level 11.}}{91}{table.caption.51}%
+\contentsline {table}{\numberline {4.9}{\ignorespaces Comparison of curriculum-level completion and transition times for PPO baseline and PPO+GAIL agents.}}{92}{table.caption.52}%
+\contentsline {table}{\numberline {4.10}{\ignorespaces Comparison of curriculum training outcomes.}}{94}{table.caption.53}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }

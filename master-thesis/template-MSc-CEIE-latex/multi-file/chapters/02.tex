@@ -1,5 +1,6 @@
 
 \chapter{Analysis of the problem}
+\label{chap::Analysis}
 %Applying AI Algorithms to Train a Computer Player in a Logic Board Game
 This chapter presents a detailed analysis of the research problem addressed in this thesis. The objective of this work is to design and evaluate artificial intelligence algorithms capable of training a computer-controlled player in a logic-based board game environment. The developed 2.5D board game serves as an experimental platform for testing different learning approaches.
 
@@ -15,7 +16,7 @@ This chapter presents a detailed analysis of the research problem addressed in t
 %nauka agenta
 %duża ilość zmiennych
 %duża randomowość gry
-The development of intelligent NPC capable of operating effectively in complex, rule-based board games remains a significant challenge in artificial intelligence. While classical board games such as chess and Go have been successfully addressed using advanced reinforcement learning and search-based techniques, many logic-based tile placement games introduce additional layers of combinatorial complexity, dynamic action spaces, and stochastic variability.
+The development of intelligent Non-Player Characters (NPC) capable of operating effectively in complex, rule-based board games remains a significant challenge in artificial intelligence. While classical board games such as chess and Go have been successfully addressed using advanced reinforcement learning and search-based techniques, many logic-based tile placement games introduce additional layers of combinatorial complexity, dynamic action spaces, and stochastic variability.
 
 This thesis addresses the problem of training a computer-controlled player in a complex logic board game implemented in the Unity environment. The game serves as an experimental testbed for evaluating artificial intelligence algorithms under conditions of:
 \begin{itemize}
@@ -28,13 +29,13 @@ This thesis addresses the problem of training a computer-controlled player in a 
 \section{State of the art}
 %najnowocześniejsze technologie w temacie
 %wytłumaczenie
-making algorithm has played a significant role in the domain of digital games for several decades. From early deterministic rule-based systems to modern deep learning architectures, AI algorithms have continuously evolved to enhance the behavior of Non-Player Characters (NPCs) and automated opponents. Over time, various algorithmic approaches have been employed, including finite state machines, heuristic search methods, planning algorithms, and, more recently, reinforcement learning techniques.
-This section reviews the most relevant contemporary approaches to artificial intelligence algorithms used in games, with particular emphasis on reinforcement learning algorithms and decision-making systems applicable to complex, rule-based board games with large and dynamic action spaces.  
-\subsection{An Overview of Non-Player Character Behavior Systems}
+Developing decision-making algorithms has played a significant role in the domain of digital games for several decades. From early deterministic rule-based systems to modern deep learning architectures, used techniques have continuously evolved to enhance the behavior of NPCs and automated opponents. Over time, various algorithmic approaches have been employed, including finite state machines, heuristic search methods, planning algorithms, and, more recently, reinforcement learning techniques.
+This section reviews the most relevant contemporary approaches to Non-Player Character Behavior Systems used in games, with particular emphasis on reinforcement learning algorithms and decision-making systems applicable to complex, rule-based board games with large and dynamic action spaces.  
+\subsection{An Overview of NPC Decision-Making Techniques}
 % algorytmy sztucznej inteligencji wykorzystywanej w grach do implementacji npc
-According to \cite{NaeemMuddasar2020AGIt}, Artificial Intelligence (AI) can be defined as simulated intelligence on programmable machines that attempts to mimic the human brain.
+%According to \cite{NaeemMuddasar2020AGIt}, Artificial Intelligence (AI) can be defined as simulated intelligence on programmable machines that attempts to mimic the human brain.
  
-The aim of applying artificial intelligence algorithms in digital games is to create computer-controlled players that can imitate human behavior and compete effectively with human opponents. A key challenge is designing an computer player that not only performs well and is capable of winning against human players, but also demonstrates behavior that appears natural and realistic during gameplay. To achieve this, developers and researchers employ a variety of AI algorithms and computational models:
+The aim of using Non-Player Character Behavior Systems in digital games is to create computer-controlled players that can imitate human behavior and compete effectively with human opponents. A key challenge is designing a computer player that not only performs well and is capable of winning against human players, but also demonstrates behavior that appears natural and realistic during gameplay. To achieve this, developers and researchers employ a variety of AI algorithms and computational models:
 \begin{itemize}
 	\item Finite State Machines (FSMs) \\It is a foundational, abstract computational model utilized extensively in video game development to govern the decision-making processes of NPCs, operating on the principle that an entity can only exist in one of several predefined states at any given moment. Despite the emergence of more advanced AI architectures, FSMs remain highly relevant in modern game development, functioning either as standalone systems or as complementary modules in complex AI frameworks. An FSM is formally defined by a 5-tuple:
 	\begin{align}
@@ -49,30 +50,35 @@ The aim of applying artificial intelligence algorithms in digital games is to cr
 		\item F represents final states
 	\end{itemize}
 	While highly efficient, FSMs suffer from scalability issues, as an increase in states can lead to an exponential explosion of transition rules \cite{uludagli2023non}.
-	\item Behavior Trees (BTs) \\ BTs solve the scalability issues of FSMs by utilizing a hierarchical, directed acyclic graph structure. The architecture consists of root nodes, control flow nodes (composites like Sequences and Selectors), decorator nodes, and execution leaves (actions). The system operates via a signal called a "tick" that traverses the tree at regular intervals \cite{uludagli2023non}. The execution of a single sequence proceeds as follows:
+	
+	\item Behavior Trees (BTs) \\ BTs solve the scalability issues of FSMs by utilizing a hierarchical, directed acyclic graph structure. The architecture consists of root nodes, control flow nodes, composites like Sequences and Selectors, decorator nodes, and execution leaves, actions and conditions. The system operates via a signal called a \textit{tick} that traverses the tree at regular intervals \cite{uludagli2023non}. The execution of the sequence proceeds as follows:
 	\begin{enumerate}
 		
-		\item The Sequence node receives an execution tick from its parent.
-		\item The node begins executing its child nodes sequentially from left to right.
-		\item If the child returns a \textit {Success} state, proceed to execute the next child in the sequence.\\If the child returns a Running state, halt execution and return \textit{Running} to the parent.\\If the child returns a \textit{Failure} state, halt execution and immediately return \textit{Failure} to the parent.
-		\item If all child nodes have been executed and returned \textit{Success}, the Sequence node returns \textit{Success} to its parent
+		\item The root node of BT generates execution \textit{tick}.
+		\item The root node passes the tick signal downward to its child nodes, sequentially from left to right.
+		\item The signal cascades through the intermediate nodes until it reaches a leaf node, which is responsible for a certain action.
+		\item The leaf node evaluates its own progress. If the child returns a \textit {Success} state, proceed to execute the next child in the sequence.\\If the child returns a Running state, it halts execution and returns \textit{Running} to the parent.\\If the child returns a \textit{Failure} state, it halts execution and immediately returns \textit{Failure} to the parent.
+		\item The resulting status is passed back up to the parent composite node.
+		\\If the parent is a Selector, and it receives a Failure, it sends a new tick to its next available child.
+		\\If the parent is a Sequence, and it receives a Success, it sends a new tick to its next available child.
+		\\If any parent receives a Running status, all lateral traversal stops instantly, and the Running status is pushed all the way back up to the root, effectively locking the tree's focus onto that ongoing action for the current frame.
 	\end{enumerate}
-	\item Rule-Based Systems (RBS) \\ They represent a classical decision-making paradigm within artificial intelligence. An RBS is structurally segregated into three primary components: an information database, a formalized rule set, and an arbiter mechanism. The database acts as the computer player's memory, storing environmental observations and internal states. The rule set contains multiple declarative conditional statements (if-then-else rules). The arbiter acts as the central processing unit, analyzing the database against the rule set to trigger the appropriate action. \cite{uludagli2023non}
+	\item Rule-Based Systems (RBS) \\ They represent a classical decision-making paradigm in games. An RBS is structurally segregated into three primary components: an information database, a formalized rule set, and an arbiter mechanism. The database acts as the computer player's memory, storing environmental observations and internal states. The rule set contains multiple declarative conditional statements \textit{if-then-else rules}. The arbiter acts as the central processing unit, analyzing the database against the rule set to trigger the appropriate action. \cite{uludagli2023non}
 	
 	\item Heuristic Search \\These algorithms are systematic exploration techniques utilized to navigate through vast state spaces efficiently by incorporating domain-specific knowledge. Unlike blind search methods, heuristic algorithms evaluate the potential of intermediate states to reach a goal, drastically reducing the computational overhead. In modern game architectures, such as hyper-heuristics, heuristic search is frequently deployed for high-level macro-navigation or to solve deterministic portions of a game, while other algorithms take over for stochastic or localized maneuvering. \cite{perez2019general}
 	
-	\item Monte Carlo Tree Search (MCTS)\\This algorithm is a sophisticated heuristic search algorithm engineered to solve sequential decision-making problems within environments characterized by extraordinarily large and complex state spaces. The fundamental architecture of MCTS synthesizes the precision of classical tree search methodologies with the stochastic nature of the Monte Carlo method, which is a computational technique that uses repeated random sampling to obtain numerical results for complex problems. By simulating systems thousands or millions of times with random inputs, it estimates probabilities and outcomes \cite{Deep-Learning-book}. MCTS dynamically and incrementally constructs a search tree in memory. In this tree structure, each node represents a specific game state, while the connecting edges correspond to the legal actions that transition the environment from one state to another. \cite{Monte_Carlo_Tree_Search_Optimization_for_Go_Game_AI}, \cite{ishihara2016applying}. The algorithm goes as follows
-	\begin{enumerate}
-		\item Instantiate the root node $S_0$ representing the current environment state.
-		\item While the predefined computational budget is not exhausted, begin a new search iteration
-		\item Traverse the tree from  $S_0$ Upper Confidence Bound policy until a leaf nose $S_L$ is reached
-		\item if $S_L$ is not terminal state, generate a new child node $S_new$ by applying a legal action to $S_L$
-		\item Execute a rollout from $S_new$ using a default randomized policy until a terminal state $S_T$ is reached
-		\item Compute the reward \textit{R} of the terminal state $S_T$
-		\item Update the visit counts \textit{N} and the accumulated rewards \textit{W} for all nodes along the path from $S_new$ back to $S_0$ using the value \textit{R}
-		\item Once the budget is depleted, select the child of the root node $S_0$ with the highest visit count as the optimal action to execute in the real environment
+%	\item Monte Carlo Tree Search (MCTS)\\This algorithm is a sophisticated heuristic search algorithm engineered to solve sequential decision-making problems within environments characterized by large and complex state spaces. The fundamental architecture of MCTS synthesizes the precision of classical tree search methodologies with the stochastic nature of the Monte Carlo method, which is a computational technique that uses repeated random sampling to obtain numerical results for complex problems. MCTS dynamically and incrementally constructs a search tree in memory. In this tree structure, each node represents a specific game state, while the connecting edges correspond to the legal actions that transition the environment from one state to another. \cite{Monte_Carlo_Tree_Search_Optimization_for_Go_Game_AI}, \cite{ishihara2016applying}. The algorithm goes as follows:
+%	\begin{enumerate}
+%		\item Instantiate the root node $S_0$ representing the current environment state.
+%		\item While the predefined computational budget is not exhausted, begin a new search iteration
+%		\item Traverse the tree from  $S_0$ Upper Confidence Bound policy until a leaf nose $S_L$ is reached
+%		\item if $S_L$ is not terminal state, generate a new child node $S_new$ by applying a legal action to $S_L$
+%		\item Execute a rollout from $S_new$ using a default randomized policy until a terminal state $S_T$ is reached
+%		\item Compute the reward \textit{R} of the terminal state $S_T$
+%		\item Update the visit counts \textit{N} and the accumulated rewards \textit{W} for all nodes along the path from $S_new$ back to $S_0$ using the value \textit{R}
+%		\item Once the budget is depleted, select the child of the root node $S_0$ with the highest visit count as the optimal action to execute in the real environment
 		
-	\end{enumerate}
+%	\end{enumerate}
 	
 	\item Minimax Algorithm\\ This algorithm is a classical recursive strategy utilized predominantly in zero-sum, complete-information board games. It models a strictly adversarial environment where one agent seeks to maximize its utility while the opponent aims to minimize it. The algorithm constructs a game tree representing all possible future moves. Since exhaustive search is practically impossible for complex games due to state space explosion, the search is truncated at a specific depth, and a manually designed heuristic evaluation function is used to score the leaf nodes \cite{9533206}. The algorithm goes as follows 
 	\begin{align}
@@ -89,84 +95,126 @@ The aim of applying artificial intelligence algorithms in digital games is to cr
 		\item s is the current state of game, representing a specific configuration of all game elements at a given time.
 		\item a is an action that player can make in state s to transition to a new state
 	\end{itemize}
-	The algorithm with depth limit
-	\begin{enumerate}
-		\item Call the recursive function with the current state, current depth, and the maximizing player's identifier.
-		\item  If the maximum depth is reached or the state is terminal (win/loss/draw), invoke the static evaluation function to score the board and return the value.
-		\item  If the current agent is the maximizing player, initialize the best value to negative infinity. Iterate through all possible legal moves. For each move, recursively call the Minimax algorithm. Update the best value to the maximum of the current best value and the recursive result.
-		\item If the current agent is the minimizing player (opponent), initialize the best value to positive infinity. Iterate through all legal moves. Recursively call the algorithm, updating the best value to the minimum of the current best value and the recursive result.
-		\item  Return the computed optimal value up the recursive stack to determine the best immediate move at the root level.
-	\end{enumerate}
+%	The algorithm with depth limit
+%	\begin{enumerate}
+%		\item Call the recursive function with the current state, current depth, and the maximizing player's identifier.
+%		\item  If the maximum depth is reached or the state is terminal (win/loss/draw), invoke the static evaluation function to score the board and return the value.
+%		\item  If the current agent is the maximizing player, initialize the best value to negative infinity. Iterate through all possible legal moves. For each move, recursively call the Minimax algorithm. Update the best value to the maximum of the current best value and the recursive result.
+%		\item If the current agent is the minimizing player (opponent), initialize the best value to positive infinity. Iterate through all legal moves. Recursively call the algorithm, updating the best value to the minimum of the current best value and the recursive result.
+%		\item  Return the computed optimal value up the recursive stack to determine the best immediate move at the root level.
+%	\end{enumerate}
 	
-	\item Genetic Algorithms (GA) \\These algorithms represent a robust category of stochastic optimization and search techniques heavily inspired by the biological principles of natural selection and evolution
-	. In the context of computer games, these algorithms do not rely on traditional numerical expressions but operate on populations of candidate solutions, often encoded as chromosomes. The evaluation of each individual in the population is handled by an adaptation function, which calculates a numerical assessment known as fitness \cite{kopel2019applying}. This algorithm goes as follows
+	\item Genetic Algorithms (GA) \\These algorithms represent a robust category of search  optimization and stochastic techniques heavily inspired by the biological principles of natural selection and evolution. In the context of computer games, these algorithms do not rely on traditional numerical expressions but operate on populations of candidate solutions, often encoded as chromosomes. The evaluation of each individual in the population is handled by an adaptation function, which calculates a numerical assessment known as fitness \cite{kopel2019applying}. This algorithm goes as follows
 	\begin{enumerate}
 		\item Generate an initial population of random individuals.
 		\item Assess the adaptation value (fitness) of every individual in the current population using the game's simulation environment.
-		\item Select the fittest individuals to act as parents for the next generation.
+		\item Using fitness function to select the parents for the next generation.
 		\item Merge segments of the parent chromosomes to produce new offspring.
 		\item Introduce random alterations to certain genes within the offspring to maintain genetic diversity and prevent premature convergence.
 		\item Replace the old population with the newly generated offspring and repeat steps 2-5 until a termination condition is satisfied.
 	\end{enumerate}
 	
-	\item Deep Neural Network \\is based on Artificial Neural Network (ANN), where each neuron can be interpreted as a linear function followed by a non-linear activation. A DNN extends this concept by stacking multiple layers of neurons, allowing the model to learn more complex patterns and representations.
-	Because of this layered structure, DNNs are capable of approximating highly complex functions, while still relying on simple operations at the level of individual neurons. This topic is described in detail in chapter \ref{chap:Deep_Learning_subchap}.
+	\item Deep Neural Network \\ DNN is based on Artificial Neural Network (ANN), where each neuron can be interpreted as a linear function followed by a non-linear activation. A DNN extends this concept by stacking multiple layers of neurons, allowing the model to learn more complex patterns and representations.
+	Because of this layered structure, DNNs are capable of approximating highly complex functions, while still relying on simple operations at the level of individual neurons. This technique is described in detail in chapter \ref{chap:Deep_Learning_subchap}.
 	
-	\item Reinforcement Learning (RL)\\Algorithm allows agents to learn optimal policies through trial-and-error interactions using reward-penalty system. This topic is described in detail in chapter \ref{chap:Reinforcement_Learning_subchap}.
+	\item Reinforcement Learning (RL)\\Algorithm allows agents to learn optimal policies through trial-and-error interactions using reward-penalty system. This technique is described in detail in chapter \ref{chap:Reinforcement_Learning_subchap}.
 \end{itemize}
 
 \subsection{Deep Learning} 
 \label{chap:Deep_Learning_subchap}
-It is a thriving field, with active research topics aimed at automating routine labor, understanding speech and images, and supporting basic scientific research. AI systems are designed to solve tasks that are intellectually challenging for humans, but can be described formally (e.g. playing chess), as well as intuitive tasks that are difficult to describe formally (e.g. recognising faces).
+DL is a thriving field, with active research topics aimed at automating routine labor, understanding speech, images, and supporting basic scientific research. AI systems are designed to solve tasks that are intellectually challenging for humans, but can be described formally, like playing chess, as well as intuitive tasks that are difficult to describe formally, like recognizing faces. The overview of deep learning presented in this section is primarily based on the information provided in \cite{Deep-Learning-book}.
 \subsubsection{History of Deep Learning}
-The pursuit of artificial intelligence dates back to ancient times, but, according to \cite{Deep-Learning-book}, as a computational discipline it has evolved through three waves:
+The pursuit of DNN dates back to ancient times, but, according to \cite{Deep-Learning-book}, as a computational discipline it has evolved through three waves:
 \begin{enumerate}
 	\item The First Wave: Cybernetics (1940s–1960s):
 	
 	The earliest computational models of learning were intended to be biological models of how learning happens in the brain. This era, known as cybernetics, focused on biologically inspired linear models.
-	In 1943, the McCulloch–Pitts neuron was introduced as an early model of brain function, capable of recognising two categories by testing whether a linear combination of inputs was positive or negative. In the 1950s, this was followed by the Perceptron (Rosenblatt, 1958), which was the first model capable of automatically learning the weights that define categories from given examples. Around the same time, the Adaptive Linear Element (ADALINE) was developed to predict real numbers using an early form of stochastic gradient descent. However, this first wave ended in a severe backlash. Critics, most notably Minsky and Papert in 1969, demonstrated the profound limitations of linear models. Famously, they proved that simple linear models could not learn the XOR (exclusive OR) logic function. This mathematical limitation caused a massive decline in neural network research funding and popularity.
+	In 1943, the McCulloch–Pitts neuron was introduced as an early model of brain function, capable of recognizing two categories by testing whether a linear combination of inputs was positive or negative. In the 1950s, this was followed by the Perceptron, which was the first model capable of automatically learning the weights that define categories from given examples. Around the same time, the Adaptive Linear Element (ADALINE) was developed to predict real numbers using an early form of stochastic gradient descent. However, this first wave ended in a severe backlash. Critics, most notably Minsky and Papert in 1969, demonstrated the profound limitations of linear models. Famously, they proved that simple linear models could not learn the XOR (exclusive OR) logic function. This mathematical limitation resulted in a significant decline in funding and popularity for neural network research.
 	
 	\item The Second Wave: Connectionism (1980s–1990s)
 	
-	The second wave emerged in the context of cognitive science under the movement known as connectionism or parallel distributed processing. The central thesis of connectionism was that intelligent behavior emerges from a large number of simple computational units networked together.
+	The second wave emerged within the field of cognitive science, as part of a movement known as connectionism. The central thesis of connectionism is that intelligent behavior emerges from a large number of simple computational units connected in a network.
 	This era introduced two monumental concepts that remain central to modern deep learning:
 	\begin{itemize}
-		\item Distributed Representations - Introduced by Hinton et al. (1986), this is the principle that each input to a system should be represented by many features, and each feature should be involved in representing many possible inputs
-		\item Back-propagation - The successful use and popularization of the back-propagation algorithm by Rumelhart et al. (1986) allowed for the training of nowadays neural networks with multiple hidden layers.
+		\item Distributed Representations - Hinton et al. introduced the principle that each input to a system should be represented by many features, with each feature representing many possible inputs.
+		\item Back-propagation - The successful use and popularization of the back-propagation algorithm by Rumelhart et al. allowed for the training of nowadays neural networks with multiple hidden layers.
 	\end{itemize}
-	Despite introducing the mathematical foundations used today, this wave faded by the mid-1990s. Unrealistic claims were made about AI capabilities, leading to investor disappointment when researchers could not deliver. Furthermore, other machine learning paradigms with convex objective functions, such as Kernel machines (Support Vector Machines) and graphical models, began to outperform neural networks on important tasks.
+	Although the mathematical foundations used today were introduced during this period, the wave faded by the mid-1990s. This was partly due to unrealistic claims being made about AI capabilities, which led to investor disappointment when researchers could not deliver on these promises. Moreover, other machine learning paradigms with convex objective functions, such as support vector machines and graphical models, started to outperform neural networks on important tasks.
 	\item The Third Wave: Deep Learning (2006–Present)
 	
-	The modern renaissance of neural networks began in 2006, overcoming the long-held belief that deep models (models with many hidden layers) were too difficult to optimize. The breakthrough was led by Geoffrey Hinton, who demonstrated that a Deep Belief Network (DBN) could be efficiently trained using a strategy called greedy layer-wise unsupervised pretraining. The concept of this training procedure can be described through the following sequence of steps:
-	\begin{itemize}
-		\item Define a deep neural network architecture with multiple hidden layers.
-		\item Train the first hidden layer in isolation using an unsupervised algorithm (like a Restricted Boltzmann Machine or an Autoencoder) to capture the shape and representation of the raw input data.
-		\item Once the first layer is trained, pass the raw input data through it to extract a new, intermediate representation of the data.
-		\item Use the intermediate representation from the previous layer as the input to train the next hidden layer in isolation.
-		\item Repeat steps 3 and 4 for all hidden layers in the network.
-		\item  After all layers are pretrained, add a classification layer on top and use the back-propagation algorithm to jointly train (fine-tune) the entire network using labeled data.
-	\end{itemize}
-	This discovery proved that deep architectures could outperform shallow models like Support Vector Machines. This wave popularized the specific term "Deep Learning" to emphasize the theoretical importance of depth in architectural design. 
+	The modern renaissance of neural networks began in 2006, overturning the long-held belief that deep models were too difficult to optimize. Geoffrey Hinton led the breakthrough by demonstrating that a deep belief network (DBN) could be efficiently trained using a technique known as greedy layer-wise unsupervised pretraining.
+%	\begin{itemize}
+%		\item Define a deep neural network architecture with multiple hidden layers.
+%		\item Train the first hidden layer in isolation using an unsupervised algorithm (like a Restricted Boltzmann Machine or an Autoencoder) to capture the shape and representation of the raw input data.
+%		\item Once the first layer is trained, pass the raw input data through it to extract a new, intermediate representation of the data.
+%		\item Use the intermediate representation from the previous layer as the input to train the next hidden layer in isolation.
+%		\item Repeat steps 3 and 4 for all hidden layers in the network.
+%		\item  After all layers are pretrained, add a classification layer on top and use the back-propagation algorithm to jointly train (fine-tune) the entire network using labeled data.
+%	\end{itemize}
+	This discovery proved that deep architectures could outperform shallow models such as Support Vector Machines. This development popularized the term \textbf{deep learning} to emphasize the theoretical importance of depth in architectural design. 
 	
-	Today, while the foundational algorithms like back-propagation remain the same as in the 1980s, the current wave's explosive success is heavily attributed to the age of "Big Data" (providing the millions of examples necessary for statistical generalization) and the massive parallel computational power of modern general-purpose GPUs
+	While the foundational algorithms, such as back-propagation, have remained unchanged since the 1980s, the explosive success of the current wave is largely attributed to the age of \textit{Big Data}, which provides the millions of examples necessary for statistical generalization, and to the massive parallel computational power of modern general-purpose GPUs.
 \end{enumerate}
 
 \subsubsection{An Overview of Deep Learning}
 
-%co opisać, perceptron, budowa sieci neuronalnej, budowa deep nn
-%DNN vs ANN
-According to \cite{Deep-Learning-book}, deep learning constitutes a highly specialized and powerful sub-discipline of machine learning, engineered to solve complex, intuitive problems that defy traditional formalization, such as speech recognition and computer vision. While early artificial intelligence systems relied heavily on hard-coded knowledge and manually engineered rules, deep learning systems autonomously acquire knowledge by extracting complex patterns directly from raw data. The term "deep" in deep neural networks refers to the architecture of the network, where a standard neural network consists of an input layer, a single hidden layer and an output layer. A deep neural network has at least two hidden layers between the input and output layers.
-\\In the domains of computer science and machine learning, the terms Neural Network (NN) and Artificial Neural Network (ANN) are utilized interchangeably. These systems represent a robust class of computational models structurally and functionally inspired by the biological nervous systems of animals and humans. The foundational principle of an ANN is connectionism: while a single artificial neuron (or node) possesses minimal computational utility, a large, interconnected population of these units acting in parallel can exhibit highly intelligent, complex behavior. 
+According to \cite{Deep-Learning-book}, deep learning is a highly specialized and powerful sub-discipline of machine learning. It is designed to solve complex problems that cannot be easily formalized using traditional methods, such as speech recognition and computer vision. Unlike early artificial intelligence systems, which relied heavily on hard-coded knowledge and manually engineered rules, deep learning systems can acquire knowledge autonomously by extracting complex patterns directly from raw data. The term \textbf{deep} in DNN refers to the architecture of the network, where a standard neural network consists of an input layer, a single hidden layer and an output layer. A deep neural network has at least two hidden layers between the input and output layers.
+\\In the domains of computer science and machine learning, the terms Neural Network (NN) and Artificial Neural Network (ANN) are utilized interchangeably. These systems represent a robust class of computational models structurally and functionally inspired by the biological nervous systems of animals and humans. The foundational principle of an ANN is connectionism: although a single artificial neuron, or node, has limited computational ability, a large population of interconnected neurons acting in parallel can exhibit highly intelligent, complex behavior \cite{Deep-Learning-book}. 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.8\textwidth]{./images/FeedForwardNN.png}
+	\begin{tikzpicture}[
+		node distance = 1.5cm and 3cm,
+		neuron/.style = {circle, draw, minimum size=1.2cm, inner sep=0pt, font=\large, thick},
+		->, >=stealth, thick
+		]
+		
+		% Input Layer
+		\node[neuron] (x1) at (0, 2) {$x_1$};
+		\node[neuron] (x2) at (0, 0) {$x_2$};
+		\node[neuron] (x3) at (0, -2) {$x_3$};
+		\node[above=0.8cm of x1, font=\Large] {Input layer};
+		
+		% Hidden Layer
+		\node[neuron] (h1) at (4, 4) {$h_1$};
+		\node[neuron] (h2) at (4, 2) {$h_2$};
+		\node[neuron] (h3) at (4, 0) {$h_3$};
+		\node[neuron] (h4) at (4, -2) {$h_4$};
+		\node[neuron] (h5) at (4, -4) {$h_5$};
+		\node[above=0.8cm of h1, font=\Large] {Hidden layer};
+		
+		% Output Layer
+		\node[neuron] (y1) at (8, 1) {$y_1$};
+		\node[neuron] (y2) at (8, -1) {$y_2$};
+		\node[above=0.8cm of y1, font=\Large] {Output layer};
+		
+		% Arrows from output nodes
+		\draw[->] (y1) -- ++(1.5,0);
+		\draw[->] (y2) -- ++(1.5,0);
+		
+		% Connections X -> H
+		\foreach \h in {1,2,3,4,5} {
+			\draw[black] (x1) -- (h\h);
+			\draw[red] (x2) -- (h\h);
+			\draw[blue] (x3) -- (h\h);
+		}
+		
+		% Connections H -> Y
+		\foreach \y in {1,2} {
+			\draw[black] (h1) -- (y\y);
+			\draw[red] (h2) -- (y\y);
+			\draw[blue] (h3) -- (y\y);
+			\draw[green] (h4) -- (y\y);
+			\draw[orange] (h5) -- (y\y);
+		}
+		
+	\end{tikzpicture}
 	\caption{The graph of feedforward neural network}
 	\label{fig:FeedForwardNNGraph}
 \end{figure}
 
-The image \ref{fig:FeedForwardNNGraph} presents an example of the internal structure of an NN, meaningfully representing the most popular architectural paradigm, feedforward neural network architecture. The initial layer, {\bf Input layer}, receives the raw, pre-processed environmental data, such as image pixels or numerical matrices. { \bf Hidden layer} is an intermediate layer that performs the core abstraction and feature extraction. It is denoted as {\textit hidden} because the training data does not explicitly define what the output of these specific layers should be, the learning algorithm must autonomously deduce the optimal intermediate representations to solve the task. The number of neurons (units) within a single layer determines the network's {\textit width}, while the total number of sequential hidden layers defines the network's 
- The { \bf Output Layer } is the terminal stage of the network.
- It synthesizes the highly abstract, complex representations generated by the deepest hidden layers into a final predictive mapping, such as a continuous scalar value for regression or class probabilities for classification
+The figure \ref{fig:FeedForwardNNGraph} presents an example of the internal structure of an NN, meaningfully representing the most popular architectural paradigm, the feedforward neural network architecture. The initial layer, {\bf Input layer}, receives the raw, pre-processed environmental data, such as image pixels or numerical matrices. The {\bf hidden layer} is an intermediate layer that performs the core abstraction and feature extraction. It is denoted as {\textit hidden} because the training data does not explicitly define what the output of these specific layers should be, the learning algorithm must autonomously deduce the optimal intermediate representations to solve the task. The number of neurons within a single layer determines the network's {\textit width}, while the total number of sequential hidden layers defines the network's \textit{ depth}. 
+ The {\bf Output Layer} is the terminal stage of the network.
+ It synthesizes the highly abstract, complex representations generated by the deepest hidden layers into a final predictive mapping, such as a continuous scalar value for regression or class probabilities for classification. \cite{Deep-Learning-book}
 
  At its core, a deep neural network represents a hierarchical composition of numerous mathematical functions, where each function corresponds to a distinct layer
  \begin{align}
@@ -178,30 +226,270 @@ where
 	\item $f^{(i)}$ represents the transformation applied at the i-th hidden layer
 \end{itemize}
 
-The image \ref{fig:perceptronGraph} presents
-{\textit depth}.\begin{figure}[H]
+The processing power of a neural network does not come from observing the data passively, but from actively transforming it. Within each hidden layer, the network performs two sequential mathematical operations on the incoming data: an affine transformation followed by a fixed non-linear activation. The figure \ref{fig:perceptronGraph} presents the schematic of each perceptron, which is widely recognized as the foundational architectural component of modern ANN. \cite{Deep-Learning-book}
+\begin{figure}[h]
 	\centering
-	\includegraphics[width=0.8\textwidth]{./images/perceptron.png}
+	\begin{tikzpicture}[>=stealth, thick]
+		
+		% Glowne cialo neuronu (elipsa)
+		\node[draw, ellipse, minimum width=5.5cm, minimum height=3.5cm, inner sep=0pt] (neuron) at (0,0) {};
+		
+		% Linia dzielaca elipse na sumator i funkcje aktywacji
+		\draw (1.3, 1.57) -- (1.3, -1.57);
+		
+		% Wzory wewnatrz neuronu
+		\node at (-0.5, 0) {\Large $\sum_{j=1}^N w_j x_j + b$};
+		\node at (1.9, 0) {\Large $f$};
+		
+		% Wezly dla wejsc
+		\node[draw, circle, minimum size=0.9cm] (in1) at (-4.5, 1.5) {};
+		\node[draw, circle, minimum size=0.9cm] (in2) at (-4.5, 0) {};
+		\node at (-4.5, -1) {\Large $\vdots$};
+		\node[draw, circle, minimum size=0.9cm] (inN) at (-4.5, -2) {};
+		
+		% Strzalki i etykiety sygnalow wejsciowych
+		\draw[->] (-6, 1.5) node[above] {$x_1$} -- (in1);
+		\draw[->] (-6, 0) node[above] {$x_2$} -- (in2);
+		\draw[->] (-6, -2) node[above] {$x_N$} -- (inN);
+		
+		% Strzalki wag miedzy wezlami wejsciowymi a neuronem
+		\draw[->] (in1) -- (-2.1, 1.1) node[midway, above] {$w_1$};
+		\draw[->] (in2) -- (neuron.west) node[midway, above] {$w_2$};
+		\draw[->] (inN) -- (-1.8, -1.3) node[midway, below right] {$w_N$};
+		
+		% Wezel oraz strzalka dla obciazenia (bias)
+		\node[draw, circle, minimum size=0.9cm] (bias) at (0.5, -3.5) {};
+		\draw[->] (bias) -- (0.5, -1.72) node[midway, right] {$b$};
+		
+		% Strzalka dla sygnalu wyjsciowego
+		\draw[->] (neuron.east) -- (4.5, 0) node[below] {$y$};
+		
+	\end{tikzpicture}
 	\caption{The graph of single perceptron}
 	\label{fig:perceptronGraph}
 \end{figure}
-%Architektura NN - input, output, hidden layers
-%Neuron model suma ważona, funkcja aktywacji, 
-%proces uczenia, funkcja straty, backpropagation, gradient descent
+The affine transformation is responsible for multiplying the inputs from the previous layer by a learned weight matrix {\textit W} and adding a learned bias vector {\textit b}. For a single neuron (perceptron), the formula is as follows \cite{Deep-Learning-book}:
+\begin{align}
+	y = f\left( \sum_{j=1}^{N} w_j x_j + b \right)
+\end{align} 
+Where:
+\begin{itemize}
+	\item $y$ is neuron output signal,
+	\item $f$ is activation function,
+	\item $w_j$ is the weight of j-th input,
+	\item $x_j$ is the value of j-th input,
+	\item $b$ is bias, which is constant,
+	\item $N$ is the amount of inputs,
+\end{itemize}
+The weights determine the strength and direction of the relationship between variables, while the bias adjusts the activation threshold. However, if the network only applied linear matrix multiplications, the entire architecture would collapse mathematically into a single linear regression model, which would render it incapable of solving complex problems. To prevent this, the result of the affine transformation is passed through an element-wise, non-linear \textbf{activation functions}. There are many types of \textbf{activation functions}, the most popular are ReLu, logistic sigmoid, and tanh:
+\begin{itemize}
+	\item Rectified Linear Units (ReLu) - is currently established as the default and most widely recommended activation function for the hidden layers of modern feedforward neural networks.
+
+	\begin{figure} [H]
+		\centering
+
+		\begin{tikzpicture}
+			\begin{axis}[
+				axis lines = middle,
+				xlabel = $x$,
+				ylabel = {$\text{ReLU}(x)$},
+				domain = -3:3,
+				samples = 200,
+				grid = major,
+				width=12cm,
+				height=6cm,
+				ymin=-0.5, ymax=3.2 % ograniczenie osi Y dla lepszej czytelności
+				]
+				\addplot [color=red, ultra thick] {max(0,x)};
+			\end{axis}
+		\end{tikzpicture}
+		\caption{ReLu plot}
+		\label{fig:ReLuFunction}
+	\end{figure}
+The plot of the function is presented in \ref{fig:ReLuFunction}, the formula for the ReLu function is as follows:
+ 	\begin{align}
+	g(x) = \max(0, x)
+\end{align}
+The fundamental advantage of ReLU is that its behavior remains very close to linear. Since its first derivative is precisely 1 wherever the unit is active, gradients can propagate backwards through the network without diminishing in magnitude. This consistent, non-saturating gradient direction renders gradient-based optimization highly effective and prevents the vanishing gradient problem that is common in deeper networks.
+		
+	\item Logistic Sigmoid - Before ReLU became dominant, the logistic sigmoid was the standard activation function for neural networks. The sigmoid function's primary utility is its ability to output a value that can be interpreted as a probability, making it highly effective for binary classification tasks when placed at the final output layer. However, its usage within hidden layers is now strongly discouraged. The function saturates quickly when its argument becomes very positive or very negative. In these saturated regions, the curve becomes exceptionally flat, causing the local derivative to approach zero. This widespread saturation severely shrinks the gradients during back-propagation, making gradient-based learning extremely difficult or causing it to stall completely. The plot of logistic sigmoid function is presented in the image \ref{fig:SigmoidFunction}, the formula for the Logistic Sigmoid function is as follows:
+	\begin{align}
+		\sigma(x) = \frac{1}{1 + e^{-x}}
+	\end{align}
+	\begin{figure} [H]
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[
+				axis lines = middle,
+				xlabel = $x$,
+				ylabel = {$\sigma(x)$},
+				domain = -6:6,
+				samples = 100,
+				grid = major,
+				width=12cm,
+				height=6cm,
+				ymin=0, ymax=1.1,
+				ytick={0, 0.5, 1}   
+				]
+				\addplot [color=orange, thick] {1/(1+exp(-x))};
+			\end{axis}
+		\end{tikzpicture}
+		\caption{logistic sigmoid plot}
+		\label{fig:SigmoidFunction}
+	\end{figure}
+	
+	\item Hyperbolic Tangent (Tanh) - The hyperbolic tangent is another classical activation function, closely related to the logistic sigmoid but exhibiting slightly better optimization properties. The plot of tanh function is presented in the image \ref{fig:TanhFunction}.
+	\begin{align}
+		g(x) = \tanh(x)
+	\end{align}
+	It is mathematically related to the sigmoid function through the identity
+	\begin{align}
+		\tanh(x) = 2 \sigma(2x) - 1
+	\end{align}
+	
+	\begin{figure} [ht]
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[
+				axis lines = middle,
+				xlabel = $x$,
+				ylabel = {$\tanh(x)$},
+				domain = -4:4,
+				samples = 100,
+				grid = major,
+				width=12cm,
+				height=7cm
+				]
+				\addplot [color=blue, thick] {tanh(x)};
+			\end{axis}
+		\end{tikzpicture}
+		\caption{Tanh plot}
+		\label{fig:TanhFunction}
+	\end{figure}
+	If a model architecture strictly requires a sigmoidal-style activation function in a hidden layer, the tanh function will usually be more effective than the logistic sigmoid. Its main advantage is that it resembles the identity function near the origin. As it is centred at zero, training a deep network with tanh resembles training a linear model, provided the activations are kept small. This facilitates easier training dynamics. However, like the sigmoid function, it still suffers from the same fatal flaw: it saturates at its extremes, leading to vanishing gradients.
+\end{itemize}
+\textbf{The loss function}, also referred to as the cost or error function, is the mathematical criterion that the learning algorithm seeks to minimize. It quantifies the difference between the predicted output of the NN and the true target value provided in the dataset. The choice of loss function depends heavily on the choice of the model's output units and the nature of the task
+ %The specific form of the loss function is tightly coupled with the choice of the model's output units and the nature of the task.
+\begin{itemize}
+	\item Negative Log-Likelihood (Cross-Entropy) - Most contemporary neural networks used for classification tasks are trained using maximum likelihood estimation. The associated cost function is the negative log likelihood, which is mathematically equivalent to the cross-entropy between the distribution of the training data and the distribution of the predicted probabilities of the model. A critical architectural advantage of this loss function is its ability to prevent gradient saturation. Many output units utilize exponential functions, such as the sigmoid function, which can flatten out and halt learning. The logarithmic transformation in the cross-entropy loss function effectively neutralizes these exponentials, ensuring that the gradients remain large and predictable enough to efficiently guide the optimization algorithm. The formula is as follows \cite{Deep-Learning-book}:
+\begin{align}
+	CE = -\frac{1}{n} \sum_{i=1}^{n} \sum_{j=1}^{k} y_{ij} \log(\hat{y}_{ij})
+\end{align}
+	Where:
+	\begin{itemize}
+		\item $n$ is amount of inputs
+		\item $k$ is the amount of classes
+		\item $y_{ij}$ is true label
+		\item $\hat{y}_{ij}$ is the model's $j$-th prediction
+	\end{itemize}
+%	And for binary classification the formula is as follows:
+%	\begin{align}
+%		CE = -\frac{1}{n} \sum_{i=1}^{n} \left[ y_i \log(\hat{y}_i) + (1 - y_i)\log(1 - \hat{y}_i) \right]
+%	\end{align}
+%	Where:
+%	\begin{itemize}
+%		\item $n$  is amount of inputs
+%		\item $y_i$ is true label
+%		\item $\hat{y}_i$ predicted probability of class 1
+%	\end{itemize}
+	\item Mean Squared Error (MSE) - is the standard cost function employed for regression tasks involving continuous numerical outputs. From the perspective of the calculus of variations, if a high-capacity model is optimized over an infinitely large sample from the true data generating distribution, minimizing the MSE functional mathematically drives the model to predict the statistical mean (the expected value) of the target variable y for any given input x. The formula is as follows:
+	\begin{align}
+		MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+	\end{align}
+	Where:
+	\begin{itemize}
+		\item $n$ is amount of inputs
+		\item $y_i$ is real value (target)
+		\item $\hat{y}_i$ is the model's prediction
+	\end{itemize}
+%	\item 0-1 Cost Function - In classification paradigms, the ultimate performance metric that machine learning practitioners theoretically aim to minimize is the expected 0-1 loss. This cost function directly corresponds to the classification error rate, representing the proportion of examples where the model produces an incorrect prediction. In practice, the 0-1 loss assigns a strict numerical penalty of 0 if the observation is correctly classified, and a penalty of 1 if the classification is incorrect.
+%	\item Surrogate Cost Function - To overcome the mathematical intractability and lack of useful derivatives associated with the 0–1 cost function, optimization procedures in deep and general machine learning utilize surrogate cost functions. These act as continuous, differentiable proxies that indirectly guide the optimization process towards minimizing the true error rate.
+	
+\end{itemize}
+In the optimization of deep neural networks, \textbf{the back-propagation} algorithm is a highly efficient procedure used to compute the gradient of the cost function with respect to the network's parameters. Back-propagation \textbf{does not} refer to the entire learning algorithm of a neural network, it is strictly a method for evaluating the gradients.
+\textbf{The back-propagation} algorithm operates on a formal structure known as a \textit{computational graph}, where each node represents a specific variable and directed edges represent the operations that map input variables to output variables. 
+%During forward propagation, information flows from the initial input nodes, through the hidden layers, culminating in the evaluation of a scalar cost function. 
+\textbf{The back-propagation} enables the error signal from the cost function to travel backwards through the graph, allowing the partial derivatives to be computed for each node. The mathematical engine driving this reverse flow of information is the chain rule of calculus. The algorithm recursively applies the chain rule, computing a Jacobian-gradient product for each operation in the graph. The Chain Rule in scalar form goes as follow \cite{Deep-Learning-book}:
+\begin{align}
+	\text{If } y = g(x) \text{ and } z = f(y), \text{ then} \quad
+	\frac{\partial z}{\partial x} = \frac{\partial z}{\partial y} \frac{\partial y}{\partial x}
+\end{align}
+
+When the goal is to find the parameters that result in the lowest possible value of cost function, the procedure relies heavily on optimization algorithms. \textbf{Gradient descent}, also historically known as the method of steepest descent, is the foundational first-order optimization algorithm used to minimize continuous, differentiable objective functions. The algorithm leverages the mathematical concept of derivatives.In the case of a simple scalar function, the derivative indicates the slope of the function at a given point and shows how the output changes in response to an infinitesimally small change in the input. In high-dimensional spaces typical of neural networks, the function accepts a vector of parameters. The derivative is generalized into a vector of partial derivatives known as the gradient.%, denoted as:
+%\begin{align}
+%	\nabla_xf(x)
+%\end{align}
+ The optimization process requires iteratively updating the parameters of the model. The magnitude of the step taken in the direction of the negative gradient is controlled by a strictly positive scalar known as the learning rate or step size.
+\begin{align}
+	x' = x - \epsilon \nabla_x f(x)
+\end{align}
+Where 
+\begin{itemize}
+	\item $\epsilon$ is the learning rate
+	\item $x$ represents the parameters to be optimized
+	\item $\nabla_xf(x)$ is the gradient vector 
+\end{itemize}
+Optimization algorithms are mathematical procedures designed to minimize, or maximize, an objective function $f(x)$. These procedures do this by systematically modifying the parameters x. Unlike pure optimization, where the sole goal is minimizing a known function, machine learning optimization operates indirectly. The true goal is to minimize the expected generalization error evaluated over the true data generating distribution. As this true distribution is unknown, the algorithms instead perform empirical risk minimization, seeking to minimize the expected loss evaluated over the empirical distribution defined by a finite training dataset.
+Most modern deep learning models are optimized using first-order gradient-based methods, which rely on the first derivative, the gradient, of the cost function to determine the direction of steepest descent. To overcome the computational bottleneck of evaluating the gradient across billions of training examples, Stochastic Gradient Descent (SGD) uses a randomly sampled subset of the data, known as a minibatch, to estimate the true gradient \cite{Deep-Learning-book}.
+\begin{align}
+	\hat{g} = \frac{1}{m} \sum_{i=1}^{m} \nabla_{\theta} L(x^{(i)}, y^{(i)},\theta)
+\end{align}
+\begin{align}
+	\theta \leftarrow \theta - \epsilon \hat{g}
+\end{align}
+where 
+\begin{itemize}
+	\item $\epsilon$ is the learning rate defining the step size
+	\item $\hat{g}$ is the gradient estimate over a minibatch of m examples
+	\item $m$ is size of sample
+	\item $\sum_{i=1}^{m}$ is the sum of all examples in the minibatch
+	\item $\nabla_{\theta}$ is the gradient operator with respect to the model parameters $\theta$
+	\item $L(x^{(i)}, y^{(i)},\theta)$ is loss function for a single sample with input $x^{(i)}$ and expected output $y^{(i)}$
+\end{itemize}
+%To accelerate SGD, particularly in areas of high curvature or small, noisy gradients, the Momentum algorithm was introduced. The momentum accumulates an exponentially decaying moving average of past gradients, interpreted as \textit{velocity}, to push the parameters consistently in the optimal direction.
+%\begin{align}
+%	v \leftarrow \alpha v - \epsilon g \\
+%	\theta \leftarrow \theta + v
+%\end{align}
+%Where
+%\begin{itemize}
+%	\item $\alpha$ determines how quickly past gradients decay
+%	\item $v$ acts as the velocity
+%\end{itemize}
+
+%Because neural network cost functions possess varying sensitivity across different parameter directions, applying a uniform learning rate to all parameters can hinder convergence. Adaptive algorithms assign an individual, dynamically adjusting learning rate to every parameter.
+%\begin{itemize}
+%	\item Adaptive Gradient Algorithm (AdaGrad) - Scales learning rates inversely proportional to the square root of the accumulated sum of historical squared gradients. This results in larger updates for gently sloped directions and restricted updates for steeply sloped ones.
+%	\item Root Mean Square Propagation (RMSProp) - Adapts AdaGrad for non-convex functions by replacing the complete historical sum with an exponentially weighted moving average. This prevents the learning rate from prematurely dropping to zero before finding a convex local minimum.
+%	\item Adam (Adaptive Moments) - Combines the concepts of RMSProp and momentum. It incorporates an exponentially weighted average of both the first-order moment (the gradient itself) and the uncentered second-order moment (the squared gradient), alongside bias-correction mechanisms to account for zero-initialization
+	
+%\end{itemize}
+
+While highly effective, gradient-based optimization in deep learning faces several severe topological challenges:
+\begin{itemize}
+	\item Saddle Points - Rather than encountering true local minima, the algorithm frequently encounters saddle points: regions where the gradient is zero but the curvature is a minimum in one cross-section and a maximum in another.
+	\item Cliffs and Exploding Gradients - In deep or recurrent architectures, parameters can reach cliff-like structures where the gradient suddenly becomes exponentially large. A standard gradient descent step can catapult the parameters completely out of the optimal region, destroying previous optimization progress
+\end{itemize}
+
+
 \subsection{Reinforcement Learning}
 \label{chap:Reinforcement_Learning_subchap}
+Reinforcement Learning (RL) is a sub-group of machine learning algorithms. Rather than being directly programmed to fulfill a task, it learns to achieve certain results over time using received data. The goal of RL is to estimate universal principles from received data in order to adapt to unseen environments. This chapter reviews this sub-group of AI and briefly describes its origin.
 \subsubsection{History of Reinforcement Learning}
- In 1950 Alan Turing published a paper, "Computing machinery and intelligence" \cite{Turing1950}, where he stated a crucial question: "Can machines think?". Alan Turing presented a game called \textbf{Imitation Game}, known nowadays as \textbf{Turing Test}, that proceeded as follows:
- \begin{enumerate}
- 	\item Set up a remote scenario involving three participants: a machine programmed to imitate a human (Player A), a human (Player B) and an interrogator (Player C), who can be either male or female.
- 	\item Isolate the interrogator (Player C) in a separate room. Ensure that all communication is via a text-only medium  to eliminate physical, visual and vocal biases.
- 	\item Player A (the machine) receives questions from Player C and processes them to generate responses that deliberately mislead the interrogator. To simulate human fallibility, it may introduce typing pauses or even mathematical errors.
- 	\item Player B provides truthful answers and attempts to assist Player C in correctly identifying the machine.
- 	\item Player C must evaluate the text responses and declare "X is A and Y is B" or vice versa. If the interrogator decides wrongly as often as they would in a standard man-woman iteration of the game, the machine is deemed to exhibit satisfactory intellectual behavior.
- \end{enumerate}
+As described in \cite{Reinforcement_learning_book}, the term \textit{Reinforcement Learning} comes from the word \textit{a reinforcer}, which is used in the context of a stimulus received by animals in nature. In 1911 Edward Thorndike defined the trial-and-error learning, which he called \textbf{Law of Effect}. He stated that if the response to a certain action would come with a positive sensation, then such an action will be repeated. Conversely, if certain actions would come with discomfort, then such actions would be avoided.
+
+ In 1950 Alan Turing published a paper "Computing machinery and intelligence" \cite{Turing1950}, where he stated a crucial question: "Can machines think?". 
+ %Alan Turing presented a game called \textbf{Imitation Game}, known nowadays as \textbf{Turing Test}, that proceeded as follows:
+ %\begin{enumerate}
+% 	\item Set up a remote scenario involving three participants: a machine programmed to imitate a human (Player A), a human (Player B) and an interrogator (Player C), who can be either male or female.
+% 	\item Isolate the interrogator (Player C) in a separate room. Ensure that all communication is via a text-only medium  to eliminate physical, visual and vocal biases.
+% 	\item Player A (the machine) receives questions from Player C and processes them to generate responses that deliberately mislead the interrogator. To simulate human fallibility, it may introduce typing pauses or even mathematical errors.
+% 	\item Player B provides truthful answers and attempts to assist Player C in correctly identifying the machine.
+% 	\item Player C must evaluate the text responses and declare "X is A and Y is B" or vice versa. If the interrogator decides wrongly as often as they would in a standard man-woman iteration of the game, the machine is deemed to exhibit satisfactory intellectual behavior.
+% \end{enumerate}
  
- Turing correctly identifies that manually coding an exhaustive "table of instructions" to simulate an adult human mind is a computationally impossible task. His proposed paradigm shift is the conceptual birth of Machine Learning.
- Instead of programming an adult, engineers should simulate a "child brain", a system with minimal initial mechanisms and vast amounts of blank storage. This system is then subjected to an educational regimen. Turing explicitly draws a mathematical and systemic parallel to biological evolution:
+ Turing correctly identifies that manually coding an exhaustive \textit{table of instructions} to simulate an adult human mind is a computationally impossible task. His proposed paradigm shift is the conceptual birth of Machine Learning.
+ Instead of programming an adult, engineers should simulate a \textit{child brain}, a system with minimal initial mechanisms and vast amounts of blank storage. This system is then subjected to an educational regimen. Turing explicitly draws a mathematical and systemic parallel to biological evolution:
  \begin{itemize}
  	\item Structure of the child machine = hereditary material
  	\item Changes of the child machine = mutation
@@ -209,39 +497,294 @@ The image \ref{fig:perceptronGraph} presents
  \end{itemize}
  The Child Machine Learning Loop algorithm is proceeded as follows:
  \begin{enumerate}
- 	\item Instantiate a discrete-state machine with a minimal instruction set and an integrated "random element" generator
- 	\item The experimenter provides a task, instruction, or data via unemotional communication channels (like a symbolic language)
+ 	\item Create a discrete-state machine with a minimal instruction set and an integrated \textit{random element} generator
+ 	\item The experimenter provides a task, instruction, or data via unemotional communication channels, like a symbolic language
  	\item The machine generates an output. The random element allows for non-systematic exploration of the solution space, avoiding infinite loops
  	\item
  	\begin{itemize}
  		\item If the output is incorrect, apply a punishment signal. The machine's internal parameters are updated to decrease the probability of repeating the preceding sequence
  		\item If the output is correct, apply a reward signal. The parameters are updated to increase the probability of sequence repetition
  	\end{itemize}
- 	\item The rules of operation (the program) dynamically adapt over time. The machine evolves from a blank slate to a highly complex cognitive engine capable of competing in intellectual fields like chess or natural language processing
+ 	\item The rules of operation dynamically adapt over time. The machine evolves from a blank slate to a highly complex cognitive engine capable of competing in intellectual fields like chess or natural language processing
  \end{enumerate}
  
- By using trial, error, rewards, and punishments, the child machine slowly writes its own adult rulebook. This idea represents an early conceptual foundation of what is now known as reinforcement learning.
+ By using trial, error, rewards, and punishments, the child machine slowly writes its own adult rulebook. This idea represents an early implementation of trial-and-error learning, what is now known as reinforcement learning.
+ 
+ 
+In the mid-1950s, Richard Bellman introduced the concepts of a system's state and an \textit{optimal return function}. This led to the formulation of a functional mathematical equation now known as the Bellman equation, and the development of dynamic programming, which is a set of methods designed to solve optimal control problems. Bellman also formalized the discrete stochastic version of these problems, establishing Markov Decision Processes (MDPs). This led to Ronald Howard creating policy iteration method for MDPs. While dynamic programming provided a rigorous framework, it suffered from what Bellman termed the \textbf{curse of dimensionality}, meaning its computational demands grew exponentially with the addition of state variables. Furthermore, it was initially viewed strictly as an offline computational method requiring a perfect mathematical model of the environment. This distanced it from online learning methodologies.
+ 
+Temporal-difference (TD) learning is based on the mathematical difference between successive estimates of a single quantity over time. The origins of TD learning are linked to the psychological concept of \textit{secondary reinforcers}, stimuli that gain reinforcing properties by being paired with primary rewards, like food. Arthur Samuel implemented a checkers-playing program in 1959, as the first person to use TD principles. In 1977, Ian Witten published what is recognized as the earliest temporal-difference learning rule, proposing a tabular TD(0) method for adaptive controllers. The thread was mathematically formalized by Richard Sutton in 1988, who separated TD learning from control, treating it as a generalized prediction method and proving the convergence properties of the TD algorithm.
+ 
+ 
+While trial-and-error learning, optimal return function, and temporal-difference learning had previously developed as separate fields, they were brought together by Christopher Watkins in 1989. He developed the Q-learning algorithm, effectively proving that an agent could utilize temporal-difference methods in a model-free, trial-and-error environment to incrementally approximate the optimal value functions defined by Bellman's Dynamic Programming. This theoretical unification was followed by significant practical success in 1992, when Gerry Tesauro combined TD learning with artificial neural networks to create TD-Gammon, a program that achieved masterful performance in backgammon and brought widespread attention to the modern field of Reinforcement Learning. \cite{Reinforcement_learning_book} 
  
  \subsubsection{Fundamentals of Reinforcement Learning}
+ % umiejscowienie w machine learning, różnica między supervized, unsupervised etc
+ Machine learning is a subfield of artificial intelligence that focuses on algorithms which analyze data in order to identify patterns and make accurate predictions. Rather than being programmed directly to perform a specific task, these algorithms learn from the data they are given.
+ According to \cite{Deep-Learning-book}, ML can be divided into three subcategories:
+ 	\begin{itemize}
+ 		\item supervised learning,
+ 		\item unsupervised learning,
+ 		\item reinforcement learning 
+ 	\end{itemize}
+ 	
+	Supervised learning is a technique in which an algorithm trains on labeled data. By providing pair of input data and a proper output example, ML model can learn pattern between data and output to create proper predictions in the future, familiar tasks. 
+	
+	In unsupervised learning technique, the model receives data without proper output, unlike in supervised learning. The aim of this subgroup is to detect correlations within the data rather than make predictions.
+	
+	In contrast to  both supervised and unsupervised learning, reinforcement learning does not receive any data at the beginning of training process. The agent is placed in a simulated environment and, while interacting with it, gets rewards or penalties through trial and error.
+ 	  
+
+ 
+\begin{figure} [H]
+	\centering
+ \begin{tikzpicture}[
+ 	node distance=1.5cm and 3cm,
+ 	box/.style={draw, rectangle, minimum width=3.5cm, minimum height=1.5cm, align=center, thick, font=\sffamily\large},
+ 	arrow/.style={-Stealth, thick, font=\sffamily}
+ 	]
+ 	
+ 	% Główne bloki
+ 	\node[box] (agent) {Agent};
+ 	\node[box, below=of agent] (env) {Environment};
+ 	
+ 	% Strzałka Akcji
+ 	\draw[arrow] (agent.east) -- +(2.5,0) |- node[pos=0.25, right] {Action $A_t$} (env.east);
+ 	
+ 	% Strzałki Stanu i Nagrody
+ 	\draw[arrow] (env.west) -- +(-2.5,0) |- node[pos=0.25, left, align=right] {State $S_{t+1}$ \\[1ex] Reward $R_{t+1}$} (agent.west);
+ 	
+ \end{tikzpicture}
+ \caption{Reinforcement learning diagram}
+ \label{fig:RL_diagram}
+\end{figure}
+Figure \ref{fig:RL_diagram} presents the general diagram of RL system. The agent observes the environment and its current state. Based on this information, the agent takes an action. After each decision, the agent receives a reward or penalty depending on the predefined reward system. Initially, all interactions with the environment are unplanned, but over time, the agent begins to make considered decisions.
+
+ % system kar i nagród, 
+ % pochodzenie od MDP 
+Reinforcement Learning is the practical algorithmic methodology deployed to solve the Markov Decision Process (MDP).
+It is a rigorous mathematical framework used to model sequential decision-making scenarios in stochastic and dynamic environments. It provides a structural paradigm that outlines how an agent interacts with a given environment over time. The defining characteristic of this framework is the Markov property, also known as the Markov assumption. This property dictates that the probability of transitioning to any future state is determined solely by the current state and the agent's most recent action. Consequently, the historical sequence of previously visited states and prior actions is mathematically irrelevant when it comes to predicting the system's future dynamics. This enables the problem to be treated as memoryless, which significantly reduces computational complexity \cite{NaeemMuddasar2020AGIt}.
+An MDP is formally described as a 5-tuple of interacting mathematical components that govern the mechanics of the environmen \cite{HwangHyo-Seok2025GASA}
+	\begin{align}
+	M =( S, A, P, R, \gamma)
+\end{align}
+Where:
+\begin{itemize}
+	\item $S$ - The state space, representing the exhaustive set of all possible configurations or situations the environment can occupy.
+	\item $A$ - The action space, denoting all permissible moves or decisions the agent can execute.
+	\item $P(s'|s,a)$ - The state transition probability, which defines the mathematical likelihood of the environment shifting to a new state $s'$ given that action a was taken in the current state s.
+	\item $R(s,a)$ - The reward function, providing the immediate numerical feedback generated upon taking action a in state s.
+	\item $\gamma$ - The discount factor, a tuning parameter that balances the agent's preference between immediate gratification and long-term strategic returns.
+\end{itemize}
+In a scenario where the exact transition probabilities P and reward distributions R are perfectly known in advance, the MDP can be solved analytically using classic Dynamic Programming techniques. However, in realistic RL scenarios, these underlying environmental dynamics are completely unknown to the agent. Therefore, the RL algorithm acts as an autonomous explorer that must discover the optimal strategy strictly through trial-and-error interaction within the boundaries set by the MDP.
+ % opis działania polityki (policy) aka strategii 
+ The ultimate objective of the RL algorithm is to derive an optimal policy. This is defined as a comprehensive mathematical mapping from the MDP's states to specific actions, that maximizes the expected cumulative reward over the agent's operational lifetime \cite{NaeemMuddasar2020AGIt}. Since underlying mechanism of the policy is MDP, the policy instructs the agent on how to act strictly based on its current situation while ignoring the history of its actions.
+
+ %Policy-based, value-based, model-free, model-based, model
+The RL theoretical landscape can be extracted as primarily divided into four axes: optimization target (Value-Based vs. Policy-Based), the dependency on environmental dynamics (Model-Free vs. Model-Based), the learning update mechanism (Monte Carlo vs. Temporal Difference) and the data collection strategy (On-Policy vs. Off-Policy). These axes are orthogonal, any algorithm can be characterized as a combination of choices across all dimensions. It is important to understand these classifications in order to select the proper algorithmic framework for specific complex control problems.
+
+
+In value-based methods, the algorithm channels all computational and function approximation efforts into accurately estimating a value function, such as the optimal state-value function or the state-action value function. Once the value function is estimated, the policy itself is not explicitly modeled, rather, it is derived implicitly. The agent acts by strictly choosing the \textit{greedy} action, the specific action that corresponds to the highest estimated mathematical value in any given state. While highly successful in many applications, the value-based paradigm possesses severe theoretical limitations with stochasticity. In environments where the true optimal policy is stochastic, pure value-based methods consistently struggle. Also due to action selection based on finding the maximum value, an arbitrarily microscopic change in the estimated value of an action can discontinuously alter whether that action is selected or ignored \cite{sutton1999policy}.
+
+ The policy-based approach, often referred to as policy gradient methods, bypasses the intermediate step of value estimation for action selection. Instead, the stochastic policy is explicitly represented by its own independent function approximator, parameterized by a vector  $\theta$, which dictates the probability of selecting an action. The algorithm then performs gradient ascent directly on the performance objective, which is theoretically guaranteed to converge to at least a locally optimal policy \cite{sutton1999policy} .%\cite{PriantoEvan2020PPfM}.
+
+In model-free reinforcement learning (MFRL), the agent lacks any prior or learned knowledge regarding the environment's transition model and reward function. Because the agent is completely blind to the mathematical rules governing the environment, it must rely exclusively on extensive trial-and-error physical interactions to progressively deduce optimal policies and update its value estimations. The primary advantage of MFRL is its immunity to model bias. Because the agent learns exclusively from ground-truth, experienced data sampled directly from the real world, it often achieves superior and highly robust asymptotic performance. However, this reliance on direct interaction results in massive sample complexity. MFRL requires a substantial amount of training data to converge, which makes it impractical for many real-world applications, such as robotics or autonomous driving, where physical trial-and-error is slow, expensive, or dangerous
+\cite{NaeemMuddasar2020AGIt} 
+\cite{moerland2022modelbasedreinforcementlearningsurvey} %\cite{luo2022surveymodelbasedreinforcementlearning}.
+
+
+Model-based RL was developed specifically to resolve the severe sample inefficiency of model-free methods. In this paradigm, the agent actively builds a predictive abstraction of the environment, known as the model. Formally, given an MDP, the model learning phase focuses on recovering the unknown state transition dynamics \textit{M} and the reward function \textit{R}. By constructing this environment model, the agent gains the capability of \textit{imagination}. It achieves reversible access to the MDP, allowing it to query any specific state-action pair in a simulated environment to predict future consequences. This simulated playground allows the agent to conduct extensive planning and generate artificial simulation data without incurring any real-world costs. The most significant benefit of MBRL is its exceptional data efficiency, by planning inside a simulated model, the agent can learn optimal behaviors using a fraction of the real-world samples required by MFRL. Furthermore, models allow for forward planning algorithms like Model Predictive Control, which can naturally integrate safety constraints. However, MBRL suffers from the \textit{generalization error}. If the learned model contains slight inaccuracies, generating long simulated trajectories causes these inaccuracies to amplify exponentially, a critical flaw. Consequently, a policy optimized perfectly within a flawed model may perform terribly in the real world situations. \cite{moerland2022modelbasedreinforcementlearningsurvey} %\cite{luo2022surveymodelbasedreinforcementlearning}
+
+ Monte Carlo (MC) Methods learn exclusively from completely finished episodes. The agent relies on the statistical concept of the mean return, utilizing randomness to solve the decision-making problem. Because the algorithm calculates updates based on actual accumulated rewards, it must wait until the episode reaches a terminal state before any value functions can be adjusted. The MC estimator is strictly unbiased due to the fact that its target is the actual, observed empirical return. However, because the target return aggregates all stochastic rewards and action sequences across an entire trajectory, MC methods inherently suffer from high variance \cite{NaeemMuddasar2020AGIt}.
+
+
+Temporal Difference (TD) methods resolve the necessity of waiting for an episode's conclusion by bootstrapping—forming a target immediately at the next time step and updating based on current estimates. By performing updates using the immediate reward and the predicted value of the subsequent state, TD learning occurs dynamically. Consequently, the TD estimator is biased because its target relies on a learned estimation rather than an ultimate factual return. Nevertheless, because the TD target incorporates far fewer stochastic trajectory components compared to MC, the degree of statistical variance is significantly reduced \cite{NaeemMuddasar2020AGIt}.
+
+In On-Policy methodology the agent rigorously evaluates and improves the exact same policy that it currently uses for environmental interaction and decision-making. The algorithm acquires a batch of behavioral experiences and subsequently computes policy gradient updates exclusively utilizing the data induced by the current, active policy. Because the updates are tightly coupled to the agent's immediate behavior, on-policy algorithms generally exhibit strong stability and are straightforward to implement. However, this paradigm introduces a severe limitation known as data inefficiency or high sample complexity. Once the agent's policy parameters are updated, all previously collected data batches become obsolete and must be discarded, forcing the agent to continuously sample new trajectories from the environment to facilitate further learning \cite{On-Policy_vs._Off-Policy}.
+
+Off-Policy agent evaluates and improves a target policy using historical interaction data that may have been generated by entirely different, older behavior policies. To accomplish this, off-policy algorithms typically employ a memory mechanism known as an experience replay buffer. This buffer stores continuous streams of tuples containing the state, action, reward, and next state. By continuously recycling these archived transitions to compute updates, the agent breaks temporal data correlations and achieves exceptional sample efficiency. Despite their superior data efficiency, off-policy models are notoriously unstable during training, suffer from potential overestimation biases, and require highly careful hyperparameter tuning \cite{On-Policy_vs._Off-Policy}.
+
+
+  % exploration and exploitation
+
+Despite the variety of reinforcement learning methods, all of them rely on a decision-making process driven by interactions with an environment. One of the most fundamental challenges inherent to this paradigm is the \textbf{Exploration vs. Exploitation Dilemma}.
+When taking an action, the agent must constantly choose between two competing behavioral strategies:
+\begin{itemize}
+	\item Exploration - The agent intentionally selects stochastic actions in order to gather more overall information about the environment.
+	\item Exploitation - The agent relies strictly on its current, established knowledge base to select the action that yields the highest known expected reward.
+\end{itemize}
+The key challenge in this dilemma is balancing the transition between exploration and exploitation. If the agent begins to exploit its environment too rapidly, it can get stuck in local optima and never discover the true globally optimal policy. However, if the agent would explore the environment for too long, it continually risks taking poor actions and fails to maximize its cumulative reward during its operational lifetime.
+
+
+
+ % known algorithms - Q-learnig, PPO, SAC etc
+ In the domain of Reinforcement Learning, a variety of algorithms exist, each with its own unique characteristics. The following list is a selection of these algorithms:
+
+ \begin{itemize}
+
+ 	\item REINFORCE - ("REward Increment = Non-negative Factor × Offset Reinforcement × Characteristic Eligibility") was introduced by Williams in 1992 and serves as a fundamental policy gradient method within the domain of Reinforcement Learning. It directly maps states to action probabilities using its own parameters, completely independent of a value function. By climbing the gradient of expected performance, small changes in the parameters guarantee only small, smooth changes in the policy and the state-visitation distribution. REINFORCE relies exclusively on real, experiential trajectories generated by interacting directly with the environment through trial and error, making it a model-free approach. It uses the actual, empirical returns collected from a given time step until the episode terminates. Because it waits for the entire trajectory to conclude to calculate the exact cumulative reward, it is classified as a Monte Carlo method. REINFORCE collects a batch of behavioral trajectories and computes the policy gradient update strictly from the data induced by the agent's current, active policy. Once the policy parameters are updated, the old data is discarded, and new data must be collected using the newly updated policy. \cite{Deep-Learning-book} \cite{sutton1999policy}
+ 	\item Q-Learning - is recognized as a foundational algorithm for solving optimal control problems in MDP. This algorithm relies on a discrete tabular architecture to record its acquired knowledge. The algorithm constructs a two-dimensional memory matrix, or Q-table, by directly mapping discrete environmental states to applicable actions. It then iteratively updates the Q-value, the mathematical utility of executing a specific action within a specific state of each entry in the matrix.  Q-Learning directs the computational effort toward accurately estimating an optimal action-value function. The agent's actual decision-making protocol is implicitly derived from these estimates, it simply operates by selecting the action that mathematically corresponds to the highest evaluated Q-value in the current state. It does not possess or attempt to build an internal predictive model of the universe. It evaluates the consequences of actions exclusively through habitual, physical trial-and-error interactions directly within the environment. It updates its value estimations dynamically and instantly after every single environmental step. It achieves this by forming a target based on the immediately observed scalar reward and the predicted Q-value of the subsequent state, effectively using its own estimations to refine previous estimations. Q-Learning, decouples its optimization target from the agent's actual behavior. When formulating its update, it assumes the absolute best theoretical action will be taken in the subsequent state, completely disregarding whatever sub-optimal, exploratory move the active behavioral policy might actually execute next. \cite{NaeemMuddasar2020AGIt} %\cite{sutton1999policy}
+ 	\item SARSA -(State-Action-Reward-State-Action) this algorithm works virtually identical to Q-Learning. The main difference is that SARSA is on-policy. This means the algorithm evaluates and improves the exact same policy that it currently uses to make decisions. SARSA updates its action-value function based strictly on the exact subsequent action $a_{t+1}$ that the agent's current exploratory policy dictates it will actually execute. \cite{NaeemMuddasar2020AGIt} 
+ 	
+ 	\item Actor-Critic - this algorithm is a sophisticated hybrid architecture, designed to overcome the limitations of pure value and policy-based methods. The learning process is divided into two distinct yet interacting mathematical structures: the \textbf{Actor} and the \textbf{Critic}. The Actor maintains and updates the stochastic policy distribution to dictate the agent's behavior in the environment, while the Critic estimates the value function to evaluate the actions taken by the Actor. The Actor uses the feedback signal generated by the Critic to adjust its policy parameters iteratively towards optimal behavior. Both the Actor and the Critic learn strictly through continuous trial and error in physical interaction with the environment, deriving their updates exclusively from real sampled trajectories. The Actor formulates an update target immediately after a single time step by combining the observed immediate reward with its current estimation of the subsequent state's utility. The critic evaluates the same behavioral policy that the actor is currently using to navigate the environment. The temporal difference error is calculated based on the sequential states visited and actions taken under the active policy. This means that if the actor's policy changes, the critic's value estimations must dynamically track those specific changes.
+ 	 \cite{NaeemMuddasar2020AGIt} 
+ \end{itemize}
+ 
  \subsubsection{Deep Reinforcement Learning}
+\label{Enhancement_tech_1}
 
-
-
-
+ In classical RL, algorithms traditionally relied on discrete, tabular memory structures to evaluate states and formulate optimal policies. However, this tabular approach inherently falls victim to the \textit{curse of dimensionality}, meaning it is mathematically and computationally incapable of scaling to environments characterized by continuous variables or high-dimensional sensory inputs. Deep Reinforcement Learning (DRL) resolve this limitation by substituting the discrete tables with DNN. By channeling raw, unstructured data through multiple hidden layers, the network autonomously distills complex environmental data into the abstract, hierarchical features necessary to approximate value functions and action policies. 
+ 
+ % algorytmy które używają tylko dnn w swojej naturze, AlphaZero jeden z nich, DQN PPO SAC
+ Over time, some algorithms were adapted for use with DNN in RL, while others were created using only NN and cannot be found to be implemented without it. The following list presents some of these algorithms:
+\begin{itemize}
+	\item Deep Q-Learning (DQL) - while classical Q-learning relies on discrete, tabular memory, DQL substitutes the table with DNN as a non-linear function approximator to estimate the Q-value function. By processing raw state variables through neural layers, the algorithm can autonomously predict the value of unvisited or newly emerging states, allowing the agent to generalize its policy in vast state spaces. \cite{Reinforcement_learning_book}
+	\item Asynchronous Advantage Actor-Critic (A3C) - it is the implementation of the Actor-Critic algorithm where the Actor and Critic structures are based on DNN. A major innovation within A3C is the integration of the \textbf{Advantage} metric. Instead of updating the policy based solely on the raw cumulative reward an action generates, the Critic computes the Advantage function to measure the relative merit of the chosen action compared to the average expected outcome in that specific state. By evaluating how much better an action was relative to a baseline expectation, the algorithm guides policy updates to strongly encourage actions that yield high advantages, thus maximizing the expected returns while simultaneously minimizing the variance of the gradient updates. A3C also improves the training efficiency by deploying multiple independent worker agents into parallel, distinct instances of the environment. Each local worker agent maintains its own replica of the environment and calculates its gradients locally based on its own experiential trajectories. Instead of pausing and waiting for all other agents to finish their tasks, which creates a computational bottleneck, each worker asynchronously pushes its gradient updates to a central, global neural network. This asynchronous parallelism acts as a natural decorrelator for the experiential data. However the asynchronous nature of the algorithm means that while one worker is computing its local gradients, the global network may have already been updated multiple times by other workers. Consequently, a worker might apply gradients calculated from an outdated policy to a newly updated global network, leading to suboptimal optimization steps and mathematical instability \cite{LuoRunzhou2025RoBG} %\cite{CAoRLAfBRL}
+	\item Advantage Actor-Critic (A2C) - this algorithm is descendant of A3C that eliminates the asynchronous uncoordinated updates. It allows multiple agents to collect experiences in parallel, but it waits for all parallel actors to complete their trajectory segments. Once all workers finish, A2C aggregates their data and calculates a unified, synchronous gradient update to the global network parameters. \cite{CAoRLAfBRL}
+	\item Proximal Policy Optimization (PPO) - it utilizes an Actor-Critic architecture and implements two NN for Actor and Critic. The defining architectural characteristic of PPO is its use of a \textit{clipped surrogate objective function}. In standard policy gradient algorithms, updating the policy based on sequential data can lead to excessively large parameter shifts, which fundamentally destabilize the neural network and cause catastrophic performance collapse. PPO mathematically bounds the policy update step, ensuring that the new strategy does not deviate significantly from the old strategy. This structural constraint establishes a \textit{trust region}, leading to highly stable, monotonic performance improvements and making PPO a default algorithm in many advanced RL applications.
+	\cite{CAoRLAfBRL} \cite{YauHer‐Terng2024Ppoc}
+	\item Soft Actor-Critic (SAC) - it is another implementation of the Actor-Critic architecture, using a DNN for both the \textbf{Actor} and the \textbf{Critic}. The main difference between Actor-Critic and SAC is that SAC is off-policy due to the implemented replay buffer that stores recently made decisions. During the network optimization phase, SAC samples randomized mini-batches of this historical data, which heavily decorrelates the training samples and vastly improves the algorithm's sample efficiency compared to on-policy methods. The SAC algorithm is meticulously engineered to address the challenges of environments featuring high-dimensional, continuous action spaces.  Introduced as a highly sample-efficient and stable method, SAC operates on the principles of maximum entropy reinforcement learning. It concurrently maximizes both the expected return and the entropy of the agent's policy.\cite{PriantoEvan2020PPfM}
+	\item AlphaZero - it is algorithm developed by DeepMind, that utilizes Actor-Critic architecture. 	AlphaZero's most profound achievement is its ability to learn from scratch, it requires no domain-specific human knowledge, hand-crafted evaluation heuristics or opening books. It relies solely on the basic rules of the game to achieve superhuman performance. AlphaZero replaces the traditional alpha-beta search and hand-crafted evaluation functions used by classical game engines, such as Stockfish, with a deep neural network and a general-purpose Monte Carlo Tree Search (MCTS) algorithm. This makes AlphaZero a model-based reinforcement learning system. Another difference from regular Actor-Critic architecture is that AlphaZero runs simulations to the end of the game, giving it a Monte Carlo learning approach.
+	\cite{SilverDavid2018Agrl}
+\end{itemize}
 
 %\subsection{Policy Gradient Methods}
-\subsection{Proximal Policy Optimization}
-\subsection{Soft Actor-Critic}
-\section{Literature Research}
+%\subsection{Proximal Policy Optimization}
+%\subsection{Soft Actor-Critic}
+%\section{Literature Research}
 
+\subsection{The Sparse Reward Problem}
+\label{Enhancement_tech_2}
+In Rummikub, winning a single game requires not only to complete the initial meld, but also to be the first player to successfully place all the tiles from their rack before the other players do. This requires planning each move with consideration of long-term results. Consequently, the reinforcement learning agent receives the most significant reward only at the end of an episode. Furthermore, the stochastic nature of agents' initial moves makes finding the winning strategy unlikely to occur.
+In the context of such a delayed feedback, it is more probable that the agent will adopt a policy of minimizing penalties rather than maximizing rewards, resulting in slow or unstable learning. This issue is referred to as \textbf{the sparse reward problem}, in which informative reward signals are too infrequent to effectively guide the learning process. Without additional guidance, the agent encounters the temporal credit assignment problem, whereby it becomes challenging to ascertain which earlier actions contributed to the final outcome of the game. Consequently, many beneficial decisions receive no immediate reinforcement, which significantly increases the number of interactions with the environment required to learn an effective policy or prevent the agent from discovering the winning strategy. 
+While \textit{the sparse reward problem} creates significant bottlenecks for successful training of the RL agent, there are several auxiliary learning methods to mitigate it.
+\subsubsection{Action masking}
+In the domain of DRL, action masking serves as a structural constraint mechanism engineered to prevent an AI agent from selecting invalid, infeasible, or unsafe actions during its interaction with an environment. When operating in complex environments with large or continuous state-action spaces, DRL agents typically rely on trial-and-error exploration, which often leads to evaluating actions that violate the fundamental physics or logical rules of the given domain. Action masking resolves this by actively filtering out invalid actions before they are executed. This compels the agent to make decisions based exclusively on a valid and safe subset of actions.
+Rather than allowing an agent to freely execute an illegal move and subsequently penalizing it with a negative reward, action masking fundamentally modifies the probability distribution of the policy network. The probabilities of prohibited actions are set to zero, and the probabilities of the remaining legal actions are renormalized. This method can also be implemented in real-world or safety-critical applications, where executing an invalid action can be disastrous. Action masking ensures that domain constraints are strictly upheld during both the training and inference phases, substantially reducing or entirely eliminating constraint violations.  \cite{Action_masking}
+\subsubsection{Reward shaping}
+Reward shaping involves engineering supplementary, intermediate micro-rewards into the environment's feedback loop to provide dense, step-by-step guidance. By introducing prior information or heuristics into the reward function, the agent is continuously stimulated for achieving partial objectives or moving toward the ultimate goal, drastically accelerating the convergence of the learning process. While manually annotating intermediate rewards is the most direct way to solve sparsity, it introduces a critical vulnerability: the misalignment of goals. The fundamental rule of RL dictates that the reward signal should communicate what the agent needs to achieve, rather than how to achieve it. If an agent is explicitly rewarded for achieving subgoals, the learning algorithm will optimize ruthlessly for that specific signal. The agent may discover unintended \textit{loopholes}, such as capturing pieces at the cost of losing the game overall, thereby exploiting the artificial shaping rewards rather than solving the underlying problem. Furthermore, if the shaping functions are poorly designed and lack generality, they can trap the agent in local optima, requiring exhaustive manual recalibration for every new environment. \cite{SparseRewardProblem}
+%\cite{Multi_agent_Sparse_Reward_Problem} 
+\subsubsection{Intrinsic Motivation}
+Intrinsic Motivation (IM) is a mechanism that drives an agent's behavior based on internal feedback rather than external, task-specific goals. This concept is heavily inspired by developmental psychology, where it is characterized as the drive to perform an activity for its inherent satisfaction, the feeling of efficacy, or the joy of discovery, rather than for a separable external consequence. When translated into machine learning architectures, intrinsic motivation mathematically formalizes psychological phenomena such as curiosity, surprise, and the drive for skill mastery. It acts as a continuous, dense auxiliary reward signal that an agent computes internally based on its own interactions, structural uncertainty, and learning progress. There are a three distinct types of this approach \cite{intrinsic_motivation_of_RL} \cite{Information-Theoretic_intrinsic_motivation_of_RL}:
+\begin{itemize}
+	\item Prediction-Based Intrinsic Motivation - These methods reward the agent based on its inability to accurately forecast future outcomes. Architectures such as Intrinsic Curiosity Modules (ICM) or Random Network Distillation (RND) quantify curiosity through prediction errors. Alternatively, epistemic uncertainty can be measured using disagreement across an ensemble of dynamics models.
+	\item Competence-Based Intrinsic Motivation - Rather than rewarding pure prediction errors, these models focus on the temporal derivative of learning. The agent is motivated to explore regions where its predictive capability or task competence is improving most rapidly.
+	\item Information-Theoretic Intrinsic Motivation - These approaches ground curiosity in the Information Bottleneck principle. They formalize IM as the maximization of predictive information within a compressed latent representation space, effectively filtering out task-irrelevant nuisance variability
+\end{itemize} 
 
-%\subsection{Computing machinery and intelligence: By A. M. Turing}
+%\subsubsection{Self-play}
+\subsubsection{Imitation learning}
+Imitation learning is a paradigm in which an artificial agent acquires policies by observing and replicating the behavior of an expert. Imitation learning addresses the foundational flaw of sparse reward by leveraging pre-recorded datasets of expert demonstrations. These datasets contain highly structured and biased prior knowledge, which significantly reduces the exploration space and accelerates policy optimization. The methodologies to extract and utilize expert demonstrations are generally categorized into several major branches:
+\begin{itemize}
+	\item Imitation from Observation (IfO) - It represents a specialised subfield dedicated to extracting functional policies from expert demonstrations where the ground-truth actions are strictly unobservable. IfO's primary application is learning from raw visual data, such as videos of human demonstrations, where the state transitions are visible, but the underlying control inputs, such as motor torques, keystrokes or joint velocities, are hidden from the learner. Since classical imitation learning relies on state-action pairs, IfO provides novel algorithmic solutions to overcome the limitations arising from missing action labels.  \cite{ding2020imitation}
+	\item Inverse Reinforcement Learning (IRL) - It represents a sophisticated paradigm aimed at uncovering the underlying intentions of an expert. While traditional RL focuses on discovering an optimal policy given a predefined reward function, IRL operates in reverse, that is, it attempts to extract a hidden reward function based on the observed, optimal behavior of an expert, which is mathematically represented as the expert policy. IRL-based techniques iteratively alternate between two core procedures, utilizing the expert demonstration to deduce the latent reward function, and subsequently deploying standard RL algorithms utilizing that inferred reward function to train an imitating agent. \cite{ding2020imitation}
+	\item Behavioral Cloning (BC) - represents the most straightforward and fundamental approach to acquiring an expert's policy. BC reduces the sequential decision-making problem into a standard supervised learning task. Given a pre-recorded dataset comprising state-action pairs generated by an expert demonstrator, the learning agent trains a parameterized policy network to directly map observed states to the exact actions executed by the expert. Because BC relies entirely on supervised learning mechanisms, it does not require active interaction with the environment or the calculation of complex reward functions during its primary training phase. This makes the algorithmic implementation highly computationally efficient compared to standard trial-and-error RL or IRL.  BC can also be used to pre-train the agent using expert demonstrations, rather than initializing an RL policy network with randomized weights. \cite{ding2020imitation}
+	\item Generative Adversarial Imitation Learning (GAIL) - it bridges the gap between BC and IRL paradigms by employing a generative adversarial architecture inspired by Generative Adversarial Networks (GANs).  Instead of mapping specific state-action pairs or recovering a computationally expensive reward function, GAIL trains a parameterized policy to directly match the state-action occupancy measure of the expert. This permits the agent to discover generalized, optimal strategies without requiring human engineers to explicitly define complex, task-specific reward functions. The structural foundation of GAIL consists of two competing deep neural networks engaged in a continuous minimax optimization game:
+	\begin{itemize}
+		\item The Generator, which is played by the RL agent. It utilizes its parameterized policy to actively interact with the environment, generating synthetic trajectories. Its primary objective is to produce behaviors that are statistically indistinguishable from the provided expert demonstrations, effectively deceiving the discriminator.
+		\item The Discriminator Network, which is the new separate entity that evaluates state-action inputs and outputs a continuous probability ranging between 0 and 1. It functions as a binary classifier, striving to correctly identify whether a given state-action pair originated from the genuine expert dataset or was artificially generated by the learner's policy. 
+	\end{itemize}
+	As training progresses, the output of the discriminator is utilized as an intrinsic, surrogate reward signal for the generator. This completely eliminates the need for environmental reward engineering. \cite{ding2020imitation}
+\end{itemize}
+
+\subsubsection{Hierarchical Reinforcement Learning}
+Hierarchical Reinforcement Learning (HRL) applies a \textit{divide and conquer} methodology, which involves decomposing a highly complex, overarching problem into a hierarchy of simpler, more manageable sub-problems. This introduces the concepts of temporal and behavioral abstraction, by structuring the learning process across multiple levels, lower-level agents can focus on mastering short-term primitive actions, while higher-level agents coordinate long-term strategies and subtask selection. This structural abstraction enables policies to endure over extended periods, promoting knowledge reuse and substantially enhancing sample efficiency. \cite{Multi_agent_Sparse_Reward}
+\subsubsection{Curriculum learning}
+\label{an::CL}
+Curriculum Learning (CL) is an advanced training paradigm, wherein a learning agent is not immediately exposed to the full complexity of a target problem. Instead, the agent is trained on a meticulously designed sequence of tasks or data distributions, beginning with highly simplified, auxiliary scenarios and progressively increasing in difficulty until the ultimate target task is reached. This methodology is deeply inspired by animal training protocols and human pedagogical strategies, where teachers naturally present easier, prototypical concepts before introducing complex exceptions. Primarily utilized to accelerate learning speed, improve final policy performance, and bypass the severe sample inefficiencies caused by sparse reward environments. By artificially scaling the complexity, the agent is prevented from experiencing prolonged periods of random, unrewarded exploration, which often leads to optimization stalling. \cite{klink2024benefit}
+\subsubsection{Hindsight Experience Replay}
+Hindsight Experience Replay (HER) emerges as a highly robust, task-independent alternative designed specifically to address the sparse reward bottleneck in goal-oriented tasks, such as robotic manipulation and navigation. Instead of modifying the environmental reward signal or relying on external expert supervision, HER fundamentally alters how the learning algorithm interprets and reuses historical trajectory data, enabling the agent to extract meaningful information from episodes that would conventionally be discarded as absolute failures. HER is fundamentally an extension of the standard experience replay mechanism utilized in off-policy RL architectures. The algorithmic innovation of HER lies in its \textit{goal relabelling} strategy. When an agent attempts to reach a specific target but fails, a standard RL algorithm registers a zero or negative reward, meaning the data collected is uninformative. However, HER salvages this unsuccessful trajectory. It samples the actual states that the agent successfully reached later in the same episode, replacing the original failed goal with these realized future states. The algorithm then recomputes the reward function against this newly synthesized hindsight goal. Treating the unintended outcome as if it were the true objective all along mathematically transforms failing episodes into successful training signals.
+\cite{SparseRewardProblem} 
+
 
 %badania związane z tematyką
 \section{Existing solutions}
-The development of computer players for board games has been a significant research area within the field of artificial intelligence for many years. Numerous studies have explored different approaches to decision-making, strategy optimization, and learning in game environments. 
-%istniejące techniki
+The development of computer players for video games has been a significant research area within the field of artificial intelligence for many years. Numerous studies have explored different approaches to decision-making, strategy optimization, and learning in game environments. 
 
+\subsection{Applying ML Algorithms to Video Game AI}
+In \cite{kopel2019applying} authors analyzed the efficiency of selected machine learning algorithms for NPC behavior in video games. The research was conducted in 3D environment implemented in Unity, using ML-Agents Toolkit for computer players implementation. The game was a deathmatch in which each computer-controlled player was assigned to a one of two teams. Players were tasked with shooting down the opposing team’s tanks. If they shot down their own teammates, they received penalties. Researchers selected 4 algorithms for experiment : Genetic algorithm, Deep Q-Learning, Deep Q-Learning with improvements and Actor-Critic. Each agent received the same neural architecture: four layers. The input layer had 87 neurons and the two hidden layers had 128 neurons each with a ReLU activation function. The experiments consisted of 10 training sessions per algorithm, running for 1,000,000 iterations with 64 parallel agents, and for all sessions, an average of the results was taken.
+
+Genetic Algorithm exhibited the poorest performance, securing a mean reward of only 5.76 in 6.76 hours. GA agents initially struggled with random movements, repeatedly getting stuck on arena walls. The authors concluded that GA struggles extensively to generate optimal weights randomly in highly complex, deep network topologies. DQN Achieved a mean reward of 14.41 within a highly efficient time frame of 6.46 hours. Improved DQN achieved a mean reward of 17.18 . However, due to computing values across multiple enhanced networks, it was heavily penalized in computation speed, taking an average of 26.89 hours. Actor-Critic achieved the absolute best performance, yielding a mean end-session reward of 23.10 and requiring 12.68 hours of training. Ultimately, the study proves that Temporal Difference algorithms (DQN and Actor-Critic) drastically outperform evolutionary approaches in modern video game AI. This is largely because TD algorithms adapt step-by-step during gameplay, whereas GA approaches must wait for an entire episode to conclude before initiating evolutionary operations.
+
+\subsection{Anticheat System Based on Reinforcement Learning Agents	in Unity}
+In the article \cite{lukas2022anticheat} authors presented an innovative anti-cheat system driven by Reinforcement Learning. Unlike conventional security mechanisms that passively parse static server logs or monitor network traffic configurations to detect anomalies, this system provides a dynamic, real-time security agent that analyses the game environment and autonomously differentiates between legitimate human players and artificial intelligence bots. For the purposes of the experiment, researchers implemented simple 3D multiplayer game \textit{Courier} using Unity engine. The architecture of the computer players was based on Finite State Machines. The security agent system was based on Reinforcement Learning using the ML-Agents toolkit. The fundamental mechanics of the environment involve two competing teams striving to transport five designated boxes to their respective goal zones within a rigid 185-second timeframe. The environment introduces specific spatial and dynamic variables to complicate the navigation space:
+\begin{itemize}
+	\item The map features a mirrored layout containing labyrinthine structures and a central water hazard.
+	\item Falling into the water hazard triggers an immediate entity respawn at the base.
+	\item Environmental hazards, specifically autonomous artillery units, randomly fire missiles that can eliminate players upon collision.
+	\item Entities interact using basic physics, allowing boxes to collide with missiles and other objects.
+\end{itemize}
+The core anticheat component operates via the Proximal Policy Optimization (PPO) algorithm. The agent continuously extracts real-time physical and contextual data from the monitored player. The input vector includes the player's local position, local Y-axis rotation, current velocity, a boolean indicating if a box is being carried, the spatial coordinates of all team boxes, and the current score of both teams. The agent's action space consists of three discrete classifications: 0 when the agent categorizes the entity as a bot, 1 when the agent has insufficient data, and 2 when the agent classifies the entity as a human player.
+To translate and evaluate the agent's real-time continuous decisions, researchers provided own metric named \textbf{Cheating Probability Calculation}:
+\begin{align}
+	\text{Cheating Percentage } = \frac{N_{\text{positive\_decisions}}}{N_{\text{total\_decisions}}} \times 100
+\end{align}
+where:
+\begin{itemize}
+	\item $\text{positive\_decisions}$ - is the number of times a player has been flagged as a bot in the last 3 thousand decisions.
+	\item $\text{total\_decisions}$ - recent decisions.
+\end{itemize}
+The first training conducted two teams one player against another (1 vs. 1). One human player was assigned exclusively to the red team, while one FSM bot was assigned exclusively to the blue team. Training ran for approximately 1.8 hours. The agent rapidly converged, successfully identifying the bot with an 84.15\% cheating probability and the human with only a 12.18\% probability. When the entities swapped teams post-training, the agent catastrophically failed. It falsely flagged the human, that was now on the blue team, with a 71.92\% probability of cheating. The agent had incorrectly optimized its policy to associate the spatial coordinates of the blue team's base with bot behavior, rather than isolating actual kinematic movement patterns.
+The second training session involved two teams, each comprising one bot and one human player (2 vs. 2). The model continued training from the 1v1 weights for an additional 3.4 hours. The introduction of complex, overlapping pathing initially caused a severe collapse in cumulative reward, accompanied by a spike in policy entropy as the agent was forced to unlearn its previous geographical bias. Eventually, the agent stabilized. In the final tests, the agent successfully classified red team bots at >60\% probability and red team humans at <32\%. The researchers concluded that with longer training epochs starting from scratch,avoiding the biased 1v1 weights, and larger player counts, the PPO agent represents a highly viable, real-time solution for differentiating human kinematics from programmatic bot execution. This work serves as a successful proof of concept, demonstrating that reward-driven RL agents can effectively detect anomalies and bots without having to interfere with client files or compromise user privacy.
+
+\subsection{COPPER algorithm in card game}
+The authors of the article \cite{BarrosPablo2021YWAo} noticed that while offline learning models can synthesise generalized strategies, they lack the capacity to adjust their behavior in real time when facing dynamic, human-like adversaries with unique play styles. To bridge this gap, the authors developed the \textit{COmPetitive Prioritized Experience Replay }(COPPER) algorithm. This solution modifies the Standard Prioritized Experience Replay (PER) mechanism by introducing a personalized weight parameter assigned to a specific type of opponent, which allows the agent to instantly tailor its strategy and adapt to the diverse playing styles of its rivals in online mode.
+ To provide highly dynamic multi-agent interaction test-bed, the researchers implemented a competitive, four-player card game called Chef's Hat.
+ A 1:1 digital recreation of the physical card game built upon the OpenAI Gym framework, translates the complex rules into a discrete observation space of 28 variables, representing the cards in hand and on the board, and an action space spanning 200 possible discrete moves. It features a dynamic lookup table generated on the fly to enforce legal moves based strictly on the current state. The game simulates a hierarchical kitchen brigade. The fundamental gameplay loop, representing a single \textit{Shift} within the simulation environment, operates as follows:
+ \begin{enumerate}
+ 	\item The deck is shuffled, and an equal number of cards is dealt to the four participating players.
+ 	\item Hierarchical roles, Chef, Sous-Chef, Waiter, Dishwasher, are assigned based on the finishing positions from the previous shift.
+ 	\item To enforce the hierarchy, the Dishwasher must surrender their two highest-value cards to the Chef, receiving any two cards in return. The Waiter exchanges their lowest-value card with the Sous-Chef for a card of the Sous-Chef's choosing.
+ 	\item  If a player possesses two Joker cards, they may declare a special action (for example "Food Fight," which inverts the entire hierarchy).
+ 	\item The player holding the \textit{Golden 11} card initiates play. Players sequentially take turns either passing or discarding cards. Discarded cards must be rarer (lower face value) and played in equal or greater quantities than the previously played cards.
+ 	\item If all sequential players pass their turn, the playing board is cleared.
+ 	\item The shift concludes when all players have successfully discarded their entire hand. Points are awarded strictly based on the final finishing hierarchy.
+ \end{enumerate}
+ This experiment includes dummy agents performing random actions and 12 sophisticated learning agents utilizing Deep Q-Learning (DQL), Proximal Policy Optimization (PPO) and Actor-Critic with Experience Replay (ACER). The agents are trained via offline self-play, offline naive-play, standard online learning and COPPER- and PER-enhanced online learning. 
+ 
+ To evaluate the COPPER framework, the researchers ran massive 32-agent tournaments consisting of 1,000 runs. Initially, offline-trained agents won the highest average number of games. However, after just a few rounds, the online learning agents (specifically COPPER) quickly increased their number of victories, ultimately surpassing the offline strategies. When facing diverse and changing opponents, COPPER-based PPO agents achieved a higher number of victories in fewer games than standard PER agents. The dynamic weighting system enabled COPPER to personalize its counter-strategies, whereas PER struggled to adapt quickly due to its generalized memory pool. In experiments involving ten human players via Chef's Hat Online, the humans easily outperformed the offline models. However, when facing COPPER-based agents, human victory rates declined noticeably towards the end of the game. The algorithm successfully identified and countered human unpredictability in real time, thus verifying its potential for lifelong social adaptation.
+ 
+ 
+\subsection{A general reinforcement learning algorithm using self-play} %pepo wish
+% that masters chess, shogi, and Go
+In the historical context of artificial intelligence, achieving high-performance results in complex board games typically required immense human effort, relying on domain-specific adaptations, highly tuned heuristic evaluation functions, and sophisticated alpha-beta search extensions. In the paper \cite{SilverDavid2018Agrl}, authors presented AlphaZero as a profound paradigm shift in this domain. Developed as a generalized extension of the AlphaGo Zero architecture, AlphaZero is a deep reinforcement learning algorithm capable of achieving superhuman proficiency across multiple highly challenging zero-sum games—specifically chess, shogi, and Go. The most scientifically significant aspect of AlphaZero is its tabula rasa %(blank slate) 
+learning methodology. The system requires absolutely no domain-specific human knowledge, pre-calculated opening books, or handcrafted evaluation metrics, it is supplied exclusively with the fundamental rules of the respective games. AlphaZero discards the traditional alpha-beta search and hand-engineered evaluation logic utilized by classical engines like Deep Blue or Stockfish. Instead, the architecture fuses a general-purpose Monte Carlo Tree Search (MCTS) with a deep convolutional neural network.
+The researchers trained separate instances of AlphaZero for each game for 700,000 steps. Training was highly resource-intensive, utilizing 5,000 first-generation TPUs to generate self-play games and 16 second-generation TPUs to optimize the neural networks. The empirical results conclusively proved the system's superiority:
+\begin{itemize}
+	\item In chess AlphaZero surpassed Stockfish (the 2016 TCEC world champion) in just 4 hours of training. In a 1,000-game tournament against Stockfish, AlphaZero secured 155 wins and suffered only 6 losses. It also convincingly defeated Stockfish in matches starting from common human openings.
+	\item In shogi AlphaZero surpassed Elmo (the 2017 CSA world champion) after merely 2 hours of training. In tournament play, it won 91.2\% of its games overall against Elmo, and 98.2\% when playing as black.
+	\item In Go AlphaZero outperformed AlphaGo Lee after 30 hours of training. In a direct match against the specialized AlphaGo Zero framework, AlphaZero achieved a 61\% win rate.
+\end{itemize}
+The study revealed a stark contrast in search heuristics. Stockfish and Elmo evaluate 60 million and 25 million positions per second, respectively. In contrast, AlphaZero evaluates only 60,000 positions per second. The researchers concluded that AlphaZero utilizes its neural network to selectively focus on the most promising variations, mimicking a highly efficient, human-like approach to searching.
+
+\section{Summary}
+This chapter presented and compared artificial intelligence techniques and algorithms used to implement computer players in video games. Traditional approaches, such as FSMs, BT, and if-else statements, are effective and easy to debug. However, these methods rely heavily on manually implementing each move, and the number of moves required increases with the complexity of the game environment. These algorithms are effective and work best when implementing a computer player with a limited and well-defined set of conditions.
+
+Deep learning can process complex data sets to identify connections between pieces of information. As a subset of machine learning, it learns from externally provided information which behaviors are desirable. Before playing the game, a computer player would need pre-prepared data from which it would have to learn. In the case of a complex environment, this would require a large amount of pre-prepared data, and creating such data is time-consuming. 
+
+On the other hand, Reinforcement Learning emerges as another subfield of machine learning which, unlike deep learning, learns through trial and error performed directly within the environment. Such an agent collects data directly from its interactions with the environment and optimizes its actions based on observations and the outcomes of those actions. In practice, such algorithms operate on tables that record each move in tuples consisting of state, action, observation, and reward. However, this technique is suboptimal in complex environments and consumes a lot of memory because each move must be recorded in a table.
+
+The combination of DNN and RL results in Deep Reinforcement Learning, which eliminates the need for large amounts of input data and reduces memory usage. The DNN replaces the memory table, while the environment analysis technique, using trial and error, provides the network with information about the game.
+
+However complex environment creates the \textbf{sparse reward problem}, where agent rarely receives meaningful feedback. In such a situation, the agent is unable to reach a winning state, since reaching the end of an episode while winning is entirely stochastic and statistically impossible. In this case, rather than optimizing decisions for victory, the agent optimizes its behavior to minimize penalty. Nevertheless, there are ways to help the agent reduce the number of possible moves, thus enabling it to optimize its strategy, like Reward Shaping, Action Masking or Curriculum learning.
+
+The analyzed studies demonstrate the potential of learning-based approaches for solving a wide range of game-related problems. Comparing Genetic Algorithms, Deep Q-Learning and Actor-Critic methods in a Unity deathmatch environment revealed that Temporal Difference methods produced substantially better results than the evolutionary approach. Actor-critic obtained the highest final reward, while standard DQN offered a favorable balance between performance and training time. However, the improved DQN variant's longer training time illustrates that an increase in algorithmic complexity does not necessarily provide a proportionate practical benefit.
+
+The PPO-based anti-cheat system provided further evidence that Reinforcement Learning can be used not only to control a computer player but also to identify behavioral patterns in real time. However, the first experiment revealed that an agent may learn unintended correlations, such as associating a team’s location with bot behavior instead of recognizing actual movement characteristics. This result highlights the importance of representative training conditions, correctly selected observations and comprehensive evaluation. A high reward obtained in a restricted environment does not necessarily indicate that the learned policy will generalize to modified conditions.
+
+Experiments conducted in the Chef's Hat environment revealed another significant characteristic of learning agents: their capacity to adapt to opponents whose behavior evolves over time. Although offline-trained agents initially performed well, online methods based on COPPER eventually outperformed them by prioritizing experiences associated with specific opponents. The declining performance of human players against COPPER agents also suggests that online adaptation is particularly valuable in multiplayer games involving diverse and unpredictable strategies.
+
+Finally, AlphaZero demonstrated the highest potential of Deep Reinforcement Learning in complex board games. Through the combination of a deep neural network, Monte Carlo Tree Search and self-play, it achieved superhuman performance in chess, shogi and Go without handcrafted evaluation functions or expert demonstrations. Its results show that a learned policy can guide the search process towards the most promising states much more selectively than traditional exhaustive methods. Nevertheless, AlphaZero also illustrates one of the principal limitations of modern Deep Reinforcement Learning: achieving such performance may require extremely large computational resources and a vast number of training interactions.
+
+The sources analyzed indicate that there is no single universal AI technique in the field of video games that can solve every problem. While classical methods perform best in simple environments, learning-based methods are more effective in complex environments. The effectiveness of learning is greatly influenced not only by the agent’s algorithm itself, but also by a well-defined environment and reward function. Furthermore, DRL methods, when trained in complex environments, require a vast amount of computational resources to effectively optimize their actions.
+
+PPO is compatible with the multi-branch discrete action space that has been implemented for the Rummikub environment. The policy can therefore select an action type, a particular tile, and the necessary board positions, without treating every possible combination as an independent action. The algorithm can also be combined with action masking, reward shaping, and curriculum learning.
+
+PPO as the principal Deep Reinforcement Learning algorithm is an Actor--Critic method capable of optimizing a stochastic policy while limiting excessively large changes between consecutive policy updates. This mechanism is intended to improve training stability in environments where the distribution of encountered states changes as the agent's behavior develops. A stochastic policy is also beneficial during training because it allows the agent to explore alternative actions instead of repeatedly selecting only the currently highest-rated decision. This makes it suitable for an environment with sparse reward because it provides a greater chance of discovering the optimal policy.
+
+Unlike purely supervised imitation learning, GAIL provides an additional learning signal that encourages the agent's behavior to resemble the demonstrated behavior, whilst still enabling the policy to be optimized through interaction with the environment. Therefore, the comparison between PPO Baseline and PPO combined with GAIL makes it possible to investigate whether expert demonstrations facilitate exploration, improve training consistency, or reduce the amount of experience required to acquire the selected Rummikub skills. GAIL was selected as an additional method to determine whether demonstrations produced by a rule-based computer player could enhance PPO training.
+%\subsection{}
+%istniejące techniki
 
 %\chapter{[Problem analysis]}
 %

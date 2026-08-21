@@ -17,68 +17,139 @@
 \endgroup
 
 \datalist[entry]{nty/global//global/global/global}
-  \entry{Monte_Carlo_Tree_Search_Optimization_for_Go_Game_AI}{inproceedings}{}{}
-    \name{author}{7}{}{%
-      {{hash=BT}{%
-         family={Babu},
-         familyi={B\bibinitperiod},
-         given={Tina},
-         giveni={T\bibinitperiod},
+  \entry{CAoRLAfBRL}{article}{}{}
+    \name{author}{2}{}{%
+      {{hash=AO}{%
+         family={Aydogmus},
+         familyi={A\bibinitperiod},
+         given={Omur},
+         giveni={O\bibinitperiod},
       }}%
-      {{hash=ST}{%
-         family={S},
-         familyi={S},
-         given={Tejaswi},
-         giveni={T\bibinitperiod},
-      }}%
-      {{hash=BAS}{%
-         family={B},
-         familyi={B},
-         given={Anup\bibnamedelima S},
-         giveni={A\bibinitperiod\bibinitdelim S\bibinitperiod},
-      }}%
-      {{hash=S}{%
-         family={Srinivas},
-         familyi={S\bibinitperiod},
-      }}%
-      {{hash=KRNR}{%
-         family={Krishna\bibnamedelima Reddy},
-         familyi={K\bibinitperiod\bibinitdelim R\bibinitperiod},
-         given={Narla\bibnamedelima Rama},
-         giveni={N\bibinitperiod\bibinitdelim R\bibinitperiod},
-      }}%
-      {{hash=SM}{%
-         family={S},
-         familyi={S},
-         given={Manasvi},
+      {{hash=YM}{%
+         family={Yilmaz},
+         familyi={Y\bibinitperiod},
+         given={Musa},
          giveni={M\bibinitperiod},
       }}%
-      {{hash=SD}{%
-         family={Singh},
+    }
+    \list{publisher}{1}{%
+      {IEEE}%
+    }
+    \strng{namehash}{AOYM1}
+    \strng{fullhash}{AOYM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{A}
+    \field{sortinithash}{A}
+    \verb{doi}
+    \verb 10.1109/ACCESS.2023.3344393
+    \endverb
+    \field{pages}{7490\bibrangedash 7499}
+    \field{title}{Comparative Analysis of Reinforcement Learning Algorithms for
+  Bipedal Robot Locomotion}
+    \field{volume}{12}
+    \field{journaltitle}{IEEE Access}
+    \field{year}{2024}
+  \endentry
+
+  \entry{BarrosPablo2021YWAo}{article}{}{}
+    \name{author}{7}{}{%
+      {{hash=BP}{%
+         family={Barros},
+         familyi={B\bibinitperiod},
+         given={Pablo},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=BAC}{%
+         family={Bloem},
+         familyi={B\bibinitperiod},
+         given={Anne\bibnamedelima C.},
+         giveni={A\bibinitperiod\bibinitdelim C\bibinitperiod},
+      }}%
+      {{hash=HIM}{%
+         family={Hootsmans},
+         familyi={H\bibinitperiod},
+         given={Inge\bibnamedelima M.},
+         giveni={I\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+      {{hash=OLM}{%
+         family={Opheij},
+         familyi={O\bibinitperiod},
+         given={Lena\bibnamedelima M.},
+         giveni={L\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+      {{hash=TRHA}{%
+         family={Toebosch},
+         familyi={T\bibinitperiod},
+         given={Romain H.\bibnamedelima A.},
+         giveni={R\bibinitperiod\bibinitdelim H\bibinitperiod\bibinitdelim
+  A\bibinitperiod},
+      }}%
+      {{hash=BE}{%
+         family={Barakova},
+         familyi={B\bibinitperiod},
+         given={Emilia},
+         giveni={E\bibinitperiod},
+      }}%
+      {{hash=SA}{%
+         family={Sciutti},
          familyi={S\bibinitperiod},
-         given={Dhiraj},
-         giveni={D\bibinitperiod},
+         given={Alessandra},
+         giveni={A\bibinitperiod},
       }}%
     }
-    \keyw{Backpropagation;Monte Carlo methods;Simulation;Neural
-  networks;Decision making;Games;Real-time systems;Iterative methods;Artificial
-  intelligence;Optimization;Monte Carlo Tree Search (MCTS);Exploration vs
-  Exploitation;UCT (Upper Confidence Bound for Trees);Simulation
-  strategy;Neural network integration}
-    \strng{namehash}{BT+1}
-    \strng{fullhash}{BTSTBASSKRNRSMSD1}
+    \list{language}{1}{%
+      {eng}%
+    }
+    \list{publisher}{1}{%
+      {Frontiers Media S.A}%
+    }
+    \keyw{continual reinforcement learning ; human modeling through online
+  games ; opponent-aware competitive learning ; reinforcement learning ;
+  Robotics and AI ; simulation environment for reinforcement learning}
+    \strng{namehash}{BP+1}
+    \strng{fullhash}{BPBACHIMOLMTRHABESA1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \field{sortinit}{B}
     \field{sortinithash}{B}
-    \field{booktitle}{2025 International Conference on Emerging Technologies in
-  Computing and Communication (ETCC)}
-    \verb{doi}
-    \verb 10.1109/ETCC65847.2025.11108437
-    \endverb
-    \field{pages}{1\bibrangedash 6}
-    \field{title}{Monte Carlo Tree Search Optimization for Go Game AI}
-    \field{year}{2025}
+    \field{abstract}{%
+    Reinforcement learning simulation environments pose an important
+  experimental test bed and facilitate data collection for developing AI-based
+  robot applications. Most of them, however, focus on single-agent tasks, which
+  limits their application to the development of social agents. This study
+  proposes the Chef’s Hat simulation environment, which implements a
+  multi-agent competitive card game that is a complete reproduction of the
+  homonymous board game, designed to provoke competitive strategies in humans
+  and emotional responses. The game was shown to be ideal for developing
+  personalized reinforcement learning, in an online learning closed-loop
+  scenario, as its state representation is extremely dynamic and directly
+  related to each of the opponent’s actions. To adapt current reinforcement
+  learning agents to this scenario, we also developed the COmPetitive
+  Prioritized Experience Replay (COPPER) algorithm. With the help of COPPER and
+  the Chef’s Hat simulation environment, we evaluated the following: (1) 12
+  experimental learning agents, trained via four different regimens (self-play,
+  play against a naive baseline, PER, or COPPER) with three algorithms based on
+  different state-of-the-art learning paradigms (PPO, DQN, and ACER), and two
+  “dummy” baseline agents that take random actions, (2) the performance
+  difference between COPPER and PER agents trained using the PPO algorithm and
+  playing against different agents (PPO, DQN, and ACER) or all DQN agents, and
+  (3) human performance when playing against two different collections of
+  agents. Our experiments demonstrate that COPPER helps agents learn to adapt
+  to different types of opponents, improving the performance when compared to
+  off-line learning models. An additional contribution of the study is the
+  formalization of the Chef’s Hat competitive game and the implementation of
+  the Chef’s Hat Player Club, a collection of trained and assessed agents as
+  an enabler for embedding human competitive strategies in social continual and
+  competitive reinforcement learning.%
+    }
+    \field{issn}{2296-9144}
+    \field{pages}{669990\bibrangedash }
+    \field{title}{You Were Always on My Mind: Introducing Chef’s Hat and
+  COPPER for Personalized Reinforcement Learning}
+    \field{volume}{8}
+    \field{journaltitle}{Frontiers in robotics and AI}
+    \field{year}{2021}
   \endentry
 
   \entry{cdi_proquest_journals_2781731625}{article}{}{}
@@ -116,6 +187,72 @@
     \field{year}{2023}
   \endentry
 
+  \entry{cohen2022}{article}{}{}
+    \name{author}{8}{}{%
+      {{hash=CA}{%
+         family={Cohen},
+         familyi={C\bibinitperiod},
+         given={Andrew},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=TE}{%
+         family={Teng},
+         familyi={T\bibinitperiod},
+         given={Ervin},
+         giveni={E\bibinitperiod},
+      }}%
+      {{hash=BVP}{%
+         family={Berges},
+         familyi={B\bibinitperiod},
+         given={Vincent-Pierre},
+         giveni={V\bibinithyphendelim P\bibinitperiod},
+      }}%
+      {{hash=DRP}{%
+         family={Dong},
+         familyi={D\bibinitperiod},
+         given={Ruo-Ping},
+         giveni={R\bibinithyphendelim P\bibinitperiod},
+      }}%
+      {{hash=HH}{%
+         family={Henry},
+         familyi={H\bibinitperiod},
+         given={Hunter},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=MM}{%
+         family={Mattar},
+         familyi={M\bibinitperiod},
+         given={Marwan},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=ZA}{%
+         family={Zook},
+         familyi={Z\bibinitperiod},
+         given={Alexander},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=GS}{%
+         family={Ganguly},
+         familyi={G\bibinitperiod},
+         given={Sujoy},
+         giveni={S\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{CA+1}
+    \strng{fullhash}{CATEBVPDRPHHMMZAGS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{C}
+    \field{sortinithash}{C}
+    \field{title}{On the Use and Misuse of Absorbing States in Multi-agent
+  Reinforcement Learning}
+    \verb{url}
+    \verb https://arxiv.org/abs/2111.05992
+    \endverb
+    \field{journaltitle}{RL in Games Workshop AAAI 2022}
+    \field{year}{2022}
+  \endentry
+
   \entry{bib:chess_online}{online}{}{}
     \name{author}{1}{}{%
       {{hash=DS}{%
@@ -139,6 +276,118 @@
     \field{urlday}{22}
     \field{urlmonth}{12}
     \field{urlyear}{2024}
+  \endentry
+
+  \entry{ding2020imitation}{inbook}{}{}
+    \name{author}{1}{}{%
+      {{hash=DZ}{%
+         family={Ding},
+         familyi={D\bibinitperiod},
+         given={Zihan},
+         giveni={Z\bibinitperiod},
+      }}%
+    }
+    \name{editor}{3}{}{%
+      {{hash=DH}{%
+         family={Dong},
+         familyi={D\bibinitperiod},
+         given={Hao},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=DZ}{%
+         family={Ding},
+         familyi={D\bibinitperiod},
+         given={Zihan},
+         giveni={Z\bibinitperiod},
+      }}%
+      {{hash=ZG}{%
+         family={Zhao},
+         familyi={Z\bibinitperiod},
+         given={Guangxu},
+         giveni={G\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Springer Nature Singapore Pte Ltd.}%
+    }
+    \strng{namehash}{DZ1}
+    \strng{fullhash}{DZ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{D}
+    \field{sortinithash}{D}
+    \field{booktitle}{Deep Reinforcement Learning}
+    \field{chapter}{8}
+    \verb{doi}
+    \verb 10.1007/978-981-15-4095-0_8
+    \endverb
+    \field{pages}{273\bibrangedash 306}
+    \field{title}{Imitation Learning}
+    \verb{url}
+    \verb https://doi.org/10.1007/978-981-15-4095-0_8
+    \endverb
+    \list{location}{1}{%
+      {Singapore}%
+    }
+    \field{year}{2020}
+  \endentry
+
+  \entry{GoldwaserAdrian2020DRLf}{article}{}{}
+    \name{author}{2}{}{%
+      {{hash=GA}{%
+         family={Goldwaser},
+         familyi={G\bibinitperiod},
+         given={Adrian},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=TM}{%
+         family={Thielscher},
+         familyi={T\bibinitperiod},
+         given={Michael},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {eng}%
+    }
+    \list{organization}{1}{%
+      {Assoc Advancement Artificial Intelligence}%
+    }
+    \list{publisher}{1}{%
+      {Assoc Advancement Artificial Intelligence}%
+    }
+    \keyw{Computer Science ; Computer Science Artificial Intelligence ;
+  Computer Science Interdisciplinary Applications ; Education & Educational
+  Research ; Education Scientific Disciplines ; Science & Technology ; Social
+  Sciences ; Technology}
+    \strng{namehash}{GATM1}
+    \strng{fullhash}{GATM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{G}
+    \field{sortinithash}{G}
+    \field{abstract}{%
+    General Game Playing agents are required to play games they have never seen
+  before simply by looking at a formal description of the rules of the game at
+  runtime. Previous successful agents have been based on search with generic
+  heuristics, with almost no work done into using machine learning. Recent
+  advances in deep reinforcement learning have shown it to be successful in
+  some two-player zero-sum board games such as Chess and Go. This work applies
+  deep reinforcement learning to General Game Playing, extending the AlphaZero
+  algorithm and finds that it can provide competitive results.%
+    }
+    \field{isbn}{157735835X}
+    \field{issn}{2159-5399}
+    \field{number}{2}
+    \field{pages}{1701\bibrangedash 1708}
+    \field{title}{Deep Reinforcement Learning for General Game Playing}
+    \field{volume}{34}
+    \list{location}{1}{%
+      {PALO ALTO}%
+    }
+    \field{journaltitle}{Proceedings of the ... AAAI Conference on Artificial
+  Intelligence}
+    \field{year}{2020}
   \endentry
 
   \entry{Deep-Learning-book}{book}{}{}
@@ -176,64 +425,151 @@
     \field{year}{2016}
   \endentry
 
-  \entry{ishihara2016applying}{inproceedings}{}{}
-    \name{author}{5}{}{%
-      {{hash=IM}{%
-         family={Ishihara},
-         familyi={I\bibinitperiod},
-         given={Makoto},
-         giveni={M\bibinitperiod},
-      }}%
-      {{hash=MT}{%
-         family={Miyazaki},
-         familyi={M\bibinitperiod},
-         given={Taichi},
-         giveni={T\bibinitperiod},
-      }}%
-      {{hash=CCY}{%
-         family={Chu},
-         familyi={C\bibinitperiod},
-         given={Chun\bibnamedelima Yin},
-         giveni={C\bibinitperiod\bibinitdelim Y\bibinitperiod},
-      }}%
-      {{hash=HT}{%
-         family={Harada},
+  \entry{On-Policy_vs._Off-Policy}{inproceedings}{}{}
+    \name{author}{2}{}{%
+      {{hash=HN}{%
+         family={Hammami},
          familyi={H\bibinitperiod},
-         given={Tomohiro},
-         giveni={T\bibinitperiod},
+         given={Nessrine},
+         giveni={N\bibinitperiod},
       }}%
-      {{hash=TR}{%
-         family={Thawonmas},
-         familyi={T\bibinitperiod},
-         given={Ruck},
-         giveni={R\bibinitperiod},
+      {{hash=NKK}{%
+         family={Nguyen},
+         familyi={N\bibinitperiod},
+         given={Kim\bibnamedelima Khoa},
+         giveni={K\bibinitperiod\bibinitdelim K\bibinitperiod},
       }}%
     }
-    \list{publisher}{1}{%
-      {Association for Computing Machinery}%
-    }
-    \strng{namehash}{IM+1}
-    \strng{fullhash}{IMMTCCYHTTR1}
+    \keyw{Measurement;Greedy algorithms;Energy consumption;Quality of
+  service;Reinforcement learning;Artificial neural networks;Stability
+  analysis;5G;O-RAN;Resource allocation;PPO;ACER}
+    \strng{namehash}{HNNKK1}
+    \strng{fullhash}{HNNKK1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{sortinit}{I}
-    \field{sortinithash}{I}
-    \field{booktitle}{Proceedings of the 13th International Conference on
-  Advances in Computer Entertainment Technology}
+    \field{sortinit}{H}
+    \field{sortinithash}{H}
+    \field{booktitle}{2022 IEEE Wireless Communications and Networking
+  Conference (WCNC)}
     \verb{doi}
-    \verb 10.1145/3001773.3001797
+    \verb 10.1109/WCNC51071.2022.9771605
     \endverb
-    \field{pages}{1\bibrangedash 6}
-    \field{series}{ACE '16}
-    \field{title}{Applying and Improving Monte-Carlo Tree Search in a Fighting
-  Game AI}
-    \verb{url}
-    \verb https://doi.org/10.1145/3001773.3001797
-    \endverb
-    \list{location}{1}{%
-      {New York, NY, USA}%
+    \field{pages}{1461\bibrangedash 1466}
+    \field{title}{On-Policy vs. Off-Policy Deep Reinforcement Learning for
+  Resource Allocation in Open Radio Access Network}
+    \field{year}{2022}
+  \endentry
+
+  \entry{Action_masking}{article}{}{}
+    \name{author}{3}{}{%
+      {{hash=HS}{%
+         family={Han},
+         familyi={H\bibinitperiod},
+         given={Shuai},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=DM}{%
+         family={Dastani},
+         familyi={D\bibinitperiod},
+         given={Mehdi},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=WS}{%
+         family={Wang},
+         familyi={W\bibinitperiod},
+         given={Shihan},
+         giveni={S\bibinitperiod},
+      }}%
     }
-    \field{year}{2016}
+    \strng{namehash}{HSDMWS1}
+    \strng{fullhash}{HSDMWS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{H}
+    \field{sortinithash}{H}
+    \verb{doi}
+    \verb 10.48550/arXiv.2602.10598
+    \endverb
+    \field{title}{Neuro-symbolic Action Masking for Deep Reinforcement
+  Learning}
+    \field{month}{02}
+    \field{year}{2026}
+  \endentry
+
+  \entry{HwangHyo-Seok2025GASA}{article}{}{}
+    \name{author}{3}{}{%
+      {{hash=HHS}{%
+         family={Hwang},
+         familyi={H\bibinitperiod},
+         given={Hyo-Seok},
+         giveni={H\bibinithyphendelim S\bibinitperiod},
+      }}%
+      {{hash=KY}{%
+         family={Kim},
+         familyi={K\bibinitperiod},
+         given={Yoojoong},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=SJ}{%
+         family={Seok},
+         familyi={S\bibinitperiod},
+         given={Junhee},
+         giveni={J\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {eng}%
+    }
+    \list{publisher}{1}{%
+      {IEEE}%
+    }
+    \keyw{Computational modeling ; Computer Science ; Computer Science
+  Artificial Intelligence ; Computer Science Hardware & Architecture ; Computer
+  Science Theory & Methods ; Continuous control ; deep learning ; deep
+  reinforcement learning (RL) ; Engineering ; Engineering Electrical &
+  Electronic ; Entropy ; Generative adversarial networks ; generative model ;
+  Mathematical models ; Measurement ; Optimization ; Predictive models ;
+  Science & Technology ; Stochastic processes ; Technology ; Training ;
+  Vectors}
+    \strng{namehash}{HHSKYSJ1}
+    \strng{fullhash}{HHSKYSJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{H}
+    \field{sortinithash}{H}
+    \field{abstract}{%
+    In deep reinforcement learning (RL), learning stochastic and multimodal
+  policies are crucial for various tasks, but most continuous control
+  algorithms model the policy using a deterministic or unimodal Gaussian
+  distribution. Despite being designed to inherently learn a stochastic policy
+  under the maximum entropy RL framework, soft actor-critic (SAC) also uses a
+  factorized Gaussian policy for tractable optimization, which not only
+  restricts the expressiveness of the policy but also ignores correlations
+  among the components of the action vector. In this article, we revisit the
+  approach of employing normalizing flow for SAC policy, justified by the
+  change of variable theorem, and then propose a state-dependent nonvolume
+  preserving (SD-NVP) architecture suitable for SAC learning. In addition, we
+  introduce a generative adversarial SAC (GASAC) that implicitly defines and
+  optimizes various divergences without calculating the normalization constant
+  through a generative adversarial loss. Experimental results on multigoal
+  environment and MuJoCo continuous control tasks suite demonstrate that GASAC
+  model multimodal policy and learn policy more stably in terms of cumulative
+  return.%
+    }
+    \verb{doi}
+    \verb 10.1109/TNNLS.2024.3493113
+    \endverb
+    \field{issn}{2162-237X}
+    \field{number}{7}
+    \field{pages}{11917\bibrangedash 11927}
+    \field{title}{Generative Adversarial Soft Actor-Critic}
+    \field{volume}{36}
+    \list{location}{1}{%
+      {PISCATAWAY}%
+    }
+    \field{journaltitle}{IEEE transaction on neural networks and learning
+  systems}
+    \field{year}{2025}
   \endentry
 
   \entry{JipaClaudia2023TIOU}{article}{}{}
@@ -244,56 +580,90 @@
          given={Claudia},
          giveni={C\bibinitperiod},
       }}%
-      {{hash=BCA}{%
+      {{hash=BC}{%
          family={Berce},
          familyi={B\bibinitperiod},
-         given={Carmen\bibnamedelima Alina},
-         giveni={C\bibinitperiod\bibinitdelim A\bibinitperiod},
+         given={Carmen},
+         giveni={C\bibinitperiod},
       }}%
-      {{hash=CM}{%
+      {{hash=CML}{%
          family={Cosma},
          familyi={C\bibinitperiod},
-         given={Mirela},
-         giveni={M\bibinitperiod},
+         given={Mirela\bibnamedelima Lăcrimioara},
+         giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod},
       }}%
     }
-    \list{language}{1}{%
-      {eng}%
-    }
-    \strng{namehash}{JCBCACM1}
-    \strng{fullhash}{JCBCACM1}
+    \strng{namehash}{JCBCCML1}
+    \strng{fullhash}{JCBCCML1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \field{sortinit}{J}
     \field{sortinithash}{J}
-    \field{abstract}{%
-    The study highlighted the impact of an activity program in which board
-  games were used to develop situational motivation in first-grade school
-  children. The participants (ages 6-8 years) were primary school students from
-  rural areas randomly assigned to the experimental group (EG; n= 13) and
-  control group (CG; n= 13). The level of situational motivation was measured
-  with the Situational Motivation Scale (SIMS) developed by F. Guay, R. J.
-  Vallerand, and C. Blanchard (2000). After initial testing, for eight weeks,
-  ten board games (Dixit, Domino in syllables, my first 5-second game, Tetris,
-  Vocalopoly, etc.) were introduced twice a week for the development of
-  mathematical and linguistic skills. The results of the comparison t-test on
-  paired samples, as well as on independent samples of the Situational
-  Motivation Scale (SIMS), show that there are statistically significant
-  differences regarding the level of situational motivation in the two moments
-  of the application of the scale, pretest, and posttest in the experimental
-  group (t =-15.503, p<0.001), but also between the two groups (experimental
-  and control) in the post test phase (t=10.539, p<0.001). In conclusion, the
-  research results highlight that using board games in the activities carried
-  out with first-grade students improves the motivation of school children.%
-    }
-    \field{issn}{1842-077X}
-    \field{number}{Special Issue}
+    \verb{doi}
+    \verb 10.24250/jpe/SI/2023/CJ/CAB/MC/
+    \endverb
     \field{pages}{10\bibrangedash 27}
     \field{title}{The impact of using board games on the development of
   situational motivation in primary school children}
     \field{volume}{33}
-    \field{journaltitle}{Educația-plus}
+    \field{journaltitle}{Journal Plus Education}
+    \field{month}{08}
     \field{year}{2023}
+  \endentry
+
+  \entry{klink2024benefit}{article}{}{}
+    \name{author}{4}{}{%
+      {{hash=KP}{%
+         family={Klink},
+         familyi={K\bibinitperiod},
+         given={Pascal},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=DC}{%
+         family={D’Eramo},
+         familyi={D\bibinitperiod},
+         given={Carlo},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=PJ}{%
+         family={Peters},
+         familyi={P\bibinitperiod},
+         given={Jan},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=PJ}{%
+         family={Pajarinen},
+         familyi={P\bibinitperiod},
+         given={Joni},
+         giveni={J\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{2}{%
+      {Institute of Electrical}%
+      {Electronics Engineers (IEEE)}%
+    }
+    \strng{namehash}{KP+1}
+    \strng{fullhash}{KPDCPJPJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{K}
+    \field{sortinithash}{K}
+    \verb{doi}
+    \verb 10.1109/tpami.2024.3390051
+    \endverb
+    \field{issn}{1939-3539}
+    \field{number}{11}
+    \field{pages}{7191–7204}
+    \field{title}{On the Benefit of Optimal Transport for Curriculum
+  Reinforcement Learning}
+    \verb{url}
+    \verb http://dx.doi.org/10.1109/TPAMI.2024.3390051
+    \endverb
+    \field{volume}{46}
+    \field{journaltitle}{IEEE Transactions on Pattern Analysis and Machine
+  Intelligence}
+    \field{month}{11}
+    \field{year}{2024}
   \endentry
 
   \entry{kopel2019applying}{inproceedings}{}{}
@@ -334,6 +704,209 @@
     \field{year}{2019}
   \endentry
 
+  \entry{lukas2022anticheat}{article}{}{}
+    \name{author}{3}{}{%
+      {{hash=LM}{%
+         family={Lukas},
+         familyi={L\bibinitperiod},
+         given={Mihael},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=TI}{%
+         family={Tomicic},
+         familyi={T\bibinitperiod},
+         given={Igor},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=BA}{%
+         family={Bernik},
+         familyi={B\bibinitperiod},
+         given={Andrija},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {MDPI}%
+    }
+    \strng{namehash}{LMTIBA1}
+    \strng{fullhash}{LMTIBA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{L}
+    \field{sortinithash}{L}
+    \verb{doi}
+    \verb 10.3390/info13040173
+    \endverb
+    \field{number}{4}
+    \field{pages}{173}
+    \field{title}{Anticheat System Based on Reinforcement Learning Agents in
+  Unity}
+    \verb{url}
+    \verb https://doi.org/10.3390/info13040173
+    \endverb
+    \field{volume}{13}
+    \field{journaltitle}{Information}
+    \field{year}{2022}
+  \endentry
+
+  \entry{LuoRunzhou2025RoBG}{article}{}{}
+    \name{author}{3}{}{%
+      {{hash=LR}{%
+         family={Luo},
+         familyi={L\bibinitperiod},
+         given={Runzhou},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=YB}{%
+         family={Yao},
+         familyi={Y\bibinitperiod},
+         given={Boning},
+         giveni={B\bibinitperiod},
+      }}%
+      {{hash=ZQ}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Qingwen},
+         giveni={Q\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {eng}%
+    }
+    \strng{namehash}{LRYBZQ1}
+    \strng{fullhash}{LRYBZQ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{L}
+    \field{sortinithash}{L}
+    \field{abstract}{%
+    As a typical sequential decision-making and gaming problem, board games
+  have the complexity of large state space and strong dynamic confrontation,
+  however, traditional methods have many limitations in dealing with them, so
+  they need to be based on reinforcement learning to achieve strategy
+  optimization by virtue of data-driven. Reinforcement learning can promote the
+  realization of AI decision-making ability from rule-dependent to data-driven
+  leap, and show significant advantages in game AI. This paper systematically
+  sorts out the core algorithms of reinforcement learning in board games,
+  comparatively analyzes their technical characteristics, applicable scenarios,
+  advantages and disadvantages, discusses the current technical bottlenecks and
+  ethical challenges, and look forward to the future development direction.
+  This paper concludes that reinforcement learning is effective in board games,
+  which not only helps AIs such as AlphaGo and Libratus to surpass the human
+  level in Go, Texas Hold'em and other scenarios, but also forms the transition
+  from model-dependent to data-driven, From model-dependent to data-driven, and
+  from single-intelligence to multi-intelligence, it has also formed a
+  technological evolution vein. At the same time, reinforcement learning has
+  been breaking through in processing high-dimensional states, complex reward
+  functions, etc., and has shown the potential of generalization in the fields
+  of education, healthcare, etc. [1]. This paper can provide theoretical
+  references and practical guidance for subsequent AI research on board games,
+  as well as a universal methodology for complex decision-making problems.%
+    }
+    \field{issn}{2755-2721}
+    \field{number}{1}
+    \field{pages}{32\bibrangedash 38}
+    \field{title}{Research on Board Game Strategy Methods Based on
+  Reinforcement Learning}
+    \field{volume}{174}
+    \field{journaltitle}{Applied and Computational Engineering}
+    \field{year}{2025}
+  \endentry
+
+  \entry{Multi_agent_Sparse_Reward}{article}{}{}
+    \name{author}{1}{}{%
+      {{hash=MF}{%
+         family={Meng},
+         familyi={M\bibinitperiod},
+         given={Fanxiao},
+         giveni={F\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{MF1}
+    \strng{fullhash}{MF1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{M}
+    \field{sortinithash}{M}
+    \verb{doi}
+    \verb 10.54097/er0mx710
+    \endverb
+    \field{pages}{96\bibrangedash 103}
+    \field{title}{Research on Multi-agent Sparse Reward Problem}
+    \field{volume}{85}
+    \field{journaltitle}{Highlights in Science, Engineering and Technology}
+    \field{month}{03}
+    \field{year}{2024}
+  \endentry
+
+  \entry{rummikub_rules}{online}{}{}
+    \name{author}{1}{}{%
+      {{hash=M}{%
+         family={{M\&M Ventures (2014) Limited}},
+         familyi={M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{M1}
+    \strng{fullhash}{M1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{M}
+    \field{sortinithash}{M}
+    \field{title}{Rummikub Rules (English)}
+    \verb{url}
+    \verb https://rummikub.com/wp-content/uploads/2019/12/2600-English-1.pdf
+    \endverb
+    \field{year}{2019}
+    \field{urlday}{24}
+    \field{urlmonth}{03}
+    \field{urlyear}{2026}
+  \endentry
+
+  \entry{moerland2022modelbasedreinforcementlearningsurvey}{misc}{}{}
+    \name{author}{4}{}{%
+      {{hash=MTM}{%
+         family={Moerland},
+         familyi={M\bibinitperiod},
+         given={Thomas\bibnamedelima M.},
+         giveni={T\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+      {{hash=BJ}{%
+         family={Broekens},
+         familyi={B\bibinitperiod},
+         given={Joost},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=PA}{%
+         family={Plaat},
+         familyi={P\bibinitperiod},
+         given={Aske},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=JCM}{%
+         family={Jonker},
+         familyi={J\bibinitperiod},
+         given={Catholijn\bibnamedelima M.},
+         giveni={C\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{MTM+1}
+    \strng{fullhash}{MTMBJPAJCM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{M}
+    \field{sortinithash}{M}
+    \verb{eprint}
+    \verb 2006.16712
+    \endverb
+    \field{title}{Model-based Reinforcement Learning: A Survey}
+    \verb{url}
+    \verb https://arxiv.org/abs/2006.16712
+    \endverb
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.LG}
+    \field{year}{2022}
+  \endentry
+
   \entry{NaeemMuddasar2020AGIt}{article}{}{}
     \name{author}{3}{}{%
       {{hash=NM}{%
@@ -342,12 +915,11 @@
          given={Muddasar},
          giveni={M\bibinitperiod},
       }}%
-      {{hash=RSTH}{%
+      {{hash=RS}{%
          family={Rizvi},
          familyi={R\bibinitperiod},
-         given={Syed Tahir\bibnamedelima Hussain},
-         giveni={S\bibinitperiod\bibinitdelim T\bibinitperiod\bibinitdelim
-  H\bibinitperiod},
+         given={Syed},
+         giveni={S\bibinitperiod},
       }}%
       {{hash=CA}{%
          family={Coronato},
@@ -356,50 +928,46 @@
          giveni={A\bibinitperiod},
       }}%
     }
-    \list{language}{1}{%
-      {eng}%
-    }
-    \list{publisher}{1}{%
-      {IEEE}%
-    }
-    \keyw{Reinforcement learning ; Algorithms ; applications ; Artificial
-  intelligence ; Artificial neural networks ; communication ; Computer Science
-  ; Computer Science Information Systems ; Computer vision ; Configuration
-  management ; Engineering ; Engineering Electrical & Electronic ; healthcare ;
-  Heuristic algorithms ; IoT ; Literature reviews ; Machine learning ; Markov
-  processes ; Mathematical model ; Natural language processing ; Prediction
-  algorithms ; Resource management ; Robot kinematics ; Robotics ; Science &
-  Technology ; Software agents ; Task analysis ; Technology ;
-  Telecommunications ; Unknown environments}
-    \strng{namehash}{NMRSTHCA1}
-    \strng{fullhash}{NMRSTHCA1}
+    \strng{namehash}{NMRSCA1}
+    \strng{fullhash}{NMRSCA1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
     \field{sortinit}{N}
     \field{sortinithash}{N}
-    \field{abstract}{%
-    Due to the recent progress in Deep Neural Networks, Reinforcement Learning
-  (RL) has become one of the most important and useful technology. It is a
-  learning method where a software agent interacts with an unknown environment,
-  selects actions, and progressively discovers the environment dynamics. RL has
-  been effectively applied in many important areas of real life. This article
-  intends to provide an in-depth introduction of the Markov Decision Process,
-  RL and its algorithms. Moreover, we present a literature review of the
-  application of RL to a variety of fields, including robotics and autonomous
-  control, communication and networking, natural language processing, games and
-  self-organized system, scheduling management and configuration of resources,
-  and computer vision.%
-    }
-    \field{issn}{2169-3536}
+    \verb{doi}
+    \verb 10.1109/ACCESS.2020.3038605
+    \endverb
     \field{pages}{209320\bibrangedash 209344}
     \field{title}{A Gentle Introduction to Reinforcement Learning and its
   Application in Different Fields}
     \field{volume}{8}
-    \list{location}{1}{%
-      {PISCATAWAY}%
-    }
-    \field{journaltitle}{IEEE access}
+    \field{journaltitle}{IEEE Access}
+    \field{month}{01}
     \field{year}{2020}
+  \endentry
+
+  \entry{intrinsic_motivation_of_RL}{book}{}{}
+    \name{author}{1}{}{%
+      {{hash=NSM}{%
+         family={Nguyen},
+         familyi={N\bibinitperiod},
+         given={Sao\bibnamedelima Mai},
+         giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{NSM1}
+    \strng{fullhash}{NSM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{N}
+    \field{sortinithash}{N}
+    \verb{doi}
+    \verb 10.48550/arXiv.2412.20573
+    \endverb
+    \field{title}{The intrinsic motivation of reinforcement and imitation
+  learning for sequential tasks}
+    \field{month}{12}
+    \field{year}{2024}
   \endentry
 
   \entry{perez2019general}{article}{}{}
@@ -465,6 +1033,87 @@
     \field{year}{2019}
   \endentry
 
+  \entry{PriantoEvan2020PPfM}{article}{}{}
+    \name{author}{5}{}{%
+      {{hash=PE}{%
+         family={Prianto},
+         familyi={P\bibinitperiod},
+         given={Evan},
+         giveni={E\bibinitperiod},
+      }}%
+      {{hash=KM}{%
+         family={Kim},
+         familyi={K\bibinitperiod},
+         given={MyeongSeop},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=PJH}{%
+         family={Park},
+         familyi={P\bibinitperiod},
+         given={Jae-Han},
+         giveni={J\bibinithyphendelim H\bibinitperiod},
+      }}%
+      {{hash=BJH}{%
+         family={Bae},
+         familyi={B\bibinitperiod},
+         given={Ji-Hun},
+         giveni={J\bibinithyphendelim H\bibinitperiod},
+      }}%
+      {{hash=KJS}{%
+         family={Kim},
+         familyi={K\bibinitperiod},
+         given={Jung-Su},
+         giveni={J\bibinithyphendelim S\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {eng}%
+    }
+    \list{publisher}{1}{%
+      {Mdpi}%
+    }
+    \keyw{Algorithms ; Boxes ; Chemistry ; Chemistry Analytical ; Collision
+  avoidance ; Deep learning ; Engineering ; Engineering Electrical & Electronic
+  ; Hindsight Experience Replay (HER) ; Instruments & Instrumentation ;
+  Manufacturing ; Multi-arm manipulators ; Path planning ; Physical Sciences ;
+  Reinforcement learning ; Robots ; Science & Technology ; Soft Actor-Critic
+  (SAC) ; Technology}
+    \strng{namehash}{PE+1}
+    \strng{fullhash}{PEKMPJHBJHKJS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{P}
+    \field{sortinithash}{P}
+    \field{abstract}{%
+    Since path planning for multi-arm manipulators is a complicated
+  high-dimensional problem, effective and fast path generation is not easy for
+  the arbitrarily given start and goal locations of the end effector.
+  Especially, when it comes to deep reinforcement learning-based path planning,
+  high-dimensionality makes it difficult for existing reinforcement
+  learning-based methods to have efficient exploration which is crucial for
+  successful training. The recently proposed soft actor–critic (SAC) is well
+  known to have good exploration ability due to the use of the entropy term in
+  the objective function. Motivated by this, in this paper, a SAC-based path
+  planning algorithm is proposed. The hindsight experience replay (HER) is also
+  employed for sample efficiency and configuration space augmentation is used
+  in order to deal with complicated configuration space of the multi-arms. To
+  show the effectiveness of the proposed algorithm, both simulation and
+  experiment results are given. By comparing with existing results, it is
+  demonstrated that the proposed method outperforms the existing results.%
+    }
+    \field{issn}{1424-8220}
+    \field{number}{20}
+    \field{pages}{5911\bibrangedash 23}
+    \field{title}{Path Planning for Multi-Arm Manipulators Using Deep
+  Reinforcement Learning: Soft Actor–Critic with Hindsight Experience Replay}
+    \field{volume}{20}
+    \list{location}{1}{%
+      {BASEL}%
+    }
+    \field{journaltitle}{Sensors (Basel, Switzerland)}
+    \field{year}{2020}
+  \endentry
+
   \entry{9533206}{inproceedings}{}{}
     \name{author}{5}{}{%
       {{hash=RRH}{%
@@ -515,6 +1164,270 @@
     \field{title}{Developing AI Bots with Minimax Algorithm for Surakarta Board
   Game}
     \field{year}{2021}
+  \endentry
+
+  \entry{SilverDavid2018Agrl}{article}{}{}
+    \name{author}{13}{}{%
+      {{hash=SD}{%
+         family={Silver},
+         familyi={S\bibinitperiod},
+         given={David},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=HT}{%
+         family={Hubert},
+         familyi={H\bibinitperiod},
+         given={Thomas},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=SJ}{%
+         family={Schrittwieser},
+         familyi={S\bibinitperiod},
+         given={Julian},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=AI}{%
+         family={Antonoglou},
+         familyi={A\bibinitperiod},
+         given={Ioannis},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=LM}{%
+         family={Lai},
+         familyi={L\bibinitperiod},
+         given={Matthew},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=GA}{%
+         family={Guez},
+         familyi={G\bibinitperiod},
+         given={Arthur},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=LM}{%
+         family={Lanctot},
+         familyi={L\bibinitperiod},
+         given={Marc},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=SL}{%
+         family={Sifre},
+         familyi={S\bibinitperiod},
+         given={Laurent},
+         giveni={L\bibinitperiod},
+      }}%
+      {{hash=KD}{%
+         family={Kumaran},
+         familyi={K\bibinitperiod},
+         given={Dharshan},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=GT}{%
+         family={Graepel},
+         familyi={G\bibinitperiod},
+         given={Thore},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=LT}{%
+         family={Lillicrap},
+         familyi={L\bibinitperiod},
+         given={Timothy},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=SK}{%
+         family={Simonyan},
+         familyi={S\bibinitperiod},
+         given={Karen},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=HD}{%
+         family={Hassabis},
+         familyi={H\bibinitperiod},
+         given={Demis},
+         giveni={D\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {eng}%
+    }
+    \list{publisher}{1}{%
+      {Amer Assoc Advancement Science}%
+    }
+    \keyw{Go/no-go discrimination learning ; Adaptation ; Algorithms ;
+  Artificial intelligence ; Chess ; Computers ; Games ; Machine learning ;
+  Mathematics ; Multidisciplinary Sciences ; Reinforcement ; Science &
+  Technology ; Science & Technology - Other Topics ; State of the art}
+    \strng{namehash}{SD+1}
+    \strng{fullhash}{SDHTSJAILMGALMSLKDGTLTSKHD1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{abstract}{%
+    Computers can beat humans at increasingly complex games, including chess
+  and Go. However, these programs are typically constructed for a particular
+  game, exploiting its properties, such as the symmetries of the board on which
+  it is played. Silver et al. developed a program called AlphaZero, which
+  taught itself to play Go, chess, and shogi (a Japanese version of chess) (see
+  the Editorial, and the Perspective by Campbell). AlphaZero managed to beat
+  state-of-the-art programs specializing in these three games. The ability of
+  AlphaZero to adapt to various game rules is a notable step toward achieving a
+  general game-playing system. Science , this issue p. 1140 ; see also pp. 1087
+  and 1118 AlphaZero teaches itself to play three different board games and
+  beats state-of-the-art programs in each. The game of chess is the
+  longest-studied domain in the history of artificial intelligence. The
+  strongest programs are based on a combination of sophisticated search
+  techniques, domain-specific adaptations, and handcrafted evaluation functions
+  that have been refined by human experts over several decades. By contrast,
+  the AlphaGo Zero program recently achieved superhuman performance in the game
+  of Go by reinforcement learning from self-play. In this paper, we generalize
+  this approach into a single AlphaZero algorithm that can achieve superhuman
+  performance in many challenging games. Starting from random play and given no
+  domain knowledge except the game rules, AlphaZero convincingly defeated a
+  world champion program in the games of chess and shogi (Japanese chess), as
+  well as Go.%
+    }
+    \field{issn}{0036-8075}
+    \field{number}{6419}
+    \field{pages}{1140\bibrangedash 1144}
+    \field{title}{A general reinforcement learning algorithm that masters
+  chess, shogi, and Go through self-play}
+    \field{volume}{362}
+    \list{location}{1}{%
+      {WASHINGTON}%
+    }
+    \field{journaltitle}{Science (American Association for the Advancement of
+  Science)}
+    \field{year}{2018}
+  \endentry
+
+  \entry{SparseRewardProblem}{article}{}{}
+    \name{author}{1}{}{%
+      {{hash=SY}{%
+         family={Song},
+         familyi={S\bibinitperiod},
+         given={Yuhan},
+         giveni={Y\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SY1}
+    \strng{fullhash}{SY1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \verb{doi}
+    \verb 10.54254/2755-2721/2026.GU33500
+    \endverb
+    \field{pages}{72\bibrangedash 77}
+    \field{title}{A Survey on Hindsight Experience Replay for Sparse Reward
+  Problems}
+    \field{volume}{240}
+    \field{journaltitle}{Applied and Computational Engineering}
+    \field{month}{05}
+    \field{year}{2026}
+  \endentry
+
+  \entry{Reinforcement_learning_book}{book}{}{}
+    \name{author}{2}{}{%
+      {{hash=SRS}{%
+         family={Sutton},
+         familyi={S\bibinitperiod},
+         given={Richard\bibnamedelima S.},
+         giveni={R\bibinitperiod\bibinitdelim S\bibinitperiod},
+      }}%
+      {{hash=BAG}{%
+         family={Barto},
+         familyi={B\bibinitperiod},
+         given={Andrew\bibnamedelima G.},
+         giveni={A\bibinitperiod\bibinitdelim G\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {The MIT Press}%
+    }
+    \strng{namehash}{SRSBAG1}
+    \strng{fullhash}{SRSBAG1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{edition}{2nd}
+    \field{isbn}{9780262039246}
+    \field{note}{\url{http://www.incompleteideas.net/book/the-book-2nd.html}}
+    \field{series}{Adaptive Computation and Machine Learning series}
+    \field{title}{Reinforcement Learning: An Introduction}
+    \list{location}{1}{%
+      {Cambridge, Massachusetts}%
+    }
+    \field{year}{2018}
+  \endentry
+
+  \entry{sutton1999policy}{inproceedings}{}{}
+    \name{author}{4}{}{%
+      {{hash=SRS}{%
+         family={Sutton},
+         familyi={S\bibinitperiod},
+         given={Richard\bibnamedelima S},
+         giveni={R\bibinitperiod\bibinitdelim S\bibinitperiod},
+      }}%
+      {{hash=MD}{%
+         family={McAllester},
+         familyi={M\bibinitperiod},
+         given={David},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=SS}{%
+         family={Singh},
+         familyi={S\bibinitperiod},
+         given={Satinder},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=MY}{%
+         family={Mansour},
+         familyi={M\bibinitperiod},
+         given={Yishay},
+         giveni={Y\bibinitperiod},
+      }}%
+    }
+    \name{editor}{3}{}{%
+      {{hash=SS}{%
+         family={Solla},
+         familyi={S\bibinitperiod},
+         given={S.},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=LT}{%
+         family={Leen},
+         familyi={L\bibinitperiod},
+         given={T.},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=MK}{%
+         family={M\"{u}ller},
+         familyi={M\bibinitperiod},
+         given={K.},
+         giveni={K\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {MIT Press}%
+    }
+    \strng{namehash}{SRS+1}
+    \strng{fullhash}{SRSMDSSMY1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{booktitle}{Advances in Neural Information Processing Systems}
+    \field{title}{Policy Gradient Methods for Reinforcement Learning with
+  Function Approximation}
+    \verb{url}
+    \verb https://proceedings.neurips.cc/paper_files/paper/1999/file/464d828b85
+    \verb b0bed98e80ade0a5c43b0f-Paper.pdf
+    \endverb
+    \field{volume}{12}
+    \field{year}{1999}
   \endentry
 
   \entry{Turing1950}{article}{}{}
@@ -578,6 +1491,216 @@
     \field{volume}{56}
     \field{journaltitle}{Artificial Intelligence Review}
     \field{year}{2023}
+  \endentry
+
+  \entry{unitymlagents40}{manual}{}{}
+    \name{author}{1}{}{%
+      {{hash=U}{%
+         family={{Unity Technologies}},
+         familyi={U\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{U1}
+    \strng{fullhash}{U1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{U}
+    \field{sortinithash}{U}
+    \field{note}{Online access for com.unity.ml-agents@4.0}
+    \field{title}{Unity ML-Agents Toolkit: Learning Environment Design -
+  Agents}
+    \verb{url}
+    \verb https://docs.unity3d.com/Packages/com.unity.ml-agents@4.0/manual/Lear
+    \verb ning-Environment-Design-Agents.html
+    \endverb
+    \field{year}{2024}
+  \endentry
+
+  \entry{unitymlagentsOverview}{manual}{}{}
+    \name{author}{1}{}{%
+      {{hash=U}{%
+         family={{Unity Technologies}},
+         familyi={U\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{U1}
+    \strng{fullhash}{U1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{U}
+    \field{sortinithash}{U}
+    \field{note}{Online access for com.unity.ml-agents@4.0}
+    \field{title}{Unity ML-Agents Toolkit: Overview}
+    \verb{url}
+    \verb https://github.com/Unity-Technologies/ml-agents/blob/release_21/docs/
+    \verb ML-Agents-Overview.md
+    \endverb
+    \field{year}{2024}
+  \endentry
+
+  \entry{unitymlagentsTrainingConf}{manual}{}{}
+    \name{author}{1}{}{%
+      {{hash=U}{%
+         family={{Unity Technologies}},
+         familyi={U\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{U1}
+    \strng{fullhash}{U1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{U}
+    \field{sortinithash}{U}
+    \field{note}{Online access for com.unity.ml-agents@4.0}
+    \field{title}{Unity ML-Agents Toolkit: Training Configuration}
+    \verb{url}
+    \verb https://github.com/Unity-Technologies/ml-agents/blob/release_21_docs/
+    \verb docs/Training-ML-Agents.md#training-configurations
+    \endverb
+    \field{year}{2024}
+  \endentry
+
+  \entry{unitymlagentsConfFile}{manual}{}{}
+    \name{author}{1}{}{%
+      {{hash=U}{%
+         family={{Unity Technologies}},
+         familyi={U\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{U1}
+    \strng{fullhash}{U1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{U}
+    \field{sortinithash}{U}
+    \field{note}{Online access for com.unity.ml-agents@4.0}
+    \field{title}{Unity ML-Agents Toolkit: Training Configuration File
+  Description}
+    \verb{url}
+    \verb https://github.com/Unity-Technologies/ml-agents/blob/release_21_docs/
+    \verb docs/Training-Configuration-File.md
+    \endverb
+    \field{year}{2024}
+  \endentry
+
+  \entry{Information-Theoretic_intrinsic_motivation_of_RL}{article}{}{}
+    \name{author}{3}{}{%
+      {{hash=XR}{%
+         family={Xi},
+         familyi={X\bibinitperiod},
+         given={Ruozhang},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=NY}{%
+         family={Ni},
+         familyi={N\bibinitperiod},
+         given={Yao},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=WW}{%
+         family={Wu},
+         familyi={W\bibinitperiod},
+         given={Wangyu},
+         giveni={W\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{XRNYWW1}
+    \strng{fullhash}{XRNYWW1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{X}
+    \field{sortinithash}{X}
+    \verb{doi}
+    \verb 10.3390/e28020140
+    \endverb
+    \field{pages}{140}
+    \field{title}{Information-Theoretic Intrinsic Motivation for Reinforcement
+  Learning in Combinatorial Routing}
+    \field{volume}{28}
+    \field{journaltitle}{Entropy}
+    \field{month}{01}
+    \field{year}{2026}
+  \endentry
+
+  \entry{YauHer‐Terng2024Ppoc}{article}{}{}
+    \name{author}{4}{}{%
+      {{hash=YH}{%
+         family={Yau},
+         familyi={Y\bibinitperiod},
+         given={Her‐Terng},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=KP}{%
+         family={Kuo},
+         familyi={K\bibinitperiod},
+         given={Ping‐Huan},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=LP}{%
+         family={Luan},
+         familyi={L\bibinitperiod},
+         given={Po‐Chien},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=TY}{%
+         family={Tseng},
+         familyi={T\bibinitperiod},
+         given={Yung‐Ruen},
+         giveni={Y\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {eng}%
+    }
+    \list{publisher}{1}{%
+      {Wiley}%
+    }
+    \keyw{Algorithms ; Automation & Control Systems ; chaos control ; Chaos
+  theory ; Complex systems ; Control methods ; Control systems ; Controllers ;
+  deep reinforcement learning ; Engineering ; Engineering Electrical &
+  Electronic ; Initial conditions ; Lorenz chaotic system ; Machine learning ;
+  Mathematics ; Mathematics Applied ; Modelling ; Nonlinear control ;
+  Optimization ; Physical Sciences ; proximal policy optimization ; Random
+  noise ; Robust control ; Science & Technology ; Technology}
+    \strng{namehash}{YH+1}
+    \strng{fullhash}{YHKPLPTY1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{Y}
+    \field{sortinithash}{Y}
+    \field{abstract}{%
+    Deep reinforcement learning (DRL) algorithms are suitable for modeling and
+  controlling complex systems. Methods for controlling chaos, a difficult task,
+  require improvement. In this article, we present a DRL‐based control method
+  that can control a nonlinear chaotic system without any prior knowledge of
+  the system's equations. We use proximal policy optimization (PPO) to train an
+  agent. The environment is a Lorenz chaotic system, and our goal is to
+  stabilize this chaotic system as quickly as possible and minimize the error
+  by adding extra control terms to the chaotic system. Therefore, the reward
+  function accounts for the total triaxial error. The experimental results
+  demonstrated that the trained agent can rapidly suppress chaos in the system,
+  regardless of the system's random initial conditions. A comprehensive
+  comparison of different DRL algorithms indicated that PPO is the most
+  efficient and effective algorithm for controlling the chaotic system.
+  Moreover, different maximum control forces were applied to determine the
+  relationship between the control forces and controller performance. To verify
+  the robustness of the controller, random disturbances were introduced during
+  training and testing, and the empirical results indicated that the agent
+  trained with random noise performed better. The chaotic system has highly
+  nonlinear characteristics and is extremely sensitive to initial conditions,
+  and DRL is suitable for modeling such systems.%
+    }
+    \field{issn}{1049-8923}
+    \field{number}{1}
+    \field{pages}{586\bibrangedash 601}
+    \field{title}{Proximal policy optimization‐based controller for chaotic
+  systems}
+    \field{volume}{34}
+    \list{location}{1}{%
+      {HOBOKEN}%
+    }
+    \field{journaltitle}{International journal of robust and nonlinear control}
+    \field{year}{2024}
   \endentry
 \enddatalist
 \endinput

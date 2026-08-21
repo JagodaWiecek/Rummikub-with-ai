@@ -8,34 +8,76 @@
 \thispagestyle {empty}
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Introduction into the problem domain}{1}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Settling of the problem in the domain}{2}{section.1.2}%
+\contentsline {section}{\numberline {1.2}Settling of the problem in the domain}{3}{section.1.2}%
 \contentsline {section}{\numberline {1.3}Objective of the thesis }{3}{section.1.3}%
-\contentsline {section}{\numberline {1.4}Scope of the thesis}{3}{section.1.4}%
-\contentsline {section}{\numberline {1.5}Short description of chapters}{4}{section.1.5}%
-\contentsline {section}{\numberline {1.6}Description of contribution of the thesis's author}{4}{section.1.6}%
-\contentsline {chapter}{\numberline {2}Analysis of the problem}{5}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Problem statement}{5}{section.2.1}%
-\contentsline {section}{\numberline {2.2}State of the art}{5}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}An Overview of Non-Player Character Behavior Systems}{6}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Deep Learning}{10}{subsection.2.2.2}%
-\contentsline {subsubsection}{History of Deep Learning}{10}{section*.8}%
-\contentsline {subsubsection}{An Overview of Deep Learning}{12}{section*.9}%
-\contentsline {subsection}{\numberline {2.2.3}Reinforcement Learning}{14}{subsection.2.2.3}%
-\contentsline {subsubsection}{History of Reinforcement Learning}{14}{section*.12}%
-\contentsline {subsubsection}{Fundamentals of Reinforcement Learning}{16}{section*.13}%
-\contentsline {subsubsection}{Deep Reinforcement Learning}{16}{section*.14}%
-\contentsline {subsection}{\numberline {2.2.4}Proximal Policy Optimization}{16}{subsection.2.2.4}%
-\contentsline {subsection}{\numberline {2.2.5}Soft Actor-Critic}{16}{subsection.2.2.5}%
-\contentsline {section}{\numberline {2.3}Literature Research}{16}{section.2.3}%
-\contentsline {section}{\numberline {2.4}Existing solutions}{16}{section.2.4}%
-\contentsline {chapter}{\numberline {3}Subject of the thesis}{17}{chapter.3}%
-\contentsline {section}{\numberline {3.1}[Section title]}{17}{section.3.1}%
-\contentsline {section}{\numberline {3.2}[Subsection title]}{17}{section.3.2}%
-\contentsline {chapter}{\numberline {4}Experiments}{19}{chapter.4}%
-\contentsline {chapter}{\numberline {5}Summary}{21}{chapter.5}%
-\contentsline {chapter}{Bibliography}{24}{chapter*.17}%
-\contentsline {chapter}{Technical documentation}{27}{appendix*.18}%
-\contentsline {chapter}{List of abbreviations and symbols}{29}{appendix*.19}%
-\contentsline {chapter}{List of additional files in~electronic submission (if applicable)}{31}{appendix*.20}%
-\contentsline {chapter}{List of figures}{33}{appendix*.21}%
-\contentsline {chapter}{List of tables}{35}{appendix*.22}%
+\contentsline {section}{\numberline {1.4}Scope of the thesis}{4}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Short description of chapters}{5}{section.1.5}%
+\contentsline {section}{\numberline {1.6}Description of contribution of the thesis's author}{5}{section.1.6}%
+\contentsline {chapter}{\numberline {2}Analysis of the problem}{7}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Problem statement}{7}{section.2.1}%
+\contentsline {section}{\numberline {2.2}State of the art}{7}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}An Overview of NPC Decision-Making Techniques}{8}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Deep Learning}{11}{subsection.2.2.2}%
+\contentsline {subsubsection}{History of Deep Learning}{11}{section*.8}%
+\contentsline {subsubsection}{An Overview of Deep Learning}{13}{section*.9}%
+\contentsline {subsection}{\numberline {2.2.3}Reinforcement Learning}{21}{subsection.2.2.3}%
+\contentsline {subsubsection}{History of Reinforcement Learning}{21}{section*.15}%
+\contentsline {subsubsection}{Fundamentals of Reinforcement Learning}{23}{section*.16}%
+\contentsline {subsubsection}{Deep Reinforcement Learning}{29}{section*.18}%
+\contentsline {subsection}{\numberline {2.2.4}The Sparse Reward Problem}{31}{subsection.2.2.4}%
+\contentsline {subsubsection}{Action masking}{31}{section*.19}%
+\contentsline {subsubsection}{Reward shaping}{32}{section*.20}%
+\contentsline {subsubsection}{Intrinsic Motivation}{32}{section*.21}%
+\contentsline {subsubsection}{Imitation learning}{33}{section*.22}%
+\contentsline {subsubsection}{Hierarchical Reinforcement Learning}{35}{section*.23}%
+\contentsline {subsubsection}{Curriculum learning}{35}{section*.24}%
+\contentsline {subsubsection}{Hindsight Experience Replay}{35}{section*.25}%
+\contentsline {section}{\numberline {2.3}Existing solutions}{36}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Applying ML Algorithms to Video Game AI}{36}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Anticheat System Based on Reinforcement Learning Agents in Unity}{37}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}COPPER algorithm in card game}{38}{subsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.4}A general reinforcement learning algorithm using self-play}{40}{subsection.2.3.4}%
+\contentsline {section}{\numberline {2.4}Summary}{41}{section.2.4}%
+\contentsline {chapter}{\numberline {3}Research Environment}{45}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Game environment}{46}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Characteristics of the problem}{46}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Game Rules}{46}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Game implementation}{47}{subsection.3.1.3}%
+\contentsline {subsection}{\numberline {3.1.4}Game Mechanics and User Interactions in the Game Environment}{48}{subsection.3.1.4}%
+\contentsline {section}{\numberline {3.2}Agent training}{49}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Behavior parameters and agent setup}{50}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Configurations and hyperparameters}{52}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Observation representation}{57}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Actions interpretation and masking}{58}{subsection.3.2.4}%
+\contentsline {subsection}{\numberline {3.2.5}Reward Function}{59}{subsection.3.2.5}%
+\contentsline {subsection}{\numberline {3.2.6}Curriculum Learning Implementation}{60}{subsection.3.2.6}%
+\contentsline {subsection}{\numberline {3.2.7}Demonstration recording}{62}{subsection.3.2.7}%
+\contentsline {section}{\numberline {3.3}Communication Between the Game and Training Process}{63}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Architecture of the ML-Agents Framework}{63}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Training Data Flow}{64}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}Evaluation Metrics}{65}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Evaluation process}{66}{subsection.3.4.1}%
+\contentsline {section}{\numberline {3.5}Using the Research Environment}{67}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Experiments}{69}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Methodology}{69}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Research Framework}{69}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Training methods}{70}{subsection.4.1.2}%
+\contentsline {subsubsection}{Hardware}{72}{section*.29}%
+\contentsline {subsection}{\numberline {4.1.3}Evaluation methods}{72}{subsection.4.1.3}%
+\contentsline {section}{\numberline {4.2}Results}{72}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Baseline}{73}{subsection.4.2.1}%
+\contentsline {subsubsection}{Learning results}{73}{section*.30}%
+\contentsline {subsubsection}{Evaluation results}{81}{section*.39}%
+\contentsline {subsection}{\numberline {4.2.2}GAIL as auxiliary method}{82}{subsection.4.2.2}%
+\contentsline {subsubsection}{Learning results}{82}{section*.41}%
+\contentsline {subsubsection}{Evaluation results}{91}{section*.50}%
+\contentsline {subsection}{\numberline {4.2.3}Cross-model comparison}{92}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Conclusions}{95}{section.4.3}%
+\contentsline {chapter}{\numberline {5}Summary}{99}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Conclusions}{99}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Future development}{100}{section.5.2}%
+\contentsline {chapter}{Bibliography}{104}{chapter*.54}%
+\contentsline {chapter}{List of abbreviations and symbols}{107}{appendix*.55}%
+\contentsline {chapter}{List of additional files in electronic submission}{109}{appendix*.56}%
+\contentsline {chapter}{List of figures}{111}{appendix*.57}%
+\contentsline {chapter}{List of tables}{113}{appendix*.58}%

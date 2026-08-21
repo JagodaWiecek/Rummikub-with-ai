@@ -1,0 +1,11 @@
+﻿Agent,EndStep,StopReason
+PPO_baseline,1050000,target_level_reached
+PPO_baseline_no1,2000000,maximum_step_reached
+PPO_baseline_no2,1430000,target_level_reached
+PPO_baseline_no3,1330000,target_level_reached
+PPO_baseline_no4,1130000,target_level_reached
+PPO_baseline_no5,1230000,target_level_reached
+PPO_baseline_no6,1160000,target_level_reached
+PPO_baseline_no7,1670000,target_level_reached
+PPO_baseline_no8,1110000,target_level_reached
+PPO_baseline_no9,1370000,target_level_reached
