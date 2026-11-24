@@ -1,0 +1,188 @@
+# PPO Baseline configuration file.
+behaviors:
+  PlayRummikub:
+    trainer_type: ppo
+
+    hyperparameters:
+      batch_size: 512
+      buffer_size: 8192
+      learning_rate: 3.0e-4
+      beta: 5.0e-3
+      epsilon: 0.15
+      lambd: 0.95
+      num_epoch: 3
+      learning_rate_schedule: linear
+
+    network_settings:
+      normalize: true
+      hidden_units: 128
+      num_layers: 2
+      memory:
+        sequence_length: 32
+        memory_size: 128
+
+    reward_signals:
+      extrinsic:
+        gamma: 0.995
+        strength: 1.0
+
+    max_steps: 2000000
+    checkpoint_interval: 25000
+    keep_checkpoints: 125
+    time_horizon: 256
+    summary_freq: 10000
+
+    threaded: true
+
+env_settings:
+  seed: 42
+
+environment_parameters:
+  level:
+    curriculum:
+      - name: Level0
+        value: 0
+        completion_criteria:
+          measure: reward
+          behavior: PlayRummikub
+          threshold: 0.7
+          min_lesson_length: 500
+          signal_smoothing: true
+          require_reset: false
+      - name: Level1
+        value: 1
+        completion_criteria:
+          measure: reward
+          behavior: PlayRummikub
+          threshold: 0.7
+          min_lesson_length: 500
+          signal_smoothing: true
+          require_reset: false
+      - name: Level2
+        value: 2
+        completion_criteria:
+          measure: reward
+          behavior: PlayRummikub
+          threshold: 0.7
+          min_lesson_length: 500
+          signal_smoothing: true
+          require_reset: false
+      - name: Level3
+        value: 3
+        completion_criteria:
+          measure: reward
+          behavior: PlayRummikub
+          threshold: 0.7
+          min_lesson_length: 500
+          signal_smoothing: true
+          require_reset: false
+      - name: Level4
+        value: 4
+        completion_criteria:
+          measure: reward
+          behavior: PlayRummikub
+          threshold: 0.7
+          min_lesson_length: 500
+          signal_smoothing: true
+          require_reset: false
+      - name: Level5
+        value: 5
+        completion_criteria:
+          measure: reward
+          behavior: PlayRummikub
+          threshold: 0.7
+          min_lesson_length: 500
+          signal_smoothing: true
+          require_reset: false
+      - name: Level6
+        value: 6
+        completion_criteria:
+          measure: reward
+          behavior: PlayRummikub
+          threshold: 0.7
+          min_lesson_length: 500
+          signal_smoothing: true
+          require_reset: false
+      - name: Level7
+        value: 7
+        completion_criteria:
+          measure: reward
+          behavior: PlayRummikub
+          threshold: 0.7
+          min_lesson_length: 500
+          signal_smoothing: true
+          require_reset: false
+      - name: Level8
+        value: 8
+        completion_criteria:
+          measure: reward
+          behavior: PlayRummikub
+          threshold: 0.7
+          min_lesson_length: 500
+          signal_smoothing: true
+          require_reset: false
+      - name: Level9
+        value: 9
+        completion_criteria:
+          measure: reward
+          behavior: PlayRummikub
+          threshold: 0.7
+          min_lesson_length: 500
+          signal_smoothing: true
+          require_reset: false
+      - name: Level10
+        value: 10
+        completion_criteria:
+          measure: reward
+          behavior: PlayRummikub
+          threshold: 0.7
+          min_lesson_length: 500
+          signal_smoothing: true
+          require_reset: false
+      - name: Level11
+        value: 11
+        completion_criteria:
+          measure: reward
+          behavior: PlayRummikub
+          threshold: 0.7
+          min_lesson_length: 500
+          signal_smoothing: true
+          require_reset: false
+      - name: Level12
+        value: 12
+        completion_criteria:
+          measure: reward
+          behavior: PlayRummikub
+          threshold: 0.7
+          min_lesson_length: 500
+          signal_smoothing: true
+          require_reset: false
+      - name: Level13
+        value: 13
+        completion_criteria:
+          measure: reward
+          behavior: PlayRummikub
+          threshold: 0.7
+          min_lesson_length: 500
+          signal_smoothing: true
+          require_reset: false
+      - name: Level14
+        value: 14
+        completion_criteria:
+          measure: reward
+          behavior: PlayRummikub
+          threshold: 0.7
+          min_lesson_length: 500
+          signal_smoothing: true
+          require_reset: false
+      - name: Level15
+        value: 15
+        completion_criteria:
+          measure: reward
+          behavior: PlayRummikub
+          threshold: 0.7
+          min_lesson_length: 500
+          signal_smoothing: true
+          require_reset: false
+      - name: Finale #final so far
+        value: 56

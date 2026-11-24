@@ -1,0 +1,14 @@
+Training 1
+	ppo baseline alg worked well at begining, however the level 7 of curriculum learning was too much for it. The level provided both types of seqences to hand of agent, group and set, what created too much chaos for it. Agent failed to train
+
+Training 2
+	ppo baseline 2., level 7 changed into one seq on board with task to put separate seq. mix of group and set was put to level 27, where there will be 3 tiles per seq (sum 6).
+
+Gdy zmieniłam kolejność nauki, najpierw z pierwszej serii na pierwszą grupę to nie przeszedł powyżej 4 poziomu, gdy przy pierwszej serii przeszedł na poziom 9
+
+21.06
+agent baseline zatrzymyje się na poziomie 4 i podejmuje te same decyzje, zwiększyłam ilość neuronów, jak za duże to zmniejszenie, jak generalnie nie zadziała to dodać curiosity
+
+kilka h później
+to samo pomimo większej sieci, agent podejmuje te same decyzje, zmiania podawania punktów o kładzenie , im bliżej sekwencji tym więcej p,
+również dam mniejszą sieć.

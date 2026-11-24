@@ -1,3 +1,15 @@
+# =========================================================
+# Personal notes and documents (not part of the project)
+# =========================================================
+TODO_project.txt
+board.txt
+curriculum_learning.txt
+stary_kod.txt
+magisterka_dokumenty/
+prezentacja/
+
+# ML-Agents demonstration recordings (too large for GitHub)
+*.demo
 
 [Ll]ibrary/
 [Tt]emp/

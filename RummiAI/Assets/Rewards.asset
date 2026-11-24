@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02b3d8d83d8a861459ebc04c9ad8587d, type: 3}
+  m_Name: Rewards
+  m_EditorClassIdentifier: 
+  winReward: 2
+  lossPenalty: -2
+  WAWFMDT: -0.3
+  PTPBOT: 0.3
+  PTPCTOT: 0.15
+  PTPOLOROTT: 0.2
+  PTPOB: 0.1
+  MTP: 0.02
+  MTPTDP: 0.01
+  IFTFP: 1
+  ATAHFT: 0.5
+  SR: 0.1
+  PNTNT: -0.1
+  TNT: -0.2
+  TNTPT: -0.2
+  PTW: -0.1
+  MDDE: -0.1
+  MDIW: -0.1
+  TRTTCNBR: -0.03
+  DBET: -0.05
+  DT: -0.2
+  UA: -0.02
+  UAWNCWM: -0.01
+  IFTIMW: -0.1
+  WEOTTSAOT: -0.05
+  MILWAT: -0.2
+  PFETIH: -0.005
+  SP: -0.005
+  PTPOB_T: 0.1
+  PTPBOT_T: 0.2
+  PTPCTOT_T: 0.15
+  PTPOLOROTT_T: 0.2
+  ATAHFT_T: 0.3
+  TNT_T: -0.1
+  PTW_T: -0.05
+  MILWAT_T: -0.2
+  PFETIH_T: -0.01
