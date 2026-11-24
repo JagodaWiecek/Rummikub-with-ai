@@ -33,7 +33,7 @@ Finally, the trained models were evaluated under identical evaluation conditions
 
 \subsection{Training methods}
 
-This experimental study compares the performance of several training configurations based on the PPO algorithm. In addition to the baseline implementation, selected learning support technique was incorporated to investigate their impact on the agent's learning performance. The sections \ref{Enhancement_tech_1}, \ref{Enhancement_tech_2}, \ref{Enhancement_tech_3} present the theoretical background and implementation details of techniques,
+This experimental study compares the performance of two training configurations based on the PPO algorithm. In addition to the baseline implementation, selected learning support technique was incorporated to investigate their impact on the agent's learning performance. The sections \ref{Enhancement_tech_1}, \ref{Enhancement_tech_2}, \ref{Enhancement_tech_3} present the theoretical background and implementation details of techniques,
 The following training configurations were evaluated:
 \begin{itemize}
 	\item PPO which is baseline RL algorithm in ML-Agents, used as reference method.
@@ -138,7 +138,7 @@ Following the training stage, each trained neural network was evaluated independ
 
 
 \section{Results}
-This section will present and analyzes the results of experiments, comparing them across different settings.
+This section presents and analyzes the results of experiments, comparing them across different settings.
 \subsection{Baseline}
 This section presents the results of the baseline model during training, as well as the final evaluation results of the baseline model.
 \subsubsection{Learning results}
@@ -186,9 +186,9 @@ The figure \ref{fig:ppo_baseline_lessonNumber} illustrates the progression of te
 	}
 	\label{fig:ppo_baseline_lessonNumber}
 \end{figure}
-Most agents completed the initial curriculum level after approximately 200,000--300,000 environment steps. The exception was the \textit{PPO\_baseline\_no1} agent, which advanced to level 1 earlier, after approximately 140,000 steps. However, it remained at this level until the end of its training process at 2 million steps. Consequently, this agent did not reach the predefined target. This observation also explains why its curriculum reward remained predominantly negative in the later part of the training process, the agent was unable to satisfy the promotion criterion for level 1.
+Most agents completed the initial curriculum level after approximately 200,000-300,000 environment steps. The exception was the \textit{PPO\_baseline\_no1} agent, which advanced to level 1 earlier, after approximately 140,000 steps. However, it remained at this level until the end of its training process at 2 million steps. Consequently, this agent did not reach the predefined target. This observation also explains why its curriculum reward remained predominantly negative in the later part of the training process, the agent was unable to satisfy the promotion criterion for level 1.
 
-The remaining nine agents successfully progressed beyond the initial stages of the curriculum. Most of them remained at Level 1 until they had taken approximately 500,000--600,000 steps, after which they advanced rapidly through Levels 2–9. The short amount of time spent at several of these intermediate levels suggests that they found the tasks associated with these levels easier than those associated with the longer plateaus. However, the exact transition steps should be interpreted as approximate, as the metric was recorded at fixed summary intervals.
+The remaining nine agents successfully progressed beyond the initial stages of the curriculum. Most of them remained at Level 1 until they had taken approximately 500,000-600,000 steps, after which they advanced rapidly through Levels 2–9. The short amount of time spent at several of these intermediate levels suggests that they found the tasks associated with these levels easier than those associated with the longer plateaus. However, the exact transition steps should be interpreted as approximate, as the metric was recorded at fixed summary intervals.
 
 Significant differences between the agents emerged at levels 9, 10 and 11. Several agents remained at level 9 for a long time before being promoted to level 10. The time taken to advance beyond level 10 also varied considerably, with some agents achieving this in approximately 1 million steps, while others required more than 1.3 million. These plateaus suggest that the later curriculum tasks were more challenging and required more experience to meet the promotion criterion.
 
@@ -210,7 +210,7 @@ Figure \ref{fig:ppo_baseline_lessonNumber_mean_SD} summarizes the curriculum pro
 The widening standard-deviation band reflects the increasing separation between agents that reached the target and the single agent that remained at an early curriculum level and failed to complete the training objective. The decrease in the mean observed in the later part of the graph does not represent a regression of the trained policies. Instead, agents that reached the target stopped producing further observations, leaving the unsuccessful and slower runs with a progressively greater influence on the calculated statistics. Therefore, the final section of the curve is based on a changing and decreasing number of active runs and should not be interpreted as the mean progress of all ten agents.
 
 The figure \ref{fig:ppo_baseline_entropy} demonstrate changes in policy entropy value \ref{Env::metrics} during the training agents using the PPO baseline configuration. 
-At the beginning of training, most agents exhibited an entropy value of approximately 5.9. During the first 500,000 environment steps, entropy gradually decreased to approximately 2.4--2.6. This general downward trend indicates that the agents progressively reduced random exploration as they acquired more consistent action-selection strategies for the initial curriculum tasks.
+At the beginning of training, most agents exhibited an entropy value of approximately 5.9. During the first 500,000 environment steps, entropy gradually decreased to approximately 2.4-2.6. This general downward trend indicates that the agents progressively reduced random exploration as they acquired more consistent action-selection strategies for the initial curriculum tasks.
 
 Most agents experienced a substantial increase in entropy between approximately 550,000 and 700,000 steps. According to the curriculum level progression shown in \ref{fig:ppo_baseline_lessonNumber}, this interval corresponded to rapid advancement through several successive levels of the curriculum. Therefore, the increase in entropy suggests that the agents began to explore a wider range of actions after encountering new tasks and changing environmental conditions. After this period, entropy generally stabilized between 3.3 and 3.9, although temporary fluctuations remained visible. Many of these fluctuations coincided with progression to subsequent curriculum levels and may reflect the need to adapt the learned policy to the requirements of new tasks.
 
@@ -302,13 +302,15 @@ The standard deviation band is relatively narrow during the period of lowest ent
 %		Values are reported in thousands of environment steps. TensorBoard summaries were recorded every 10\,000 environment steps. Therefore, each value corresponds to the first recorded training step at which the given curriculum level was observed rather than the exact promotion step. A dash (--) indicates that the corresponding level was not reached during training. Mean and standard deviation were calculated only for agents that reached the corresponding curriculum level.
 %	\end{minipage}
 \end{table}
-Values are reported in thousands of environment steps. TensorBoard summaries were recorded every 10\,000 environment steps. Therefore, each value corresponds to the first recorded training step at which the given curriculum level was observed rather than the exact promotion step. A dash (--) indicates that the corresponding level was not reached during training. Mean and standard deviation were calculated only for agents that reached the corresponding curriculum level.
+
 
 The \textit{PPO\_baseline\_no1} agent exhibited a distinctly different entropy pattern. Its entropy decreased rapidly from around 5.6 to below 2.0 within the first 250,000 steps, then remaining between around 1.4 and 1.9 for most of the training process. Taken together with its curriculum-level progression, this shows that the agent maintained a considerably less exploratory policy while remaining at level 1. This may indicate premature convergence to an insufficient action-selection strategy to satisfy the promotion criterion.
 
 The remaining agents maintained higher entropy values and continued to progress through the curriculum. Temporary increases near the end of several training runs appear to coincide with transitions to more difficult levels. Overall, the results suggest that successful agents repeatedly increased their level of exploration in response to changes in the curriculum, subsequently reducing or stabilizing it as they adapted to new tasks. In contrast, the unsuccessful \textit{PPO\_baseline\_no1} agent maintained relatively low entropy and did not progress beyond level 1.
 
-The table \ref{tab:baseline_level_intervals} presents the first recorded training steps at which the individual PPO baseline agents reached successive curriculum levels. Nine out of ten agents reached level 12. The only unsuccessful run was agent 1, which reached level 1 after approximately 140,000 environment steps but did not progress to any subsequent level within the training budget.
+The table \ref{tab:baseline_level_intervals} presents the first recorded training steps at which the individual PPO baseline agents reached successive curriculum levels. Values are reported in thousands of environment steps. TensorBoard summaries were recorded every 10\,000 environment steps. Therefore, each value corresponds to the first recorded training step at which the given curriculum level was observed rather than the exact promotion step. A dash (-) indicates that the corresponding level was not reached during training. Mean and standard deviation were calculated only for agents that reached the corresponding curriculum level.
+
+Nine out of ten agents reached level 12. The only unsuccessful run was agent 1, which reached level 1 after approximately 140,000 environment steps but did not progress to any subsequent level within the training budget.
 
 On average, the agents reached level 1 after taking 216,000 steps in the environment. Reaching level 2 required substantially more training, with an average of around 556,700 steps. The difference of around 340,700 steps between the mean values for levels 1 and 2 suggests that level 1 was the first significant hurdle in the curriculum. However, the relatively low standard deviation of around 50,500 steps for reaching level 2 suggests that the successful agents experienced a similar degree of difficulty at this stage.
 
@@ -380,9 +382,9 @@ Overall, the results suggest that levels 1, 9, 10 and 11 required the most train
 \end{table}
 
 %The table \ref{tab:baseline_training_time} 
-Training stopped indicates the first recorded training step at which curriculum level 12 was reached or the predefined training limit of 2 million environment steps if the target was not achieved. Target reached denotes whether the agent successfully reached the predefined target curriculum level. Training time is reported as the total active training time in hours.
 
-The table \ref{tab:baseline_training_time} summarizes the training outcomes of the ten agents using the PPO baseline configuration. Nine of the agents reached the predefined target level, giving a success rate of 90\%. Agent 1 was the only unsuccessful run. Its training continued until the predefined limit of two million environment steps, lasting 9.16 hours, but did not reach the target.
+
+The table \ref{tab:baseline_training_time} summarizes the training outcomes of the ten agents using the PPO baseline configuration. Training stopped indicates the first recorded training step at which curriculum level 12 was reached or the predefined training limit of 2 million environment steps if the target was not achieved. Target reached denotes whether the agent successfully reached the predefined target curriculum level. Training time is reported as the total active training time in hours. Nine of the agents reached the predefined target level, giving a success rate of 90\%. Agent 1 was the only unsuccessful run. Its training continued until the predefined limit of two million environment steps, lasting 9.16 hours, but did not reach the target.
 
 Of the successful runs, Agent 0 took the shortest time to reach the target, achieving this after approximately 1,050,000 environment steps and 3.83 hours of training. Agent 7 took the most steps of all the successful agents to reach the target, doing so after approximately 1,670,000 steps and 5.95 hours. The difference between the fastest and slowest successful runs was therefore approximately 620,000 environment steps and 2.12 hours. 
 While the recorded training time was generally associated with the number of environment steps required to reach the target, the relationship was not strictly proportional. For example, Agent 4 reached the target after around 1,130,000 steps in 4.12 hours, whereas Agent 8 reached it earlier, after around 1,110,000 steps, but still required 4.03 hours. By contrast, Agent 6 completed around 1,160,000 steps in just 3.98 hours. Thus, although agent 6 required more environment steps than agents 4 and 8, it completed its training in less wall-clock time.
@@ -643,16 +645,16 @@ The standard-deviation band is narrow during the initial decrease, showing simil
 %		Values are reported in thousands of environment steps. TensorBoard summaries were recorded every 10\,000 environment steps. Therefore, each value corresponds to the first recorded training step at which the given curriculum level was observed rather than the exact promotion step. A dash (--) indicates that the corresponding level was not reached during training. Mean and standard deviation were calculated only for agents that reached the corresponding curriculum level.
 %	\end{minipage}
 \end{table}
-Values are reported in thousands of environment steps. TensorBoard summaries were recorded every 10\,000 environment steps. Therefore, each value corresponds to the first recorded training step at which the given curriculum level was observed rather than the exact promotion step. A dash (--) indicates that the corresponding level was not reached during training. Mean and standard deviation were calculated only for agents that reached the corresponding curriculum level.
 
-The table \ref{tab:gail_steps_per_level} presents the time intervals within which each agent, using the GAIL auxiliary method, successfully completed a given level and advanced to the next one.
+
+The table \ref{tab:gail_steps_per_level} presents the time intervals within which each agent, using the GAIL auxiliary method, successfully completed a given level and advanced to the next one. Values are reported in thousands of environment steps. TensorBoard summaries were recorded every 10\,000 environment steps. Therefore, each value corresponds to the first recorded training step at which the given curriculum level was observed rather than the exact promotion step. A dash (--) indicates that the corresponding level was not reached during training. Mean and standard deviation were calculated only for agents that reached the corresponding curriculum level.
 
 The first challenge was to complete Level Zero, which took an average of 250,000 steps, a task that may involve learning to map observations to one’s actions.
 Agent \textit{PPO\_GAIL\_no8} took the least time to complete this level, advancing after 190,000 steps. In contrast \textit{PPO\_GAIL\_no3} did not advance until after 400,000 steps, which makes it a difference of 210,000 steps.
 
 Level 1 proved to be another challenge. On average, agents reached this level after 250,000 steps and completed it after 598,000 steps, which means it took an average of 248,000 steps to complete Level 1. However, at this level, the agent \textit{PPO\_GAIL\_no9} performed the best, advancing after 520,000 steps. Between its advancement from level zero, which occurred after 210,000 steps, it took approximately 310 steps to reach level two.
 
-Completing levels 2-–8 required fewer steps, as can also be seen in Figure \ref{fig:gail_lessonNumber}. The agents completed level 1 after 598,000 steps and level 8 after an average of 664,000 steps, which means that the agents successfully completed levels 2 through 8 in an average of 66,000 steps. This suggests that the given set of tasks was similar enough to the previous levels that, after mastering tasks 0 and 1, the agents could quickly adapt to levels 2–-8.
+Completing levels 2–8 required fewer steps, as can also be seen in Figure \ref{fig:gail_lessonNumber}. The agents completed level 1 after 598,000 steps and level 8 after an average of 664,000 steps, which means that the agents successfully completed levels 2 through 8 in an average of 66,000 steps. This suggests that the given set of tasks was similar enough to the previous levels that, after mastering tasks 0 and 1, the agents could quickly adapt to levels 2–-8.
 
 Level 9 proved to be a greater challenge for the agents. On average, advancing from level 9 to 10 required 198,000 steps. The first agent to complete level 9 was \textit{PPO\_GAIL}, who advanced to level 10 after 760,000 steps. However, the agent \textit{PPO\_GAIL\_no3} advanced the latest, reaching level 10 after 1.06 million steps, which means that the difference between the time of advancement for agent \textit{PPO\_GAIL} and agent \textit{PPO\_GAIL\_no3} is 300,000 steps. However, agent \textit{PPO\_GAIL\_no9} took the longest to complete Level 9. He completed level 8 after 560,000 steps, but finished level 9 after 1.03 million steps, which shows that it needed 470,000 steps to complete the level.
 
@@ -660,7 +662,7 @@ Level 10 turned out to be the most time-consuming for agents on average, as they
 
 Reaching the target level was faster, as it took an average of 130,000 steps between levels. However, the time it took to complete Level 11 varied among the agents. Agent \textit{PPO\_GAIL\_no3} needed only 30,000 steps to meet the promotion requirements, and agent \textit{PPO\_GAIL\_no2} required 60,000 steps. In contrast, agents \textit{PPO\_GAIL\_no8} and \textit{PPO\_GAIL\_no9} required as many as 250,000 steps to meet the promotion criteria.
 
-Throughout the learning process, the standard deviation increases as the curriculum progresses. Initially, the standard deviation is very similar, as are the values across levels 2–-8, where agents advanced quickly. However, the greatest differences appear at levels 9-11, with the highest value occurring at level 11. This result may not only be due to the length of study at level 11, but also to varying delays in studying the previous levels.
+Throughout the learning process, the standard deviation increases as the curriculum progresses. Initially, the standard deviation is very similar, as are the values across levels 2-8, where agents advanced quickly. However, the greatest differences appear at levels 9-11, with the highest value occurring at level 11. This result may not only be due to the length of study at level 11, but also to varying delays in studying the previous levels.
 
 While all agents achieved the set training goal, the pace of their progress varied greatly. Levels 0, 1, 9 and 10 were the most demanding in terms of the number of steps required, with level 10 taking the most time on average. Levels 2–8 were completed quickly, possibly indicating the transfer of previously acquired skills.
 \begin{table}[htbp]
@@ -721,9 +723,9 @@ While all agents achieved the set training goal, the pace of their progress vari
 	%	Values in the second column are reported in thousands of environment steps and correspond to the first TensorBoard summary in which level 12 was observed.
 	%\end{minipage}
 \end{table}
-Values in the second column are reported in thousands of environment steps and correspond to the first TensorBoard summary in which level 12 was observed.
 
-The table \ref{tab:gail_training_time} displays the success rate in reaching the goal, the number of steps required, and how long it took each agent to complete the training.
+
+The table \ref{tab:gail_training_time} displays the success rate in reaching the goal, the number of steps required, and how long it took each agent to complete the training. Values in the second column are reported in thousands of environment steps and correspond to the first TensorBoard summary in which level 12 was observed.
 
 The target effectiveness is 100\%, which means that every agent using the GAIL auxiliary method reaches the target level.
 

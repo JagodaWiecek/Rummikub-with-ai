@@ -18,7 +18,7 @@ The following versions of the tools were used as part of this project:
 
 \section{Game environment}
 
-Rummikub was selected as the game environment due to its combination of simple rules and complex decision-making requirements. Although the basic objective of the game is easy to understand, achieving an effective strategy requires managing incomplete information, selecting beneficial actions from many possible combinations, and considering both current and future game states.
+Rummikub is selected as the game environment due to its combination of simple rules and complex decision-making requirements. Although the basic objective of the game is easy to understand, achieving an effective strategy requires managing incomplete information, selecting beneficial actions from many possible combinations, and considering both current and future game states.
 
 Rummikub is a challenging game for an artificial agent because the game state changes after every move. The agent must decide which tiles to play and how to arrange them on the board. It also needs to consider whether drawing additional tiles might be more advantageous than performing an action. The possibility of rearranging existing tile groups also introduces a large action space, making the game ideal for investigating reinforcement learning approaches.
 
@@ -36,14 +36,14 @@ Rummikub is a board game where the main objective of the players is to get rid o
 	\item group - contains 3 to 4 tiles, where each tile has the same value but different color,
 	\item run - contains 3 to 13 tiles, where each tile is in the same color in ascending order.
 \end{itemize}
-In the first round, each player must place clear sequences on the board without utilising tiles from other sequences. The total value of these sequences must be at least 30 points. Points are assigned based on the numbers used to create the sequences and the joker takes on the value of the tile it replaces.
+In the first round, each player must place clear sequences on the board without utilizing tiles from other sequences. The total value of these sequences must be at least 30 points. Points are assigned based on the numbers used to create the sequences and the joker takes on the value of the tile it replaces.
 
 Once a player has reached their first turn and cannot place at least one tile, they must draw an extra tile from the bank.
 The game ends when one player's rack is empty. Players' rankings are estimated based on the tiles remaining in their racks. If one of the players has a joker in their rack, it adds 30 points to their score. The lower the final score, the better.
 The game also ends if one of the players must draw a tile from the empty bank. The final score is calculated in the same way, and the player with the fewest points wins \cite{rummikub_rules}.
  \subsection{Game implementation}
- As part of this work, a Rummikub game environment was implemented in the Unity engine, comprising the representation of the board and tiles, the rules of the game, the handling of moves, the user interface, a rule-based player, and a reinforcement learning agent. The environment was then integrated with the Unity ML-Agents Toolkit library, which facilitates communication between the Unity simulation and the training process running on the Python side, as well as the implementation of the PPO algorithm and the GAIL mechanism.
-This was achieved by using components of the engine, which are divided into the following main modules:
+ As part of this work, a Rummikub game environment is implemented in the Unity engine, comprising the representation of the board and tiles, the rules of the game, the handling of moves, the user interface, a rule-based player, and a reinforcement learning agent. The environment is integrated with the Unity ML-Agents Toolkit library, which facilitates communication between the Unity simulation and the training process running on the Python side, as well as the implementation of the PPO algorithm and the GAIL mechanism.
+This is achieved by using components of the engine, which are divided into the following main modules:
  \begin{itemize}
  	\item The board game module, which consists of game map objects that can be interacted with. It includes grid objects, 3D tile prefabs, and interactions for moving or adding tiles.
  	\item  The user interface module is the part of the game that is visible to human players. It consists of text, buttons and game tiles. Players can see their own tiles, how many tiles other players have, how much time is left in their turn, and how many tiles are left in the bank.
@@ -56,10 +56,10 @@ This was achieved by using components of the engine, which are divided into the 
  During a turn, the player or computer-controlled agent selects an action through the appropriate control module. The controller translates the selected action into an operation on the board, such as placing, removing, or moving a tile. The game logic module then verifies whether the resulting board state satisfies the implemented Rummikub rules. The controller updates the visual representation and proceeds with or rejects the move depending on the validation result.
  
  \subsection{Game Mechanics and User Interactions in the Game Environment}
-To enable the use of Rummikub as a test-bed for training an artificial intelligence agent, the game was implemented as a digital simulation.
+To enable the use of Rummikub as a test-bed for training an artificial intelligence agent, the game is implemented as a digital simulation.
 In this thesis, Rummikub is implemented as a 3D board game using Unity engine, while the RL computer player is designed using Machine Learning Agents Toolkit, described in \ref{subchap: ML-Agents}
 The implementation focuses not only on reproducing the original game mechanics but also on providing a structured environment in which an agent can observe the current game state, perform actions, and receive feedback based on the outcome of its decisions.
-The environment was developed in Unity, where the game logic, board representation, player interactions, and artificial intelligence interface were implemented as separate components. The digital representation of the game allows the state of the board and players to be controlled and evaluated during the training process.
+The environment is developed in Unity, where the game logic, board representation, player interactions, and artificial intelligence interface were implemented as separate components. The digital representation of the game allows the state of the board and players to be controlled and evaluated during the training process.
 
 The basic element of the game is a tile, represented by its numerical value and color. Each tile object stores information required for identifying valid groups and sequences. While regular tiles have values ranging from one to thirteen and come in the colors red, blue, orange and black, jokers have a value of 30 and are purple or magenta.
 As the representation of the players' racks there is used the List container, which is a flexible component for inserting, removing and sorting objects. 
@@ -116,7 +116,7 @@ This subsection presents the tools and framework used to build the simulation en
 the ML-Agents Toolkit, which acts as a layer integrating the environment with reinforcement learning algorithms.
 
 
-ML-Agents does not provide a ready-made implementation of an agent capable of making moves in the game of Rummikub. The policy returns only numerical values corresponding to individual branches of the discrete action space. Therefore, as part of this work, it was necessary to define, independently, the observations passed to the neural network, the structure of the action space, the method for interpreting the model’s decisions, masks for unavailable actions, the reward function, and the conditions for starting and ending an episode. These functionalities were consolidated into an agent class inheriting from the \textit{Agent} class provided by ML-Agents.
+ML-Agents does not provide a ready-made implementation of an agent capable of making moves in the game of Rummikub. The policy returns only numerical values corresponding to individual branches of the discrete action space. Therefore, as part of this work, it was necessary to define, independently, the observations passed to the neural network, the structure of the action space, the method for interpreting the model’s decisions, masks for unavailable actions, the reward function, and the conditions for starting and ending an episode. These functionalities are consolidated into an agent class inheriting from the \textit{Agent} class provided by ML-Agents.
 %\subsubsection{ML-Agents training framework}
 \label{subchap: ML-Agents}
 The Machine Learning Agents Toolkit (ML-Agents) is an open-source framework engineered by \textit{Unity Technologies}. ML-Agents provides a standardized, actively maintained framework that connects the Unity simulation environment directly to a PyTorch backend. 
@@ -127,10 +127,10 @@ ML-Agents allows intelligent agents to be trained through interaction with highl
 
 %\cite{juliani2020}
 \subsection{Behavior parameters and agent setup}
-The important part of training the agent using ML-Agents is proper configuration of the agent in the Unity engine. \textit{Behavior parameters} are responsible for setting up the input and output variables that are transferred from Unity to the neural network in the Python environment. The image \ref{fig:Agents_setup in unity} presents crucial variables \cite{unitymlagents40}:
+The important part of training the agent using ML-Agents is proper configuration of the agent in the Unity engine. \textit{Behavior parameters} are responsible for setting up the input and output variables, that are transferred from Unity to the neural network in the Python environment. The image \ref{fig:Agents_setup in unity} presents crucial variables \cite{unitymlagents40}:
 \begin{itemize}
 	\item The Behavior Name is an important name tag to apply a certain configuration file.
-	\item Vector Observation is responsible for determining the number of observations sent to the neural network. This amount must be exactly as defined in the agent's script. The Stacked Vector sub-variable creates a containerized  version, whereby one action will send the current observation and a predefined number of previous observations.
+	\item Vector Observation is responsible for determining the number of observations sent to the neural network. This amount must be exactly as defined in the agent's script. The Stacked Vector sub-variable creates a containerized version, whereby one action will send the current observation and a predefined number of previous observations.
 	\item Actions define the output space of the agent, there are two types of action: continuous and discrete. Continuous actions enable an agent to select real-valued outputs from a specified range, resulting in an effectively infinite number of possible values. This type of action is particularly well-suited to tasks that require precise control, such as determining the direction, speed or rotation of movement. In contrast, discrete actions enable the agent to select one option from a finite set of predefined values. For instance, a discrete branch of size two enables the agent to select either action 0 or action 1. This type is appropriate for selecting an object index or choosing between predefined actions, such as placing, moving, or removing a game element. An agent can perform more than one action in one move, known as \textit{branches}, which can be either continuous or discrete.  
 	\item Model is a space to which a trained model can be attached. If left as \textit{None}, the environment will automatically be set to train. 
 	\item Behavior Type defines the source of the action. There are three types. The first is the \textbf{Default}, where the decision is made by the NN from Python. \textbf{Heuristic}, where the user or expert maps the actions. \textbf{Inference} type uses a ready-made NN model in an \textit{.onnx} file.
@@ -148,8 +148,8 @@ Vector Observations are values that change over successive time steps, but the n
 There are crucial functions within the script that must be overridden: 
 \begin{itemize}
 	\item OnEpisodeBegin is function that is called at beginning of the episode during the simulation.
-	\item CollectObservations is function called at beginning of every action of the agent. It is responsible to collect all observations that then are transfered to the NN.
-	\item OnActionReceived is called after the NN analized the input from \textit{CollectObservations} function.
+	\item CollectObservations is function called at beginning of every action of the agent. It is responsible to collect all observations that then are transferred to the NN.
+	\item OnActionReceived is called after the NN analyzed the input from \textit{CollectObservations} function and translates the returned values into game interactions.
 \end{itemize} 
 
 % WriteDiscreteActionMask actionMask.SetActionEnabled 
@@ -165,9 +165,9 @@ There are crucial functions within the script that must be overridden:
 \subsection{Configurations and hyperparameters} 
 \label{chpt3::confAndHyper}
 Within the Python environment, NN has its predetermined, adjustable configurations that govern the fundamental behavior, training trajectory, and stability of a learning algorithm. They are positioned in a \textit{YAML} file, which is a human-readable data serialization language. 
-YAML file organizes training variables in a nested hierarchical structure. \textit{hyperparameters, network\_settings, trainer configurations, behavioral\_cloning, reward\_signals and gail}. 
+%YAML file organizes training variables in a nested hierarchical structure. \textit{hyperparameters, network\_settings, trainer configurations, reward\_signals and gail}. 
 
-The YAML configuration file organizes training variables in a nested hierarchical structure. At the root of this hierarchy lies the specific behavior name, which contains high-level trainer configurations, such as defining the trainer type and maximum step count. Nested beneath this level are specialized sub-sections, including \textit{hyperparameters, network\_settings, reward\_signals}, and optional imitation learning modules like \textit{behavioral\_cloning} or \textit{gail}.
+The YAML configuration file organizes training variables in a nested hierarchical structure. At the root of this hierarchy lies the specific behavior name, which contains high-level trainer configurations, such as defining the trainer type and maximum step count. Nested beneath this level are specialized sub-sections, including \textit{hyperparameters, network\_settings, reward\_signals}, and optional imitation learning modules like \textit{gail}.
 \cite{unitymlagentsTrainingConf}
 
 \begin{lstlisting}[caption={Trainer Configuration Parameters.}, label={ls:YAML_trainerConf}]
@@ -193,7 +193,7 @@ Listening \ref{ls:YAML_trainerConf} presents exemplary configuration parameters.
 	\item \textit{time\_horizon} is the amount of steps required to collect before appending it to the experience buffer.
 	\item \textit{summary\_freq} defines the quantity of experience necessary to collect before summerisation and generation of the training statistics.
 	\item \textit{checkpoint\_interval} is the number of experiences before saving the checkpoint. It serves as rescue in the event of critical error or malfunction of the device, thereby losing the progress.
-	\item \textit{keep\_checkpoints} is the value of the most recent checkpoints stored in the device .
+	\item \textit{keep\_checkpoints} is the value of the most recent checkpoints stored in the device.
 	\item \textit{even\_checkpoints} ignores \textit{checkpoint\_interval} and distributes the checkpoints equally  throughout the training simulation based on \textit{max\_steps} and \textit{keep\_checkpoints} settings, if it is set \textbf{true}.
 	\item \textit{threaded} allows the environment to continue training while updating the model's weights.
 	\item \textit{init\_path} defines the path to the previously trained model in order to continue learning.
@@ -244,7 +244,7 @@ The listing \ref{ls:YAML_PPO_hyperparameters} presents the example of hyperparam
 \begin{itemize}
 	\item \textit{beta} variable defines entropy, which influences the stochasticity of the model's policy. The greater entropy, the more willing the agent is to take random actions.
 	\item \textit{beta\_schedule} defines the decay schedule of beta variable.
-	\item \textit{epsilon} affects the the rate at which the policy changes over time.
+	\item \textit{epsilon} affects the rate at which the policy changes over time.
 	\item \textit{epsilon\_schedule} is the decay schedule of epsilon variable
 	\item \textit{lambd} defines the regularization variable $\Lambda$, which is used calculating the \textbf{Generalized Advantage Estimate} (GAE)
 	\item \textit{num\_epoch} determines the amount of iteration through the experience buffer during gradient descent update.
@@ -319,16 +319,16 @@ The listening \ref{ls:YAML_CL} presents exemplary configuration of \textit{curri
 	\item \textit{completion\_criteria} is a parameter that must be implemented for the curriculum to be configured properly. It defines the conditions required for an agent to be promoted to a higher level.
 	\begin{itemize}
 		\item \textit{measure} defines how an agent's progress towards promotion is measured. Two main measurements can be implemented: reward, which identifies the minimum amount of reward required, and progress, which determines the ratio of steps/max\_steps expected to be completed before promotion.
-		\item \textit{behavior} attach configured specifications to certain behavior due to the possibility of multiple different behaviors existing in one environment.
+		\item \textit{behavior} attaches configured specifications to certain behavior due to the possibility of multiple different behaviors existing in one environment.
 		\item \textit{threshold} determines the point value of measure that must be reached for a promotion.
-		\item \textit{min\_lesson\_length} prevents the agent from being promoted too quickly due to the risk of failing to generalise the environment.
-		\item \textit{signal\_smoothing} smooths the cumulative reward signal when the mean reward is measured. It prevents the agent from being promoted to a higher level due to unstable learning, whereby the agent receives a high reward spike instead of achieving consistently high performance. This setting is ignored in the case of a progress measure.
+		\item \textit{min\_lesson\_length} prevents the agent from being promoted too quickly due to the risk of failing to generalize the environment.
+		\item \textit{signal\_smoothing} smooths the cumulative reward signal when the mean reward is measured. It prevents the agent from being promoted to a higher level due to unstable learning, whereby the agent receives a high reward spike instead of achieving consistently high performance. This setting is ignored in the case of a \textit{progress} measure.
 		\item \textit{require\_reset} determines whether or not the environment resets immediately after promotion.
 	\end{itemize}
 \end{itemize}
 The configuration file contain more additional settings, such as SAC or self-play setting parameters, which can be found in \cite{unitymlagentsConfFile}.
 
-To accelerate the training process, five independent instances of the Unity environment were executed in parallel using the \textit{--num-envs=5} parameter. Each instance simulated a separate game and collected experiences using the same agent policy. The observations, actions and rewards generated across all five environments were provided to a single training process and used to update the shared neural network. Furthermore, the environments were executed with the \textit{--no-graphics} option, which disabled graphical rendering and reduced the computational resources required by the Unity application. This configuration increased the rate at which training data were collected.
+To accelerate the training process, five independent instances of the Unity environment are executed in parallel using the \textit{--num-envs=5} parameter. Each instance simulates a separate game and collects experiences using the same agent policy. The observations, actions and rewards generated across all five environments are provided to a single training process and used to update the shared neural network. Furthermore, the environments are executed with the \textit{--no-graphics} option, which disabled graphical rendering and reduced the computational resources required by the Unity application. This configuration increased the rate at which training data are collected.
 
 \subsection{Observation representation}
 The agent receives a numerical representation of the current state of the game. The observations include the tiles on the board and those held by the agent, their values, colors and positions. The color of a tile is represented using \textit{one-hot} encoding, in which each available color corresponds to a separate position in the vector. The values of the tiles are normalized to the range from 0 to 1, so that their scale is adapted to the neural network’s input data. The position of a tile is represented by its coordinates in the board’s logical grid, which are also converted into a numerical form suitable for the model.
@@ -340,7 +340,7 @@ Observations prepared in this way do not directly contain Unity objects or visua
 \subsection{Actions interpretation and masking}
 %Another enhancement method implemented fundamentally by ML-Agents is \textbf{action masking}.
 
-The agent’s action space has been defined as a multi-branch discrete space. The values returned by the model specify the type of action, the tile selected, and the source or target position on the board. The resulting numbers are interpreted by the agent class and converted into operations performed by the game logic, such as placing a tile, moving it, removing it, drawing a tile, undoing changes, or ending a turn.
+The agent’s action space is defined as a multi-branch discrete space. The values returned by the model specify the type of action, the tile selected, and the source or target position on the board. The resulting numbers are interpreted by the agent class and converted into operations performed by the game logic, such as placing a tile, moving it, removing it, drawing a tile, undoing changes, or ending a turn.
 
 The action branches of the agent goes as follows:
 \begin{itemize}
@@ -377,7 +377,8 @@ Where:
 This technique allowed for the exclusion of illegal actions. If selecting a single position on the board required two separate action branches, for coordinates X and Z, standard action masking would not be feasible, as ML-Agents only supports masking actions independently within each individual branch
 
 \subsection{Reward Function}
-The foundational integrated method is \textbf{reward shaping}. The framework implements two methods: \textbf{SetReward}, which overwrites the currently accumulated reward with a specific input value, and \textbf{AddReward}, incrementally updates the total collected reward. Assigning a negative value to the function means it works as a penalty instead of a reward.
+%The foundational integrated method is \textbf{reward shaping}. 
+The framework implements two methods: \textbf{SetReward}, which overwrites the currently accumulated reward with a specific input value, and \textbf{AddReward}, incrementally updates the total collected reward. Assigning a negative value to the function means it works as a penalty instead of a reward.
 
 The reward mechanism implemented is not limited to awarding a reward for completing an episode or imposing a penalty for failure. The agent also receives an indirect signal for actions leading to the correct solution to the task. For example, if completing the task requires two moves, placing the first tile correctly may be rewarded regardless of the outcome of the next decision. If the second move is incorrect and the task is not completed, the agent will receive a final penalty, but its cumulative reward will be higher than if both actions had been incorrect. % This technique is called .
 
@@ -435,13 +436,13 @@ This thesis presents a Curriculum Learning \ref{an::CL} setting consisting of 12
 \subsection{Demonstration recording}
 At the configuration file, the ML-Agents framework also provides \textbf{imitation learning} method, \textbf{Generative Adversarial Imitation Learning}. Before integrating this method in configuration file, it is necessary to create demonstration recording of the \textit{expert}. It requires the method \textbf{Heuristic} to be overridden within the \textit{Agent} class and attachment of \textbf{Demonstration Recorder} to the agent's game object. The expert's recording can be generated through manual gameplay by a human operator or by predefined computer player algorithm, whose actions are mapped and configured into demonstration file. The \textit{.demo} file contains segregated sequences of observations, actions and rewards, through which the learning algorithm analyses the pairs state-action and adjusts the weights of NN to recreate actions in familiar situations. 
 
-The demonstrations used by the GAIL mechanism were prepared using a rule-based computer player. This player acted as an expert, analysing the current state of the entire game and determining subsequent moves in accordance with the implemented rules.
+The demonstrations used by the GAIL mechanism are prepared using a rule-based computer player. This player acts as an expert, analyzing the current state of the entire game and determining subsequent moves in accordance with the implemented rules.
 
-The rule-based player’s decisions were passed to the agent class via a queue. This approach was adopted due to differences between the execution speed of the rule-based player’s logic and the decision-making cycle of the ML-Agents agent. The queue stored the prepared actions until the agent could retrieve them one by one and execute them in the environment.
+The rule-based player’s decisions were passed to the agent class via a queue. This approach was adopted due to differences between the execution speed of the rule-based player’s logic and the decision-making cycle of the ML-Agents agent. The queue stores the prepared actions until the agent could retrieve them one by one and execute them in the environment.
 
-Whilst recording the demonstration, the agent continued to generate observations of the environment and execute actions using the ML-Agents heuristic functions. The difference was that the action values did not come from a trained policy, but from decisions prepared by the rule-based algorithm. This made it possible to save observation–action pairs in the \textit{.demo} format required by the GAIL method.
+Whilst recording the demonstration, the agent continues to generate observations of the environment and execute actions using the ML-Agents heuristic functions. The difference was that the action values did not come from a trained policy, but from decisions prepared by the rule-based algorithm. This made it possible to save observation–action pairs in the \textit{.demo} format required by the GAIL method.
 
-The techniques described in this section represent the core methods used to support the training process in this project. Ml-Agents provides more auxiliary techniques, such as \textbf{intrinsic motivation} or \textbf{Behavior Cloning}. Additional training options provided by the toolkit are documented in detail in \cite{unitymlagentsOverview}.
+%%The techniques described in this section represent the core methods used to support the training process in this project. Ml-Agents provides more auxiliary techniques, such as \textbf{intrinsic motivation} or \textbf{Behavior Cloning}. Additional training options provided by the toolkit are documented in detail in \cite{unitymlagentsOverview}.
 
 \section{Communication Between the Game and Training Process}
 ML-Agents operates as a highly integrated bridging architecture, connecting the C\#-based Unity game engine to external, Python-based deep learning frameworks. It deploys a specialized Python package that utilizes a \textit{gRPC} communication protocol paired with protocol buffer (protobuf) messages. This establishes a seamless, asynchronous data pipeline between the simulated environment and the optimization algorithms, allowing for accelerated training phases that can execute at speeds vastly exceeding real-time. However the actual training speed depends on the complexity of the unity environment and available device resources. 
@@ -449,9 +450,9 @@ ML-Agents operates as a highly integrated bridging architecture, connecting the 
 \subsection{Architecture of the ML-Agents Framework}
 Within the Unity engine, the internal software development kit (SDK) architecture is strictly partitioned into three fundamental hierarchical entities:
 \begin{itemize}
-	\item Sensors - these are utilized as observation extraction to as an integral part of MDP state space. Sensors are attached to agents and are explicitly responsible for collecting observational data. The architecture supports multimodal sensory inputs, meaning a single agent can simultaneously process continuous arbitrary length vectors, ray-cast collision detections, and high-dimensional rendered visual images.  
-	\item Agents - the \textbf{Agent} component is fundamentally attached to a game object within the simulation, granting it the systemic capacity to gather observations from its sensors, execute distinct actions, and process environmental reward signals. A key feature of this architecture is the implementation of a \textbf{behavior name}, which identifies the underlying policy. The toolkit enables an unlimited number of agents within a scene to share the same behavior name. When grouped in such a manner, these agents synchronize their learning, executing the same policy and collectively pooling their trajectory experience data during the optimization phase. The architecture also enables policies to derive decisions from various distinct sources, such as hard-coded heuristic scripts, direct human input, embedded on-device neural networks or external Python API commands.
-	\item Academy - It operates as a global singleton entity that manages the overarching logic of the simulation. Its primary functions are to track the discrete temporal steps of the simulation and to manage the lifecycle of all active agents. Additionally, the Academy handles \textit{environment parameters}, which are exposed variables that can dynamically alter the configuration of the simulated world at runtime. Through the Academy, an algorithm can manipulate gravity, re-scale objects, or adjust obstacle density dynamically, which constitutes the architectural backbone required for implementing advanced Curriculum Learning and Domain Randomization protocols.
+	\item Sensors - these are utilized as observation extraction to as an integral part of MDP state space. Sensors are attached to agents and are explicitly responsible for collecting observational data. The architecture supports multimodal sensory inputs, meaning a single agent can simultaneously process continuous arbitrary length vectors, ray-cast collision detection, and high-dimensional rendered visual images.  
+	\item Agents - the \textbf{Agent} component is fundamentally attached to a game object within the simulation, granting it the systemic capacity to gather observations from its sensors, execute distinct actions, and process environmental reward signals. A key feature of this architecture is the implementation of a \textbf{behavior name} \ref{fig:Agents_setup in unity}, which identifies the underlying policy. The toolkit enables an unlimited number of agents within a scene to share the same behavior name. When grouped in such a manner, these agents synchronize their learning, executing the same policy and collectively pooling their trajectory experience data during the optimization phase. The architecture also enables policies to derive decisions from various distinct sources, such as hard-coded heuristic scripts, direct human input, embedded on-device neural networks or external Python API commands.
+	\item Academy - It operates as a global singleton entity that manages the overarching logic of the simulation. Its primary functions are to track the discrete temporal steps of the simulation and to manage the life-cycle of all active agents. Additionally, the Academy handles \textit{environment parameters}, which are exposed variables that can dynamically alter the configuration of the simulated world at runtime. Through the Academy, an algorithm can manipulate gravity, re-scale objects, or adjust obstacle density dynamically, which constitutes the architectural backbone required for implementing advanced Curriculum Learning and Domain Randomization protocols.
 \end{itemize}
 \subsection{Training Data Flow}
 On the external side of the architecture, the provided Python API initializes a \textbf{UnityEnvironment} class, which serves as the controller for launching and interfacing with the Unity executable. To maximize interoperability with the broader reinforcement learning research community, the toolkit architecture inherently provides wrapper APIs. These wrappers seamlessly convert the complex Unity communication pipeline into the standardized OpenAI Gym interface, permitting researchers to plug Unity environments directly into pre-existing reinforcement learning codebases without structural modifications.
@@ -470,11 +471,11 @@ The simulation progresses through the steps, and steps 2-7 repeat rapidly, until
 
 \section{Evaluation Metrics}
 \label{Env::metrics}
-During training process, the progress of each model was monitored using statistics recorded by TensorBoard, which is integrated with the ML-Agents framework by default. The data are stored in \textit{events.out.tfevents} event files. The analysis focused primarily on cumulative environmental reward, episode length and a custom curriculum-level statistic indicating when the agent was promoted to the next lesson. These metrics were selected because they directly reflected the agent's learning progress, the time spent on individual curriculum levels and any periods of stagnation or instability.
+During training process, the progress of each model is monitored using statistics recorded by TensorBoard, which is integrated with the ML-Agents framework by default. The data are stored in \textit{events.out.tfevents} event files. The analysis focused primarily on cumulative environmental reward, episode length and a environmental curriculum-level statistic indicating when the agent was promoted to the next lesson. These metrics were selected because they directly reflected the agent's learning progress, the time spent on individual curriculum levels and any periods of stagnation or instability.
 
-The analysis of every training run included whether the predefined target curriculum level had been reached within the established training budget, how many training interval steps had been required to reach this level and the corresponding wall-clock training time. The learning process was also examined in terms of stability. This was evaluated based on the variability of the environmental reward, the occurrence of extended stagnation periods and temporary decreases in performance during training. As all models were compared with respect to the same predefined target level, the highest curriculum level reached was not treated as a separate evaluation criterion.
+The analysis of every training run includes whether the predefined target curriculum level had been reached within the established training budget, how many training interval steps had been required to reach this level and the corresponding wall-clock training time. The learning process is also examined in terms of stability, which is evaluated based on the variability of the environmental reward, the occurrence of extended stagnation periods and temporary decreases in performance during training. As all models were compared with respect to the same predefined target level, the highest curriculum level reached was not treated as a separate evaluation criterion.
 
-Three principal metrics were selected to analyze the training process:
+Three principal Tensorboard metrics were selected to analyze the training process:
 
 \begin{itemize}
 	\item \textbf{Cumulative Reward} represents the sum of rewards and penalties received by the agent during an episode. Its increase generally indicates an improvement in the agent's behavior, although temporary decreases may occur after promotion to a more difficult curriculum level. Because the metric includes intermediate rewards and penalties, it should not be interpreted directly as the agent's win rate.
@@ -485,30 +486,32 @@ Three principal metrics were selected to analyze the training process:
 	
 \end{itemize}
 
-Each evaluation episode was classified as either successful or unsuccessful. An episode was considered successful if the agent correctly completed the task defined for the selected curriculum level before the termination condition was met. Otherwise, the episode was classified as unsuccessful. The primary post-training metric was the success rate, calculated as follows:
+
+\subsection{Evaluation process}
+The evaluation of the trained models is conducted directly within the simulated game environment implemented in the Unity engine. To this end, the exported \textit{ONNX} file is assigned to the component responsible for the agent’s behavior. 
+%Next, within the evaluation management object, the index of the agent being analyses, the number of episodes, the name of the resulting \textit{CSV} file and the curriculum level at which the test is to be carried out are specified.
+Each evaluation episode is classified as either successful or unsuccessful. An episode is considered successful if the agent correctly completed the task defined for the selected curriculum level before the termination condition was met. Otherwise, the episode is classified as unsuccessful. The primary post-training metric was the success rate, calculated as follows:
 \begin{equation}
 	\text{Success Rate} = \frac{N_{\text{successful}}}{N_{\text{successful}} + N_{\text{unsuccessful}}}
 \end{equation}
 First, the success rate was calculated for each trained model separately. The results obtained by the ten models belonging to the same method were then aggregated to calculate the mean performance and variability between independent training runs. This procedure enabled comparison of the PPO baseline and PPO with GAIL not only in terms of their average effectiveness, but also in terms of consistency of results.
-\subsection{Evaluation process}
-The evaluation of the trained models is conducted directly within the simulated game environment implemented in the Unity engine. To this end, the exported \textit{ONNX} file is assigned to the component responsible for the agent’s behavior. Next, within the evaluation management object, the index of the agent being analyses, the number of episodes, the name of the resulting \textit{CSV} file and the curriculum level at which the test is to be carried out are specified.
-
+ 
 The evaluation module allows the selection of any implemented curriculum level. It is not limited to level 11, which was used in the main experiments. This enables the model’s behavior to be examined both at the target level and on earlier tasks.
 
-During evaluation, the model’s weights are not further updated. The agent uses only the policy stored in the \textit{ONNX} file, and mechanisms used solely during training, such as the additional GAIL signal, no longer influence the decisions made. Once the specified number of epi sodes has been completed, the module writes to a \textit{CSV} file, including, the agent’s index, the number of episodes played, the level on which it was evaluated on, the number of wins and losses, and the calculated win rate.
+During evaluation, the model’s weights are not further updated. The agent uses only the policy stored in the \textit{ONNX} file, and mechanisms used solely during training, such as the additional GAIL signal, no longer influence the decisions made. Once the specified number of episodes has been completed, the module writes to a \textit{CSV} file, including, the agent’s index, the number of episodes played, the level on which it was evaluated on, the number of wins and losses, and the calculated win rate.
 
 \section{Using the Research Environment}
 In order to operate the trainer, it is necessary to establish a virtual Python environment with the ML-Agents package and other requisite dependencies installed:
 	 \begin{verbatim}
 	venv_3_9\Scripts\activate
 \end{verbatim}
-Then, after launching the environment, use the ML-Agents function:
+Then, after launching the environment, the ML-Agents function should be used:
 \begin{verbatim}
 	mlagents-learn ConfigurationFile.yaml --run-id=nameOfRun
 \end{verbatim}
-After a message appears indicating that the trainer is waiting for a connection, run the scene in the Unity editor by clicking the \textbf{Play} button. This option allows to observe how the environment works and was used primarily during implementation and troubleshooting.
+After a message appears indicating that the trainer is waiting for a connection, the simulation in the Unity editor should be started by clicking the \textbf{Play} button. This option allows to observe how the environment works and is used primarily during implementation and troubleshooting.
 
-More efficient way of the training is to activate many instances of the game, using the \textit{.exe} file of the game. The environment’s executable file is specified using the \texttt{--env} argument. Five independent instances of the game were launched simultaneously, and graphics rendering was disabled:
+More efficient way of the training is to activate many instances of the game, using the \textit{.exe} file of the game. The environment’s executable file is specified using the \texttt{--env} argument. Five independent instances of the game are launched simultaneously, and graphics rendering is disabled:
 \begin{verbatim}
 	mlagents-learn ConfigurationFile.yaml
 	--run-id=nameOfRun
@@ -521,16 +524,16 @@ Each instance generates separate episodes, but all instances are connected to th
 The training process proceeded as follows:
 \begin{enumerate}
 	\item The ML-Agents trainer passes the current value of the \textit{curriculum} parameter to the Unity environment. Based on this value, the environment generated the appropriate board, the agent's hand, and the mission conditions.
-	\item The agent collects observations describing the current state of the game, including information about the board, the stones in hand, and other game parameters. The observations were passed on to the policy running on the coach’s side.
+	\item The agent collects observations describing the current state of the game, including information about the board, the tiles in hand, and other game parameters. The observations are passed on to the policy running on the trainer’s side.
 	\item Before selecting an action, the game environment generates masks indicating actions that were unavailable in the current state. The policy then selected an action from among the permitted values of the individual branches of the discrete action space.
 	\item The environment code interpreted the selected values as the type of action, the selected tile, and the source and target positions. Unity then carried out the action, updating the game state and awarding 
-	\item Information about observations, actions, rewards and subsequent states are added to the set of experiences. Once the required number of experiences had been accumulated, the trainer used them to calculate the loss function and update the policy parameters.
-	\item The episode continued until the task was completed, or a condition for defeat was met. Once the episode had ended, the environment saved its statistics and prepared a new initial state.
-	\item The process was repeated until a defined target level or the maximum limit on training steps was reached.
+	\item Information about observations, actions, rewards and subsequent states are added to the set of experiences. Once the required number of experiences has been accumulated, the trainer used them to calculate the loss function and update the policy parameters.
+	\item The episode continues until the task is completed, or a condition for defeat was met. Once the episode had ended, the environment saves its statistics and prepares a new initial state.
+	\item The process is repeated until a defined target level or the maximum limit on training steps is reached.
 \end{enumerate}
-For each run, ML-Agents created a directory identified by the value \texttt{run-id}. This directory contained \textit{events.out.tfevents} event files, training checkpoints and the exported model in ONNX format. The event files contained standard ML-Agents metrics as well as custom environment statistics, including the current curriculum level, reward, episode length and promotion information. TensorBoard then enabled the visualisation of metrics such as cumulative environment reward, episode length and policy entropy. The ONNX model, meanwhile, contained the trained policy intended for deployment in Unity without any further parameter tuning.
+For each run, ML-Agents creates a directory identified by the value \texttt{run-id}. This directory contains \textit{events.out.tfevents} event files, training checkpoints and the exported model in ONNX format. The event files contains standard ML-Agents metrics as well as custom environment statistics, including the current curriculum level, reward, episode length and promotion information. TensorBoard then enables the visualization of metrics such as cumulative environment reward, episode length and policy entropy. The ONNX model, meanwhile, contains the trained policy intended for deployment in Unity without any further parameter tuning.
 
-The evaluation procedure utilized the exported ONNX model, which was assigned to the agent’s \textit{Behavior Parameters} component in the evaluation scene. The \textit{EvaluationManager} object specified the index of the agent under test, the number of episodes, the name of the output file, and the level at which the agent was to be evaluated. For each model, 1,000 episodes were run, during which wins and losses were counted. Once the evaluation was complete, the results were saved to a CSV file, including the agent’s index, the number of episodes played, the number of wins, the number of losses and the win rate.
+The evaluation procedure utilizes the exported ONNX model, which is assigned to the agent’s \textit{Behavior Parameters} component in the evaluation scene. The \textit{EvaluationManager} object specifies the index of the agent under test, the number of episodes, the name of the output file, and the level at which the agent is evaluated. For each model, 1,000 episodes are run, during which wins and losses are counted. Once the evaluation is complete, the results are saved to a CSV file, including the agent’s index, the number of episodes played, the number of wins, the number of losses and the win rate.
 
 
 

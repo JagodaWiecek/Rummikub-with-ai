@@ -57,8 +57,9 @@ The aim of using Non-Player Character Behavior Systems in digital games is to cr
 		\item The root node of BT generates execution \textit{tick}.
 		\item The root node passes the tick signal downward to its child nodes, sequentially from left to right.
 		\item The signal cascades through the intermediate nodes until it reaches a leaf node, which is responsible for a certain action.
-		\item The leaf node evaluates its own progress. If the child returns a \textit {Success} state, proceed to execute the next child in the sequence.\\If the child returns a Running state, it halts execution and returns \textit{Running} to the parent.\\If the child returns a \textit{Failure} state, it halts execution and immediately returns \textit{Failure} to the parent.
-		\item The resulting status is passed back up to the parent composite node.
+		\item The leaf node evaluates its own progress. 
+		%If the child returns a \textit {Success} state, proceed to execute the next child in the sequence.\\If the child returns a Running state, it halts execution and returns \textit{Running} to the parent.\\If the child returns a \textit{Failure} state, it halts execution and immediately returns \textit{Failure} to the parent.\item 
+		The resulting status is passed back up to the parent composite node.
 		\\If the parent is a Selector, and it receives a Failure, it sends a new tick to its next available child.
 		\\If the parent is a Sequence, and it receives a Success, it sends a new tick to its next available child.
 		\\If any parent receives a Running status, all lateral traversal stops instantly, and the Running status is pushed all the way back up to the root, effectively locking the tree's focus onto that ongoing action for the current frame.
@@ -122,7 +123,7 @@ The aim of using Non-Player Character Behavior Systems in digital games is to cr
 
 \subsection{Deep Learning} 
 \label{chap:Deep_Learning_subchap}
-DL is a thriving field, with active research topics aimed at automating routine labor, understanding speech, images, and supporting basic scientific research. AI systems are designed to solve tasks that are intellectually challenging for humans, but can be described formally, like playing chess, as well as intuitive tasks that are difficult to describe formally, like recognizing faces. The overview of deep learning presented in this section is primarily based on the information provided in \cite{Deep-Learning-book}.
+Deep Learning (DL) is a thriving field, with active research topics aimed at automating routine labor, understanding speech, images, and supporting basic scientific research. AI systems are designed to solve tasks that are intellectually challenging for humans, but can be described formally, like playing chess, as well as intuitive tasks that are difficult to describe formally, like recognizing faces. The overview of deep learning presented in this section is primarily based on the information provided in \cite{Deep-Learning-book}.
 \subsubsection{History of Deep Learning}
 The pursuit of DNN dates back to ancient times, but, according to \cite{Deep-Learning-book}, as a computational discipline it has evolved through three waves:
 \begin{enumerate}
@@ -780,7 +781,10 @@ The sources analyzed indicate that there is no single universal AI technique in 
 
 PPO is compatible with the multi-branch discrete action space that has been implemented for the Rummikub environment. The policy can therefore select an action type, a particular tile, and the necessary board positions, without treating every possible combination as an independent action. The algorithm can also be combined with action masking, reward shaping, and curriculum learning.
 
-PPO as the principal Deep Reinforcement Learning algorithm is an Actor--Critic method capable of optimizing a stochastic policy while limiting excessively large changes between consecutive policy updates. This mechanism is intended to improve training stability in environments where the distribution of encountered states changes as the agent's behavior develops. A stochastic policy is also beneficial during training because it allows the agent to explore alternative actions instead of repeatedly selecting only the currently highest-rated decision. This makes it suitable for an environment with sparse reward because it provides a greater chance of discovering the optimal policy.
+PPO as the principal Deep Reinforcement Learning algorithm is an Actor--Critic method capable of optimizing a stochastic policy while limiting excessively large changes between consecutive policy updates. This mechanism is intended to improve training stability in environments where the distribution of encountered states changes as the agent's behavior develops. A stochastic policy is also beneficial during training because it allows the agent to explore alternative actions instead of repeatedly selecting only the currently highest-rated decision. This makes it suitable for an environment with sparse reward because it provides a greater chance of discovering the optimal policy. Due to that, PPO was chosen as baseline algorithm for testing the efficiency of training in Rummikub game environment. 
+
+%Wymienione powody zdecydowały, że PPO został wybrany jako podstawowy algorytm do testowania skuteczności treningu w środowisku gry Rummikub
+
 
 Unlike purely supervised imitation learning, GAIL provides an additional learning signal that encourages the agent's behavior to resemble the demonstrated behavior, whilst still enabling the policy to be optimized through interaction with the environment. Therefore, the comparison between PPO Baseline and PPO combined with GAIL makes it possible to investigate whether expert demonstrations facilitate exploration, improve training consistency, or reduce the amount of experience required to acquire the selected Rummikub skills. GAIL was selected as an additional method to determine whether demonstrations produced by a rule-based computer player could enhance PPO training.
 %\subsection{}
